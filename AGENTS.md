@@ -1,0 +1,30 @@
+# AGENTS
+
+## Project North Star
+
+Build a visually unforgettable, cinematic, orbital and astrophysics-themed personal website that feels like entering Yuvraj's universe and instantly signals elite builder, future founder, and systems-thinker energy while staying smooth, minimal, premium, responsive, accessible, and production-grade.
+
+## Mantra
+
+We are not happy with decent or good. We go above and beyond.
+
+## Design Direction
+
+Default dark mode is Singularity OS: cinematic black hole, orbital and astrophysics interface language, obsidian, void black, warm gold light, orbital UI, telemetry, premium cinematic motion, and real coded UI layered over cinematic assets.
+
+Alternate light mode is Ivory Observatory: ivory and beige editorial premium interface, rust, red, and oxblood accents, no animated black-hole video background, calmer premium layout, same content and routes, and different layout allowed where useful.
+
+## Rules For Future Agents
+
+- Stay within the assigned step. Do not move ahead without explicit instruction.
+- Do not create generic template pages or leave obvious framework starter copy.
+- Do not add fake claims, fake stats, fake links, fake metrics, or fake live data.
+- Do not hardcode secrets.
+- Do not add service role keys.
+- Do not commit secrets.
+- Do not use em dashes in final public-facing website copy.
+- Do not bake important text into images.
+- Prioritize performance, accessibility, responsiveness, and production quality.
+- Report files changed and commands run.
+- Do not install major new libraries unless the assigned step asks for them.
+- Do not install Motion, GSAP, Three.js, React Three Fiber, Lenis, Supabase, or future system libraries unless the assigned step explicitly requires them.
