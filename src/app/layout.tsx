@@ -14,7 +14,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Yuvraj Kashyap",
-  description: "Personal website and operating interface for Yuvraj Kashyap.",
+  description:
+    "Software, systems, projects, and current-state signal from Yuvraj Kashyap.",
 };
 
 export default function RootLayout({

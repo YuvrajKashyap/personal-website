@@ -22,7 +22,7 @@ The future site should feel cinematic, orbital, and astrophysics-inspired while 
 
 ## Current Step Status
 
-Step 1 is the technical foundation. The current pages are route stubs only. The cinematic hero, dark and light design systems, animations, admin functionality, database integration, and live content systems are not implemented yet.
+Step 4 adds a premium temporary public landing page for `yuvrajkashyap.com` while the final cinematic website is built. The non-home pages remain route stubs. The cinematic hero, dark and light design systems, animations, admin functionality, database integration, and live content systems are not implemented yet.
 
 ## Local Commands
 
