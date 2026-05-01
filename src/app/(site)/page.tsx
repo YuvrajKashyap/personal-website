@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { ThemeToggle } from "@/components/theme/ThemeToggle";
 
 export default function HomePage() {
   return (
@@ -33,13 +32,12 @@ export default function HomePage() {
           strokeLinecap="round"
         />
       </svg>
-      <section className="site-container flex min-h-[calc(100vh-4rem)] flex-col justify-between">
+      <section className="site-container flex min-h-[calc(100vh-10rem)] flex-col justify-center">
         <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-kicker">
             PERSONAL WEBSITE / SYSTEM IN PROGRESS
           </p>
           <div className="hidden h-px flex-1 bg-[image:var(--gradient-orbital)] sm:block" />
-          <ThemeToggle />
         </div>
 
         <div className="stack-lg max-w-5xl py-[var(--section-padding-y-compact)] sm:py-[var(--section-padding-y)]">
@@ -80,10 +78,6 @@ export default function HomePage() {
             </Link>
           </div>
         </div>
-
-        <footer className="border-t border-border py-6 text-caption">
-          Built by Yuvraj Kashyap.
-        </footer>
       </section>
     </main>
   );

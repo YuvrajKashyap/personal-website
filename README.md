@@ -22,7 +22,7 @@ The future site should feel cinematic, orbital, and astrophysics-inspired while 
 
 ## Current Step Status
 
-Step 8 adds the typography and spacing foundation while the final cinematic website is built. The home page remains a premium temporary public landing page, and the non-home pages remain route stubs. The cinematic hero, animations, admin functionality, database integration, and live content systems are not implemented yet.
+Step 9 adds the reusable public layout, navigation, mobile menu, and footer while the final cinematic website is built. The home page remains a premium temporary public landing page, and the non-home pages remain route stubs. The cinematic hero, animations, admin functionality, database integration, and live content systems are not implemented yet.
 
 ## Documentation
 
@@ -68,7 +68,7 @@ npm run start
 
 ## Design System Notes
 
-Dark and light design systems come later. This scaffold uses a minimal dark neutral baseline only so routes are usable and readable.
+Semantic design tokens, theme-specific typography, spacing utilities, and the public shell now exist. Full final page compositions, cinematic assets, and page-specific visual systems remain deferred.
 
 ## Admin And Data Notes
 

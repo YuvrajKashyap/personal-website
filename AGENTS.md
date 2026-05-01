@@ -26,6 +26,14 @@ Alternate light mode is Ivory Observatory: ivory and beige editorial premium int
 - Use typography and spacing utilities from `src/app/globals.css` where appropriate.
 - Preserve dark mode typography as Space Grotesk plus Space Mono.
 - Preserve light mode typography as Geist Sans plus Geist Mono.
+- Preserve the locked public nav order: Home, About, Experience, Projects, Tracker, Services, Collaborate, Get in Touch.
+- Keep Get in Touch mapped to `/contact` and styled as a CTA.
+- Keep public nav items centralized in `src/config/site.ts`.
+- Do not wrap admin routes with the public shell unless a later assigned step explicitly changes that boundary.
+- Keep the header and footer token-driven, accessible, and responsive.
+- Keep mobile navigation keyboard accessible with real button semantics.
+- Do not make the navigation generic SaaS template styling.
+- Do not add fake social links.
 - Avoid hardcoded colors in components.
 - Avoid hardcoded spacing values when shared utilities fit.
 - Do not add random fonts or one-off type scales.

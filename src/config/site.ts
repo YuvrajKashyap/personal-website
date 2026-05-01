@@ -13,7 +13,7 @@ export const siteConfig = {
     { label: "Tracker", href: "/tracker" },
     { label: "Services", href: "/services" },
     { label: "Collaborate", href: "/collaborate" },
-    { label: "Get in Touch", href: "/contact" },
+    { label: "Get in Touch", href: "/contact", cta: true },
   ] satisfies NavItem[],
   publicRoutes: [
     { label: "Home", href: "/", status: "stub" },
@@ -26,6 +26,11 @@ export const siteConfig = {
     { label: "Collaborate", href: "/collaborate", status: "stub" },
     { label: "Get in Touch", href: "/contact", status: "stub" },
   ] satisfies PublicRoute[],
-  socialLinks: [] satisfies SocialLink[],
+  socialLinks: [
+    {
+      label: "GitHub",
+      href: "https://github.com/YuvrajKashyap",
+      external: true,
+    },
+  ] satisfies SocialLink[],
 };
-

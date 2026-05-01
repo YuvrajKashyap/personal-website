@@ -6,6 +6,7 @@ export type NavItem = {
   label: string;
   href: string;
   external?: boolean;
+  cta?: boolean;
 };
 
 export type PublicRoute = {

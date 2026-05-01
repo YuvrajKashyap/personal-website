@@ -112,6 +112,22 @@ Step 8 typography and spacing implementation details:
 - Preserve readable line lengths, visible focus states, and mobile-safe spacing.
 - Do not overuse mono, convert body text to mono, or add additional fonts without an assigned step.
 
+Step 9 global layout implementation details:
+
+- Public routes are wrapped by `src/app/(site)/layout.tsx`.
+- The public route group renders `SiteHeader` before page content and `SiteFooter` after page content.
+- Admin routes under `src/app/admin` are not wrapped by the public site shell.
+- The locked public nav order is Home, About, Experience, Projects, Tracker, Services, Collaborate, Get in Touch.
+- Navigation items should stay centralized in `src/config/site.ts`.
+- Get in Touch maps to `/contact` and remains a distinct CTA.
+- Active route state is owned by the client navigation component because it uses `usePathname`.
+- `/projects` and `/projects/[slug]` both mark Projects active.
+- `/contact` marks the Get in Touch CTA active.
+- The theme toggle lives in the header so it is available across public routes.
+- The footer includes a quiet admin entry to `/admin/login`, not a public CTA.
+- Mobile navigation must keep real buttons, `aria-expanded`, `aria-controls`, usable tap targets, and readable active states.
+- The skip link targets `#main-content` and must remain keyboard accessible.
+
 ## 5. Dark mode: Singularity OS
 
 Singularity OS is the default visual identity.
@@ -331,6 +347,7 @@ High-level sequence guardrails:
 - Theme foundation now exists.
 - Design token foundation now exists.
 - Typography and spacing foundation now exists.
+- Public layout, navigation, mobile menu, and footer now exist.
 - Final home architecture later.
 - Cinematic assets later.
 - Feature pages later.
