@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { ThemeProvider } from "@/components/theme/ThemeProvider";
+import { getServerTheme } from "@/lib/theme/server";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -18,17 +20,23 @@ export const metadata: Metadata = {
     "Software, systems, projects, and current-state signal from Yuvraj Kashyap.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const theme = await getServerTheme();
+
   return (
     <html
       lang="en"
+      data-theme={theme}
+      suppressHydrationWarning
       className={`${geistSans.variable} ${geistMono.variable} h-full`}
     >
-      <body className="flex min-h-full flex-col antialiased">{children}</body>
+      <body className="flex min-h-full flex-col antialiased">
+        <ThemeProvider initialTheme={theme}>{children}</ThemeProvider>
+      </body>
     </html>
   );
 }

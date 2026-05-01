@@ -19,9 +19,13 @@ Alternate light mode is Ivory Observatory: ivory and beige editorial premium int
 - Follow `docs/architecture.md` before making structural decisions.
 - Preserve the one-app, two-visual-experience architecture.
 - Do not create separate dark and light apps, URLs, routes, backends, or data layers.
+- Preserve the cookie-backed theme initial render through `yk-theme`.
+- Do not replace theme persistence with client-only `localStorage` logic.
 - Do not hardcode theme-specific assumptions into shared data.
+- Do not hardcode colors once design tokens exist.
 - Do not load heavy dark assets in light mode.
 - Keep dark and light experiences accessible.
+- Preserve reduced-motion support.
 - Stay within the assigned step. Do not move ahead without explicit instruction.
 - Do not create generic template pages or leave obvious framework starter copy.
 - Do not add fake claims, fake stats, fake links, fake metrics, or fake live data.
@@ -32,5 +36,6 @@ Alternate light mode is Ivory Observatory: ivory and beige editorial premium int
 - Do not bake important text into images.
 - Prioritize performance, accessibility, responsiveness, and production quality.
 - Report files changed and commands run.
+- Do not add a new theme package unless the assigned step explicitly requires it.
 - Do not install major new libraries unless the assigned step asks for them.
 - Do not install Motion, GSAP, Three.js, React Three Fiber, Lenis, Supabase, or future system libraries unless the assigned step explicitly requires them.

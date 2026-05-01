@@ -76,6 +76,21 @@ src/features/home/home-content.ts
 
 `HomePage` should own theme-aware view selection. `HomeDark` should own the dark cinematic composition. `HomeLight` should own the light editorial composition. Both should consume the same content/data shape from `home-content.ts` or a shared typed source.
 
+Step 6 implementation details:
+
+- Theme cookie name is `yk-theme`.
+- Cookie-backed theme resolution lives in `src/lib/theme/server.ts`.
+- Shared theme constants, default mode, and validation live in `src/lib/theme/theme.ts`.
+- Dark mode is the default when the cookie is missing or invalid.
+- The root layout reads the server theme and sets `html[data-theme]` before paint.
+- `ThemeProvider` lives in `src/components/theme/ThemeProvider.tsx`.
+- `ThemeToggle` lives in `src/components/theme/ThemeToggle.tsx`.
+- Cookie-backed persistence is the source of truth for refresh behavior.
+- Do not replace this with client-only `localStorage` logic.
+- Do not create separate routes or apps for dark and light mode.
+- Heavy dark assets must remain conditionally loaded later so light mode does not download them.
+- A reduced-motion CSS baseline exists in `src/app/globals.css`.
+
 ## 5. Dark mode: Singularity OS
 
 Singularity OS is the default visual identity.
@@ -292,7 +307,8 @@ Current known deployment:
 High-level sequence guardrails:
 
 - Architecture docs first.
-- Design tokens and theme foundation later.
+- Theme foundation now exists.
+- Full design tokens later.
 - Final home architecture later.
 - Cinematic assets later.
 - Feature pages later.

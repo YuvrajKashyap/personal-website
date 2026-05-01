@@ -22,7 +22,7 @@ The future site should feel cinematic, orbital, and astrophysics-inspired while 
 
 ## Current Step Status
 
-Step 4 adds a premium temporary public landing page for `yuvrajkashyap.com` while the final cinematic website is built. The non-home pages remain route stubs. The cinematic hero, dark and light design systems, animations, admin functionality, database integration, and live content systems are not implemented yet.
+Step 6 adds the cookie-backed dark/light theme foundation while the final cinematic website is built. The home page remains a premium temporary public landing page, and the non-home pages remain route stubs. The full design token system, cinematic hero, animations, admin functionality, database integration, and live content systems are not implemented yet.
 
 ## Documentation
 

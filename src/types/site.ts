@@ -1,4 +1,4 @@
-export type ThemeMode = "dark" | "light";
+export type { ThemeMode } from "@/lib/theme/theme";
 
 export type RouteStatus = "stub" | "planned" | "live";
 
@@ -19,4 +19,3 @@ export type SocialLink = {
   href: string;
   external: true;
 };
-
