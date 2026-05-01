@@ -16,6 +16,12 @@ Alternate light mode is Ivory Observatory: ivory and beige editorial premium int
 
 ## Rules For Future Agents
 
+- Follow `docs/architecture.md` before making structural decisions.
+- Preserve the one-app, two-visual-experience architecture.
+- Do not create separate dark and light apps, URLs, routes, backends, or data layers.
+- Do not hardcode theme-specific assumptions into shared data.
+- Do not load heavy dark assets in light mode.
+- Keep dark and light experiences accessible.
 - Stay within the assigned step. Do not move ahead without explicit instruction.
 - Do not create generic template pages or leave obvious framework starter copy.
 - Do not add fake claims, fake stats, fake links, fake metrics, or fake live data.

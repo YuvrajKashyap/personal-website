@@ -1,6 +1,6 @@
 # Personal Website
 
-Personal website foundation for Yuvraj Kashyap.
+Personal website foundation for Yuvraj Kashyap. The current public domain is `https://yuvrajkashyap.com`.
 
 ## Mission
 
@@ -23,6 +23,10 @@ The future site should feel cinematic, orbital, and astrophysics-inspired while 
 ## Current Step Status
 
 Step 4 adds a premium temporary public landing page for `yuvrajkashyap.com` while the final cinematic website is built. The non-home pages remain route stubs. The cinematic hero, dark and light design systems, animations, admin functionality, database integration, and live content systems are not implemented yet.
+
+## Documentation
+
+- `docs/architecture.md` defines the durable technical architecture, including the one-app/two-visual-experience model, route structure, content/data boundaries, asset rules, performance guardrails, accessibility expectations, and future Supabase/admin boundaries.
 
 ## Local Commands
 
