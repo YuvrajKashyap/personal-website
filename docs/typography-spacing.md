@@ -1,0 +1,191 @@
+# Typography and Spacing
+
+## 1. Purpose
+
+This system controls the site's type scale, font usage, spacing rhythm, containers, and layout utilities. It gives future pages a consistent premium foundation before final navigation, cinematic hero, motion, Supabase, and admin work are built.
+
+## 2. Font system
+
+The project uses a minimal two-font system:
+
+- Geist Sans
+- Geist Mono
+
+Both fonts are loaded through the current Next.js font setup in `src/app/layout.tsx` and exposed through CSS variables. Do not add extra fonts unless a later assigned step explicitly approves them.
+
+## 3. Why two fonts only
+
+Two fonts keep the interface consistent, performant, restrained, and easier to maintain. They lower visual noise and make the site feel more architectural than decorative.
+
+## 4. Main sans usage
+
+Use Geist Sans for:
+
+- headings
+- body copy
+- cards
+- normal UI
+- buttons
+- long readable text
+
+## 5. Mono usage
+
+Use Geist Mono for:
+
+- labels
+- telemetry
+- route labels
+- status chips
+- metrics
+- small metadata
+- technical tags
+
+Do not overuse mono. Do not use mono for long body text.
+
+## 6. Type scale
+
+Key typography utilities:
+
+- `.text-display`
+- `.text-page-title`
+- `.text-section-title`
+- `.text-card-title`
+- `.text-body`
+- `.text-body-large`
+- `.text-caption`
+- `.text-kicker`
+- `.text-mono-label`
+- `.text-stat`
+- `.text-link-premium`
+
+These utilities use semantic CSS variables from `src/app/globals.css`.
+
+## 7. Fluid headline strategy
+
+Large headings use `clamp()` so mobile remains readable and desktop can feel cinematic without becoming oversized. Avoid one-off giant heading sizes in components. Use the shared utilities first.
+
+## 8. Line-height strategy
+
+- Tight line height is for display text.
+- Balanced line height is for headings.
+- Readable line height is for body copy.
+- Looser line height is reserved for longer or calmer reading contexts.
+
+## 9. Tracking strategy
+
+- Tight tracking can be used for large headlines.
+- Normal tracking is for body copy.
+- Wider tracking is for labels and kickers.
+- Do not overtrack body text.
+
+## 10. Spacing philosophy
+
+Premium spacing means deliberate breathing room. Mobile sections should not feel cramped, and desktop sections should not feel empty. Use shared spacing utilities for repeated patterns so rhythm stays consistent.
+
+## 11. Container widths
+
+- `.site-container` is the default content width.
+- `.site-container-narrow` is for readable text columns.
+- `.site-container-wide` is for project grids and visual sections.
+
+## 12. Section spacing
+
+- `.section-shell` is the default major section rhythm.
+- `.section-shell-compact` is for tighter supporting sections.
+- `.section-shell-loose` is for high-impact sections that need more breathing room.
+
+## 13. Card spacing
+
+Card spacing tokens:
+
+- `--card-padding`
+- `--card-padding-compact`
+- `--card-gap`
+
+Use these for panels, repeated cards, and future project surfaces.
+
+## 14. Stack utilities
+
+Vertical stack utilities:
+
+- `.stack-xs`
+- `.stack-sm`
+- `.stack-md`
+- `.stack-lg`
+- `.stack-xl`
+
+Use these to keep vertical rhythm consistent without hardcoding repeated gap values.
+
+## 15. Mobile typography rules
+
+- Do not use tiny labels.
+- Keep body text readable.
+- Control line length.
+- Preserve sufficient tap targets.
+- Reduce spacing on mobile, but do not make sections cramped.
+
+## 16. Accessibility rules
+
+- Body text must remain readable.
+- Avoid low contrast labels.
+- Preserve visible focus states.
+- Do not rely only on all-caps labels.
+- Keep line length controlled.
+- Touch targets should be usable.
+
+## 17. Usage examples
+
+Headline:
+
+```tsx
+<h1 className="text-display text-balance">Building the next interface.</h1>
+```
+
+Body copy:
+
+```tsx
+<p className="text-body-large text-pretty">Readable supporting copy.</p>
+```
+
+Kicker:
+
+```tsx
+<p className="text-kicker">Personal Website</p>
+```
+
+Chip or label:
+
+```tsx
+<span className="text-mono-label rounded-full border border-border px-4 py-2">
+  Live
+</span>
+```
+
+Section shell:
+
+```tsx
+<section className="section-shell">
+  <div className="site-container" />
+</section>
+```
+
+Stack:
+
+```tsx
+<div className="stack-md">
+  <h2 className="text-section-title">Section</h2>
+  <p className="text-body">Copy</p>
+</div>
+```
+
+## 18. Anti-patterns
+
+- Do not add random fonts.
+- Do not create one-off heading sizes.
+- Do not overuse mono.
+- Do not make body text too small.
+- Do not make labels unreadable.
+- Do not create cramped mobile sections.
+- Do not hardcode spacing values everywhere.
+- Do not use em dashes in public copy.
+- Do not use typography as decoration at the expense of clarity.

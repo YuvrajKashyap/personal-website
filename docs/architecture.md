@@ -101,6 +101,17 @@ Step 7 design-token implementation details:
 - Full page-specific visual divergence still comes later.
 - This token work is not final homepage, final navigation, final footer, or cinematic hero work.
 
+Step 8 typography and spacing implementation details:
+
+- Geist Sans and Geist Mono are the only font families.
+- Geist Sans is the default for headings, body, cards, buttons, and normal UI.
+- Geist Mono is reserved for labels, telemetry, status chips, route labels, metrics, metadata, and technical tags.
+- Typography tokens and utilities live in `src/app/globals.css`.
+- Spacing, container, section, card, stack, cluster, and grid utilities live in `src/app/globals.css`.
+- Future components should use the shared typography and spacing utilities before creating one-off sizes or gaps.
+- Preserve readable line lengths, visible focus states, and mobile-safe spacing.
+- Do not overuse mono or add additional fonts without an assigned step.
+
 ## 5. Dark mode: Singularity OS
 
 Singularity OS is the default visual identity.
@@ -319,6 +330,7 @@ High-level sequence guardrails:
 - Architecture docs first.
 - Theme foundation now exists.
 - Design token foundation now exists.
+- Typography and spacing foundation now exists.
 - Final home architecture later.
 - Cinematic assets later.
 - Feature pages later.

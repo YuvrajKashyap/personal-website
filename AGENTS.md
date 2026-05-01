@@ -23,7 +23,13 @@ Alternate light mode is Ivory Observatory: ivory and beige editorial premium int
 - Do not replace theme persistence with client-only `localStorage` logic.
 - Do not hardcode theme-specific assumptions into shared data.
 - Use semantic design tokens from `src/app/globals.css`.
+- Use typography and spacing utilities from `src/app/globals.css` where appropriate.
 - Avoid hardcoded colors in components.
+- Avoid hardcoded spacing values when shared utilities fit.
+- Do not add random fonts or one-off type scales.
+- Do not overuse mono.
+- Preserve readable line lengths.
+- Test mobile spacing when touching layout.
 - Preserve contrast in both themes.
 - Test both themes when touching UI.
 - Do not create one-off colors without a clear reason.

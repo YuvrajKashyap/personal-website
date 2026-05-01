@@ -3,7 +3,7 @@ import { ThemeToggle } from "@/components/theme/ThemeToggle";
 
 export default function HomePage() {
   return (
-    <main className="page-shell relative isolate flex overflow-hidden py-8 transition-colors duration-300">
+    <main className="page-shell relative isolate flex overflow-hidden py-[var(--page-padding-y)] transition-colors duration-300">
       <div aria-hidden="true" className="grain-overlay pointer-events-none absolute inset-0 -z-10" />
       <div aria-hidden="true" className="vignette-overlay pointer-events-none absolute inset-0 -z-10" />
       <svg
@@ -33,55 +33,55 @@ export default function HomePage() {
           strokeLinecap="round"
         />
       </svg>
-      <section className="content-container flex min-h-[calc(100vh-4rem)] flex-col justify-between">
+      <section className="site-container flex min-h-[calc(100vh-4rem)] flex-col justify-between">
         <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
-          <p className="text-xs font-medium uppercase tracking-[0.32em] text-accent">
+          <p className="text-kicker">
             PERSONAL WEBSITE / SYSTEM IN PROGRESS
           </p>
           <div className="hidden h-px flex-1 bg-[image:var(--gradient-orbital)] sm:block" />
           <ThemeToggle />
         </div>
 
-        <div className="max-w-4xl py-20 sm:py-28">
-          <p className="mb-5 text-sm font-medium uppercase tracking-[0.24em] text-muted-foreground">
+        <div className="stack-lg max-w-5xl py-[var(--section-padding-y-compact)] sm:py-[var(--section-padding-y)]">
+          <p className="text-mono-label">
             Yuvraj Kashyap
           </p>
-          <h1 className="max-w-4xl text-balance text-5xl font-semibold tracking-tight text-foreground sm:text-7xl lg:text-8xl">
+          <h1 className="text-display text-balance">
             Building the next version of my operating interface.
           </h1>
-          <p className="mt-8 max-w-2xl text-lg leading-8 text-muted-foreground sm:text-xl">
+          <p className="text-body-large text-pretty">
             Software, systems, projects, and current-state signal. A more
             complete experience is coming online soon.
           </p>
 
-          <div className="mt-10 flex flex-wrap gap-3">
-            <span className="rounded-full border border-border bg-accent-soft px-4 py-2 text-sm text-accent">
+          <div className="cluster">
+            <span className="rounded-full border border-border bg-accent-soft px-4 py-2 font-mono text-sm text-accent">
               yuvrajkashyap.com is live
             </span>
-            <span className="rounded-full border border-border bg-surface-glass px-4 py-2 text-sm text-muted-foreground">
+            <span className="rounded-full border border-border bg-surface-glass px-4 py-2 font-mono text-sm text-muted-foreground">
               Final cinematic site in progress
             </span>
           </div>
 
-          <div className="mt-10 flex flex-col gap-3 sm:flex-row">
+          <div className="cluster pt-1">
             <a
               href="https://github.com/YuvrajKashyap"
               target="_blank"
               rel="noreferrer"
-              className="focus-ring inline-flex items-center justify-center rounded-full bg-accent px-5 py-3 text-sm font-semibold text-accent-foreground transition hover:bg-[var(--interactive-hover)]"
+              className="focus-ring inline-flex min-h-12 items-center justify-center rounded-full bg-accent px-5 py-3 text-sm font-semibold text-accent-foreground transition hover:bg-[var(--interactive-hover)]"
             >
               View GitHub
             </a>
             <Link
               href="/contact"
-              className="focus-ring inline-flex items-center justify-center rounded-full border border-border bg-surface-glass px-5 py-3 text-sm font-semibold text-foreground transition hover:bg-surface-strong"
+              className="focus-ring inline-flex min-h-12 items-center justify-center rounded-full border border-border bg-surface-glass px-5 py-3 text-sm font-semibold text-foreground transition hover:bg-surface-strong"
             >
               Contact
             </Link>
           </div>
         </div>
 
-        <footer className="border-t border-border py-6 text-sm text-muted-foreground">
+        <footer className="border-t border-border py-6 text-caption">
           Built by Yuvraj Kashyap.
         </footer>
       </section>
