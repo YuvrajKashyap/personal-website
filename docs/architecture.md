@@ -128,6 +128,22 @@ Step 9 global layout implementation details:
 - Mobile navigation must keep real buttons, `aria-expanded`, `aria-controls`, usable tap targets, and readable active states.
 - The skip link targets `#main-content` and must remain keyboard accessible.
 
+Step 10 hero asset preparation details:
+
+- The selected dark-mode source image is stored at `assets/source/hero/singularity-hero-source.png`.
+- Source assets stay separate from optimized production assets.
+- Optimized still posters are generated into `public/media/hero`.
+- The generated desktop poster is `public/media/hero/singularity-poster.webp`.
+- The generated tablet poster is `public/media/hero/singularity-poster-tablet.webp`.
+- The generated mobile poster is `public/media/hero/singularity-poster-mobile.webp`.
+- Typed media paths live in `src/config/media.ts`.
+- Poster generation is repeatable with `npm run prepare:hero`.
+- Future hero animation or video should derive from this source or its approved descendants.
+- These assets are not integrated into the homepage yet.
+- Dark cinematic hero assets must only load in dark mode later.
+- Light mode must not download dark cinematic hero assets.
+- Text, navigation, buttons, telemetry, and UI panels must remain coded UI, not baked into the image.
+
 ## 5. Dark mode: Singularity OS
 
 Singularity OS is the default visual identity.
@@ -348,6 +364,7 @@ High-level sequence guardrails:
 - Design token foundation now exists.
 - Typography and spacing foundation now exists.
 - Public layout, navigation, mobile menu, and footer now exist.
+- Dark hero still poster assets now exist.
 - Final home architecture later.
 - Cinematic assets later.
 - Feature pages later.

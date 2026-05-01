@@ -22,13 +22,14 @@ The future site should feel cinematic, orbital, and astrophysics-inspired while 
 
 ## Current Step Status
 
-Step 9 adds the reusable public layout, navigation, mobile menu, and footer while the final cinematic website is built. The home page remains a premium temporary public landing page, and the non-home pages remain route stubs. The cinematic hero, animations, admin functionality, database integration, and live content systems are not implemented yet.
+Step 10 prepares the selected dark-mode cinematic hero source and optimized poster assets while the final cinematic website is built. The home page remains a premium temporary public landing page, and the non-home pages remain route stubs. The final hero integration, animations, admin functionality, database integration, and live content systems are not implemented yet.
 
 ## Documentation
 
 - `docs/architecture.md` defines the durable technical architecture, including the one-app/two-visual-experience model, route structure, content/data boundaries, asset rules, performance guardrails, accessibility expectations, and future Supabase/admin boundaries.
 - `docs/design-tokens.md` defines the semantic token groups, theme palette direction, utility classes, usage rules, and anti-patterns for future UI work.
 - `docs/typography-spacing.md` defines the theme-specific font pairings, type scale, spacing rhythm, containers, layout utilities, mobile rules, and anti-patterns for future page work.
+- `docs/hero-assets.md` defines the selected dark hero source, poster variants, crop strategy, loading rules, and regeneration workflow.
 
 ## Local Commands
 
@@ -38,6 +39,7 @@ npm run lint
 npm run typecheck
 npm run build
 npm run start
+npm run prepare:hero
 ```
 
 ## Route Map
@@ -59,6 +61,7 @@ npm run start
 - Singularity OS dark mode direction
 - Ivory Observatory light mode direction
 - Cinematic hero and orbital interface language
+- Dark hero poster asset preparation
 - Project case study system
 - Tracker and operating metrics interface
 - Services and collaboration flows

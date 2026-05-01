@@ -34,6 +34,12 @@ Alternate light mode is Ivory Observatory: ivory and beige editorial premium int
 - Keep mobile navigation keyboard accessible with real button semantics.
 - Do not make the navigation generic SaaS template styling.
 - Do not add fake social links.
+- Preserve hero asset naming in `assets/source/hero`, `public/media/hero`, and `src/config/media.ts`.
+- Do not replace `singularity-hero-source.png` without architect approval.
+- Use `npm run prepare:hero` when regenerating hero posters.
+- Keep generated hero assets optimized and documented.
+- Do not bake UI text, navigation, panels, buttons, stats, or claims into hero assets.
+- Do not load dark hero media in light mode.
 - Avoid hardcoded colors in components.
 - Avoid hardcoded spacing values when shared utilities fit.
 - Do not add random fonts or one-off type scales.

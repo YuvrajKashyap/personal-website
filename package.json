@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "prepare:hero": "node scripts/assets/prepare-hero-assets.mjs"
   },
   "dependencies": {
     "next": "16.2.4",

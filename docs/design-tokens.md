@@ -167,7 +167,9 @@ Use structural utilities for page work:
 - Avoid hardcoded colors.
 - Use semantic tokens.
 - Use `docs/typography-spacing.md` for type scale and layout rhythm decisions.
+- Use `docs/hero-assets.md` for dark hero poster asset rules.
 - Treat font variables as theme-aware tokens that work with the color and surface system.
+- Treat hero assets as separate media layers. Future overlays should use semantic tokens.
 - Do not create one-off colors without a clear reason.
 - Do not make light mode an inverted dark mode.
 - Do not load dark-specific assets in light mode.

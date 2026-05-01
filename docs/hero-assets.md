@@ -1,0 +1,107 @@
+# Hero Assets
+
+## 1. Purpose
+
+This document defines how the selected cinematic hero source is stored, regenerated, optimized, and used later.
+
+The hero image is an asset layer. It is not the website by itself. Future text, navigation, buttons, orbital UI, telemetry, and panels must remain coded UI layered over assets.
+
+## 2. Selected hero direction
+
+The primary selected source is the black-hole and engineered terrain image. It has dark negative space on the left, the event horizon and warm cinematic light on the right, and faint terrain or structures near the bottom.
+
+Do not use the alternate planet or ring image as the primary source.
+
+## 3. Source image location
+
+Primary source:
+
+```text
+assets/source/hero/singularity-hero-source.png
+```
+
+The source image should be preserved for regeneration. Do not replace it without architect approval.
+
+## 4. Production asset locations
+
+Generated still poster assets live in:
+
+```text
+public/media/hero/singularity-poster.webp
+public/media/hero/singularity-poster-tablet.webp
+public/media/hero/singularity-poster-mobile.webp
+```
+
+Typed media paths live in:
+
+```text
+src/config/media.ts
+```
+
+## 5. Desktop, tablet, and mobile crop strategy
+
+Desktop poster:
+
+- 1920 by 1080.
+- 16:9 crop.
+- Right-side focal position to preserve the black hole and event horizon.
+- Left dark space remains available for future coded UI.
+
+Tablet poster:
+
+- 1800 by 1200.
+- 3:2 crop.
+- Right-side focal position to keep the event horizon visible.
+- Keeps enough left-side atmosphere for future interface layers where practical.
+
+Mobile poster:
+
+- 1200 by 1600.
+- Portrait crop.
+- Right-side focal position so the event horizon is not cropped away.
+- Some left negative space is sacrificed because the source is wide, but the crop avoids becoming only empty darkness.
+
+## 6. Composition notes
+
+The selected image works because it has a clear cinematic focal point on the right and usable negative space on the left. Future coded gradients and overlays should protect text readability without flattening the image.
+
+## 7. File size notes
+
+Poster assets are exported as WebP with quality settings in the mid 80s. The goal is production-friendly size without destroying the cinematic range.
+
+Regenerate assets with:
+
+```bash
+npm run prepare:hero
+```
+
+## 8. Usage rules
+
+- Keep important text in HTML.
+- Keep CTAs as coded interactive elements.
+- Keep navigation as coded UI.
+- Do not bake UI panels, buttons, stats, or claims into images.
+- Do not point config to missing files.
+- Do not use these assets as semantic content unless alt text is revisited.
+
+## 9. Dark and light loading rule
+
+The dark cinematic hero belongs to Singularity OS only. Light mode must not download dark cinematic hero assets.
+
+Future implementation should conditionally load these assets only when dark mode needs them.
+
+## 10. Future animation step notes
+
+Future WebM or MP4 animation comes later. This step only prepares still poster assets for final hero use and reduced-motion fallback.
+
+The still poster should remain usable when reduced motion is enabled or when video cannot load.
+
+## 11. Anti-patterns
+
+- Replacing the selected source without approval.
+- Using the alternate planet or ring image as the primary source.
+- Baking text into the image.
+- Baking navigation or buttons into the image.
+- Loading dark hero assets in light mode.
+- Using huge unoptimized files directly in the app.
+- Treating the poster as the final homepage implementation.
