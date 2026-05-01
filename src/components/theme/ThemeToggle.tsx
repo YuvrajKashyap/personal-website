@@ -8,7 +8,7 @@ export function ThemeToggle() {
   const nextThemeLabel = isDark ? "light" : "dark";
 
   return (
-    <div className="flex items-center gap-3 rounded-full border border-[var(--border)] bg-[color:var(--surface)] px-3 py-2 text-[var(--muted-foreground)] shadow-[0_16px_40px_var(--glow)] backdrop-blur">
+    <div className="glass-panel flex items-center gap-3 rounded-full px-3 py-2 text-muted-foreground">
       <span className="text-xs font-medium uppercase tracking-[0.22em]">
         Mode
       </span>
@@ -16,7 +16,7 @@ export function ThemeToggle() {
         type="button"
         aria-label={`Switch to ${nextThemeLabel} mode`}
         onClick={toggleTheme}
-        className="rounded-full bg-[color:var(--accent)] px-3 py-1.5 text-sm font-semibold text-[color:var(--accent-foreground)] transition hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--accent)]"
+        className="focus-ring rounded-full bg-accent px-3 py-1.5 text-sm font-semibold text-accent-foreground transition hover:bg-[var(--interactive-hover)]"
       >
         {isDark ? "Switch to light" : "Switch to dark"}
       </button>

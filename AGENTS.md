@@ -22,7 +22,12 @@ Alternate light mode is Ivory Observatory: ivory and beige editorial premium int
 - Preserve the cookie-backed theme initial render through `yk-theme`.
 - Do not replace theme persistence with client-only `localStorage` logic.
 - Do not hardcode theme-specific assumptions into shared data.
-- Do not hardcode colors once design tokens exist.
+- Use semantic design tokens from `src/app/globals.css`.
+- Avoid hardcoded colors in components.
+- Preserve contrast in both themes.
+- Test both themes when touching UI.
+- Do not create one-off colors without a clear reason.
+- Do not make light mode an inverted dark mode.
 - Do not load heavy dark assets in light mode.
 - Keep dark and light experiences accessible.
 - Preserve reduced-motion support.

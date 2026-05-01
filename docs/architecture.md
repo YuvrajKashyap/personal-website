@@ -91,6 +91,16 @@ Step 6 implementation details:
 - Heavy dark assets must remain conditionally loaded later so light mode does not download them.
 - A reduced-motion CSS baseline exists in `src/app/globals.css`.
 
+Step 7 design-token implementation details:
+
+- Semantic tokens in `src/app/globals.css` are the source of truth for theme-aware UI.
+- Components should consume semantic tokens through Tailwind v4 token utilities or direct CSS variables.
+- Dark and light token values can diverge visually while preserving shared structure and content.
+- Avoid hardcoded theme-specific colors in components.
+- Utility classes are available for page shells, containers, glass panels, cards, orbital lines, focus rings, vignette overlays, and grain overlays.
+- Full page-specific visual divergence still comes later.
+- This token work is not final homepage, final navigation, final footer, or cinematic hero work.
+
 ## 5. Dark mode: Singularity OS
 
 Singularity OS is the default visual identity.
@@ -308,7 +318,7 @@ High-level sequence guardrails:
 
 - Architecture docs first.
 - Theme foundation now exists.
-- Full design tokens later.
+- Design token foundation now exists.
 - Final home architecture later.
 - Cinematic assets later.
 - Feature pages later.
