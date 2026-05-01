@@ -119,7 +119,7 @@ Singularity OS is the default visual identity.
 Ivory Observatory is the alternate visual identity.
 
 - Ivory and beige editorial/product interface.
-- Oxblood, rust, and red accents.
+- Laal red, lacquer red, and deep oxblood accents.
 - Subtle orbital diagrams.
 - No animated black-hole video background.
 - Calm, premium, readable composition.

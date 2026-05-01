@@ -18,7 +18,7 @@ Singularity OS uses void black, obsidian surfaces, warm gold accents, restrained
 
 ## 4. Light mode palette direction
 
-Ivory Observatory uses ivory and beige foundations, parchment and paper surfaces, charcoal text, oxblood and rust accents, and subtle warmth. It should feel editorial, calm, premium, and readable. It is not an inverted dark mode.
+Ivory Observatory uses ivory and beige foundations, parchment and paper surfaces, charcoal text, laal red, lacquer red, and deep oxblood accents, and subtle warmth. It should feel editorial, calm, premium, and readable. It is not an inverted dark mode.
 
 ## 5. Token groups
 

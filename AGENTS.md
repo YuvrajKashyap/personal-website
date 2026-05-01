@@ -12,7 +12,7 @@ We are not happy with decent or good. We go above and beyond.
 
 Default dark mode is Singularity OS: cinematic black hole, orbital and astrophysics interface language, obsidian, void black, warm gold light, orbital UI, telemetry, premium cinematic motion, and real coded UI layered over cinematic assets.
 
-Alternate light mode is Ivory Observatory: ivory and beige editorial premium interface, rust, red, and oxblood accents, no animated black-hole video background, calmer premium layout, same content and routes, and different layout allowed where useful.
+Alternate light mode is Ivory Observatory: ivory and beige editorial premium interface, laal red, lacquer red, and deep oxblood accents, no animated black-hole video background, calmer premium layout, same content and routes, and different layout allowed where useful.
 
 ## Rules For Future Agents
 

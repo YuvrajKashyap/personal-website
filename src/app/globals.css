@@ -115,11 +115,11 @@ html[data-theme="light"] {
   --surface-glass: rgb(255 250 242 / 0.78);
   --surface-inverse: #241915;
 
-  --accent: #8f2f26;
+  --accent: #b91c1c;
   --accent-foreground: #fff8ec;
-  --accent-soft: rgb(143 47 38 / 0.1);
-  --accent-muted: #a7604c;
-  --accent-strong: #6f211b;
+  --accent-soft: rgb(185 28 28 / 0.1);
+  --accent-muted: #f4d7d7;
+  --accent-strong: #7f1d1d;
 
   --accent-secondary: #6f5b4f;
   --accent-secondary-soft: rgb(111 91 79 / 0.12);
@@ -130,16 +130,16 @@ html[data-theme="light"] {
   --danger: #a33a32;
   --info: #3d6380;
 
-  --focus: #8f2f26;
-  --focus-ring: 0 0 0 3px rgb(143 47 38 / 0.24);
-  --interactive: #8f2f26;
-  --interactive-hover: #6f211b;
-  --interactive-active: #b04b37;
+  --focus: #b91c1c;
+  --focus-ring: 0 0 0 3px rgb(185 28 28 / 0.24);
+  --interactive: #b91c1c;
+  --interactive-hover: #7f1d1d;
+  --interactive-active: #dc2626;
 
-  --glow-primary: rgb(143 47 38 / 0.16);
-  --glow-secondary: rgb(180 83 9 / 0.12);
-  --glow-soft: rgb(143 47 38 / 0.08);
-  --glow-strong: rgb(143 47 38 / 0.24);
+  --glow-primary: rgb(185 28 28 / 0.16);
+  --glow-secondary: rgb(127 29 29 / 0.11);
+  --glow-soft: rgb(185 28 28 / 0.08);
+  --glow-strong: rgb(185 28 28 / 0.24);
 
   --shadow-soft: 0 18px 52px rgb(97 59 39 / 0.12);
   --shadow-medium: 0 24px 72px rgb(97 59 39 / 0.16);
@@ -148,23 +148,23 @@ html[data-theme="light"] {
 
   --gradient-page: radial-gradient(
       circle at 18% 18%,
-      rgb(143 47 38 / 0.13),
+      rgb(185 28 28 / 0.13),
       transparent 34%
     ),
     radial-gradient(
       circle at 82% 18%,
-      rgb(180 83 9 / 0.1),
+      rgb(127 29 29 / 0.09),
       transparent 30%
     ),
     linear-gradient(135deg, #fff8ec 0%, #f7efe3 54%, #efe0cc 100%);
   --gradient-hero: radial-gradient(
       circle at 14% 14%,
-      rgb(143 47 38 / 0.14),
+      rgb(185 28 28 / 0.14),
       transparent 34%
     ),
     radial-gradient(
       circle at 86% 18%,
-      rgb(180 83 9 / 0.11),
+      rgb(127 29 29 / 0.1),
       transparent 30%
     ),
     linear-gradient(140deg, #fffaf2 0%, #f7efe3 58%, #ead9c2 100%);
@@ -176,22 +176,22 @@ html[data-theme="light"] {
   --gradient-orbital: linear-gradient(
     90deg,
     transparent,
-    rgb(143 47 38 / 0.34),
+    rgb(185 28 28 / 0.34),
     transparent
   );
-  --gradient-accent: linear-gradient(135deg, #8f2f26, #b45309);
+  --gradient-accent: linear-gradient(135deg, #b91c1c, #7f1d1d);
 
-  --orbit-line: rgb(143 47 38 / 0.2);
-  --orbit-line-strong: rgb(143 47 38 / 0.36);
-  --orbit-node: rgb(180 83 9 / 0.58);
-  --orbit-node-active: #8f2f26;
+  --orbit-line: rgb(185 28 28 / 0.2);
+  --orbit-line-strong: rgb(185 28 28 / 0.36);
+  --orbit-node: rgb(127 29 29 / 0.58);
+  --orbit-node-active: #b91c1c;
 
-  --selection-background: #8f2f26;
+  --selection-background: #b91c1c;
   --selection-foreground: #fff8ec;
 
   --field-pattern: radial-gradient(
     circle at center,
-    rgb(143 47 38 / 0.28) 1px,
+    rgb(185 28 28 / 0.28) 1px,
     transparent 1px
   );
 }
