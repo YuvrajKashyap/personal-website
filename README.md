@@ -28,7 +28,7 @@ Step 8 adds the typography and spacing foundation while the final cinematic webs
 
 - `docs/architecture.md` defines the durable technical architecture, including the one-app/two-visual-experience model, route structure, content/data boundaries, asset rules, performance guardrails, accessibility expectations, and future Supabase/admin boundaries.
 - `docs/design-tokens.md` defines the semantic token groups, theme palette direction, utility classes, usage rules, and anti-patterns for future UI work.
-- `docs/typography-spacing.md` defines the two-font rule, type scale, spacing rhythm, containers, layout utilities, mobile rules, and anti-patterns for future page work.
+- `docs/typography-spacing.md` defines the theme-specific font pairings, type scale, spacing rhythm, containers, layout utilities, mobile rules, and anti-patterns for future page work.
 
 ## Local Commands
 

@@ -6,20 +6,24 @@ This system controls the site's type scale, font usage, spacing rhythm, containe
 
 ## 2. Font system
 
-The project uses a minimal two-font system:
+The project uses a minimal two-font system per visual experience:
 
-- Geist Sans
-- Geist Mono
+- Dark mode, Singularity OS:
+  - main/interface: Space Grotesk
+  - accent/telemetry: Space Mono
+- Light mode, Ivory Observatory:
+  - main/interface: Geist Sans
+  - accent/metadata: Geist Mono
 
-Both fonts are loaded through the current Next.js font setup in `src/app/layout.tsx` and exposed through CSS variables. Do not add extra fonts unless a later assigned step explicitly approves them.
+These fonts are loaded through the current Next.js font setup in `src/app/layout.tsx` and exposed through theme-aware CSS variables. Do not add extra fonts unless a later assigned step explicitly approves them.
 
 ## 3. Why two fonts only
 
-Two fonts keep the interface consistent, performant, restrained, and easier to maintain. They lower visual noise and make the site feel more architectural than decorative.
+Two fonts per visual experience keep the interface consistent, performant, restrained, and easier to maintain. Dark mode gets a more cinematic control-room voice, while light mode keeps a cleaner editorial/product voice. The app, routes, and content remain shared.
 
 ## 4. Main sans usage
 
-Use Geist Sans for:
+Use the active main sans font for:
 
 - headings
 - body copy
@@ -30,7 +34,7 @@ Use Geist Sans for:
 
 ## 5. Mono usage
 
-Use Geist Mono for:
+Use the active mono font for:
 
 - labels
 - telemetry
@@ -41,6 +45,10 @@ Use Geist Mono for:
 - technical tags
 
 Do not overuse mono. Do not use mono for long body text.
+
+In dark mode, Space Mono should be used sparingly for telemetry, labels, chips, route markers, coordinates, and small technical metadata. Space Grotesk should not turn the page into cheesy sci-fi. Keep spacing, scale, and contrast restrained.
+
+In light mode, Geist Mono should stay focused on metadata and labels. Geist Sans remains the main editorial interface voice.
 
 ## 6. Type scale
 
@@ -57,6 +65,7 @@ Key typography utilities:
 - `.text-mono-label`
 - `.text-stat`
 - `.text-link-premium`
+- `.font-telemetry`
 
 These utilities use semantic CSS variables from `src/app/globals.css`.
 

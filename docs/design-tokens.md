@@ -4,7 +4,7 @@
 
 Design tokens are the semantic source of truth for future UI. They give the site a stable visual language before the final homepage, navigation, cinematic hero, motion system, pages, Supabase, and admin work are built.
 
-Typography and spacing decisions are documented separately in `docs/typography-spacing.md`. Use that document for type scale, font usage, layout rhythm, containers, and spacing utilities.
+Typography and spacing decisions are documented separately in `docs/typography-spacing.md`. Use that document for type scale, theme-aware font usage, layout rhythm, containers, and spacing utilities.
 
 ## 2. Token philosophy
 
@@ -167,6 +167,7 @@ Use structural utilities for page work:
 - Avoid hardcoded colors.
 - Use semantic tokens.
 - Use `docs/typography-spacing.md` for type scale and layout rhythm decisions.
+- Treat font variables as theme-aware tokens that work with the color and surface system.
 - Do not create one-off colors without a clear reason.
 - Do not make light mode an inverted dark mode.
 - Do not load dark-specific assets in light mode.

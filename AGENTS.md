@@ -24,10 +24,13 @@ Alternate light mode is Ivory Observatory: ivory and beige editorial premium int
 - Do not hardcode theme-specific assumptions into shared data.
 - Use semantic design tokens from `src/app/globals.css`.
 - Use typography and spacing utilities from `src/app/globals.css` where appropriate.
+- Preserve dark mode typography as Space Grotesk plus Space Mono.
+- Preserve light mode typography as Geist Sans plus Geist Mono.
 - Avoid hardcoded colors in components.
 - Avoid hardcoded spacing values when shared utilities fit.
 - Do not add random fonts or one-off type scales.
 - Do not overuse mono.
+- Do not convert body text to mono.
 - Preserve readable line lengths.
 - Test mobile spacing when touching layout.
 - Preserve contrast in both themes.

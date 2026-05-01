@@ -55,10 +55,10 @@ export default function HomePage() {
           </p>
 
           <div className="cluster">
-            <span className="rounded-full border border-border bg-accent-soft px-4 py-2 font-mono text-sm text-accent">
+            <span className="font-telemetry rounded-full border border-border bg-accent-soft px-4 py-2 text-sm text-accent">
               yuvrajkashyap.com is live
             </span>
-            <span className="rounded-full border border-border bg-surface-glass px-4 py-2 font-mono text-sm text-muted-foreground">
+            <span className="font-telemetry rounded-full border border-border bg-surface-glass px-4 py-2 text-sm text-muted-foreground">
               Final cinematic site in progress
             </span>
           </div>

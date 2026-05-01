@@ -103,14 +103,14 @@ Step 7 design-token implementation details:
 
 Step 8 typography and spacing implementation details:
 
-- Geist Sans and Geist Mono are the only font families.
-- Geist Sans is the default for headings, body, cards, buttons, and normal UI.
-- Geist Mono is reserved for labels, telemetry, status chips, route labels, metrics, metadata, and technical tags.
+- Typography can be theme-specific while the app, routes, data, and content stay shared.
+- Dark mode uses Space Grotesk for main/interface typography and Space Mono for accent/telemetry typography.
+- Light mode uses Geist Sans for main/interface typography and Geist Mono for accent/metadata typography.
 - Typography tokens and utilities live in `src/app/globals.css`.
 - Spacing, container, section, card, stack, cluster, and grid utilities live in `src/app/globals.css`.
 - Future components should use the shared typography and spacing utilities before creating one-off sizes or gaps.
 - Preserve readable line lengths, visible focus states, and mobile-safe spacing.
-- Do not overuse mono or add additional fonts without an assigned step.
+- Do not overuse mono, convert body text to mono, or add additional fonts without an assigned step.
 
 ## 5. Dark mode: Singularity OS
 
