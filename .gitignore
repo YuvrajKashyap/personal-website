@@ -42,3 +42,6 @@ yarn-error.log*
 next-env.d.ts
 
 .vercel
+
+# Raw hero animation candidates
+assets/source/hero/animation-candidates/
