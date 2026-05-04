@@ -20,6 +20,36 @@ const tests = [
   { seconds: 1, suffix: "100" },
 ];
 
+const longTests = [
+  { targetSeconds: 10, internalFadeSeconds: 0.75, loopFadeSeconds: 0.75 },
+  { targetSeconds: 15, internalFadeSeconds: 0.75, loopFadeSeconds: 0.75 },
+];
+
+const videoPrep =
+  "fps=24,scale=1920:1080:force_original_aspect_ratio=decrease,pad=1920:1080:(ow-iw)/2:(oh-ih)/2:color=black,setsar=1,format=yuv420p,settb=AVTB";
+
+const compatibleMp4Args = [
+  "-an",
+  "-c:v",
+  "libx264",
+  "-profile:v",
+  "high",
+  "-level:v",
+  "4.1",
+  "-pix_fmt",
+  "yuv420p",
+  "-r",
+  "24",
+  "-crf",
+  "19",
+  "-preset",
+  "medium",
+  "-tag:v",
+  "avc1",
+  "-movflags",
+  "+faststart",
+];
+
 function refreshWindowsPath() {
   if (process.platform !== "win32") {
     return;
@@ -141,8 +171,8 @@ for (const test of tests) {
   );
 
   const filter = [
-    "[0:v]fps=24,scale=1920:1080:force_original_aspect_ratio=decrease,pad=1920:1080:(ow-iw)/2:(oh-ih)/2:color=black,setsar=1,format=yuv420p,settb=AVTB[v0]",
-    "[1:v]fps=24,scale=1920:1080:force_original_aspect_ratio=decrease,pad=1920:1080:(ow-iw)/2:(oh-ih)/2:color=black,setsar=1,format=yuv420p,settb=AVTB[v1]",
+    `[0:v]${videoPrep}[v0]`,
+    `[1:v]${videoPrep}[v1]`,
     `[v0][v1]xfade=transition=fade:duration=${formatSeconds(fadeDuration)}:offset=${formatSeconds(offset)},trim=duration=${formatSeconds(duration)},setpts=PTS-STARTPTS,format=yuv420p[v]`,
   ].join(";");
 
@@ -158,25 +188,7 @@ for (const test of tests) {
       filter,
       "-map",
       "[v]",
-      "-an",
-      "-c:v",
-      "libx264",
-      "-profile:v",
-      "high",
-      "-level:v",
-      "4.1",
-      "-pix_fmt",
-      "yuv420p",
-      "-r",
-      "24",
-      "-crf",
-      "19",
-      "-preset",
-      "medium",
-      "-tag:v",
-      "avc1",
-      "-movflags",
-      "+faststart",
+      ...compatibleMp4Args,
       outputPath,
     ],
     { stdio: ["ignore", "pipe", "pipe"] },
@@ -186,4 +198,109 @@ for (const test of tests) {
   console.log(
     `Generated ${fadeDuration.toFixed(2)}s xfade: ${outputPath} - ${formatBytes(size)}`,
   );
+}
+
+for (const test of longTests) {
+  const targetDuration = test.targetSeconds;
+  const internalFadeDuration = test.internalFadeSeconds;
+  const loopFadeDuration = test.loopFadeSeconds;
+  const copyCount = Math.ceil(targetDuration / (duration - internalFadeDuration));
+  const baseDuration =
+    copyCount * duration - (copyCount - 1) * internalFadeDuration;
+  const requiredDuration = targetDuration + loopFadeDuration;
+
+  if (baseDuration < requiredDuration) {
+    throw new Error(
+      `Unable to build ${targetDuration}s chain. Base duration ${formatSeconds(baseDuration)}s is shorter than required ${formatSeconds(requiredDuration)}s.`,
+    );
+  }
+
+  const outputPath = resolve(
+    outputDir,
+    `singularity-loop-repair-chain-${targetDuration}s-xfade-075.mp4`,
+  );
+  const filters = [];
+
+  for (let index = 0; index < copyCount; index += 1) {
+    filters.push(`[${index}:v]${videoPrep}[v${index}]`);
+  }
+
+  let currentLabel = "v0";
+  let currentDuration = duration;
+
+  for (let index = 1; index < copyCount; index += 1) {
+    const nextLabel = index === copyCount - 1 ? "base" : `x${index}`;
+    const offset = currentDuration - internalFadeDuration;
+
+    filters.push(
+      `[${currentLabel}][v${index}]xfade=transition=fade:duration=${formatSeconds(internalFadeDuration)}:offset=${formatSeconds(offset)},format=yuv420p[${nextLabel}]`,
+    );
+
+    currentLabel = nextLabel;
+    currentDuration += duration - internalFadeDuration;
+  }
+
+  filters.push(`[${currentLabel}]split=2[tailSrc][mainSrc]`);
+  filters.push(
+    `[tailSrc]trim=start=${formatSeconds(targetDuration)}:duration=${formatSeconds(loopFadeDuration)},setpts=PTS-STARTPTS[tail]`,
+  );
+  filters.push(
+    `[mainSrc]trim=start=0:duration=${formatSeconds(targetDuration)},setpts=PTS-STARTPTS[main]`,
+  );
+  filters.push(
+    `[tail][main]xfade=transition=fade:duration=${formatSeconds(loopFadeDuration)}:offset=0,trim=duration=${formatSeconds(targetDuration)},setpts=PTS-STARTPTS,format=yuv420p[v]`,
+  );
+
+  run(
+    "ffmpeg",
+    [
+      "-y",
+      ...Array.from({ length: copyCount }, () => ["-i", inputPath]).flat(),
+      "-filter_complex",
+      filters.join(";"),
+      "-map",
+      "[v]",
+      ...compatibleMp4Args,
+      outputPath,
+    ],
+    { stdio: ["ignore", "pipe", "pipe"] },
+  );
+
+  const size = statSync(outputPath).size;
+  console.log(
+    `Generated ${targetDuration}s chained xfade loop: ${outputPath} - ${formatBytes(size)}`,
+  );
+}
+
+{
+  const outputPath = resolve(
+    outputDir,
+    "singularity-loop-repair-pingpong-10s.mp4",
+  );
+  const filter = [
+    `[0:v]${videoPrep},setpts=PTS-STARTPTS[fwd]`,
+    `[1:v]${videoPrep},reverse,setpts=PTS-STARTPTS[rev]`,
+    "[fwd][rev]concat=n=2:v=1:a=0,setpts=PTS-STARTPTS,format=yuv420p[v]",
+  ].join(";");
+
+  run(
+    "ffmpeg",
+    [
+      "-y",
+      "-i",
+      inputPath,
+      "-i",
+      inputPath,
+      "-filter_complex",
+      filter,
+      "-map",
+      "[v]",
+      ...compatibleMp4Args,
+      outputPath,
+    ],
+    { stdio: ["ignore", "pipe", "pipe"] },
+  );
+
+  const size = statSync(outputPath).size;
+  console.log(`Generated ping-pong loop: ${outputPath} - ${formatBytes(size)}`);
 }
