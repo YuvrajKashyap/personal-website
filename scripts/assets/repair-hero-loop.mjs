@@ -141,9 +141,9 @@ for (const test of tests) {
   );
 
   const filter = [
-    "[0:v]fps=24,format=yuv420p,settb=AVTB[v0]",
-    "[1:v]fps=24,format=yuv420p,settb=AVTB[v1]",
-    `[v0][v1]xfade=transition=fade:duration=${formatSeconds(fadeDuration)}:offset=${formatSeconds(offset)},trim=duration=${formatSeconds(duration)},setpts=PTS-STARTPTS[v]`,
+    "[0:v]fps=24,scale=1920:1080:force_original_aspect_ratio=decrease,pad=1920:1080:(ow-iw)/2:(oh-ih)/2:color=black,setsar=1,format=yuv420p,settb=AVTB[v0]",
+    "[1:v]fps=24,scale=1920:1080:force_original_aspect_ratio=decrease,pad=1920:1080:(ow-iw)/2:(oh-ih)/2:color=black,setsar=1,format=yuv420p,settb=AVTB[v1]",
+    `[v0][v1]xfade=transition=fade:duration=${formatSeconds(fadeDuration)}:offset=${formatSeconds(offset)},trim=duration=${formatSeconds(duration)},setpts=PTS-STARTPTS,format=yuv420p[v]`,
   ].join(";");
 
   run(
@@ -161,10 +161,20 @@ for (const test of tests) {
       "-an",
       "-c:v",
       "libx264",
+      "-profile:v",
+      "high",
+      "-level:v",
+      "4.1",
+      "-pix_fmt",
+      "yuv420p",
+      "-r",
+      "24",
       "-crf",
-      "18",
+      "19",
       "-preset",
       "medium",
+      "-tag:v",
+      "avc1",
       "-movflags",
       "+faststart",
       outputPath,
