@@ -37,9 +37,13 @@ Alternate light mode is Ivory Observatory: ivory and beige editorial premium int
 - Preserve hero asset naming in `assets/source/hero`, `public/media/hero`, and `src/config/media.ts`.
 - Do not replace `singularity-hero-source.png` without architect approval.
 - Use `npm run prepare:hero` when regenerating hero posters.
+- Use `npm run optimize:hero-video` when regenerating approved production hero videos.
 - Keep generated hero assets optimized and documented.
+- Do not edit optimized hero video names without updating `src/config/media.ts` and `docs/hero-assets.md`.
+- Do not commit raw candidate videos.
 - Do not bake UI text, navigation, panels, buttons, stats, or claims into hero assets.
 - Do not load dark hero media in light mode.
+- Video integration must preserve poster and reduced-motion fallbacks.
 - Avoid hardcoded colors in components.
 - Avoid hardcoded spacing values when shared utilities fit.
 - Do not add random fonts or one-off type scales.

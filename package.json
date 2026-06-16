@@ -9,7 +9,8 @@
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
     "prepare:hero": "node scripts/assets/prepare-hero-assets.mjs",
-    "repair:hero-loop": "node scripts/assets/repair-hero-loop.mjs"
+    "repair:hero-loop": "node scripts/assets/repair-hero-loop.mjs",
+    "optimize:hero-video": "node scripts/assets/optimize-hero-video.mjs"
   },
   "dependencies": {
     "next": "16.2.4",

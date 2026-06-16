@@ -144,6 +144,19 @@ Step 10 hero asset preparation details:
 - Light mode must not download dark cinematic hero assets.
 - Text, navigation, buttons, telemetry, and UI panels must remain coded UI, not baked into the image.
 
+Step 12 optimized hero video details:
+
+- Production hero video assets live in `public/media/hero`.
+- Desktop video paths are `singularity-loop.webm` and `singularity-loop.mp4`.
+- Mobile video paths are `singularity-loop-mobile.webm` and `singularity-loop-mobile.mp4`.
+- Typed media paths live in `src/config/media.ts`.
+- Regenerate approved production videos with `npm run optimize:hero-video`.
+- The raw candidate folder `assets/source/hero/animation-candidates/` remains ignored and uncommitted.
+- Homepage integration still comes later.
+- Future homepage implementation must conditionally load these dark video assets only in dark mode.
+- Reduced-motion and video failure states must use the still poster fallback.
+- No text, buttons, navigation, metrics, or UI panels should be baked into the video.
+
 ## 5. Dark mode: Singularity OS
 
 Singularity OS is the default visual identity.
@@ -365,6 +378,7 @@ High-level sequence guardrails:
 - Typography and spacing foundation now exists.
 - Public layout, navigation, mobile menu, and footer now exist.
 - Dark hero still poster assets now exist.
+- Optimized dark hero video assets now exist.
 - Final home architecture later.
 - Cinematic assets later.
 - Feature pages later.

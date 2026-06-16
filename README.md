@@ -22,7 +22,7 @@ The future site should feel cinematic, orbital, and astrophysics-inspired while 
 
 ## Current Step Status
 
-Step 10 prepares the selected dark-mode cinematic hero source and optimized poster assets while the final cinematic website is built. The home page remains a premium temporary public landing page, and the non-home pages remain route stubs. The final hero integration, animations, admin functionality, database integration, and live content systems are not implemented yet.
+Step 12 prepares optimized dark-mode cinematic hero video assets while the final cinematic website is built. The home page remains a premium temporary public landing page, and the non-home pages remain route stubs. The final hero integration, admin functionality, database integration, and live content systems are not implemented yet.
 
 ## Documentation
 
@@ -40,6 +40,7 @@ npm run typecheck
 npm run build
 npm run start
 npm run prepare:hero
+npm run optimize:hero-video
 ```
 
 ## Route Map
@@ -62,6 +63,7 @@ npm run prepare:hero
 - Ivory Observatory light mode direction
 - Cinematic hero and orbital interface language
 - Dark hero poster asset preparation
+- Dark hero video asset optimization
 - Project case study system
 - Tracker and operating metrics interface
 - Services and collaboration flows

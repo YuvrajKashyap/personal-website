@@ -92,11 +92,81 @@ Future implementation should conditionally load these assets only when dark mode
 
 ## 10. Future animation step notes
 
-Future WebM or MP4 animation comes later. This step only prepares still poster assets for final hero use and reduced-motion fallback.
+Production WebM and MP4 loop assets now exist. Homepage integration still comes later.
 
 The still poster should remain usable when reduced motion is enabled or when video cannot load.
 
-## 11. Anti-patterns
+## 11. Step 12 optimized video assets
+
+Selected source candidate:
+
+```text
+assets/source/hero/animation-candidates/singularity-loop-candidate-03-kling-repaired-15s.mp4
+```
+
+The raw animation candidate folder is ignored and must remain uncommitted:
+
+```text
+assets/source/hero/animation-candidates/
+```
+
+Production video outputs:
+
+```text
+public/media/hero/singularity-loop.webm
+public/media/hero/singularity-loop.mp4
+public/media/hero/singularity-loop-mobile.webm
+public/media/hero/singularity-loop-mobile.mp4
+```
+
+Output metadata:
+
+| Asset | Codec | Dimensions | FPS | Duration | Pixel format | Size |
+| --- | --- | --- | --- | --- | --- | --- |
+| `singularity-loop.webm` | VP9 | 1920 by 1080 | 24 | 15.000s | yuv420p | 1.28 MiB |
+| `singularity-loop.mp4` | H.264 | 1920 by 1080 | 24 | 15.000s | yuv420p | 3.94 MiB |
+| `singularity-loop-mobile.webm` | VP9 | 1280 by 720 | 24 | 15.000s | yuv420p | 0.56 MiB |
+| `singularity-loop-mobile.mp4` | H.264 | 1280 by 720 | 24 | 15.000s | yuv420p | 1.15 MiB |
+
+Codec choices:
+
+- WebM uses VP9 for modern browsers.
+- MP4 uses H.264 as the broad compatibility fallback.
+- All outputs remove audio.
+- All outputs preserve 24 fps and yuv420p compatibility.
+- MP4 outputs use `+faststart`.
+
+Fallback strategy:
+
+- Use the still poster when video cannot load.
+- Use the still poster when reduced motion is enabled.
+- Keep the poster visible until video playback is ready.
+- Do not rely on video for text readability.
+
+Mobile strategy:
+
+- Mobile video outputs are approved and kept.
+- Mobile video is 1280 by 720 to preserve the selected composition.
+- Do not use a portrait video crop unless a later step explicitly approves it.
+
+Regenerate optimized video assets with:
+
+```bash
+npm run optimize:hero-video
+```
+
+Human visual QA approved the current outputs:
+
+- Desktop MP4 quality: pass.
+- Desktop WebM quality: pass.
+- Mobile MP4 quality: pass.
+- Mobile WebM quality: pass.
+- Loop seam acceptable: yes.
+- Compression artifacts: none.
+- Mobile video strategy: keep mobile video.
+- Overall approval: approved.
+
+## 12. Anti-patterns
 
 - Replacing the selected source without approval.
 - Using the alternate planet or ring image as the primary source.
@@ -105,3 +175,5 @@ The still poster should remain usable when reduced motion is enabled or when vid
 - Loading dark hero assets in light mode.
 - Using huge unoptimized files directly in the app.
 - Treating the poster as the final homepage implementation.
+- Committing raw animation candidate videos.
+- Loading dark hero video in light mode.
