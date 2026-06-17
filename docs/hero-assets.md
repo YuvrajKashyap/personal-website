@@ -90,6 +90,13 @@ The dark cinematic hero belongs to Singularity OS only. Light mode must not down
 
 Future implementation should conditionally load these assets only when dark mode needs them.
 
+Step 13 implementation note:
+
+- The static dark homepage hero renders the poster only in the dark home view.
+- The light home view does not render the dark poster, video, image source, or video source.
+- Home text, CTAs, chips, navigation, and UI remain coded HTML and CSS layered over media.
+- Video files remain prepared but are not integrated into the homepage yet.
+
 ## 10. Future animation step notes
 
 Production WebM and MP4 loop assets now exist. Homepage integration still comes later.
@@ -177,3 +184,5 @@ Human visual QA approved the current outputs:
 - Treating the poster as the final homepage implementation.
 - Committing raw animation candidate videos.
 - Loading dark hero video in light mode.
+- Rendering hidden dark hero media in the light DOM.
+- Baking hero text or CTAs into the poster or video.

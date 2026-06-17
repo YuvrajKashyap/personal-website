@@ -41,8 +41,13 @@ Alternate light mode is Ivory Observatory: ivory and beige editorial premium int
 - Keep generated hero assets optimized and documented.
 - Do not edit optimized hero video names without updating `src/config/media.ts` and `docs/hero-assets.md`.
 - Do not commit raw candidate videos.
+- Preserve the `HomePage`, `HomeDark`, `HomeLight`, and `home-content` feature split unless an assigned step changes it.
+- `HomeDark` and `HomeLight` may diverge visually while sharing content.
 - Do not bake UI text, navigation, panels, buttons, stats, or claims into hero assets.
 - Do not load dark hero media in light mode.
+- Do not render hidden dark hero media in the light DOM.
+- Do not add fake hero stats.
+- Do not integrate hero video until a later assigned step asks for it.
 - Video integration must preserve poster and reduced-motion fallbacks.
 - Avoid hardcoded colors in components.
 - Avoid hardcoded spacing values when shared utilities fit.

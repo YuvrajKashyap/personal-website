@@ -22,7 +22,7 @@ The future site should feel cinematic, orbital, and astrophysics-inspired while 
 
 ## Current Step Status
 
-Step 12 prepares optimized dark-mode cinematic hero video assets while the final cinematic website is built. The home page remains a premium temporary public landing page, and the non-home pages remain route stubs. The final hero integration, admin functionality, database integration, and live content systems are not implemented yet.
+Step 13 adds the first static dark-mode homepage hero using the optimized cinematic poster. Light mode keeps a polished temporary home view without loading dark hero media. Hero video integration, lower homepage sections, admin functionality, database integration, and live content systems are not implemented yet.
 
 ## Documentation
 
@@ -64,6 +64,7 @@ npm run optimize:hero-video
 - Cinematic hero and orbital interface language
 - Dark hero poster asset preparation
 - Dark hero video asset optimization
+- Static dark home hero
 - Project case study system
 - Tracker and operating metrics interface
 - Services and collaboration flows

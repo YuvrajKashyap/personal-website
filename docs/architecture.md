@@ -157,6 +157,18 @@ Step 12 optimized hero video details:
 - Reduced-motion and video failure states must use the still poster fallback.
 - No text, buttons, navigation, metrics, or UI panels should be baked into the video.
 
+Step 13 static dark home hero details:
+
+- Home feature files live in `src/features/home`.
+- `HomePage` chooses between theme-specific views using the current theme.
+- `HomeDark` renders the static Singularity OS hero with the optimized poster image.
+- `HomeLight` remains a polished Ivory Observatory temporary view until the final light hero step.
+- Shared homepage copy lives in `src/features/home/home-content.ts`.
+- The dark poster is only rendered by `HomeDark`.
+- The light view must not render dark hero poster or video tags.
+- No video integration happened in this step.
+- Text, CTAs, telemetry chips, and UI are coded elements layered over the asset.
+
 ## 5. Dark mode: Singularity OS
 
 Singularity OS is the default visual identity.
@@ -379,6 +391,7 @@ High-level sequence guardrails:
 - Public layout, navigation, mobile menu, and footer now exist.
 - Dark hero still poster assets now exist.
 - Optimized dark hero video assets now exist.
+- Static dark home hero now exists.
 - Final home architecture later.
 - Cinematic assets later.
 - Feature pages later.
