@@ -1,26 +1,12 @@
 import Link from "next/link";
 
-import { heroMedia } from "@/config/media";
+import { HeroVideoBackground } from "@/features/home/HeroVideoBackground";
 import { homeContent } from "@/features/home/home-content";
 
 export function HomeDark() {
-  const media = heroMedia.singularity;
-
   return (
     <main className="home-hero home-hero-dark">
-      <div className="home-hero-media" aria-hidden="true">
-        <picture>
-          <source media="(max-width: 640px)" srcSet={media.posterMobile} />
-          <source media="(max-width: 1024px)" srcSet={media.posterTablet} />
-          <img
-            src={media.poster}
-            alt=""
-            fetchPriority="high"
-            decoding="async"
-            className="home-hero-image"
-          />
-        </picture>
-      </div>
+      <HeroVideoBackground />
 
       <div aria-hidden="true" className="home-hero-shade" />
       <div aria-hidden="true" className="grain-overlay pointer-events-none absolute inset-0 z-[1]" />

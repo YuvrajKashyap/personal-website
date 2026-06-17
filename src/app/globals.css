@@ -516,8 +516,9 @@ a {
 }
 
 .home-hero-media,
-.home-hero-media picture,
-.home-hero-image {
+.home-hero-poster,
+.home-hero-image,
+.home-hero-video {
   position: absolute;
   inset: 0;
   height: 100%;
@@ -528,9 +529,25 @@ a {
   z-index: 0;
 }
 
-.home-hero-image {
+.home-hero-poster {
+  z-index: 0;
+  display: block;
+}
+
+.home-hero-video {
+  z-index: 1;
+  background: var(--background);
+  opacity: 0.92;
+}
+
+.home-hero-image,
+.home-hero-video {
   object-fit: cover;
   object-position: right center;
+}
+
+.home-hero-image {
+  z-index: 0;
 }
 
 .home-hero-shade {
@@ -594,7 +611,8 @@ a {
       linear-gradient(180deg, rgb(3 4 6 / 0.36) 0%, rgb(3 4 6 / 0.76) 46%, rgb(3 4 6 / 0.92) 100%);
   }
 
-  .home-hero-image {
+  .home-hero-image,
+  .home-hero-video {
     object-position: 62% center;
   }
 
@@ -844,6 +862,10 @@ a {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .home-hero-video {
+    display: none !important;
+  }
+
   *,
   *::before,
   *::after {

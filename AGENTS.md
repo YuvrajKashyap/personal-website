@@ -47,8 +47,14 @@ Alternate light mode is Ivory Observatory: ivory and beige editorial premium int
 - Do not load dark hero media in light mode.
 - Do not render hidden dark hero media in the light DOM.
 - Do not add fake hero stats.
-- Do not integrate hero video until a later assigned step asks for it.
+- Dark hero video is integrated in `HomeDark` only.
 - Video integration must preserve poster and reduced-motion fallbacks.
+- Do not remove the poster fallback behind the video.
+- Do not autoplay video for reduced-motion users.
+- Keep hero text, CTAs, telemetry, navigation, and overlays as coded UI.
+- Keep WebM sources before MP4 fallbacks.
+- Preserve mobile video sources unless an assigned step changes the media strategy.
+- Do not change hero video media paths without updating `src/config/media.ts` and `docs/hero-assets.md` together.
 - Avoid hardcoded colors in components.
 - Avoid hardcoded spacing values when shared utilities fit.
 - Do not add random fonts or one-off type scales.

@@ -169,6 +169,18 @@ Step 13 static dark home hero details:
 - No video integration happened in this step.
 - Text, CTAs, telemetry chips, and UI are coded elements layered over the asset.
 
+Step 14 dark hero video integration details:
+
+- `HomeDark` now uses the optimized hero video as an environmental background layer.
+- The reusable video layer lives in `src/features/home/HeroVideoBackground.tsx`.
+- WebM sources are ordered before MP4 fallbacks.
+- Mobile WebM and MP4 sources are preserved for small viewports.
+- The still poster remains behind the video as the loading, failure, and reduced-motion fallback.
+- Reduced-motion users should see the static poster and should not autoplay the video.
+- `HomeLight` remains isolated and must not render or reference dark poster or video assets.
+- The video is decorative, `aria-hidden`, muted, looped, and `playsInline`.
+- Hero text, CTAs, telemetry chips, navigation, and overlays remain coded UI layered above media.
+
 ## 5. Dark mode: Singularity OS
 
 Singularity OS is the default visual identity.
@@ -392,6 +404,7 @@ High-level sequence guardrails:
 - Dark hero still poster assets now exist.
 - Optimized dark hero video assets now exist.
 - Static dark home hero now exists.
+- Dark hero video integration now exists.
 - Final home architecture later.
 - Cinematic assets later.
 - Feature pages later.

@@ -92,18 +92,35 @@ Future implementation should conditionally load these assets only when dark mode
 
 Step 13 implementation note:
 
-- The static dark homepage hero renders the poster only in the dark home view.
+- The static dark homepage hero initially rendered the poster only in the dark home view.
 - The light home view does not render the dark poster, video, image source, or video source.
 - Home text, CTAs, chips, navigation, and UI remain coded HTML and CSS layered over media.
-- Video files remain prepared but are not integrated into the homepage yet.
+- Step 14 replaces the dark poster-only environmental layer with poster-backed video.
 
-## 10. Future animation step notes
+## 10. Step 14 dark hero video integration
 
-Production WebM and MP4 loop assets now exist. Homepage integration still comes later.
+The optimized video assets are now integrated into `HomeDark` through `src/features/home/HeroVideoBackground.tsx`.
+
+Implementation rules:
+
+- `HomeDark` renders the dark cinematic video as a decorative environmental layer.
+- WebM sources are listed before MP4 fallbacks.
+- Mobile WebM and MP4 sources are used for viewports up to 767px.
+- Desktop WebM and MP4 sources are used after the mobile sources.
+- The video element is muted, looped, `playsInline`, autoplaying where allowed, and `aria-hidden`.
+- No controls are shown.
+- The poster picture remains behind the video so the hero does not flash black while video loads or fails.
+- Reduced-motion users keep the poster fallback and do not mount the video.
+- `HomeLight` does not render or reference dark posters, videos, source tags, or video paths.
+- Hero text, CTAs, chips, navigation, and overlays remain real coded UI layered over media.
+
+## 11. Future animation step notes
+
+Production WebM and MP4 loop assets now exist and are integrated into the dark home hero. Future animation work should not replace this with a text-baked video or a separate route.
 
 The still poster should remain usable when reduced motion is enabled or when video cannot load.
 
-## 11. Step 12 optimized video assets
+## 12. Step 12 optimized video assets
 
 Selected source candidate:
 
@@ -173,7 +190,7 @@ Human visual QA approved the current outputs:
 - Mobile video strategy: keep mobile video.
 - Overall approval: approved.
 
-## 12. Anti-patterns
+## 13. Anti-patterns
 
 - Replacing the selected source without approval.
 - Using the alternate planet or ring image as the primary source.
