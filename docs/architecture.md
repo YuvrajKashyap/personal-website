@@ -429,6 +429,7 @@ High-level sequence guardrails:
 - Dark hero video integration now exists.
 - Final-direction light home hero now exists.
 - Orbital home navigation now exists.
+- Motion system foundation now exists.
 - Final home architecture later.
 - Cinematic assets later.
 - Feature pages later.
@@ -452,3 +453,20 @@ Do not jump ahead just because a folder exists.
 - Do not sacrifice performance for spectacle.
 - Do not use em dashes in final website copy.
 - Preserve the canonical domain setup.
+
+## Step 17 implementation note
+
+The first motion system is implemented with Motion for React.
+
+- Package: `motion`.
+- Import pattern: `motion/react`.
+- Provider: `src/components/motion/MotionSystemProvider.tsx`.
+- Presets: `src/lib/motion/presets.ts`.
+- Reusable reveal component: `src/components/motion/Reveal.tsx`.
+- Scroll cue component: `src/components/motion/MotionScrollCue.tsx`.
+- Root integration: `MotionSystemProvider` wraps the app inside `ThemeProvider` without making the root layout a client component.
+- Reduced motion: `MotionConfig` uses `reducedMotion="user"`, and components use `useReducedMotion()` where loops or entrance motion need explicit handling.
+- HomeDark and HomeLight now have controlled hero entrance motion.
+- Orbital navigation has subtle reveal and tap motion while keeping real links, visible focus states, and mobile fallback.
+- GSAP, Three.js, React Three Fiber, Drei, Lenis, Supabase, and analytics remain uninstalled.
+- Dark hero video stays dark-only. Light mode must not import, render, or hide dark media.

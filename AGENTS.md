@@ -37,6 +37,15 @@ Alternate light mode is Ivory Observatory: ivory and beige editorial premium int
 - Do not overclutter the hero with orbital navigation.
 - Do not add animation libraries for orbital navigation unless a later assigned step explicitly asks for them.
 - Do not add fake stats or fake live data to orbital navigation.
+- Motion for React is the UI animation library. Import from `motion/react`.
+- Use motion presets from `src/lib/motion/presets.ts` before inventing new timings.
+- Use `MotionSystemProvider` and `MotionConfig` reduced-motion behavior.
+- Respect reduced motion in loops, entrance animation, and interaction animation.
+- Do not add random animation timings.
+- Do not use bouncy, gimmicky, chaotic, or game-like motion.
+- Do not animate layout-affecting properties when opacity and transform work.
+- Do not sacrifice accessibility or performance for motion.
+- Do not install GSAP, Three.js, React Three Fiber, Drei, Lenis, Supabase, or analytics unless a later assigned step explicitly asks for them.
 - Do not wrap admin routes with the public shell unless a later assigned step explicitly changes that boundary.
 - Keep the header and footer token-driven, accessible, and responsive.
 - Keep mobile navigation keyboard accessible with real button semantics.
@@ -92,4 +101,4 @@ Alternate light mode is Ivory Observatory: ivory and beige editorial premium int
 - Report files changed and commands run.
 - Do not add a new theme package unless the assigned step explicitly requires it.
 - Do not install major new libraries unless the assigned step asks for them.
-- Do not install Motion, GSAP, Three.js, React Three Fiber, Lenis, Supabase, or future system libraries unless the assigned step explicitly requires them.
+- Do not install GSAP, Three.js, React Three Fiber, Lenis, Supabase, or future system libraries unless the assigned step explicitly requires them.

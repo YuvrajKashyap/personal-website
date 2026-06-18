@@ -199,6 +199,16 @@ Human visual QA approved the current outputs:
 - Mobile video strategy: keep mobile video.
 - Overall approval: approved.
 
+## Step 17 motion note
+
+The motion system animates coded UI around the hero. It does not animate text inside media, replace coded UI with video, or move dark hero media into light mode.
+
+- Dark hero video remains environmental.
+- Poster fallback remains required.
+- Reduced-motion video fallback remains required.
+- Motion should not destructively animate the video layer.
+- Hero text, CTAs, telemetry, navigation, and overlays remain coded UI.
+
 ## 14. Anti-patterns
 
 - Replacing the selected source without approval.

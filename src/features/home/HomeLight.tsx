@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { Reveal } from "@/components/motion/Reveal";
 import { OrbitalNavigation } from "@/components/navigation/OrbitalNavigation";
 import { orbitalDestinations } from "@/config/site";
 import { homeContent } from "@/features/home/home-content";
@@ -14,22 +15,28 @@ export function HomeLight() {
       <section className="home-light-hero-section site-container-wide">
         <div className="home-light-copy">
           <div className="home-light-chip-row" aria-label="Site status">
-            {homeContent.lightTelemetry.map((item) => (
-              <span key={item} className="observatory-chip">
-                {item}
-              </span>
+            {homeContent.lightTelemetry.map((item, index) => (
+              <Reveal key={item} variant="chip" delay={0.12 + index * 0.04}>
+                <span className="observatory-chip">{item}</span>
+              </Reveal>
             ))}
           </div>
 
-          <p className="text-kicker">{homeContent.eyebrow}</p>
-          <h1 className="mt-5 max-w-5xl text-page-title text-balance">
-            {homeContent.headline}
-          </h1>
-          <p className="mt-7 text-body-large text-pretty">
-            {homeContent.body}
-          </p>
+          <Reveal delay={0.08}>
+            <p className="text-kicker">{homeContent.eyebrow}</p>
+          </Reveal>
+          <Reveal delay={0.16}>
+            <h1 className="mt-5 max-w-5xl text-page-title text-balance">
+              {homeContent.headline}
+            </h1>
+          </Reveal>
+          <Reveal delay={0.24}>
+            <p className="mt-7 text-body-large text-pretty">
+              {homeContent.body}
+            </p>
+          </Reveal>
 
-          <div className="cluster mt-10">
+          <Reveal className="cluster mt-10" delay={0.32} variant="cta">
             <Link
               href={homeContent.primaryCta.href}
               className="focus-ring inline-flex min-h-12 items-center justify-center rounded-full bg-accent px-5 py-3 text-sm font-semibold text-accent-foreground shadow-[var(--shadow-glow)] transition hover:bg-[var(--interactive-hover)]"
@@ -42,46 +49,53 @@ export function HomeLight() {
             >
               {homeContent.secondaryCta.label}
             </Link>
-          </div>
+          </Reveal>
         </div>
 
-        <aside
+        <Reveal
           className="observatory-panel"
-          aria-label="Ivory Observatory status"
+          delay={0.28}
+          variant="scale-soft"
         >
-          <div className="observatory-panel-header">
-            <div>
-              <p className="text-mono-label">Observatory Index</p>
-              <p className="observatory-panel-title">{homeContent.name}</p>
+          <aside aria-label="Ivory Observatory status">
+            <div className="observatory-panel-header">
+              <div>
+                <p className="text-mono-label">Observatory Index</p>
+                <p className="observatory-panel-title">{homeContent.name}</p>
+              </div>
+              <span className="observatory-seal" aria-hidden="true">
+                YK
+              </span>
             </div>
-            <span className="observatory-seal" aria-hidden="true">
-              YK
-            </span>
-          </div>
 
-          <OrbitalNavigation
-            items={orbitalDestinations}
-            variant="light"
-            className="home-light-orbital-nav"
-            eyebrow="Observatory Routes"
-            title="Destination instrument"
-          />
+            <Reveal delay={0.44} variant="fade-in">
+              <OrbitalNavigation
+                items={orbitalDestinations}
+                variant="light"
+                className="home-light-orbital-nav"
+                eyebrow="Observatory Routes"
+                title="Destination instrument"
+              />
+            </Reveal>
 
-          <dl className="observatory-readout">
-            <div>
-              <dt>Current mode</dt>
-              <dd>Ivory Observatory</dd>
-            </div>
-            <div>
-              <dt>System state</dt>
-              <dd>Building</dd>
-            </div>
-            <div>
-              <dt>Primary signal</dt>
-              <dd>Software and systems</dd>
-            </div>
-          </dl>
-        </aside>
+            <Reveal delay={0.5} variant="fade-in">
+              <dl className="observatory-readout">
+                <div>
+                  <dt>Current mode</dt>
+                  <dd>Ivory Observatory</dd>
+                </div>
+                <div>
+                  <dt>System state</dt>
+                  <dd>Building</dd>
+                </div>
+                <div>
+                  <dt>Primary signal</dt>
+                  <dd>Software and systems</dd>
+                </div>
+              </dl>
+            </Reveal>
+          </aside>
+        </Reveal>
       </section>
     </main>
   );

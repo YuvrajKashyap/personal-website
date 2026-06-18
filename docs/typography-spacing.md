@@ -201,6 +201,7 @@ Stack:
 
 ## 18. Anti-patterns
 
+- Motion should preserve reading rhythm. Do not delay primary headings, body copy, or CTAs long enough to make the page feel blocked.
 - Do not add random fonts.
 - Do not create one-off heading sizes.
 - Do not overuse mono.

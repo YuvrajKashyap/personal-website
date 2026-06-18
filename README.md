@@ -19,10 +19,11 @@ The future site should feel cinematic, orbital, and astrophysics-inspired while 
 - npm
 - `src` directory
 - `@/*` import alias
+- Motion for React
 
 ## Current Step Status
 
-Step 16 adds a reusable orbital destination navigation system to both Home hero modes. Dark mode keeps the cinematic video hero, and light mode keeps the Ivory Observatory hero without loading dark media. Lower homepage sections, admin functionality, database integration, and live content systems are not implemented yet.
+Step 17 adds the first controlled Motion for React system for coded UI reveals, subtle hero entrance motion, orbital navigation affordances, and reduced-motion-safe behavior. Lower homepage sections, admin functionality, database integration, and live content systems are not implemented yet.
 
 ## Documentation
 
@@ -30,6 +31,7 @@ Step 16 adds a reusable orbital destination navigation system to both Home hero 
 - `docs/design-tokens.md` defines the semantic token groups, theme palette direction, utility classes, usage rules, and anti-patterns for future UI work.
 - `docs/typography-spacing.md` defines the theme-specific font pairings, type scale, spacing rhythm, containers, layout utilities, mobile rules, and anti-patterns for future page work.
 - `docs/hero-assets.md` defines the selected dark hero source, poster variants, crop strategy, loading rules, and regeneration workflow.
+- `docs/motion-system.md` defines the Motion for React provider, presets, reveal components, reduced-motion strategy, performance rules, and animation guardrails.
 
 ## Local Commands
 
@@ -68,6 +70,7 @@ npm run optimize:hero-video
 - Dark hero video integration
 - Final-direction light home hero
 - Orbital home navigation
+- Motion system foundation
 - Project case study system
 - Tracker and operating metrics interface
 - Services and collaboration flows

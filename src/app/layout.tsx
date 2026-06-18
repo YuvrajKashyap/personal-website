@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Space_Grotesk, Space_Mono } from "next/font/google";
+import { MotionSystemProvider } from "@/components/motion/MotionSystemProvider";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
 import { getServerTheme } from "@/lib/theme/server";
 import "./globals.css";
@@ -50,7 +51,9 @@ export default async function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} ${spaceGrotesk.variable} ${spaceMono.variable} h-full`}
     >
       <body className="flex min-h-full flex-col antialiased">
-        <ThemeProvider initialTheme={theme}>{children}</ThemeProvider>
+        <ThemeProvider initialTheme={theme}>
+          <MotionSystemProvider>{children}</MotionSystemProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
