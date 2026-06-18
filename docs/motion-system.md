@@ -118,6 +118,8 @@ Supported variants:
 
 Use `Reveal` for above-the-fold coded UI such as hero text, chips, CTAs, and panels.
 
+Step 18 also uses `Reveal` for the lower Home gateway sections. Section headers, preview cards, tracker panels, opportunity cards, and final CTA may reveal with existing presets. Do not add scroll-timeline effects, GSAP, or continuous lower-page motion in this phase.
+
 Scroll cue component:
 
 ```text

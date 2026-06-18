@@ -4,7 +4,7 @@
 
 This website should feel like entering Yuvraj Kashyap's universe and operating system. It should signal elite builder, future founder, and systems-thinker energy while staying smooth, minimal, premium, responsive, accessible, and production-grade.
 
-The current public home page is a premium temporary landing page. It protects the live brand while the final cinematic site is built, but it is not the final homepage and should not be treated as final design direction.
+The current public home page has the final-direction hero and curated Home gateway sections. It is not the full site: deeper About, Experience, Projects, Tracker, Services, Collaborate, Contact, Supabase, and admin surfaces remain future work.
 
 ## 2. High-level app architecture
 
@@ -261,7 +261,7 @@ Guidelines:
 - Content and data stay separate from visual components.
 - Theme-specific visual divergence is allowed when useful.
 - Not every page needs separate dark and light files if a shared layout works.
-- Do not move the current temporary homepage until a later step assigns that refactor.
+- Keep route files thin and keep Home feature composition inside `src/features/home`.
 
 ## 9. Component architecture
 
@@ -411,7 +411,7 @@ Current known deployment:
 - Production branch: `main`
 - Canonical domain: `https://yuvrajkashyap.com`
 - `www` redirects to the apex/root domain.
-- Current temporary landing page is live.
+- Full Home gateway page is live.
 - Vercel redeploys from `main`.
 
 ## 18. Future implementation sequence notes
@@ -430,7 +430,7 @@ High-level sequence guardrails:
 - Final-direction light home hero now exists.
 - Orbital home navigation now exists.
 - Motion system foundation now exists.
-- Final home architecture later.
+- Full Home gateway sections now exist.
 - Cinematic assets later.
 - Feature pages later.
 - Supabase and admin later.
@@ -470,3 +470,18 @@ The first motion system is implemented with Motion for React.
 - Orbital navigation has subtle reveal and tap motion while keeping real links, visible focus states, and mobile fallback.
 - GSAP, Three.js, React Three Fiber, Drei, Lenis, Supabase, and analytics remain uninstalled.
 - Dark hero video stays dark-only. Light mode must not import, render, or hide dark media.
+
+## Step 18 implementation note
+
+The Home page is now a complete gateway into the site while deeper pages remain stubs or future builds.
+
+- Shared lower-home content lives in `src/features/home/home-content.ts`.
+- Lower-home composition lives in `src/features/home/HomeSections.tsx`.
+- `HomeDark` renders the Singularity OS hero followed by `HomeSections variant="dark"`.
+- `HomeLight` renders the Ivory Observatory hero followed by `HomeSections variant="light"`.
+- The lower Home sections are signal strip, featured projects preview, tracker preview, about preview, services and collaborate split, and final CTA.
+- Featured project cards link to `/projects` as a safe preview path until full project detail content is built.
+- Tracker preview is framed as a manual current-state signal and does not fake live metrics.
+- Services and Collaborate remain distinct inbound paths.
+- Home remains curated and low-density rather than a full resume, project archive, or tracker dashboard.
+- Light mode still must not render, reference, or hide dark hero video or poster assets.

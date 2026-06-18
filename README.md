@@ -23,7 +23,7 @@ The future site should feel cinematic, orbital, and astrophysics-inspired while 
 
 ## Current Step Status
 
-Step 17 adds the first controlled Motion for React system for coded UI reveals, subtle hero entrance motion, orbital navigation affordances, and reduced-motion-safe behavior. Lower homepage sections, admin functionality, database integration, and live content systems are not implemented yet.
+Step 18 completes the Home page as a curated gateway with signal, project, tracker, about, opportunity, and contact sections below the dark and light heroes. Admin functionality, database integration, live tracker automation, and full lower-route page builds are not implemented yet.
 
 ## Documentation
 
@@ -71,6 +71,7 @@ npm run optimize:hero-video
 - Final-direction light home hero
 - Orbital home navigation
 - Motion system foundation
+- Full Home gateway sections
 - Project case study system
 - Tracker and operating metrics interface
 - Services and collaboration flows

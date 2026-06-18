@@ -202,6 +202,7 @@ Stack:
 ## 18. Anti-patterns
 
 - Motion should preserve reading rhythm. Do not delay primary headings, body copy, or CTAs long enough to make the page feel blocked.
+- Step 18 Home sections use shared section, container, heading, body, mono label, stack, and grid rhythm. Future Home refinements should preserve controlled text measure and mobile spacing.
 - Do not add random fonts.
 - Do not create one-off heading sizes.
 - Do not overuse mono.

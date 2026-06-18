@@ -60,6 +60,12 @@ Alternate light mode is Ivory Observatory: ivory and beige editorial premium int
 - Do not commit raw candidate videos.
 - Preserve the `HomePage`, `HomeDark`, `HomeLight`, and `home-content` feature split unless an assigned step changes it.
 - `HomeDark` and `HomeLight` may diverge visually while sharing content.
+- Lower Home sections should stay curated, low-density, and gateway-oriented.
+- Do not overload Home with full About, Projects, Tracker, Services, Collaborate, or Contact page content.
+- Do not add fake Home metrics, fake project links, or fake live tracker data.
+- Keep Tracker preview framed honestly as manual current-state signal until live systems exist.
+- Keep Services and Collaborate distinct.
+- Preserve shared Home section content/data where practical.
 - `HomeLight` is now the final-direction Ivory Observatory hero, not a placeholder.
 - Keep `HomeLight` editorial, premium, token-driven, and distinct from the dark hero.
 - Do not regress light mode into a generic beige template or a simple inverted dark hero.
