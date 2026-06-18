@@ -604,6 +604,263 @@ a {
   backdrop-filter: blur(18px);
 }
 
+.home-light-hero {
+  position: relative;
+  isolation: isolate;
+  min-height: calc(100svh - 4.25rem);
+  overflow: hidden;
+  background: var(--gradient-hero);
+  color: var(--foreground);
+}
+
+.observatory-field,
+.observatory-wash {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.observatory-field {
+  background-image:
+    linear-gradient(90deg, var(--border) 1px, transparent 1px),
+    linear-gradient(180deg, var(--border) 1px, transparent 1px);
+  background-size: 74px 74px;
+  mask-image: radial-gradient(circle at 72% 34%, black 0%, transparent 68%);
+  opacity: 0.42;
+}
+
+.observatory-wash {
+  background:
+    radial-gradient(circle at 74% 32%, var(--accent-soft) 0%, transparent 30%),
+    radial-gradient(circle at 12% 18%, var(--surface-strong) 0%, transparent 36%),
+    linear-gradient(180deg, transparent 0%, var(--background) 100%);
+  opacity: 0.92;
+}
+
+.home-light-hero-section {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  min-height: calc(100svh - 4.25rem);
+  grid-template-columns: minmax(0, 1.05fr) minmax(20rem, 0.95fr);
+  align-items: center;
+  gap: clamp(2rem, 6vw, 6rem);
+  padding-block: var(--section-padding-y-compact);
+}
+
+.home-light-copy {
+  max-width: 54rem;
+}
+
+.home-light-chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: clamp(2rem, 4vw, 3rem);
+}
+
+.observatory-chip {
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface-glass);
+  color: var(--accent-strong);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: var(--tracking-wider);
+  line-height: 1.45;
+  padding: 0.62rem 0.78rem;
+  text-transform: uppercase;
+  box-shadow: var(--shadow-soft);
+  backdrop-filter: blur(16px);
+}
+
+.observatory-panel {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-2xl);
+  background: var(--surface-glass);
+  box-shadow: var(--shadow-medium);
+  padding: clamp(1.1rem, 3vw, 1.6rem);
+  backdrop-filter: blur(20px);
+}
+
+.observatory-panel::before {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background:
+    linear-gradient(135deg, var(--accent-soft), transparent 34%),
+    linear-gradient(180deg, transparent, var(--surface-soft));
+  opacity: 0.72;
+}
+
+.observatory-panel > * {
+  position: relative;
+  z-index: 1;
+}
+
+.observatory-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: clamp(1.5rem, 4vw, 2rem);
+}
+
+.observatory-panel-title {
+  margin-top: 0.35rem;
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  font-size: var(--text-xl);
+  font-weight: 650;
+  letter-spacing: var(--tracking-tight);
+}
+
+.observatory-seal {
+  display: inline-flex;
+  min-height: 3.5rem;
+  min-width: 3.5rem;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border-strong);
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--accent-foreground);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  letter-spacing: 0.18em;
+}
+
+.observatory-map {
+  position: relative;
+  display: grid;
+  min-height: clamp(20rem, 38vw, 30rem);
+  place-items: center;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  background:
+    radial-gradient(circle at center, transparent 0%, var(--accent-soft) 32%, transparent 68%),
+    var(--surface-strong);
+}
+
+.observatory-map::before,
+.observatory-map::after {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  inset: 12%;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+}
+
+.observatory-map::after {
+  inset: 25%;
+  border-color: var(--border-strong);
+}
+
+.observatory-diagram {
+  width: min(92%, 32rem);
+  height: auto;
+  filter: drop-shadow(0 18px 36px var(--glow-soft));
+}
+
+.observatory-line,
+.observatory-axis-line {
+  vector-effect: non-scaling-stroke;
+}
+
+.observatory-line {
+  stroke: var(--orbit-line);
+  stroke-width: 1.5;
+}
+
+.observatory-line-strong {
+  stroke: var(--orbit-line-strong);
+  stroke-width: 2;
+}
+
+.observatory-line-soft,
+.observatory-axis-line {
+  stroke: var(--border);
+}
+
+.observatory-axis-line {
+  stroke-width: 1;
+}
+
+.observatory-node,
+.observatory-core {
+  fill: var(--orbit-node-active);
+}
+
+.observatory-node-muted {
+  fill: var(--orbit-node);
+}
+
+.observatory-label {
+  position: absolute;
+  color: var(--accent-strong);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+}
+
+.observatory-label-top {
+  left: 1rem;
+  top: 1rem;
+}
+
+.observatory-label-right {
+  right: 1rem;
+  top: 46%;
+  writing-mode: vertical-rl;
+}
+
+.observatory-label-bottom {
+  bottom: 1rem;
+  left: 1rem;
+}
+
+.observatory-readout {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.8rem;
+  margin-top: 0.9rem;
+}
+
+.observatory-readout div {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface-glass);
+  padding: 0.85rem;
+}
+
+.observatory-readout dt {
+  color: var(--muted-foreground);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+}
+
+.observatory-readout dd {
+  margin-top: 0.45rem;
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: 650;
+}
+
 @media (max-width: 768px) {
   .home-hero-shade {
     background:
@@ -622,6 +879,30 @@ a {
     height: 36rem;
     width: 36rem;
     opacity: 0.42;
+  }
+
+  .home-light-hero-section {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    padding-block: clamp(3rem, 10vw, 5rem);
+  }
+
+  .observatory-panel {
+    padding: 1rem;
+  }
+
+  .observatory-map {
+    min-height: 18rem;
+  }
+
+  .observatory-readout {
+    grid-template-columns: 1fr;
+  }
+
+  .observatory-label-right {
+    writing-mode: horizontal-tb;
+    top: auto;
+    bottom: 1rem;
   }
 }
 

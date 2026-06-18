@@ -181,6 +181,16 @@ Step 14 dark hero video integration details:
 - The video is decorative, `aria-hidden`, muted, looped, and `playsInline`.
 - Hero text, CTAs, telemetry chips, navigation, and overlays remain coded UI layered above media.
 
+Step 15 light home hero details:
+
+- `HomeLight` is now a final-direction Ivory Observatory hero instead of a temporary placeholder.
+- Dark and light home heroes intentionally diverge in layout and visual language while sharing the same core content and links.
+- The light hero uses coded CSS and SVG observatory motifs, including orbital rings, axis lines, metadata chips, and an editorial instrument panel.
+- The light hero uses the ivory, charcoal, and laal red token family from `src/app/globals.css`.
+- `HomeLight` must not render or reference dark hero posters, videos, source tags, or media paths.
+- Shared home copy remains in `src/features/home/home-content.ts`.
+- No lower homepage sections were added in this step.
+
 ## 5. Dark mode: Singularity OS
 
 Singularity OS is the default visual identity.
@@ -405,6 +415,7 @@ High-level sequence guardrails:
 - Optimized dark hero video assets now exist.
 - Static dark home hero now exists.
 - Dark hero video integration now exists.
+- Final-direction light home hero now exists.
 - Final home architecture later.
 - Cinematic assets later.
 - Feature pages later.

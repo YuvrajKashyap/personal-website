@@ -170,6 +170,8 @@ Use structural utilities for page work:
 - Use `docs/hero-assets.md` for dark hero poster asset rules.
 - Treat font variables as theme-aware tokens that work with the color and surface system.
 - Treat hero assets as separate media layers. Future overlays should use semantic tokens.
+- The light home hero uses the Ivory Observatory token family: ivory surfaces, charcoal foreground, laal red accents, and tokenized orbital lines.
+- CSS and SVG orbital diagrams should use `--orbit-line`, `--orbit-line-strong`, `--orbit-node`, `--orbit-node-active`, `--border`, and `--accent` instead of one-off colors.
 - Do not create one-off colors without a clear reason.
 - Do not make light mode an inverted dark mode.
 - Do not load dark-specific assets in light mode.

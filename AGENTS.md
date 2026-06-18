@@ -43,6 +43,9 @@ Alternate light mode is Ivory Observatory: ivory and beige editorial premium int
 - Do not commit raw candidate videos.
 - Preserve the `HomePage`, `HomeDark`, `HomeLight`, and `home-content` feature split unless an assigned step changes it.
 - `HomeDark` and `HomeLight` may diverge visually while sharing content.
+- `HomeLight` is now the final-direction Ivory Observatory hero, not a placeholder.
+- Keep `HomeLight` editorial, premium, token-driven, and distinct from the dark hero.
+- Do not regress light mode into a generic beige template or a simple inverted dark hero.
 - Do not bake UI text, navigation, panels, buttons, stats, or claims into hero assets.
 - Do not load dark hero media in light mode.
 - Do not render hidden dark hero media in the light DOM.

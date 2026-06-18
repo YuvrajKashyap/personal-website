@@ -114,13 +114,22 @@ Implementation rules:
 - `HomeLight` does not render or reference dark posters, videos, source tags, or video paths.
 - Hero text, CTAs, chips, navigation, and overlays remain real coded UI layered over media.
 
-## 11. Future animation step notes
+## 11. Step 15 light hero asset isolation
+
+Step 15 builds the final-direction Ivory Observatory light hero without using dark cinematic hero assets.
+
+- `HomeLight` uses CSS, SVG, semantic tokens, and coded UI only.
+- No dark poster, video, image source, or video source is rendered by the light hero.
+- The dark cinematic media remains exclusive to `HomeDark`.
+- Light mode should continue to avoid downloading `singularity-loop` and `singularity-poster` assets.
+
+## 12. Future animation step notes
 
 Production WebM and MP4 loop assets now exist and are integrated into the dark home hero. Future animation work should not replace this with a text-baked video or a separate route.
 
 The still poster should remain usable when reduced motion is enabled or when video cannot load.
 
-## 12. Step 12 optimized video assets
+## 13. Step 12 optimized video assets
 
 Selected source candidate:
 
@@ -190,7 +199,7 @@ Human visual QA approved the current outputs:
 - Mobile video strategy: keep mobile video.
 - Overall approval: approved.
 
-## 13. Anti-patterns
+## 14. Anti-patterns
 
 - Replacing the selected source without approval.
 - Using the alternate planet or ring image as the primary source.

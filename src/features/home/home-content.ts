@@ -18,8 +18,9 @@ export const homeContent = {
     "LOCATION / RICHARDSON, TX",
   ],
   lightTelemetry: [
-    "YK / OBSERVATORY MODE",
-    "LIGHT MODE / IVORY OBSERVATORY",
+    "IVORY OBSERVATORY",
+    "SYSTEM / ONLINE",
     "CURRENT STATE / BUILDING",
+    "BASE / RICHARDSON, TX",
   ],
 } as const;

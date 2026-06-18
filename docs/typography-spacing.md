@@ -50,6 +50,12 @@ In dark mode, Space Mono should be used sparingly for telemetry, labels, chips, 
 
 In light mode, Geist Mono should stay focused on metadata and labels. Geist Sans remains the main editorial interface voice.
 
+Step 15 light hero note:
+
+- The Ivory Observatory hero uses Geist Sans for the main editorial hierarchy.
+- Geist Mono is reserved for metadata chips, observatory labels, readout labels, and coordinate-style text.
+- Long body copy remains in the sans font for readability.
+
 ## 6. Type scale
 
 Key typography utilities:

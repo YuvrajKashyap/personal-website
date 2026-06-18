@@ -22,7 +22,7 @@ The future site should feel cinematic, orbital, and astrophysics-inspired while 
 
 ## Current Step Status
 
-Step 14 integrates the optimized cinematic hero video into the dark-mode homepage hero with poster, mobile, and reduced-motion fallbacks. Light mode keeps a polished temporary home view without loading dark hero media. Lower homepage sections, admin functionality, database integration, and live content systems are not implemented yet.
+Step 15 upgrades light mode into a final-direction Ivory Observatory home hero using coded CSS/SVG observatory motifs, editorial typography, metadata chips, and laal red accents. Dark mode keeps the cinematic video hero. Lower homepage sections, admin functionality, database integration, and live content systems are not implemented yet.
 
 ## Documentation
 
@@ -66,6 +66,7 @@ npm run optimize:hero-video
 - Dark hero video asset optimization
 - Static dark home hero
 - Dark hero video integration
+- Final-direction light home hero
 - Project case study system
 - Tracker and operating metrics interface
 - Services and collaboration flows
