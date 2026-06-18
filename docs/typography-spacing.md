@@ -56,6 +56,12 @@ Step 15 light hero note:
 - Geist Mono is reserved for metadata chips, observatory labels, readout labels, and coordinate-style text.
 - Long body copy remains in the sans font for readability.
 
+Step 16 orbital navigation note:
+
+- Orbital destination labels use the active mono font for codes and metadata.
+- Destination names use the active sans font and must stay readable at desktop and mobile sizes.
+- Mobile fallback cards should not shrink labels below the established caption scale.
+
 ## 6. Type scale
 
 Key typography utilities:

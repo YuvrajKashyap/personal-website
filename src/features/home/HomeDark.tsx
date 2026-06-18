@@ -1,5 +1,7 @@
 import Link from "next/link";
 
+import { OrbitalNavigation } from "@/components/navigation/OrbitalNavigation";
+import { orbitalDestinations } from "@/config/site";
 import { HeroVideoBackground } from "@/features/home/HeroVideoBackground";
 import { homeContent } from "@/features/home/home-content";
 
@@ -32,8 +34,8 @@ export function HomeDark() {
         />
       </svg>
 
-      <section className="site-container-wide relative z-10 flex min-h-[calc(100svh-4.25rem)] items-center py-[var(--section-padding-y-compact)]">
-        <div className="max-w-3xl">
+      <section className="home-dark-hero-section site-container-wide">
+        <div className="home-dark-copy">
           <div className="mb-8 flex flex-wrap items-center gap-3">
             {homeContent.telemetry.map((item) => (
               <span
@@ -68,6 +70,14 @@ export function HomeDark() {
             </Link>
           </div>
         </div>
+
+        <OrbitalNavigation
+          items={orbitalDestinations}
+          variant="dark"
+          className="home-dark-orbital-nav"
+          eyebrow="Orbital Destinations"
+          title="Navigate the system"
+        />
       </section>
 
       <div className="home-scroll-cue" aria-hidden="true">

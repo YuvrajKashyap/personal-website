@@ -1,4 +1,9 @@
-import type { NavItem, PublicRoute, SocialLink } from "@/types/site";
+import type {
+  NavItem,
+  OrbitalDestination,
+  PublicRoute,
+  SocialLink,
+} from "@/types/site";
 
 export const siteConfig = {
   name: "Yuvraj Kashyap",
@@ -34,3 +39,49 @@ export const siteConfig = {
     },
   ] satisfies SocialLink[],
 };
+
+export const orbitalDestinations = [
+  {
+    label: "About",
+    href: "/about",
+    description: "Origin and trajectory",
+    code: "01",
+  },
+  {
+    label: "Experience",
+    href: "/experience",
+    description: "Proof and progression",
+    code: "02",
+  },
+  {
+    label: "Projects",
+    href: "/projects",
+    description: "Build archive",
+    code: "03",
+  },
+  {
+    label: "Tracker",
+    href: "/tracker",
+    description: "Current-state signal",
+    code: "04",
+  },
+  {
+    label: "Services",
+    href: "/services",
+    description: "Scoped builds",
+    code: "05",
+  },
+  {
+    label: "Collaborate",
+    href: "/collaborate",
+    description: "Aligned opportunities",
+    code: "06",
+  },
+  {
+    label: "Get in Touch",
+    href: "/contact",
+    description: "Open channel",
+    code: "07",
+    cta: true,
+  },
+] satisfies OrbitalDestination[];

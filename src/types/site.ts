@@ -9,6 +9,14 @@ export type NavItem = {
   cta?: boolean;
 };
 
+export type OrbitalDestination = {
+  label: string;
+  href: string;
+  description: string;
+  code: string;
+  cta?: boolean;
+};
+
 export type PublicRoute = {
   label: string;
   href: string;

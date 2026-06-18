@@ -29,6 +29,14 @@ Alternate light mode is Ivory Observatory: ivory and beige editorial premium int
 - Preserve the locked public nav order: Home, About, Experience, Projects, Tracker, Services, Collaborate, Get in Touch.
 - Keep Get in Touch mapped to `/contact` and styled as a CTA.
 - Keep public nav items centralized in `src/config/site.ts`.
+- Keep orbital home destination data centralized in `src/config/site.ts`.
+- Treat orbital navigation as secondary to the global top navigation, never as its replacement.
+- Preserve accessible real links, visible focus states, and mobile fallback in orbital navigation.
+- Do not make orbital navigation hover-only or pointer-only.
+- Keep dark and light orbital navigation variants visually distinct but data-shared.
+- Do not overclutter the hero with orbital navigation.
+- Do not add animation libraries for orbital navigation unless a later assigned step explicitly asks for them.
+- Do not add fake stats or fake live data to orbital navigation.
 - Do not wrap admin routes with the public shell unless a later assigned step explicitly changes that boundary.
 - Keep the header and footer token-driven, accessible, and responsive.
 - Keep mobile navigation keyboard accessible with real button semantics.

@@ -1,5 +1,7 @@
 import Link from "next/link";
 
+import { OrbitalNavigation } from "@/components/navigation/OrbitalNavigation";
+import { orbitalDestinations } from "@/config/site";
 import { homeContent } from "@/features/home/home-content";
 
 export function HomeLight() {
@@ -57,63 +59,13 @@ export function HomeLight() {
             </span>
           </div>
 
-          <div className="observatory-map" aria-hidden="true">
-            <span className="observatory-label observatory-label-top">
-              ORBIT / 01
-            </span>
-            <span className="observatory-label observatory-label-right">
-              SIGNAL / ACTIVE
-            </span>
-            <span className="observatory-label observatory-label-bottom">
-              VECTOR / BUILD
-            </span>
-            <svg
-              className="observatory-diagram"
-              viewBox="0 0 520 520"
-              fill="none"
-            >
-              <circle className="observatory-line" cx="260" cy="260" r="168" />
-              <circle
-                className="observatory-line observatory-line-soft"
-                cx="260"
-                cy="260"
-                r="220"
-                strokeDasharray="3 18"
-              />
-              <path
-                className="observatory-line observatory-line-strong"
-                d="M78 292C142 164 278 96 424 136"
-                strokeLinecap="round"
-              />
-              <path
-                className="observatory-line"
-                d="M118 378C206 438 338 430 420 356"
-                strokeLinecap="round"
-              />
-              <line
-                className="observatory-axis-line"
-                x1="260"
-                y1="56"
-                x2="260"
-                y2="464"
-              />
-              <line
-                className="observatory-axis-line"
-                x1="56"
-                y1="260"
-                x2="464"
-                y2="260"
-              />
-              <circle className="observatory-node" cx="398" cy="152" r="7" />
-              <circle
-                className="observatory-node observatory-node-muted"
-                cx="140"
-                cy="354"
-                r="5"
-              />
-              <circle className="observatory-core" cx="260" cy="260" r="10" />
-            </svg>
-          </div>
+          <OrbitalNavigation
+            items={orbitalDestinations}
+            variant="light"
+            className="home-light-orbital-nav"
+            eyebrow="Observatory Routes"
+            title="Destination instrument"
+          />
 
           <dl className="observatory-readout">
             <div>

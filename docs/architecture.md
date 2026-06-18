@@ -191,6 +191,18 @@ Step 15 light home hero details:
 - Shared home copy remains in `src/features/home/home-content.ts`.
 - No lower homepage sections were added in this step.
 
+Step 16 orbital navigation details:
+
+- The reusable orbital destination navigation lives in `src/components/navigation/OrbitalNavigation.tsx`.
+- Destination data lives in `src/config/site.ts` as `orbitalDestinations`.
+- The orbital navigation is secondary to the global header navigation, not a replacement.
+- `HomeDark` uses the dark Singularity OS variant beside the hero copy.
+- `HomeLight` uses the light Ivory Observatory variant inside the observatory panel.
+- The component includes a desktop SVG orbit map and a mobile card fallback.
+- Links are real navigation links with accessible labels and visible focus states.
+- No animation library was added.
+- Light mode must continue to avoid dark cinematic media while using the orbital navigation.
+
 ## 5. Dark mode: Singularity OS
 
 Singularity OS is the default visual identity.
@@ -416,6 +428,7 @@ High-level sequence guardrails:
 - Static dark home hero now exists.
 - Dark hero video integration now exists.
 - Final-direction light home hero now exists.
+- Orbital home navigation now exists.
 - Final home architecture later.
 - Cinematic assets later.
 - Feature pages later.
