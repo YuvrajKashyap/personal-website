@@ -66,6 +66,14 @@ Alternate light mode is Ivory Observatory: ivory and beige editorial premium int
 - Keep Tracker preview framed honestly as manual current-state signal until live systems exist.
 - Keep Services and Collaborate distinct.
 - Preserve shared Home section content/data where practical.
+- Use internal page template components for future non-home public pages.
+- Prefer `PageHero`, `SectionShell`, `DetailLayout`, `CosmicCard`, `TelemetryCard`, `StatusBadge`, `LinkButton`, `EmptyState`, and `FormShell` before creating one-off layouts.
+- Do not build one-off page layouts unless the assigned step gives a clear reason.
+- Do not fake tracker metrics, project details, live status, forms, submissions, or success states.
+- Use source labels on telemetry cards when values could be mistaken for live data.
+- Treat `FormShell` as a wrapper only until a real form step is assigned.
+- Keep internal page placeholders honest and clearly bounded.
+- Keep admin routes outside the public template system unless an assigned step changes that boundary.
 - `HomeLight` is now the final-direction Ivory Observatory hero, not a placeholder.
 - Keep `HomeLight` editorial, premium, token-driven, and distinct from the dark hero.
 - Do not regress light mode into a generic beige template or a simple inverted dark hero.

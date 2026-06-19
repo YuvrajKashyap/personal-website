@@ -203,6 +203,7 @@ Stack:
 
 - Motion should preserve reading rhythm. Do not delay primary headings, body copy, or CTAs long enough to make the page feel blocked.
 - Step 18 Home sections use shared section, container, heading, body, mono label, stack, and grid rhythm. Future Home refinements should preserve controlled text measure and mobile spacing.
+- Step 19 internal page components use the same heading scale, body text rhythm, mono label treatment, section spacing, containers, stacks, and responsive grids. Future internal pages should start with `PageHero`, `SectionShell`, and the shared UI primitives before creating one-off spacing.
 - Do not add random fonts.
 - Do not create one-off heading sizes.
 - Do not overuse mono.

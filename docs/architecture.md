@@ -431,6 +431,7 @@ High-level sequence guardrails:
 - Orbital home navigation now exists.
 - Motion system foundation now exists.
 - Full Home gateway sections now exist.
+- Internal page template system now exists.
 - Cinematic assets later.
 - Feature pages later.
 - Supabase and admin later.
@@ -485,3 +486,16 @@ The Home page is now a complete gateway into the site while deeper pages remain 
 - Services and Collaborate remain distinct inbound paths.
 - Home remains curated and low-density rather than a full resume, project archive, or tracker dashboard.
 - Light mode still must not render, reference, or hide dark hero video or poster assets.
+
+## Step 19 implementation note
+
+The internal public page template system now exists for non-home public routes.
+
+- Layout primitives live in `src/components/layout`: `PageBackdrop`, `PageHero`, `SectionShell`, and `DetailLayout`.
+- UI primitives live in `src/components/ui`: `OrbitalSectionHeader`, `CosmicCard`, `TelemetryCard`, `StatusBadge`, `LinkButton`, `EmptyState`, and `FormShell`.
+- Public placeholder pages now use these templates while staying honest that full page content comes later.
+- Home remains a separate gateway feature in `src/features/home` and was not refactored into the internal page templates.
+- Admin routes remain outside the public shell and outside the public template system.
+- Tracker placeholder telemetry uses source labels and does not fake live data.
+- Services, Collaborate, and Contact use `FormShell` only as a wrapper. They do not submit, fake success, or imply a backend.
+- Full Projects, About, Experience, Tracker, Services, Collaborate, Contact, and project detail builds remain future assigned steps.

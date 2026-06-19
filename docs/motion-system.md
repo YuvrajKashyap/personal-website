@@ -212,3 +212,12 @@ Best stack does not mean install everything immediately.
 - Using filter blur heavily across large surfaces.
 - Making the site feel like a game trailer.
 - Installing animation packages outside the assigned step.
+
+## 17. Step 19 internal page template motion
+
+Internal page templates use the existing `Reveal` component for PageHero, SectionShell headings, and page content.
+
+- Motion stays restrained and readable.
+- No new motion package was added.
+- No GSAP, scroll timeline, or constant internal page animation was added.
+- Reduced-motion behavior continues through `MotionSystemProvider` and `MotionConfig`.

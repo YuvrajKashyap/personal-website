@@ -23,7 +23,7 @@ The future site should feel cinematic, orbital, and astrophysics-inspired while 
 
 ## Current Step Status
 
-Step 18 completes the Home page as a curated gateway with signal, project, tracker, about, opportunity, and contact sections below the dark and light heroes. Admin functionality, database integration, live tracker automation, and full lower-route page builds are not implemented yet.
+Step 19 adds the internal page template system for non-home public pages. Home is complete as a gateway, while full About, Experience, Projects, Tracker, Services, Collaborate, Contact, admin functionality, database integration, and live tracker automation are not implemented yet.
 
 ## Documentation
 
@@ -32,6 +32,7 @@ Step 18 completes the Home page as a curated gateway with signal, project, track
 - `docs/typography-spacing.md` defines the theme-specific font pairings, type scale, spacing rhythm, containers, layout utilities, mobile rules, and anti-patterns for future page work.
 - `docs/hero-assets.md` defines the selected dark hero source, poster variants, crop strategy, loading rules, and regeneration workflow.
 - `docs/motion-system.md` defines the Motion for React provider, presets, reveal components, reduced-motion strategy, performance rules, and animation guardrails.
+- `docs/component-system.md` defines the internal page primitives, usage rules, accessibility expectations, and anti-patterns for future non-home pages.
 
 ## Local Commands
 
@@ -72,6 +73,7 @@ npm run optimize:hero-video
 - Orbital home navigation
 - Motion system foundation
 - Full Home gateway sections
+- Internal page template system
 - Project case study system
 - Tracker and operating metrics interface
 - Services and collaboration flows
@@ -81,7 +83,7 @@ npm run optimize:hero-video
 
 ## Design System Notes
 
-Semantic design tokens, theme-specific typography, spacing utilities, and the public shell now exist. Full final page compositions, cinematic assets, and page-specific visual systems remain deferred.
+Semantic design tokens, theme-specific typography, spacing utilities, the public shell, and internal page template components now exist. Full final lower-page compositions, new cinematic assets, and page-specific visual systems remain deferred.
 
 ## Admin And Data Notes
 

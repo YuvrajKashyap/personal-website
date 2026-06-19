@@ -175,6 +175,7 @@ Use structural utilities for page work:
 - Orbital navigation should use semantic surface, border, accent, focus, shadow, and orbital tokens so both visual modes stay coherent.
 - Motion should reuse semantic tokens for focus, glow, and surface states. Do not animate tokenized color or glow aggressively.
 - Step 18 Home sections use semantic surface, card, border, orbital, accent, focus, and glow tokens. Future Home refinements should continue using semantic tokens instead of one-off colors.
+- Step 19 internal page components use semantic token surfaces, borders, accents, focus rings, status tones, shadows, and orbital line variables. Future internal pages should use these primitives before adding page-specific color decisions.
 - Do not create one-off colors without a clear reason.
 - Do not make light mode an inverted dark mode.
 - Do not load dark-specific assets in light mode.
