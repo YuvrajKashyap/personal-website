@@ -120,3 +120,11 @@ Do not add GSAP, scroll timelines, constant loops, or page-wide animation chains
 - Wrapping admin routes with the public template system.
 - Adding new packages for basic layout primitives.
 - Using hardcoded colors where semantic tokens already exist.
+
+## Step 20 project data note
+
+Projects now have a typed local model in `src/data/projects.ts` and pure helpers in `src/lib/projects`.
+
+Internal page primitives may display safe project metadata, counts, and content boundaries, but they should not become the full Projects archive or case study UI until assigned.
+
+When rendering project links, use helpers that return verified links by default. Do not show `needs_review` links as public verified actions.

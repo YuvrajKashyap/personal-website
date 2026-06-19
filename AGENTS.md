@@ -74,6 +74,15 @@ Alternate light mode is Ivory Observatory: ivory and beige editorial premium int
 - Treat `FormShell` as a wrapper only until a real form step is assigned.
 - Keep internal page placeholders honest and clearly bounded.
 - Keep admin routes outside the public template system unless an assigned step changes that boundary.
+- Use typed project data from `src/data/projects.ts` and helpers from `src/lib/projects`.
+- Do not duplicate project preview content in Home when the shared project model can supply it.
+- Never invent project links, repositories, screenshots, videos, metrics, customer counts, revenue, users, or live data.
+- Never show `needs_review` project links as verified public links.
+- Project media must point to existing assets, be marked for review, or be omitted.
+- Preserve project randomizer fields so future discovery UI can use the same data model.
+- Keep the project model friendly to a later Supabase migration.
+- Do not overclaim Arcade or any project with third-party, embedded, or open-source attribution boundaries.
+- Do not upgrade draft, practice, archive, or needs-review projects into flagship placement without architect approval.
 - `HomeLight` is now the final-direction Ivory Observatory hero, not a placeholder.
 - Keep `HomeLight` editorial, premium, token-driven, and distinct from the dark hero.
 - Do not regress light mode into a generic beige template or a simple inverted dark hero.

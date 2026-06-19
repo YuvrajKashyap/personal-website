@@ -44,33 +44,6 @@ export const signalItems = [
   },
 ] as const;
 
-export const featuredProjectPreviews = [
-  {
-    title: "Aletheia",
-    status: "Flagship build",
-    summary:
-      "Hybrid retrieval, reranking, evaluation, and search observability platform.",
-  },
-  {
-    title: "Atlas",
-    status: "Flagship build",
-    summary:
-      "Distributed crawl, extract, index, and search platform for ethical public web content.",
-  },
-  {
-    title: "Capital",
-    status: "Product system",
-    summary:
-      "Personal finance operating system for syncing, alerts, and spending visibility.",
-  },
-  {
-    title: "Personal Website",
-    status: "Live build",
-    summary:
-      "Cinematic personal operating interface for identity, projects, tracker, and current-state signal.",
-  },
-] as const;
-
 export const trackerPreview = {
   eyebrow: "Tracker Preview",
   title: "A current-state surface, built carefully.",

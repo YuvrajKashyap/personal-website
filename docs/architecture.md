@@ -499,3 +499,19 @@ The internal public page template system now exists for non-home public routes.
 - Tracker placeholder telemetry uses source labels and does not fake live data.
 - Services, Collaborate, and Contact use `FormShell` only as a wrapper. They do not submit, fake success, or imply a backend.
 - Full Projects, About, Experience, Tracker, Services, Collaborate, Contact, and project detail builds remain future assigned steps.
+
+## Step 20 implementation note
+
+The Projects system now has a typed local content model.
+
+- Project types live in `src/types/project.ts`.
+- Local records live in `src/data/projects.ts`.
+- Randomizer settings live in `src/data/project-randomizer.ts`.
+- Pure helpers live in `src/lib/projects`.
+- Home featured previews now consume `getFeaturedProjects()` instead of duplicated preview data.
+- The Projects page shows model readiness and safe counts only. It is not the final archive UI.
+- Project detail routes check the local model by slug and keep draft or unknown records behind a content boundary.
+- Public helpers return verified links by default.
+- Needs-review links stay stored for future review but should not be presented as verified public links.
+- Project media remains omitted until real assets exist.
+- This structure is designed to migrate to Supabase later without duplicating route or theme logic.

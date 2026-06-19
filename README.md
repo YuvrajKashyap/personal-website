@@ -23,7 +23,7 @@ The future site should feel cinematic, orbital, and astrophysics-inspired while 
 
 ## Current Step Status
 
-Step 19 adds the internal page template system for non-home public pages. Home is complete as a gateway, while full About, Experience, Projects, Tracker, Services, Collaborate, Contact, admin functionality, database integration, and live tracker automation are not implemented yet.
+Step 20 adds the typed local Projects data model and safe helper layer. Home is complete as a gateway, while full About, Experience, Projects, Tracker, Services, Collaborate, Contact, admin functionality, database integration, and live tracker automation are not implemented yet.
 
 ## Documentation
 
@@ -33,6 +33,7 @@ Step 19 adds the internal page template system for non-home public pages. Home i
 - `docs/hero-assets.md` defines the selected dark hero source, poster variants, crop strategy, loading rules, and regeneration workflow.
 - `docs/motion-system.md` defines the Motion for React provider, presets, reveal components, reduced-motion strategy, performance rules, and animation guardrails.
 - `docs/component-system.md` defines the internal page primitives, usage rules, accessibility expectations, and anti-patterns for future non-home pages.
+- `docs/project-data-model.md` defines the local project content model, safe link and media rules, visibility boundaries, randomizer settings, and future Supabase migration direction.
 
 ## Local Commands
 
@@ -74,6 +75,7 @@ npm run optimize:hero-video
 - Motion system foundation
 - Full Home gateway sections
 - Internal page template system
+- Typed project data model
 - Project case study system
 - Tracker and operating metrics interface
 - Services and collaboration flows

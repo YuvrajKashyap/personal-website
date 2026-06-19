@@ -1,9 +1,326 @@
-export type ProjectSummary = {
-  slug: string;
-  title: string;
-  summary: string;
-  status: "planned" | "draft" | "live";
-};
+import type { Project } from "@/types/project";
 
-export const projects: ProjectSummary[] = [];
-
+export const projects = [
+  {
+    id: "project_aletheia",
+    slug: "aletheia",
+    title: "Aletheia",
+    shortTitle: "Aletheia",
+    eyebrow: "Flagship build",
+    summary:
+      "Hybrid retrieval, reranking, evaluation, and search observability platform.",
+    description:
+      "Aletheia is a technical system for retrieval quality, evaluation loops, search observability, and AI-assisted knowledge workflows.",
+    category: "ai_systems",
+    type: "platform",
+    status: "active_build",
+    priority: "flagship",
+    visibility: "published",
+    featured: true,
+    featuredRank: 1,
+    order: 10,
+    randomizerEligible: true,
+    randomizerBucket: "flagship",
+    randomizerWeight: 1.2,
+    tags: ["AI systems", "Retrieval", "Search", "Evaluation"],
+    stack: [
+      "Python",
+      "FastAPI",
+      "PostgreSQL",
+      "Redis/RQ",
+      "OpenSearch",
+      "Qdrant",
+      "SQLAlchemy",
+      "Alembic",
+      "Docker",
+      "Next.js",
+    ],
+    highlights: [
+      "Hybrid retrieval system direction",
+      "Reranking and evaluation workflow",
+      "Search observability surface",
+    ],
+    problem:
+      "AI search systems need better visibility into retrieval quality, ranking behavior, and evaluation feedback.",
+    solution:
+      "A platform direction for retrieval, reranking, evaluation, and observability in one workflow.",
+    whatItProves:
+      "Systems thinking across AI infrastructure, backend architecture, and product-facing search workflows.",
+    timelineLabel: "Active build",
+    links: [],
+    media: [],
+  },
+  {
+    id: "project_atlas",
+    slug: "atlas",
+    title: "Atlas",
+    shortTitle: "Atlas",
+    eyebrow: "Flagship build",
+    summary:
+      "Distributed crawl, extract, index, and search platform for ethical public web content.",
+    description:
+      "Atlas is a data infrastructure direction for crawling, extraction, indexing, and search across public web content with an emphasis on responsible collection.",
+    category: "search_infrastructure",
+    type: "platform",
+    status: "active_build",
+    priority: "flagship",
+    visibility: "published",
+    featured: true,
+    featuredRank: 2,
+    order: 20,
+    randomizerEligible: true,
+    randomizerBucket: "systems",
+    randomizerWeight: 1.15,
+    tags: ["Crawling", "Search", "Indexing", "Data infrastructure"],
+    stack: [
+      "Python",
+      "FastAPI",
+      "PostgreSQL",
+      "Redis",
+      "OpenSearch",
+      "Docker",
+      "Next.js",
+    ],
+    highlights: [
+      "Distributed crawl pipeline direction",
+      "Extraction and indexing workflow",
+      "Search platform architecture",
+    ],
+    problem:
+      "Useful public web data needs a responsible pipeline from crawl to extraction to search.",
+    solution:
+      "A crawl, extract, index, and search platform direction designed around structured data flow.",
+    whatItProves:
+      "Backend systems, search infrastructure, and careful data pipeline design.",
+    timelineLabel: "Active build",
+    links: [],
+    media: [],
+  },
+  {
+    id: "project_personal_website",
+    slug: "personal-website",
+    title: "Personal Website",
+    shortTitle: "Website",
+    eyebrow: "Live build",
+    summary:
+      "Cinematic personal operating interface for identity, projects, tracker, services, collaboration, and current-state signal.",
+    description:
+      "The personal website is a live Next.js system for public identity, project signal, theme-aware visual direction, and a future admin-backed operating layer.",
+    category: "personal_os",
+    type: "website",
+    status: "live",
+    priority: "flagship",
+    visibility: "published",
+    featured: true,
+    featuredRank: 3,
+    order: 30,
+    randomizerEligible: true,
+    randomizerBucket: "flagship",
+    randomizerWeight: 1.2,
+    tags: ["Next.js", "Design system", "Motion", "Personal OS"],
+    stack: [
+      "Next.js App Router",
+      "TypeScript",
+      "Tailwind CSS v4",
+      "Motion",
+      "Vercel",
+    ],
+    highlights: [
+      "Dark and light visual systems",
+      "Cinematic Home gateway",
+      "Typed content and component foundations",
+    ],
+    problem:
+      "A personal site needs to signal builder depth without becoming a generic portfolio template.",
+    solution:
+      "A theme-aware operating interface with cinematic Home, structured internal pages, and future data-backed systems.",
+    whatItProves:
+      "Production-grade frontend architecture, visual systems, motion restraint, and deployment discipline.",
+    timelineLabel: "Live and evolving",
+    links: [
+      {
+        label: "Live site",
+        href: "https://yuvrajkashyap.com",
+        type: "live",
+        isPrimary: true,
+        status: "verified",
+        external: true,
+      },
+    ],
+    media: [],
+  },
+  {
+    id: "project_capital",
+    slug: "capital",
+    title: "Capital",
+    shortTitle: "Capital",
+    eyebrow: "Product system",
+    summary:
+      "Personal finance operating system for syncing, alerts, and spending visibility.",
+    description:
+      "Capital is a product system direction for personal finance visibility, account syncing, alerts, and recurring operational awareness.",
+    category: "product_system",
+    type: "app",
+    status: "active_build",
+    priority: "strong",
+    visibility: "published",
+    featured: true,
+    featuredRank: 4,
+    order: 40,
+    randomizerEligible: true,
+    randomizerBucket: "product",
+    randomizerWeight: 1,
+    tags: ["Finance", "Product system", "Alerts", "Automation"],
+    stack: [
+      "TypeScript",
+      "Next.js",
+      "Supabase Auth",
+      "Supabase Postgres",
+      "Plaid",
+      "Vercel Cron",
+      "Resend",
+      "Web Push",
+    ],
+    highlights: [
+      "Personal finance operating system direction",
+      "Alert and visibility workflows",
+      "Product architecture across data and interface layers",
+    ],
+    problem:
+      "Personal finance awareness is scattered across accounts, reminders, alerts, and manual review.",
+    solution:
+      "A focused operating system direction for sync, alerts, and spending visibility.",
+    whatItProves:
+      "Product systems thinking across authentication, scheduled work, financial data, and user-facing alerts.",
+    timelineLabel: "Active build",
+    links: [
+      {
+        label: "Possible live site",
+        href: "https://capital.yuvrajkashyap.com",
+        type: "live",
+        status: "needs_review",
+        external: true,
+        note: "Possible project URL. Do not show as verified until reviewed.",
+      },
+    ],
+    media: [],
+  },
+  {
+    id: "project_axis",
+    slug: "axis",
+    title: "Axis",
+    shortTitle: "Axis",
+    eyebrow: "Product system",
+    summary:
+      "Personal alignment and orbital operating system direction for life, routines, and focus.",
+    description:
+      "Axis is a conservative project entry for a personal alignment interface. The public content should stay restrained until the project is reviewed for portfolio readiness.",
+    category: "personal_os",
+    type: "system",
+    status: "needs_review",
+    priority: "strong",
+    visibility: "draft",
+    featured: false,
+    order: 50,
+    randomizerEligible: false,
+    randomizerBucket: "product",
+    randomizerWeight: 0.8,
+    tags: ["Personal OS", "Alignment", "Routines", "Focus"],
+    stack: ["Next.js", "TypeScript", "Supabase"],
+    highlights: [
+      "Personal operating system direction",
+      "Alignment and routine interface concepts",
+      "Orbital product language",
+    ],
+    whatItProves:
+      "Systems thinking applied to personal execution, routines, and focus surfaces.",
+    timelineLabel: "Needs review",
+    links: [
+      {
+        label: "Possible live site",
+        href: "https://axis.yuvrajkashyap.com",
+        type: "live",
+        status: "needs_review",
+        external: true,
+        note: "Possible project URL. Do not show as verified until reviewed.",
+      },
+    ],
+    media: [],
+  },
+  {
+    id: "project_arcade",
+    slug: "arcade",
+    title: "Arcade",
+    shortTitle: "Arcade",
+    eyebrow: "Supporting build",
+    summary:
+      "Browser arcade direction with multiple games and transparent attribution boundaries.",
+    description:
+      "Arcade is a supporting fun-build entry. Public copy must distinguish original coded work from any external or embedded exceptions.",
+    category: "frontend_experience",
+    type: "website",
+    status: "needs_review",
+    priority: "supporting",
+    visibility: "draft",
+    featured: false,
+    order: 60,
+    randomizerEligible: false,
+    randomizerBucket: "experimental",
+    randomizerWeight: 0.7,
+    tags: ["Frontend", "Games", "Browser UI", "Creative build"],
+    stack: ["TypeScript", "React", "Frontend games"],
+    highlights: [
+      "Browser game surface direction",
+      "Multiple gameplay experiments",
+      "Attribution-aware portfolio handling",
+    ],
+    attributionNotes:
+      "Do not overclaim third-party, embedded, or open-source game work. Public UI must call out exceptions clearly when reviewed.",
+    whatItProves:
+      "Creative frontend implementation, interaction design, and transparent attribution discipline.",
+    timelineLabel: "Needs review",
+    links: [
+      {
+        label: "Possible live site",
+        href: "https://arcade.yuvrajkashyap.com",
+        type: "live",
+        status: "needs_review",
+        external: true,
+        note: "Possible project URL. Do not show as verified until reviewed.",
+      },
+    ],
+    media: [],
+  },
+  {
+    id: "project_beyond_chat",
+    slug: "beyond-chat",
+    title: "Beyond Chat",
+    shortTitle: "Beyond Chat",
+    eyebrow: "AI workspace",
+    summary: "Artifact-centric AI workspace direction.",
+    description:
+      "Beyond Chat is a conservative project entry for an artifact-centric AI workspace using a modern frontend, API layer, and AI search integrations.",
+    category: "ai_systems",
+    type: "app",
+    status: "draft",
+    priority: "strong",
+    visibility: "draft",
+    featured: false,
+    order: 70,
+    randomizerEligible: false,
+    randomizerBucket: "experimental",
+    randomizerWeight: 0.8,
+    tags: ["AI workspace", "Artifacts", "Frontend", "API"],
+    stack: ["React", "TypeScript", "FastAPI", "Supabase", "OpenRouter", "Tavily"],
+    highlights: [
+      "Artifact-centric workspace direction",
+      "AI-assisted workflow surface",
+      "Frontend and API architecture",
+    ],
+    whatItProves:
+      "Product thinking around AI workspaces, artifacts, and multi-service application structure.",
+    timelineLabel: "Draft",
+    links: [],
+    media: [],
+  },
+] satisfies Project[];

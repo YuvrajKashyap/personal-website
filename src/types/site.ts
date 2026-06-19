@@ -1,4 +1,5 @@
 export type { ThemeMode } from "@/lib/theme/theme";
+export type * from "@/types/project";
 
 export type RouteStatus = "stub" | "planned" | "live";
 

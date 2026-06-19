@@ -3,12 +3,12 @@ import Link from "next/link";
 import { Reveal } from "@/components/motion/Reveal";
 import {
   aboutPreview,
-  featuredProjectPreviews,
   finalCta,
   opportunityPreview,
   signalItems,
   trackerPreview,
 } from "@/features/home/home-content";
+import { getFeaturedProjects } from "@/lib/projects";
 
 type HomeSectionsProps = Readonly<{
   variant: "dark" | "light";
@@ -58,6 +58,8 @@ function SignalStrip() {
 }
 
 function FeaturedProjectsPreview() {
+  const featuredProjectPreviews = getFeaturedProjects().slice(0, 4);
+
   return (
     <section
       id="home-projects-preview"
@@ -90,7 +92,9 @@ function FeaturedProjectsPreview() {
                   {String(index + 1).padStart(2, "0")}
                 </span>
                 <div>
-                  <p className="home-project-status">{project.status}</p>
+                  <p className="home-project-status">
+                    {project.eyebrow ?? project.priority}
+                  </p>
                   <h3>{project.title}</h3>
                   <p>{project.summary}</p>
                 </div>
