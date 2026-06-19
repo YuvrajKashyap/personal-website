@@ -259,3 +259,12 @@ The Services page uses the existing internal page motion foundation only.
 - Motion should support clarity, selectivity, and scanability rather than sales-page theatrics.
 - No GSAP, Three.js, scroll timeline, constant loops, or new animation package was added.
 - Reduced-motion behavior continues through `MotionSystemProvider`.
+
+## 22. Step 27 Collaborate page motion
+
+The Collaborate page uses the existing internal page motion foundation only.
+
+- PageHero, collaboration lanes, fit panels, alignment principles, reach-out steps, proof cards, comparison cards, and CTA may reveal with existing `Reveal` presets.
+- Motion should support clarity, seriousness, and scanability rather than networking-page theatrics.
+- No GSAP, Three.js, scroll timeline, constant loops, or new animation package was added.
+- Reduced-motion behavior continues through `MotionSystemProvider`.

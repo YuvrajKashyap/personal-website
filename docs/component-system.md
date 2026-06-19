@@ -2,7 +2,7 @@
 
 ## 1. Purpose
 
-The internal page component system gives every non-home public page a shared premium foundation before full About, Experience, Projects, Tracker, Services, Collaborate, and Contact builds begin.
+The internal page component system gives every non-home public page a shared premium foundation. Full About, Experience, Projects, Tracker, Services, and Collaborate pages now use it, while Contact remains the remaining public placeholder surface.
 
 It keeps pages visually aligned with Singularity OS and Ivory Observatory while preventing random one-off layouts.
 
@@ -68,7 +68,7 @@ Use only real links.
 
 ## 9. FormShell usage
 
-`FormShell` is a layout wrapper for future Services, Collaborate, and Contact forms.
+`FormShell` is a layout wrapper for the future Contact form.
 
 It does not submit anything. Do not add fake inputs, fake submit states, or fake success messages. Use clear placeholder language until a real form step exists.
 
@@ -199,3 +199,15 @@ The Services page now uses the internal page component system for a full scoped-
 - `src/features/services/services-content.ts` owns the structured local content model.
 - Do not add a fake form, fake submission, pricing table, package tiers, testimonials, client claims, guarantees, availability claims, or external booking behavior to Services.
 - Keep Services distinct from Collaborate. Services is scoped execution. Collaborate is broader aligned opportunity.
+
+## Step 27 Collaborate page note
+
+The Collaborate page now uses the internal page component system for a full broader-alignment route.
+
+- `/collaborate` renders `src/features/collaborate/CollaboratePage.tsx`.
+- `PageHero` owns the single page `h1`, status chips, primary action, secondary action, and alignment console.
+- `SectionShell` separates definition, collaboration lanes, fit matrix, alignment principles, reach-out process, proof surfaces, Services vs Collaborate, boundary note, and closing CTA.
+- `CosmicCard`, `TelemetryCard`, `StatusBadge`, `LinkButton`, and `Reveal` provide the reusable visual language.
+- `src/features/collaborate/collaborate-content.ts` owns the structured local content model.
+- Do not add a fake form, fake submission, scheduling tool, payment flow, outcome claim, demand signal, or external booking behavior to Collaborate.
+- Keep Collaborate distinct from Services. Collaborate is broader aligned opportunity. Services is scoped execution.

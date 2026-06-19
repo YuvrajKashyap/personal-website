@@ -4,7 +4,7 @@
 
 This website should feel like entering Yuvraj Kashyap's universe and operating system. It should signal elite builder, future founder, and systems-thinker energy while staying smooth, minimal, premium, responsive, accessible, and production-grade.
 
-The current public home page has the final-direction hero and curated Home gateway sections. It is not the full site: deeper About, Experience, Projects, Tracker, Services, Collaborate, Contact, Supabase, and admin surfaces remain future work.
+The current public home page has the final-direction hero and curated Home gateway sections. Full About, Experience, Projects, Tracker, Services, and Collaborate pages now exist, while Contact, Supabase, and admin surfaces remain future work.
 
 ## 2. High-level app architecture
 
@@ -493,12 +493,12 @@ The internal public page template system now exists for non-home public routes.
 
 - Layout primitives live in `src/components/layout`: `PageBackdrop`, `PageHero`, `SectionShell`, and `DetailLayout`.
 - UI primitives live in `src/components/ui`: `OrbitalSectionHeader`, `CosmicCard`, `TelemetryCard`, `StatusBadge`, `LinkButton`, `EmptyState`, and `FormShell`.
-- Public placeholder pages now use these templates while staying honest that full page content comes later.
+- Remaining public placeholder pages use these templates while staying honest that full page content comes later.
 - Home remains a separate gateway feature in `src/features/home` and was not refactored into the internal page templates.
 - Admin routes remain outside the public shell and outside the public template system.
 - Tracker placeholder telemetry uses source labels and does not fake live data.
-- Services, Collaborate, and Contact use `FormShell` only as a wrapper. They do not submit, fake success, or imply a backend.
-- Full Projects, About, Experience, Tracker, Services, Collaborate, Contact, and project detail builds remain future assigned steps.
+- Contact uses `FormShell` only as a wrapper. It does not submit, fake success, or imply a backend.
+- Full Contact, Supabase, admin, connected tracker sources, and media-rich case study builds remain future assigned steps.
 
 ## Step 20 implementation note
 
@@ -592,9 +592,23 @@ The `/services` route is now a full public Services page rather than an internal
 - Page composition lives in `src/features/services/ServicesPage.tsx`.
 - Structured local content lives in `src/features/services/services-content.ts`.
 - Services is the scoped build request route for practical execution, product surfaces, workflows, prototypes, and systems.
-- Collaborate remains the broader opportunity route for aligned builders, founders, creators, startups, partnerships, and longer-term possibilities.
+- Collaborate remains the broader opportunity route for aligned builders, founders, creators, startups, technical groups, and longer-term possibilities.
 - Contact remains the manual intake route. No backend form, Supabase flow, payment, booking, or scheduling integration exists yet.
 - The page uses local content sections for definition, service lanes, fit and not-fit signals, request process, proof surfaces, Services vs Collaborate, and closing CTA.
 - Proof links use real internal routes only.
 - Public copy must avoid fake pricing, packages, testimonials, clients, guarantees, delivery timelines, availability claims, revenue claims, sensitive immigration details, and fake submission behavior.
+- Future Supabase, admin editing, and contact handling can preserve the model shape, but none of those systems are implemented in this step.
+
+## Step 27 implementation note
+
+The `/collaborate` route is now a full public broader-alignment page rather than an internal placeholder.
+
+- Page composition lives in `src/features/collaborate/CollaboratePage.tsx`.
+- Structured local content lives in `src/features/collaborate/collaborate-content.ts`.
+- Collaborate is the broader aligned-opportunity route for founders, builders, creators, startups, research or technical groups, and long-term aligned work.
+- Services stays the scoped build request route. Collaborate stays broader and more exploratory while still requiring clear context.
+- Contact remains the manual next step. No backend form, Supabase flow, payment, booking, calendar, or scheduling integration exists yet.
+- The page uses local content sections for definition, collaboration lanes, fit and not-fit signals, alignment principles, how to reach out, proof surfaces, Services vs Collaborate, and closing CTA.
+- Proof links use real internal routes only.
+- Public copy must avoid fake collaborations, fake affiliations, fake outcomes, fake demand signals, sensitive immigration details, and fake submission behavior.
 - Future Supabase, admin editing, and contact handling can preserve the model shape, but none of those systems are implemented in this step.

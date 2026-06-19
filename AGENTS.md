@@ -121,6 +121,13 @@ Alternate light mode is Ivory Observatory: ivory and beige editorial premium int
 - Do not add fake pricing, packages, testimonials, client claims, guarantees, availability claims, delivery timelines, or demand signals.
 - Do not add fake forms, fake submissions, payment flows, booking tools, scheduling integrations, or backend intake behavior unless an assigned step explicitly requires them.
 - Route Services CTAs to Contact until a real contact flow is built.
+- Keep the Collaborate page focused on broader aligned opportunities.
+- Keep Collaborate content driven by `src/features/collaborate/collaborate-content.ts`.
+- Keep Collaborate distinct from Services. Collaborate is broader alignment. Services is scoped execution.
+- Do not turn Collaborate into a generic networking, startup theater, or vague opportunity page.
+- Do not add fake collaborations, fake affiliations, fake outcomes, fake demand signals, fake founders, fake advisors, fake investors, or fake external proof.
+- Do not add fake forms, fake submissions, payment flows, booking tools, scheduling integrations, calendars, or backend routing unless an assigned step explicitly requires them.
+- Route Collaborate CTAs to Contact until a real contact flow is built.
 - `HomeLight` is now the final-direction Ivory Observatory hero, not a placeholder.
 - Keep `HomeLight` editorial, premium, token-driven, and distinct from the dark hero.
 - Do not regress light mode into a generic beige template or a simple inverted dark hero.
