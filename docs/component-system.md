@@ -175,3 +175,15 @@ The Experience page now uses the internal page component system for a full publi
 - `CosmicCard`, `TelemetryCard`, `StatusBadge`, `LinkButton`, and `Reveal` provide the reusable visual language.
 - `ExperiencePillars`, `ExperienceTimeline`, and `ExperienceEntryCard` are feature-specific components for the structured content model.
 - Do not use Experience components to invent roles, internships, dates, metrics, awards, GPA claims, or research outcomes.
+
+## Step 25 Tracker page note
+
+The Tracker page now uses the internal page component system for a full public current-state route.
+
+- `/tracker` renders `src/features/tracker/TrackerPage.tsx`.
+- `PageHero` owns the single page `h1`, status chips, and primary actions.
+- `SectionShell` separates current state, focus areas, operating pillars, active surfaces, roadmap, source note, and closing CTA.
+- `TelemetryCard`, `CosmicCard`, `StatusBadge`, `LinkButton`, and `Reveal` provide the reusable visual language.
+- `TrackerStatusBoard`, `TrackerSurfaceLinks`, and `TrackerRoadmap` are feature-specific components for the structured content model.
+- Status-like cards must keep source labels visible.
+- Do not use Tracker components to fake connected data, metrics, timestamps, streaks, external activity, private routine data, revenue, customers, or users.

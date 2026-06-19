@@ -241,3 +241,12 @@ Project detail pages use the existing internal page motion foundation.
 - Motion should support reading the case-study content rather than distract from it.
 - No GSAP, Three.js, scroll timeline, or new animation package was added.
 - Reduced-motion behavior continues through `MotionSystemProvider`.
+
+## 20. Step 25 Tracker page motion
+
+The Tracker page uses the existing internal page motion foundation only.
+
+- PageHero, status cards, focus cards, surface links, roadmap items, source note, and CTA may reveal with existing `Reveal` presets.
+- Motion should support scanability and trust, not make the page feel like a fake control room.
+- No GSAP, Three.js, scroll timeline, constant loops, or new animation package was added.
+- Reduced-motion behavior continues through `MotionSystemProvider`.

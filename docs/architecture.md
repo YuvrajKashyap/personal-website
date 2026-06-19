@@ -570,3 +570,17 @@ The `/experience` route is now a full public Experience page rather than an inte
 - Tennis is framed as discipline and proof, not the main visual theme.
 - Public copy must avoid fake roles, fake internships, fake dates, fake metrics, fake awards, fake GPA claims, fake research claims, and sensitive immigration details.
 - The local content shape is prepared for future Supabase or admin editing without adding those systems now.
+
+## Step 25 implementation note
+
+The `/tracker` route is now a full public Tracker page rather than an internal placeholder.
+
+- Page composition lives in `src/features/tracker/TrackerPage.tsx`.
+- Structured local content lives in `src/features/tracker/tracker-content.ts`.
+- Supporting components live in `TrackerStatusBoard`, `TrackerSurfaceLinks`, and `TrackerRoadmap`.
+- Tracker is a public current-state signal page, not a connected data dashboard.
+- Status-like cards must keep source labels visible so manual content is not mistaken for a connected feed.
+- Focus areas, operating pillars, active surfaces, roadmap items, source notes, and CTAs are all model-backed local content.
+- Tracker must stay distinct from Projects, About, and Experience.
+- Public copy must avoid fake data, fake metrics, fake timestamps, fake streaks, fake hours, fake LeetCode counts, fake GitHub activity, fake private routine numbers, fake revenue, fake customers, fake users, and sensitive immigration details.
+- Future Supabase, admin editing, analytics, and integrations can preserve the model shape, but none of those systems are implemented in this step.

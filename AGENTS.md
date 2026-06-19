@@ -107,6 +107,13 @@ Alternate light mode is Ivory Observatory: ivory and beige editorial premium int
 - Do not turn Experience into a resume dump or LinkedIn clone.
 - Do not invent Experience roles, internships, companies, dates, metrics, GPA claims, awards, research results, publications, or project outcomes.
 - Tennis may appear as discipline and proof, not as the main visual theme.
+- Keep the Tracker page manual, source-labeled, and distinct from Projects, About, and Experience.
+- Keep Tracker content driven by `src/features/tracker/tracker-content.ts`.
+- Do not turn Tracker into a fake dashboard or analytics surface.
+- Do not fake Tracker metrics, timestamps, streaks, hours, LeetCode counts, GitHub activity, private routine numbers, revenue, customers, users, or traction.
+- Use source labels on Tracker status cards and any surface that could look like connected data.
+- Treat Tracker as local/manual content until Supabase, admin editing, and real integrations are assigned and implemented.
+- Do not overexpose private personal data in Tracker.
 - `HomeLight` is now the final-direction Ivory Observatory hero, not a placeholder.
 - Keep `HomeLight` editorial, premium, token-driven, and distinct from the dark hero.
 - Do not regress light mode into a generic beige template or a simple inverted dark hero.
