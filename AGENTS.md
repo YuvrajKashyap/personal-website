@@ -102,6 +102,11 @@ Alternate light mode is Ivory Observatory: ivory and beige editorial premium int
 - Tennis should appear as discipline and proof, not as the main visual theme.
 - Do not invent About awards, jobs, rankings, outcomes, founder claims, or metrics.
 - Do not expose F-1, visa, immigration, or sensitive private details publicly without explicit approval.
+- Keep the Experience page proof-oriented, structured, and distinct from About.
+- Keep Experience content driven by `src/features/experience/experience-content.ts`.
+- Do not turn Experience into a resume dump or LinkedIn clone.
+- Do not invent Experience roles, internships, companies, dates, metrics, GPA claims, awards, research results, publications, or project outcomes.
+- Tennis may appear as discipline and proof, not as the main visual theme.
 - `HomeLight` is now the final-direction Ivory Observatory hero, not a placeholder.
 - Keep `HomeLight` editorial, premium, token-driven, and distinct from the dark hero.
 - Do not regress light mode into a generic beige template or a simple inverted dark hero.

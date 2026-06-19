@@ -164,3 +164,14 @@ The About page now uses the internal page component system for a full public nar
 - `CosmicCard`, `TelemetryCard`, `StatusBadge`, `LinkButton`, and `Reveal` provide the reusable visual language.
 - `AboutTimeline` and `AboutPhaseCard` are feature-specific components for the structured phase model.
 - Do not reuse About components to fake Experience content, achievements, awards, or jobs.
+
+## Step 24 Experience page note
+
+The Experience page now uses the internal page component system for a full public trajectory route.
+
+- `/experience` renders `src/features/experience/ExperiencePage.tsx`.
+- `PageHero` owns the single page `h1`, status chips, and primary actions.
+- `SectionShell` separates pillars, timeline, proof surfaces, direction, and closing CTA.
+- `CosmicCard`, `TelemetryCard`, `StatusBadge`, `LinkButton`, and `Reveal` provide the reusable visual language.
+- `ExperiencePillars`, `ExperienceTimeline`, and `ExperienceEntryCard` are feature-specific components for the structured content model.
+- Do not use Experience components to invent roles, internships, dates, metrics, awards, GPA claims, or research outcomes.

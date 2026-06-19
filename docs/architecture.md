@@ -557,3 +557,16 @@ The `/about` route is now a full public About page rather than an internal place
 - Tennis is framed as discipline and proof, not the main visual theme.
 - Public copy must avoid fake awards, fake jobs, fake metrics, fake tennis rankings, and sensitive immigration details.
 - The local content shape is prepared for future Supabase or admin editing without adding those systems now.
+
+## Step 24 implementation note
+
+The `/experience` route is now a full public Experience page rather than an internal placeholder.
+
+- Page composition lives in `src/features/experience/ExperiencePage.tsx`.
+- Structured local content lives in `src/features/experience/experience-content.ts`.
+- Supporting components live in `ExperiencePillars`, `ExperienceTimeline`, and `ExperienceEntryCard`.
+- The content model covers education, leadership, research, project building, athletics, and direction.
+- Experience is a trajectory and proof page. It must stay distinct from About and should not become a resume dump.
+- Tennis is framed as discipline and proof, not the main visual theme.
+- Public copy must avoid fake roles, fake internships, fake dates, fake metrics, fake awards, fake GPA claims, fake research claims, and sensitive immigration details.
+- The local content shape is prepared for future Supabase or admin editing without adding those systems now.

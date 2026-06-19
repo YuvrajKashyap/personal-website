@@ -2465,6 +2465,294 @@ html[data-theme="light"] .about-phase-index {
   background: var(--surface-strong);
 }
 
+.experience-page .page-hero-copy .text-page-title {
+  max-width: 12ch;
+}
+
+.experience-hero-panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--stack-md);
+}
+
+.experience-hero-metrics {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.experience-hero-metrics div {
+  display: grid;
+  gap: 0.35rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: color-mix(in srgb, var(--surface) 72%, transparent);
+  padding: 0.95rem;
+}
+
+.experience-hero-metrics span {
+  color: var(--muted-foreground);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+}
+
+.experience-hero-metrics strong {
+  color: var(--foreground);
+  font-family: var(--font-mono);
+  font-size: clamp(var(--text-xl), 4vw, var(--text-3xl));
+  line-height: var(--leading-tight);
+}
+
+.experience-pillars,
+.experience-proof-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--card-gap);
+}
+
+.experience-pillars .cosmic-card {
+  min-height: 17rem;
+}
+
+.experience-proof-grid .cosmic-card {
+  min-height: 15rem;
+}
+
+.experience-timeline {
+  position: relative;
+  display: grid;
+  gap: clamp(1.1rem, 2.4vw, 1.6rem);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.experience-timeline::before {
+  position: absolute;
+  top: 0.9rem;
+  bottom: 0.9rem;
+  left: clamp(1.35rem, 4vw, 2.25rem);
+  width: 1px;
+  background: var(--gradient-orbital);
+  content: "";
+  opacity: 0.76;
+}
+
+.experience-entry {
+  position: relative;
+  display: grid;
+  grid-template-columns: clamp(2.8rem, 8vw, 4.5rem) minmax(0, 1fr);
+  gap: clamp(1rem, 3vw, 1.5rem);
+  align-items: start;
+}
+
+.experience-entry-marker {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  width: clamp(2.8rem, 8vw, 4.5rem);
+  aspect-ratio: 1;
+  place-items: center;
+  border: 1px solid var(--border-strong);
+  border-radius: 999px;
+  background: var(--surface);
+  box-shadow: var(--shadow-glow);
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: var(--tracking-wider);
+}
+
+.experience-entry-card,
+.experience-direction,
+.experience-cta {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-2xl);
+  background:
+    linear-gradient(135deg, var(--surface-glass), var(--surface-soft)),
+    var(--gradient-surface);
+  box-shadow: var(--shadow-soft);
+}
+
+.experience-entry-card {
+  position: relative;
+  display: grid;
+  gap: var(--stack-md);
+  overflow: hidden;
+  padding: clamp(1.25rem, 3vw, 1.9rem);
+}
+
+.experience-entry-card::before {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background:
+    radial-gradient(circle at 4% 0%, var(--glow-soft), transparent 30%),
+    linear-gradient(90deg, transparent, var(--orbit-line), transparent);
+  content: "";
+  opacity: 0.38;
+}
+
+.experience-entry-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.experience-entry-heading {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: var(--stack-md);
+}
+
+.experience-entry-badges {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.55rem;
+}
+
+.experience-entry-meta {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin: 0;
+}
+
+.experience-entry-meta div {
+  display: grid;
+  gap: 0.3rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: color-mix(in srgb, var(--surface) 72%, transparent);
+  padding: 0.8rem;
+}
+
+.experience-entry-meta dt,
+.experience-entry-signals .text-mono-label {
+  color: var(--muted-foreground);
+}
+
+.experience-entry-meta dt {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+}
+
+.experience-entry-meta dd {
+  color: var(--foreground);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  line-height: var(--leading-heading);
+  margin: 0;
+}
+
+.experience-entry-signals {
+  display: grid;
+  gap: var(--stack-sm);
+}
+
+.experience-entry-signals ul {
+  display: grid;
+  gap: 0.65rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.experience-entry-signals li {
+  position: relative;
+  color: var(--foreground-soft);
+  padding-left: 1.1rem;
+}
+
+.experience-entry-signals li::before {
+  position: absolute;
+  left: 0;
+  top: 0.72em;
+  width: 0.38rem;
+  height: 0.38rem;
+  border-radius: 999px;
+  background: var(--orbit-node-active);
+  box-shadow: 0 0 16px var(--glow-primary);
+  content: "";
+}
+
+.experience-entry-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+}
+
+.experience-entry-tags span {
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--muted-foreground);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: var(--tracking-wider);
+  padding: 0.45rem 0.65rem;
+  text-transform: uppercase;
+}
+
+.experience-direction {
+  display: grid;
+  grid-template-columns: minmax(0, 0.78fr) minmax(0, 1.22fr);
+  gap: clamp(1.5rem, 4vw, 3rem);
+  padding: clamp(1.35rem, 4vw, 2.4rem);
+}
+
+.experience-direction-copy {
+  align-self: center;
+}
+
+.experience-direction-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--card-gap);
+}
+
+.experience-cta {
+  position: relative;
+  display: grid;
+  gap: var(--stack-md);
+  overflow: hidden;
+  padding: clamp(1.5rem, 5vw, 3rem);
+}
+
+.experience-cta::before {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 12% 0%, var(--glow-primary), transparent 34%),
+    radial-gradient(circle at 90% 10%, var(--glow-secondary), transparent 28%);
+  content: "";
+  opacity: 0.58;
+}
+
+.experience-cta > * {
+  position: relative;
+  z-index: 1;
+}
+
+html[data-theme="light"] .experience-entry-card,
+html[data-theme="light"] .experience-direction,
+html[data-theme="light"] .experience-cta {
+  background:
+    linear-gradient(135deg, var(--surface), var(--surface-soft)),
+    var(--gradient-surface);
+}
+
+html[data-theme="light"] .experience-entry-marker {
+  background: var(--surface-strong);
+}
+
 .detail-layout {
   border: 1px solid var(--border);
   border-radius: var(--radius-2xl);
@@ -3247,6 +3535,7 @@ html[data-theme="light"] .project-card-media {
   .page-hero-inner,
   .about-intro,
   .about-discipline,
+  .experience-direction,
   .form-shell,
   .detail-layout-grid {
     grid-template-columns: 1fr;
@@ -3271,7 +3560,10 @@ html[data-theme="light"] .project-card-media {
   .project-detail-notes-grid,
   .project-detail-related,
   .about-discipline-grid,
-  .about-operating-layer {
+  .about-operating-layer,
+  .experience-pillars,
+  .experience-proof-grid,
+  .experience-direction-grid {
     grid-template-columns: 1fr;
   }
 
@@ -3307,7 +3599,10 @@ html[data-theme="light"] .project-card-media {
   .about-intro-card,
   .about-phase-body,
   .about-discipline,
-  .about-cta {
+  .about-cta,
+  .experience-entry-card,
+  .experience-direction,
+  .experience-cta {
     border-radius: var(--radius-xl);
   }
 
@@ -3350,8 +3645,37 @@ html[data-theme="light"] .project-card-media {
 
   .about-phase-body,
   .about-discipline,
-  .about-cta {
+  .about-cta,
+  .experience-entry-card,
+  .experience-direction,
+  .experience-cta {
     padding: 1.1rem;
+  }
+
+  .experience-timeline::before {
+    left: 1.2rem;
+  }
+
+  .experience-entry {
+    grid-template-columns: 2.4rem minmax(0, 1fr);
+    gap: 0.8rem;
+  }
+
+  .experience-entry-marker {
+    width: 2.4rem;
+  }
+
+  .experience-entry-heading {
+    align-items: start;
+    flex-direction: column;
+  }
+
+  .experience-entry-badges {
+    justify-content: flex-start;
+  }
+
+  .experience-entry-meta {
+    grid-template-columns: 1fr;
   }
 
   .project-filter-meta {
