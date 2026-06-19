@@ -153,3 +153,14 @@ Project detail pages now have a reusable component layer.
 - Detail pages use `PageHero`, `DetailLayout`, `SectionShell`, `TelemetryCard`, `StatusBadge`, `LinkButton`, `EmptyState`, and `Reveal`.
 - Missing media should use coded placeholders until real project media is approved.
 - Do not add fake case-study claims, diagrams, screenshots, metrics, or external links inside detail components.
+
+## Step 23 About page note
+
+The About page now uses the internal page component system for a full public narrative route.
+
+- `/about` renders `src/features/about/AboutPage.tsx`.
+- `PageHero` owns the single page `h1`, status chips, and primary actions.
+- `SectionShell` separates story intro, phase timeline, discipline transfer, operating layer, and closing CTA.
+- `CosmicCard`, `TelemetryCard`, `StatusBadge`, `LinkButton`, and `Reveal` provide the reusable visual language.
+- `AboutTimeline` and `AboutPhaseCard` are feature-specific components for the structured phase model.
+- Do not reuse About components to fake Experience content, achievements, awards, or jobs.

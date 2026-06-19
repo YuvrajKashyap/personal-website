@@ -544,3 +544,16 @@ Project detail pages now render from the typed local project model.
 - Draft and needs-review projects can render known local details, but their status remains visible and conservative.
 - Unknown or hidden slugs render a safe content-boundary page with a Back to Projects action.
 - Supabase, media-rich case studies, admin editing, and project CMS workflows remain later assigned systems.
+
+## Step 23 implementation note
+
+The `/about` route is now a full public About page rather than an internal placeholder.
+
+- Page composition lives in `src/features/about/AboutPage.tsx`.
+- Structured local content lives in `src/features/about/about-content.ts`.
+- Supporting components live in `AboutTimeline` and `AboutPhaseCard`.
+- The phase model covers Origin, Austin, Tennis, UT Dallas, Building, and Direction.
+- About is a human story page and must stay distinct from Experience.
+- Tennis is framed as discipline and proof, not the main visual theme.
+- Public copy must avoid fake awards, fake jobs, fake metrics, fake tennis rankings, and sensitive immigration details.
+- The local content shape is prepared for future Supabase or admin editing without adding those systems now.

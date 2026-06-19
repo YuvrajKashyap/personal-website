@@ -23,7 +23,7 @@ The future site should feel cinematic, orbital, and astrophysics-inspired while 
 
 ## Current Step Status
 
-Step 22 builds project detail pages on top of the typed local project model. Home, Projects archive, and project details now exist, while full About, Experience, Tracker, Services, Collaborate, Contact, admin functionality, database integration, live tracker automation, and media-rich project case studies are not implemented yet.
+Step 23 builds the full About page on top of structured local content. Home, About, Projects archive, and project details now exist, while full Experience, Tracker, Services, Collaborate, Contact, admin functionality, database integration, live tracker automation, and media-rich project case studies are not implemented yet.
 
 ## Documentation
 
@@ -34,6 +34,7 @@ Step 22 builds project detail pages on top of the typed local project model. Hom
 - `docs/motion-system.md` defines the Motion for React provider, presets, reveal components, reduced-motion strategy, performance rules, and animation guardrails.
 - `docs/component-system.md` defines the internal page primitives, usage rules, accessibility expectations, and anti-patterns for future non-home pages.
 - `docs/project-data-model.md` defines the local project content model, safe link and media rules, visibility boundaries, randomizer settings, and future Supabase migration direction.
+- `docs/about-content.md` defines the About page story arc, phase model, tone rules, tennis boundary, and future admin editability notes.
 
 ## Local Commands
 
@@ -78,6 +79,7 @@ npm run optimize:hero-video
 - Typed project data model
 - Projects archive page
 - Project detail pages
+- About page
 - Project case study system
 - Tracker and operating metrics interface
 - Services and collaboration flows

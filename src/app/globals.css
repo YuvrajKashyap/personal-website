@@ -2232,6 +2232,239 @@ a.cosmic-card:hover {
   background: var(--surface-soft);
 }
 
+.about-page .page-hero-copy .text-page-title {
+  max-width: 13ch;
+}
+
+.about-hero-panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--stack-md);
+}
+
+.about-hero-grid {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.about-hero-grid div {
+  display: grid;
+  gap: 0.35rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: color-mix(in srgb, var(--surface) 72%, transparent);
+  padding: 0.95rem;
+}
+
+.about-hero-grid span {
+  color: var(--muted-foreground);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+}
+
+.about-hero-grid strong {
+  color: var(--foreground);
+  font-size: var(--text-lg);
+  line-height: var(--leading-heading);
+}
+
+.about-intro {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(18rem, 0.8fr);
+  gap: clamp(1.5rem, 4vw, 3rem);
+  align-items: stretch;
+}
+
+.about-intro-card,
+.about-phase-body,
+.about-discipline,
+.about-cta {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-2xl);
+  background:
+    linear-gradient(135deg, var(--surface-glass), var(--surface-soft)),
+    var(--gradient-surface);
+  box-shadow: var(--shadow-soft);
+}
+
+.about-intro-card {
+  justify-content: center;
+  padding: clamp(1.35rem, 4vw, 2.3rem);
+}
+
+.about-intro-telemetry {
+  display: grid;
+  gap: var(--stack-md);
+}
+
+.about-timeline {
+  position: relative;
+  display: grid;
+  gap: clamp(1rem, 2vw, 1.35rem);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.about-timeline::before {
+  position: absolute;
+  top: 0.8rem;
+  bottom: 0.8rem;
+  left: clamp(1.35rem, 4vw, 2.2rem);
+  width: 1px;
+  background: var(--gradient-orbital);
+  content: "";
+  opacity: 0.74;
+}
+
+.about-phase-card {
+  position: relative;
+  display: grid;
+  grid-template-columns: clamp(2.8rem, 8vw, 4.4rem) minmax(0, 1fr);
+  gap: clamp(1rem, 3vw, 1.5rem);
+  align-items: start;
+}
+
+.about-phase-index {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  width: clamp(2.8rem, 8vw, 4.4rem);
+  aspect-ratio: 1;
+  place-items: center;
+  border: 1px solid var(--border-strong);
+  border-radius: 999px;
+  background: var(--surface);
+  box-shadow: var(--shadow-glow);
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: var(--tracking-wider);
+}
+
+.about-phase-body {
+  position: relative;
+  display: grid;
+  gap: var(--stack-md);
+  padding: clamp(1.25rem, 3vw, 1.9rem);
+}
+
+.about-phase-body::before {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background:
+    radial-gradient(circle at 4% 0%, var(--glow-soft), transparent 30%),
+    linear-gradient(90deg, transparent, var(--orbit-line), transparent);
+  content: "";
+  opacity: 0.42;
+}
+
+.about-phase-body > * {
+  position: relative;
+  z-index: 1;
+}
+
+.about-phase-heading {
+  display: grid;
+  gap: var(--stack-xs);
+}
+
+.about-phase-signal {
+  display: grid;
+  gap: 0.45rem;
+  border-left: 1px solid var(--orbit-line-strong);
+  padding-left: 1rem;
+}
+
+.about-phase-signal span {
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+}
+
+.about-phase-signal p {
+  color: var(--foreground-soft);
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
+  margin: 0;
+}
+
+.about-phase-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+}
+
+.about-discipline {
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  gap: clamp(1.5rem, 4vw, 3rem);
+  padding: clamp(1.35rem, 4vw, 2.4rem);
+}
+
+.about-discipline-copy {
+  align-self: center;
+}
+
+.about-discipline-grid,
+.about-operating-layer {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--card-gap);
+}
+
+.about-discipline-grid .cosmic-card {
+  min-height: 12rem;
+}
+
+.about-operating-layer .cosmic-card {
+  min-height: 15rem;
+}
+
+.about-cta {
+  position: relative;
+  display: grid;
+  gap: var(--stack-md);
+  overflow: hidden;
+  padding: clamp(1.5rem, 5vw, 3rem);
+}
+
+.about-cta::before {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 12% 0%, var(--glow-primary), transparent 34%),
+    radial-gradient(circle at 90% 10%, var(--glow-secondary), transparent 28%);
+  content: "";
+  opacity: 0.58;
+}
+
+.about-cta > * {
+  position: relative;
+  z-index: 1;
+}
+
+html[data-theme="light"] .about-intro-card,
+html[data-theme="light"] .about-phase-body,
+html[data-theme="light"] .about-discipline,
+html[data-theme="light"] .about-cta {
+  background:
+    linear-gradient(135deg, var(--surface), var(--surface-soft)),
+    var(--gradient-surface);
+}
+
+html[data-theme="light"] .about-phase-index {
+  background: var(--surface-strong);
+}
+
 .detail-layout {
   border: 1px solid var(--border);
   border-radius: var(--radius-2xl);
@@ -3012,6 +3245,8 @@ html[data-theme="light"] .project-card-media {
 
 @media (max-width: 900px) {
   .page-hero-inner,
+  .about-intro,
+  .about-discipline,
   .form-shell,
   .detail-layout-grid {
     grid-template-columns: 1fr;
@@ -3034,7 +3269,9 @@ html[data-theme="light"] .project-card-media {
   }
 
   .project-detail-notes-grid,
-  .project-detail-related {
+  .project-detail-related,
+  .about-discipline-grid,
+  .about-operating-layer {
     grid-template-columns: 1fr;
   }
 
@@ -3066,7 +3303,11 @@ html[data-theme="light"] .project-card-media {
   .telemetry-card,
   .empty-state,
   .form-shell,
-  .detail-layout {
+  .detail-layout,
+  .about-intro-card,
+  .about-phase-body,
+  .about-discipline,
+  .about-cta {
     border-radius: var(--radius-xl);
   }
 
@@ -3092,6 +3333,25 @@ html[data-theme="light"] .project-card-media {
 
   .project-detail-media {
     min-height: 16rem;
+  }
+
+  .about-timeline::before {
+    left: 1.2rem;
+  }
+
+  .about-phase-card {
+    grid-template-columns: 2.4rem minmax(0, 1fr);
+    gap: 0.8rem;
+  }
+
+  .about-phase-index {
+    width: 2.4rem;
+  }
+
+  .about-phase-body,
+  .about-discipline,
+  .about-cta {
+    padding: 1.1rem;
   }
 
   .project-filter-meta {

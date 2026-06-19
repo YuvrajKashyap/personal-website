@@ -96,6 +96,12 @@ Alternate light mode is Ivory Observatory: ivory and beige editorial premium int
 - If a project is draft or needs review, keep that status visible in the detail page.
 - Unknown or hidden project slugs must stay behind a safe content boundary.
 - Keep project detail media as coded placeholders unless real approved media exists.
+- Keep the About page human, structured, and distinct from Experience.
+- Keep About content driven by `src/features/about/about-content.ts`.
+- Do not turn About into a resume dump or generic biography.
+- Tennis should appear as discipline and proof, not as the main visual theme.
+- Do not invent About awards, jobs, rankings, outcomes, founder claims, or metrics.
+- Do not expose F-1, visa, immigration, or sensitive private details publicly without explicit approval.
 - `HomeLight` is now the final-direction Ivory Observatory hero, not a placeholder.
 - Keep `HomeLight` editorial, premium, token-driven, and distinct from the dark hero.
 - Do not regress light mode into a generic beige template or a simple inverted dark hero.
