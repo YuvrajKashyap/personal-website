@@ -250,3 +250,12 @@ The Tracker page uses the existing internal page motion foundation only.
 - Motion should support scanability and trust, not make the page feel like a fake control room.
 - No GSAP, Three.js, scroll timeline, constant loops, or new animation package was added.
 - Reduced-motion behavior continues through `MotionSystemProvider`.
+
+## 21. Step 26 Services page motion
+
+The Services page uses the existing internal page motion foundation only.
+
+- PageHero, service lanes, fit panels, request process steps, proof cards, comparison cards, and CTA may reveal with existing `Reveal` presets.
+- Motion should support clarity, selectivity, and scanability rather than sales-page theatrics.
+- No GSAP, Three.js, scroll timeline, constant loops, or new animation package was added.
+- Reduced-motion behavior continues through `MotionSystemProvider`.

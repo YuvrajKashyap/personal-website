@@ -23,7 +23,7 @@ The future site should feel cinematic, orbital, and astrophysics-inspired while 
 
 ## Current Step Status
 
-Step 25 builds the full Tracker page on top of structured local content. Home, About, Experience, Tracker, Projects archive, and project details now exist, while full Services, Collaborate, Contact, admin functionality, database integration, connected tracker sources, and media-rich project case studies are not implemented yet.
+Step 26 builds the full Services page on top of structured local content. Home, About, Experience, Tracker, Services, Projects archive, and project details now exist, while full Collaborate, Contact, admin functionality, database integration, connected tracker sources, and media-rich project case studies are not implemented yet.
 
 ## Documentation
 
@@ -37,6 +37,7 @@ Step 25 builds the full Tracker page on top of structured local content. Home, A
 - `docs/about-content.md` defines the About page story arc, phase model, tone rules, tennis boundary, and future admin editability notes.
 - `docs/experience-content.md` defines the Experience page trajectory model, proof rules, leadership and research boundaries, tennis handling, and future admin editability notes.
 - `docs/tracker-content.md` defines the Tracker page manual signal model, source-label rules, future integration boundary, and anti-patterns.
+- `docs/services-content.md` defines the Services page scoped-build model, Services vs Collaborate boundary, manual contact path, no-pricing rules, and future intake boundaries.
 
 ## Local Commands
 
@@ -84,9 +85,10 @@ npm run optimize:hero-video
 - About page
 - Experience page
 - Tracker page
+- Services page
 - Project case study system
 - Connected tracker sources
-- Services and collaboration flows
+- Collaborate and Contact flows
 - Admin area and content management
 - Supabase or another backend if assigned in a later step
 - Open Graph and social media assets

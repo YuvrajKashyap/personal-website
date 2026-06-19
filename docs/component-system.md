@@ -187,3 +187,15 @@ The Tracker page now uses the internal page component system for a full public c
 - `TrackerStatusBoard`, `TrackerSurfaceLinks`, and `TrackerRoadmap` are feature-specific components for the structured content model.
 - Status-like cards must keep source labels visible.
 - Do not use Tracker components to fake connected data, metrics, timestamps, streaks, external activity, private routine data, revenue, customers, or users.
+
+## Step 26 Services page note
+
+The Services page now uses the internal page component system for a full scoped-request route.
+
+- `/services` renders `src/features/services/ServicesPage.tsx`.
+- `PageHero` owns the single page `h1`, status chips, and primary actions.
+- `SectionShell` separates definition, service lanes, fit matrix, request process, proof surfaces, Services vs Collaborate, boundary note, and closing CTA.
+- `CosmicCard`, `TelemetryCard`, `StatusBadge`, `LinkButton`, and `Reveal` provide the reusable visual language.
+- `src/features/services/services-content.ts` owns the structured local content model.
+- Do not add a fake form, fake submission, pricing table, package tiers, testimonials, client claims, guarantees, availability claims, or external booking behavior to Services.
+- Keep Services distinct from Collaborate. Services is scoped execution. Collaborate is broader aligned opportunity.

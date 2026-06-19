@@ -584,3 +584,17 @@ The `/tracker` route is now a full public Tracker page rather than an internal p
 - Tracker must stay distinct from Projects, About, and Experience.
 - Public copy must avoid fake data, fake metrics, fake timestamps, fake streaks, fake hours, fake LeetCode counts, fake GitHub activity, fake private routine numbers, fake revenue, fake customers, fake users, and sensitive immigration details.
 - Future Supabase, admin editing, analytics, and integrations can preserve the model shape, but none of those systems are implemented in this step.
+
+## Step 26 implementation note
+
+The `/services` route is now a full public Services page rather than an internal placeholder.
+
+- Page composition lives in `src/features/services/ServicesPage.tsx`.
+- Structured local content lives in `src/features/services/services-content.ts`.
+- Services is the scoped build request route for practical execution, product surfaces, workflows, prototypes, and systems.
+- Collaborate remains the broader opportunity route for aligned builders, founders, creators, startups, partnerships, and longer-term possibilities.
+- Contact remains the manual intake route. No backend form, Supabase flow, payment, booking, or scheduling integration exists yet.
+- The page uses local content sections for definition, service lanes, fit and not-fit signals, request process, proof surfaces, Services vs Collaborate, and closing CTA.
+- Proof links use real internal routes only.
+- Public copy must avoid fake pricing, packages, testimonials, clients, guarantees, delivery timelines, availability claims, revenue claims, sensitive immigration details, and fake submission behavior.
+- Future Supabase, admin editing, and contact handling can preserve the model shape, but none of those systems are implemented in this step.

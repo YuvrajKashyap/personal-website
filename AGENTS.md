@@ -114,6 +114,13 @@ Alternate light mode is Ivory Observatory: ivory and beige editorial premium int
 - Use source labels on Tracker status cards and any surface that could look like connected data.
 - Treat Tracker as local/manual content until Supabase, admin editing, and real integrations are assigned and implemented.
 - Do not overexpose private personal data in Tracker.
+- Keep the Services page focused on scoped build requests.
+- Keep Services content driven by `src/features/services/services-content.ts`.
+- Keep Services distinct from Collaborate. Services is scoped execution. Collaborate is broader aligned opportunity.
+- Do not turn Services into a generic freelancer, agency, pricing, or booking page.
+- Do not add fake pricing, packages, testimonials, client claims, guarantees, availability claims, delivery timelines, or demand signals.
+- Do not add fake forms, fake submissions, payment flows, booking tools, scheduling integrations, or backend intake behavior unless an assigned step explicitly requires them.
+- Route Services CTAs to Contact until a real contact flow is built.
 - `HomeLight` is now the final-direction Ivory Observatory hero, not a placeholder.
 - Keep `HomeLight` editorial, premium, token-driven, and distinct from the dark hero.
 - Do not regress light mode into a generic beige template or a simple inverted dark hero.
