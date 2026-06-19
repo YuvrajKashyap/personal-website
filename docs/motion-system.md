@@ -221,3 +221,13 @@ Internal page templates use the existing `Reveal` component for PageHero, Sectio
 - No new motion package was added.
 - No GSAP, scroll timeline, or constant internal page animation was added.
 - Reduced-motion behavior continues through `MotionSystemProvider` and `MotionConfig`.
+
+## 18. Step 21 Projects archive motion
+
+The Projects archive uses the existing `Reveal` component and motion presets only.
+
+- PageHero, featured rows, archive cards, filters, and discovery panels may reveal with restrained opacity and transform.
+- Filters and random project routing should stay responsive without timeline effects.
+- Do not add new animation packages for the Projects archive.
+- Do not add constant orbital spinning, card chaos, or motion that delays project readability.
+- Reduced-motion behavior continues through the shared motion foundation.

@@ -23,7 +23,7 @@ The future site should feel cinematic, orbital, and astrophysics-inspired while 
 
 ## Current Step Status
 
-Step 20 adds the typed local Projects data model and safe helper layer. Home is complete as a gateway, while full About, Experience, Projects, Tracker, Services, Collaborate, Contact, admin functionality, database integration, and live tracker automation are not implemented yet.
+Step 21 builds the public Projects archive page on top of the typed local project model. Home is complete as a gateway, while full About, Experience, Tracker, Services, Collaborate, Contact, admin functionality, database integration, live tracker automation, and full project case studies are not implemented yet.
 
 ## Documentation
 
@@ -76,6 +76,7 @@ npm run optimize:hero-video
 - Full Home gateway sections
 - Internal page template system
 - Typed project data model
+- Projects archive page
 - Project case study system
 - Tracker and operating metrics interface
 - Services and collaboration flows

@@ -153,7 +153,7 @@ Home may consume a small featured preview through `getFeaturedProjects()`, but H
 
 Randomizer settings live in `src/data/project-randomizer.ts`.
 
-The future randomizer should use:
+The Projects page randomizer uses:
 
 - `mode`
 - `curatedBucketSlugs`
@@ -161,7 +161,7 @@ The future randomizer should use:
 - `defaultEligibleVisibility`
 - `allowNeedsReviewLinks`
 
-The current helper `getRandomizerPool()` returns eligible published projects only. It does not build a random UI yet.
+The helper `getRandomizerPool()` returns eligible published projects only. The `/projects` page uses that pool for its random project button and routes to `/projects/[slug]`.
 
 ## 12. Safe content rules
 
@@ -197,18 +197,25 @@ Home can use `getFeaturedProjects().slice(0, 4)` for a small preview. Cards shou
 
 Home should not become a full project archive.
 
-## 15. How Projects page will consume projects later
+## 15. How Projects page consumes projects
 
-The future Projects page can use:
+The `/projects` archive uses:
 
 - `getPublishedProjects()` for the archive.
 - `getFeaturedProjects()` for featured rows.
-- `getProjectsByCategory(category)` for grouping.
-- `getProjectsByPriority(priority)` for emphasis.
+- local filter logic for category, priority, featured, and active/live views.
 - `getRandomizerPool()` for discovery interactions.
 - `getProjectBySlug(slug)` for detail routes.
 
-Full grid, filter, randomizer, media, and case study UI are future assigned steps.
+The archive grid, filters, randomizer, and coded media placeholders are implemented. Full case studies, project-specific screenshots, videos, live metrics, and media-rich detail pages remain future assigned work.
+
+Public project cards must continue to:
+
+- Use published records only.
+- Show verified public links only.
+- Treat `needs_review` links as internal review state, not public actions.
+- Render coded placeholders when media is missing.
+- Avoid fake screenshots, fake metrics, fake repos, and fake live URLs.
 
 ## 16. Anti-patterns
 

@@ -83,6 +83,12 @@ Alternate light mode is Ivory Observatory: ivory and beige editorial premium int
 - Keep the project model friendly to a later Supabase migration.
 - Do not overclaim Arcade or any project with third-party, embedded, or open-source attribution boundaries.
 - Do not upgrade draft, practice, archive, or needs-review projects into flagship placement without architect approval.
+- Preserve the `/projects` archive as the public project discovery surface.
+- Keep Project archive filters backed by the shared project model, not duplicated arrays.
+- Keep random project routing backed by `getRandomizerPool()`.
+- Keep Project cards honest about missing media, links, metrics, screenshots, and case studies.
+- Do not show `needs_review` links as public buttons, even when a card needs a secondary action.
+- Keep project detail routes model-backed and bounded until full case studies are explicitly assigned.
 - `HomeLight` is now the final-direction Ivory Observatory hero, not a placeholder.
 - Keep `HomeLight` editorial, premium, token-driven, and distinct from the dark hero.
 - Do not regress light mode into a generic beige template or a simple inverted dark hero.

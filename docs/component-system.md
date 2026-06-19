@@ -128,3 +128,15 @@ Projects now have a typed local model in `src/data/projects.ts` and pure helpers
 Internal page primitives may display safe project metadata, counts, and content boundaries, but they should not become the full Projects archive or case study UI until assigned.
 
 When rendering project links, use helpers that return verified links by default. Do not show `needs_review` links as public verified actions.
+
+## Step 21 Projects archive note
+
+The Projects archive is now an assigned full page, not a placeholder.
+
+- `/projects` uses `PageHero`, `SectionShell`, `StatusBadge`, `LinkButton`, `TelemetryCard`, and `Reveal`.
+- Feature-specific components live in `src/features/projects`.
+- `ProjectCard` owns project archive card presentation and should stay honest about missing media, links, and evidence.
+- `ProjectFilters` owns filter buttons with `aria-pressed` state.
+- `RandomProjectButton` owns client-side random routing from the approved randomizer pool.
+- The archive may use page-specific CSS utilities when shared primitives are not enough, but it should stay token-driven and responsive.
+- Do not use Project archive components to fake full case studies, screenshots, repository links, metrics, or live product status.

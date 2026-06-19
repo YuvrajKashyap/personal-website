@@ -515,3 +515,18 @@ The Projects system now has a typed local content model.
 - Needs-review links stay stored for future review but should not be presented as verified public links.
 - Project media remains omitted until real assets exist.
 - This structure is designed to migrate to Supabase later without duplicating route or theme logic.
+
+## Step 21 implementation note
+
+The `/projects` route is now a full public archive page backed by the typed local project model.
+
+- Page composition lives in `src/features/projects/ProjectsPage.tsx`.
+- Client archive interactions live in `ProjectsArchive`, `ProjectFilters`, and `RandomProjectButton`.
+- Project cards live in `ProjectCard` and render only safe local metadata, verified public links, and coded media placeholders when real media is absent.
+- The archive consumes `getPublishedProjects()`, `getFeaturedProjects()`, and `getRandomizerPool()` instead of duplicating project data.
+- Filters cover All, Featured, Flagship, Active/Live, AI Systems, Infrastructure, Product Systems, and Supporting.
+- The random project button routes only to randomizer-eligible published projects.
+- Missing screenshots, videos, live URLs, repo links, metrics, and case study evidence remain omitted rather than faked.
+- `needs_review` links remain stored in the data model but are not rendered as verified public actions.
+- The project detail route still stays bounded to safe model-backed detail content. Full case studies remain future assigned work.
+- Dark and light modes share the same project data and diverge only through token-driven visual styling.
