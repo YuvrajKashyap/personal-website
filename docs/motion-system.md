@@ -231,3 +231,13 @@ The Projects archive uses the existing `Reveal` component and motion presets onl
 - Do not add new animation packages for the Projects archive.
 - Do not add constant orbital spinning, card chaos, or motion that delays project readability.
 - Reduced-motion behavior continues through the shared motion foundation.
+
+## 19. Step 22 project detail motion
+
+Project detail pages use the existing internal page motion foundation.
+
+- PageHero and SectionShell already use `Reveal`.
+- Detail media placeholders, sections, and related cards may reveal with existing presets.
+- Motion should support reading the case-study content rather than distract from it.
+- No GSAP, Three.js, scroll timeline, or new animation package was added.
+- Reduced-motion behavior continues through `MotionSystemProvider`.

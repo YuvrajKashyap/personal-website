@@ -131,7 +131,7 @@ export function ProjectCard({
 
         <div className="project-card-actions">
           <LinkButton href={`/projects/${project.slug}`} variant="secondary" size="sm">
-            View archive entry
+            View details
           </LinkButton>
           {verifiedLinks.map((link) => (
             <LinkButton

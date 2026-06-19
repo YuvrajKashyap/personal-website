@@ -140,3 +140,16 @@ The Projects archive is now an assigned full page, not a placeholder.
 - `RandomProjectButton` owns client-side random routing from the approved randomizer pool.
 - The archive may use page-specific CSS utilities when shared primitives are not enough, but it should stay token-driven and responsive.
 - Do not use Project archive components to fake full case studies, screenshots, repository links, metrics, or live product status.
+
+## Step 22 project detail note
+
+Project detail pages now have a reusable component layer.
+
+- `ProjectDetailPage` owns the main detail composition.
+- `ProjectDetailSection` owns repeated problem, solution, architecture, highlights, and proof sections.
+- `ProjectStackList` owns stack chip rendering.
+- `ProjectLinksPanel` owns verified public actions and hides needs-review links from public actions.
+- `RelatedProjects` owns small related project navigation from published records.
+- Detail pages use `PageHero`, `DetailLayout`, `SectionShell`, `TelemetryCard`, `StatusBadge`, `LinkButton`, `EmptyState`, and `Reveal`.
+- Missing media should use coded placeholders until real project media is approved.
+- Do not add fake case-study claims, diagrams, screenshots, metrics, or external links inside detail components.

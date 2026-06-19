@@ -530,3 +530,17 @@ The `/projects` route is now a full public archive page backed by the typed loca
 - `needs_review` links remain stored in the data model but are not rendered as verified public actions.
 - The project detail route still stays bounded to safe model-backed detail content. Full case studies remain future assigned work.
 - Dark and light modes share the same project data and diverge only through token-driven visual styling.
+
+## Step 22 implementation note
+
+Project detail pages now render from the typed local project model.
+
+- The route `src/app/(site)/projects/[slug]/page.tsx` resolves local project data, generates metadata, and provides static params for known non-hidden slugs.
+- The reusable detail composition lives in `src/features/projects/ProjectDetailPage.tsx`.
+- Supporting detail components live in `ProjectDetailSection`, `ProjectStackList`, `ProjectLinksPanel`, and `RelatedProjects`.
+- Detail pages include overview, problem, approach, architecture notes, stack, highlights, what-it-proves, public actions, and related project navigation.
+- Verified links are the only public external actions. `needs_review` and unavailable links stay out of the action layer.
+- Missing media uses coded placeholders instead of screenshots or broken images.
+- Draft and needs-review projects can render known local details, but their status remains visible and conservative.
+- Unknown or hidden slugs render a safe content-boundary page with a Back to Projects action.
+- Supabase, media-rich case studies, admin editing, and project CMS workflows remain later assigned systems.

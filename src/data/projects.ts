@@ -41,11 +41,23 @@ export const projects = [
       "Search observability surface",
     ],
     problem:
-      "AI search systems need better visibility into retrieval quality, ranking behavior, and evaluation feedback.",
+      "Modern search and retrieval systems need more than keyword matching. Retrieval quality, ranking behavior, evaluation feedback, and observability need to be visible in one system.",
     solution:
-      "A platform direction for retrieval, reranking, evaluation, and observability in one workflow.",
+      "A hybrid retrieval and search observability platform direction that combines API surfaces, retrieval backends, background jobs, database state, and evaluation-oriented architecture.",
     whatItProves:
-      "Systems thinking across AI infrastructure, backend architecture, and product-facing search workflows.",
+      "Ability to design AI and search infrastructure beyond a simple chatbot wrapper.",
+    detailSections: [
+      {
+        eyebrow: "Architecture",
+        title: "Retrieval quality as an observable system",
+        body: "The project is framed around retrieval, reranking, evaluation, and operational visibility rather than a single chat surface.",
+      },
+      {
+        eyebrow: "System Shape",
+        title: "Backend, index, and evaluation loops",
+        body: "The stack points toward API services, database state, background queues, vector search, keyword search, and evaluation workflows working together.",
+      },
+    ],
     timelineLabel: "Active build",
     links: [],
     media: [],
@@ -87,11 +99,23 @@ export const projects = [
       "Search platform architecture",
     ],
     problem:
-      "Useful public web data needs a responsible pipeline from crawl to extraction to search.",
+      "Search experiences depend on reliable ingestion, extraction, indexing, and retrieval pipelines.",
     solution:
-      "A crawl, extract, index, and search platform direction designed around structured data flow.",
+      "A distributed crawl, extract, index, and search system for ethical public web content using backend services, queues, storage, and search infrastructure.",
     whatItProves:
-      "Backend systems, search infrastructure, and careful data pipeline design.",
+      "Ability to reason about data pipelines, indexing, and search systems end to end.",
+    detailSections: [
+      {
+        eyebrow: "Pipeline",
+        title: "Crawl to retrieval without skipping the middle",
+        body: "Atlas keeps ingestion, extraction, indexing, and retrieval as distinct parts of one system rather than treating search as a final UI-only layer.",
+      },
+      {
+        eyebrow: "Boundary",
+        title: "Responsible public web direction",
+        body: "The public copy stays focused on ethical public content and system architecture. It does not claim broad production scale or private dataset access.",
+      },
+    ],
     timelineLabel: "Active build",
     links: [],
     media: [],
@@ -131,11 +155,23 @@ export const projects = [
       "Typed content and component foundations",
     ],
     problem:
-      "A personal site needs to signal builder depth without becoming a generic portfolio template.",
+      "A normal portfolio does not communicate trajectory, taste, current state, and builder identity strongly enough.",
     solution:
-      "A theme-aware operating interface with cinematic Home, structured internal pages, and future data-backed systems.",
+      "A cinematic personal operating interface with dual visual systems, project archive, tracker, services, collaboration, and admin-ready architecture.",
     whatItProves:
-      "Production-grade frontend architecture, visual systems, motion restraint, and deployment discipline.",
+      "Ability to combine frontend craft, product architecture, visual systems, deployment, and personal positioning.",
+    detailSections: [
+      {
+        eyebrow: "Experience",
+        title: "Two visual systems, one app",
+        body: "The site keeps Singularity OS and Ivory Observatory inside one route structure, one content layer, and one theme-aware architecture.",
+      },
+      {
+        eyebrow: "Production",
+        title: "A live system with future backend boundaries",
+        body: "The current implementation is deployed on Vercel with local typed content, reusable components, motion foundations, and a documented future admin boundary.",
+      },
+    ],
     timelineLabel: "Live and evolving",
     links: [
       {
@@ -187,11 +223,23 @@ export const projects = [
       "Product architecture across data and interface layers",
     ],
     problem:
-      "Personal finance awareness is scattered across accounts, reminders, alerts, and manual review.",
+      "Personal finance visibility is fragmented across accounts, bills, alerts, and spending patterns.",
     solution:
-      "A focused operating system direction for sync, alerts, and spending visibility.",
+      "A personal finance operating system direction with sync, alerts, account state, and spending visibility foundations.",
     whatItProves:
-      "Product systems thinking across authentication, scheduled work, financial data, and user-facing alerts.",
+      "Ability to work with product systems, secure flows, financial data architecture, and practical user workflows.",
+    detailSections: [
+      {
+        eyebrow: "Workflow",
+        title: "Visibility before prediction",
+        body: "Capital is framed around account state, recurring awareness, alerts, and review workflows. The public page does not imply customer banking usage.",
+      },
+      {
+        eyebrow: "System Boundary",
+        title: "Finance needs careful wording",
+        body: "The project can describe sync, alerts, and product architecture without exposing private data or claiming production financial outcomes.",
+      },
+    ],
     timelineLabel: "Active build",
     links: [
       {
@@ -232,8 +280,24 @@ export const projects = [
       "Alignment and routine interface concepts",
       "Orbital product language",
     ],
+    problem:
+      "Personal growth and execution can become scattered without an operating layer for alignment and direction.",
+    solution:
+      "A personal alignment and orbital operating system concept focused on goals, focus, systems, and direction.",
     whatItProves:
-      "Systems thinking applied to personal execution, routines, and focus surfaces.",
+      "Product thinking around personal systems and operating interfaces.",
+    detailSections: [
+      {
+        eyebrow: "Status",
+        title: "Draft surface with a clear boundary",
+        body: "Axis is represented as a needs-review project. The page can explain the concept without presenting it as a finished public product.",
+      },
+      {
+        eyebrow: "Interface Direction",
+        title: "Personal systems as product language",
+        body: "The project explores how routines, goals, focus, and direction can be organized through an operating interface.",
+      },
+    ],
     timelineLabel: "Needs review",
     links: [
       {
@@ -274,10 +338,26 @@ export const projects = [
       "Multiple gameplay experiments",
       "Attribution-aware portfolio handling",
     ],
+    problem:
+      "Small interactive browser projects are a useful way to practice frontend structure, interaction, and game-like UI surfaces.",
+    solution:
+      "A browser arcade surface that collects playable web experiences while handling externally sourced or embedded exceptions transparently.",
     attributionNotes:
       "Do not overclaim third-party, embedded, or open-source game work. Public UI must call out exceptions clearly when reviewed.",
     whatItProves:
       "Creative frontend implementation, interaction design, and transparent attribution discipline.",
+    detailSections: [
+      {
+        eyebrow: "Boundary",
+        title: "Attribution is part of the system",
+        body: "Arcade is useful as a frontend interaction surface only when externally sourced, embedded, or open-source exceptions stay clearly identified.",
+      },
+      {
+        eyebrow: "Interface",
+        title: "Practice in playable browser surfaces",
+        body: "The project is framed as interaction practice and product-surface organization, not as a claim that every game is fully original.",
+      },
+    ],
     timelineLabel: "Needs review",
     links: [
       {
@@ -317,8 +397,24 @@ export const projects = [
       "AI-assisted workflow surface",
       "Frontend and API architecture",
     ],
+    problem:
+      "AI workflows often get trapped in plain chat interfaces.",
+    solution:
+      "An artifact-centric AI workspace direction exploring structured outputs, search tooling, and workspace-style interaction.",
     whatItProves:
-      "Product thinking around AI workspaces, artifacts, and multi-service application structure.",
+      "Ability to think beyond chat UI into artifact and workspace AI product patterns.",
+    detailSections: [
+      {
+        eyebrow: "Product Shape",
+        title: "Artifacts instead of only conversation",
+        body: "Beyond Chat is framed around structured workspace output and tool-assisted interaction rather than treating chat as the whole product.",
+      },
+      {
+        eyebrow: "Boundary",
+        title: "Draft direction, not adoption claim",
+        body: "The public page describes the product pattern and technical direction without claiming usage, release status, or external validation.",
+      },
+    ],
     timelineLabel: "Draft",
     links: [],
     media: [],

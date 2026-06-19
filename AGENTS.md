@@ -89,6 +89,13 @@ Alternate light mode is Ivory Observatory: ivory and beige editorial premium int
 - Keep Project cards honest about missing media, links, metrics, screenshots, and case studies.
 - Do not show `needs_review` links as public buttons, even when a card needs a secondary action.
 - Keep project detail routes model-backed and bounded until full case studies are explicitly assigned.
+- Project detail pages must stay driven by `src/data/projects.ts` and the typed project model.
+- Future detail edits should update project data first, then render it through the shared detail components.
+- Do not invent project architecture details, case-study results, screenshots, repos, demos, users, revenue, adoption, benchmarks, awards, or client claims.
+- Do not show `needs_review` links as verified actions on project detail pages.
+- If a project is draft or needs review, keep that status visible in the detail page.
+- Unknown or hidden project slugs must stay behind a safe content boundary.
+- Keep project detail media as coded placeholders unless real approved media exists.
 - `HomeLight` is now the final-direction Ivory Observatory hero, not a placeholder.
 - Keep `HomeLight` editorial, premium, token-driven, and distinct from the dark hero.
 - Do not regress light mode into a generic beige template or a simple inverted dark hero.

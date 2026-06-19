@@ -217,7 +217,33 @@ Public project cards must continue to:
 - Render coded placeholders when media is missing.
 - Avoid fake screenshots, fake metrics, fake repos, and fake live URLs.
 
-## 16. Anti-patterns
+## 16. How project detail pages consume projects
+
+Project detail pages now use the same local project records.
+
+- The route `/projects/[slug]` reads projects through `getProjectBySlug(slug)`.
+- Known non-hidden records render detail pages from `ProjectDetailPage`.
+- Unknown or hidden slugs render a safe content-boundary page.
+- `generateStaticParams()` is based on known non-hidden slugs.
+- `generateMetadata()` uses the project title and summary only.
+
+Detail pages consume:
+
+- `description` for overview.
+- `problem` for the problem section.
+- `solution` for the approach section.
+- `detailSections` for architecture and system notes.
+- `stack` for technology chips.
+- `highlights` for technical signal.
+- `whatItProves` for the builder-signal section.
+- `attributionNotes` and `notes` for visible boundaries when present.
+- `links` only after filtering for verified status.
+
+Related project navigation uses published records, excludes the current project, and stays small. It is not a recommendation engine.
+
+Future Supabase migration should preserve these content shapes before moving records into a database-backed source.
+
+## 17. Anti-patterns
 
 - Filtering raw project arrays in many components.
 - Showing needs-review links as verified public links.
