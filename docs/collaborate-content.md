@@ -94,7 +94,9 @@ These should remain short, direct, and operational. Do not turn them into vague 
 
 ## 8. How To Reach Out
 
-The current reach-out path is manual and routes through Contact.
+The Collaborate page now includes a broader alignment form that posts to `/api/submissions`.
+
+If Supabase server environment values are missing, the form stays disabled and points users to verified channels on Contact.
 
 The page should ask for:
 
@@ -104,7 +106,7 @@ The page should ask for:
 - why Yuvraj is relevant to the conversation
 - what surface, constraint, or decision matters
 
-Do not add a backend form, booking tool, calendar, payment flow, or automation in this step.
+Do not add a booking tool, calendar, payment flow, email integration, CRM route, automated decision flow, or fake outcome promise.
 
 ## 9. Proof And Context Links
 
@@ -140,8 +142,10 @@ Both routes point to Contact for now, but they frame different kinds of context.
 
 Future Supabase or admin work can preserve this local content model.
 
-If the page later gets a real form or routing logic, it should still preserve the content boundary:
+The Step 32 form preserves the content boundary:
 
 - Collaborate for broader alignment.
 - Services for scoped build requests.
-- Contact for the actual communication route.
+- Contact for verified channels and direct context.
+
+Future admin work can add private submissions review without exposing private write operations to public client code.

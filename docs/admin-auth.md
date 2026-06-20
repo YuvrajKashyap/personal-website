@@ -25,8 +25,7 @@ The goal is to protect `/admin`, provide a real Supabase Auth magic-link entry, 
 - Project editing.
 - Tracker editing.
 - Page editing.
-- Form handling.
-- Submissions backend.
+- Admin submissions viewer.
 - Public writes.
 - Storage uploads.
 - Admin user seeding.
@@ -159,11 +158,13 @@ The dashboard shows:
 
 The dashboard does not edit content or write data.
 
-## 13. Future Step 32 Forms Boundary
+## 13. Step 32 Forms Boundary
 
-Step 31 does not implement forms or submissions.
+Step 32 adds public submission forms and a server route, but it does not add an admin submissions viewer.
 
-The `submissions` table remains locked for public writes. Future form work must add validation, spam controls, server-side handling, RLS updates, and documentation in its own assigned step.
+The `submissions` table remains locked for public direct writes. Public forms post to `/api/submissions`, and the server route inserts only when server-side Supabase env values are configured.
+
+Admin routes do not expose submissions yet. Future admin work should add a private viewer through the existing admin guard and should not leak private submission operations into public client code.
 
 ## 14. Future Content Editing Boundary
 

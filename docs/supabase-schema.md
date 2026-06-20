@@ -81,11 +81,11 @@ Every public tracker-style value should keep a source label when it could be mis
 
 ## 8. Submissions Table
 
-`submissions` exists for future Contact, Services, Collaborate, and general submissions.
+`submissions` exists for Contact, Services, Collaborate, and general submissions.
 
-Public inserts are intentionally disabled in Step 29.
+Public direct inserts are intentionally disabled.
 
-Step 32 or another assigned form/backend step can add validated insert behavior, spam controls, and server-side handling.
+Step 32 adds validated insert behavior through `/api/submissions` without adding browser Supabase writes.
 
 ## 9. Admin Users Table
 
@@ -166,16 +166,24 @@ Authenticated active site admins can manage:
 
 Admin user management is limited to active owners/admins or manual service-role SQL.
 
-## 15. Submissions Locked Until Step 32
+## 15. Step 32 Submissions Boundary
 
-`submissions` exists now, but it is locked down:
+`submissions` remains locked from public direct writes:
 
 - no anon `insert` grant
 - no public insert policy
-- no frontend form
-- no API route
-- no server action
 - no email or CRM integration
+
+Step 32 adds:
+
+- `/api/submissions` as the public POST endpoint
+- server-side validation
+- honeypot spam friction
+- server-only Supabase insert helper
+- Contact, Services, and Collaborate forms
+- disabled no-env behavior when server keys are missing
+
+The server route uses a server-only key if configured. The browser never imports the Supabase write client.
 
 ## 16. Environment Variables
 
@@ -194,6 +202,8 @@ SUPABASE_PROJECT_REF=
 Real values belong in `.env.local` and Vercel environment variables later. `.env.local` must stay untracked.
 
 The service role key is server-only and must never be exposed to browser code.
+
+Step 32 uses `NEXT_PUBLIC_SUPABASE_URL` plus `SUPABASE_SECRET_KEY` or the legacy `SUPABASE_SERVICE_ROLE_KEY` only inside server-only submission code.
 
 ## 16.1 Step 30 App Data Layer
 
@@ -257,17 +267,19 @@ Step 30 can connect the app data layer and decide local fallback behavior.
 
 Step 31 can build admin auth and protected server boundaries if assigned.
 
-Step 32 can add real form submission behavior if assigned.
+Step 32 adds server-routed form submission behavior.
 
-This step does not add frontend Supabase clients, admin dashboards, storage upload UI, analytics, cron jobs, or integrations.
+This step does not add admin submissions review, email delivery, CRM routing, storage upload UI, analytics, cron jobs, or integrations.
 
 ## 19. Anti-patterns
 
 - Committing Supabase secrets.
 - Exposing service role keys to browser code.
 - Disabling RLS to make reads easier.
-- Adding public write policies before a real form/backend step.
+- Adding public write policies without a specific assigned security decision.
 - Marking `needs_review` links or media as verified.
 - Moving public pages from local content to Supabase without an assigned data-layer step.
 - Creating fake submissions or fake admin behavior.
 - Building admin UI before auth and server boundaries exist.
+- Writing to `submissions` directly from browser components.
+- Adding a public insert policy without a specific assigned security decision.

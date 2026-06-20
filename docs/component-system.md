@@ -68,9 +68,9 @@ Use only real links.
 
 ## 9. FormShell usage
 
-`FormShell` is a layout wrapper for future form-like surfaces.
+`FormShell` is a layout wrapper for form-like surfaces.
 
-It does not submit anything. Do not add fake inputs, fake submit states, or fake success messages. Use clear placeholder language until a real form step exists.
+Step 32 uses it with `SubmissionForm` for Contact, Services, and Collaborate. Do not add fake success messages. Success copy must only appear after the assigned server route succeeds.
 
 ## 10. EmptyState usage
 
@@ -230,7 +230,7 @@ Step 29 adds backend schema files only. No UI component behavior changes are req
 
 - Components should continue to consume local typed content until an assigned data-layer step connects Supabase.
 - Do not add Supabase client imports inside UI primitives.
-- Do not make `FormShell` submit data until a real form/backend step is assigned.
+- Do not make `FormShell` submit data unless a real form/backend step is assigned.
 
 ## Step 31 admin component note
 
@@ -244,3 +244,17 @@ Admin auth components live in `src/features/admin` and are outside the public in
 
 Do not use public page components to imply admin editing exists. Do not use admin components on public routes.
 - Future admin or form components should respect the RLS and submissions boundaries documented in `docs/supabase-schema.md`.
+
+## Step 32 submissions component note
+
+The shared public submission form lives in `src/features/submissions/SubmissionForm.tsx`.
+
+- It posts only to `/api/submissions`.
+- It does not import Supabase clients.
+- It supports disabled no-env behavior.
+- It uses required name, email, subject, and message fields.
+- It allows optional company and website fields.
+- It includes honeypot fields.
+- It shows success copy only after API success.
+
+Keep form styling token-driven through the scoped `.submission-form` classes in `src/app/globals.css`.

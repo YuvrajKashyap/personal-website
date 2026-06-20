@@ -2,6 +2,7 @@ import { PageHero } from "@/components/layout/PageHero";
 import { SectionShell } from "@/components/layout/SectionShell";
 import { Reveal } from "@/components/motion/Reveal";
 import { CosmicCard } from "@/components/ui/CosmicCard";
+import { FormShell } from "@/components/ui/FormShell";
 import { LinkButton } from "@/components/ui/LinkButton";
 import { StatusBadge } from "@/components/ui/StatusBadge";
 import { TelemetryCard } from "@/components/ui/TelemetryCard";
@@ -17,6 +18,8 @@ import {
   collaborateProofLinks,
   servicesVsCollaborate,
 } from "@/features/collaborate/collaborate-content";
+import { SubmissionForm } from "@/features/submissions/SubmissionForm";
+import { isSubmissionBackendConfigured } from "@/lib/submissions/config";
 
 function CollaborateHeroPanel() {
   return (
@@ -207,7 +210,7 @@ function ProcessSection() {
       variant="wide"
       eyebrow="How to Reach Out"
       title="Start with the context, not a performance."
-      description="The current path is manual. A clear note is more useful than a polished pitch without substance."
+      description="A clear note is more useful than a polished pitch without substance. The form route stays manual-review only."
     >
       <ol className="collaborate-process">
         {collaborateProcessSteps.map((step) => (
@@ -220,6 +223,39 @@ function ProcessSection() {
           </li>
         ))}
       </ol>
+    </SectionShell>
+  );
+}
+
+function CollaborateSubmissionSection({
+  backendEnabled,
+}: Readonly<{
+  backendEnabled: boolean;
+}>) {
+  return (
+    <SectionShell
+      id="collaborate-submission"
+      variant="wide"
+      eyebrow="Alignment Signal"
+      title="Send the context behind the opportunity."
+      description="Use this for broader aligned opportunities that need context before shape. Services remains the route for scoped build requests."
+    >
+      <Reveal variant="scale-soft">
+        <FormShell
+          eyebrow="Collaborate Intake"
+          title="Alignment form"
+          description="This form stores context only when the Supabase backend is configured. It does not create scheduling, routing, or outcome promises."
+          className="submission-intake-panel"
+        >
+          <SubmissionForm
+            submissionType="collaborate"
+            backendEnabled={backendEnabled}
+            sourcePath="/collaborate"
+            title="Send collaboration context"
+            description="Share who you are, what exists now, and why the alignment might matter."
+          />
+        </FormShell>
+      </Reveal>
     </SectionShell>
   );
 }
@@ -308,6 +344,8 @@ function ClosingCta() {
 }
 
 export function CollaboratePage() {
+  const backendEnabled = isSubmissionBackendConfigured();
+
   return (
     <main className="internal-page collaborate-page">
       <PageHero
@@ -327,22 +365,31 @@ export function CollaboratePage() {
       <FitMatrixSection />
       <PrinciplesSection />
       <ProcessSection />
+      <CollaborateSubmissionSection backendEnabled={backendEnabled} />
       <ProofSection />
       <ComparisonSection />
 
       <SectionShell
         id="collaborate-boundary"
         variant="compact"
-        headerAction={<StatusBadge tone="muted">Manual route</StatusBadge>}
+        headerAction={
+          <StatusBadge tone={backendEnabled ? "active" : "muted"}>
+            {backendEnabled ? "Backend configured" : "Backend pending"}
+          </StatusBadge>
+        }
         eyebrow="Contact Boundary"
-        title="Contact is the current next step."
-        description="Collaborate explains fit and context. It does not submit requests, automate decisions, or imply that every opportunity should move forward."
+        title="The route stays manual and bounded."
+        description={
+          backendEnabled
+            ? "The form route can save collaboration context for manual review. It does not automate decisions or imply that every opportunity should move forward."
+            : "Submission backend is not configured yet. Use the verified channels on the Contact page for now."
+        }
       >
         <TelemetryCard
           label="Current route"
-          value="Manual contact"
-          description="The conversation starts through Contact and stays honest about shape, constraints, and fit."
-          source="No backend flow"
+          value={backendEnabled ? "Server form route" : "Verified channels"}
+          description="The conversation starts with context and stays honest about shape, constraints, and fit."
+          source={backendEnabled ? "Server route" : "No backend env"}
           tone="active"
         />
       </SectionShell>

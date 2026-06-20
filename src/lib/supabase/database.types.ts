@@ -6,10 +6,10 @@ export type Json =
   | { [key: string]: Json | undefined }
   | Json[];
 
-type PublicTable<Row> = {
+type PublicTable<Row, Insert = never, Update = never> = {
   Row: Row;
-  Insert: never;
-  Update: never;
+  Insert: Insert;
+  Update: Update;
   Relationships: [];
 };
 
@@ -35,21 +35,47 @@ export type Database = {
         created_at: string;
         updated_at: string;
       }>;
-      submissions: PublicTable<{
-        id: string;
-        submission_type: "contact" | "services" | "collaborate" | "general";
-        status: "new" | "reviewed" | "archived" | "spam";
-        name: string | null;
-        email: string | null;
-        subject: string | null;
-        message: string | null;
-        company: string | null;
-        website: string | null;
-        source_path: string | null;
-        metadata: Json;
-        created_at: string;
-        updated_at: string;
-      }>;
+      submissions: PublicTable<
+        {
+          id: string;
+          submission_type: "contact" | "services" | "collaborate" | "general";
+          status: "new" | "reviewed" | "archived" | "spam";
+          name: string | null;
+          email: string | null;
+          subject: string | null;
+          message: string | null;
+          company: string | null;
+          website: string | null;
+          source_path: string | null;
+          metadata: Json;
+          created_at: string;
+          updated_at: string;
+        },
+        {
+          submission_type?: "contact" | "services" | "collaborate" | "general";
+          status?: "new" | "reviewed" | "archived" | "spam";
+          name?: string | null;
+          email?: string | null;
+          subject?: string | null;
+          message?: string | null;
+          company?: string | null;
+          website?: string | null;
+          source_path?: string | null;
+          metadata?: Json;
+        },
+        {
+          submission_type?: "contact" | "services" | "collaborate" | "general";
+          status?: "new" | "reviewed" | "archived" | "spam";
+          name?: string | null;
+          email?: string | null;
+          subject?: string | null;
+          message?: string | null;
+          company?: string | null;
+          website?: string | null;
+          source_path?: string | null;
+          metadata?: Json;
+        }
+      >;
       projects: PublicTable<{
         id: string;
         slug: string;
@@ -166,10 +192,14 @@ export type PublicTables = Database["public"]["Tables"];
 export type TableRow<TableName extends keyof PublicTables> =
   PublicTables[TableName]["Row"];
 
+export type TableInsert<TableName extends keyof PublicTables> =
+  PublicTables[TableName]["Insert"];
+
 // Manually maintained until a real Supabase project can generate canonical types.
 export type SupabaseAdminUserRow = TableRow<"admin_users">;
 export type SupabaseSiteSettingsRow = TableRow<"site_settings">;
 export type SupabaseSubmissionRow = TableRow<"submissions">;
+export type SupabaseSubmissionInsert = TableInsert<"submissions">;
 export type SupabaseProjectRow = TableRow<"projects">;
 export type SupabaseProjectLinkRow = TableRow<"project_links">;
 export type SupabaseProjectMediaRow = TableRow<"project_media">;

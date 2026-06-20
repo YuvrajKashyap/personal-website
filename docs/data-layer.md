@@ -215,7 +215,7 @@ Local content fallback also remains for Projects when Supabase is missing, unset
 
 Step 31 may build protected admin auth if assigned.
 
-Step 32 may build contact/submission backend behavior if assigned.
+Step 32 adds server-routed Contact, Services, and Collaborate submissions.
 
 Later assigned work can:
 

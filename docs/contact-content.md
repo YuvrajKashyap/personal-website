@@ -6,13 +6,13 @@ The Contact page is the manual reach-out and routing surface for Yuvraj Kashyap'
 
 It connects the Services and Collaborate flows to verified public channels while helping visitors choose the right context before reaching out.
 
-## 2. Manual Contact Boundary
+## 2. Contact Boundary
 
-Contact is manual in this step.
+Contact has verified channels and a backend-aware submission form.
 
-There is no backend intake system, server action, email API, CRM, scheduling tool, booking tool, payment flow, Supabase table, or automated routing.
+The form posts to `/api/submissions`. If the server-side Supabase backend is missing, the form renders a disabled setup state and points users back to verified channels.
 
-The page should feel intentional without pretending a live intake system exists.
+There is still no email API, CRM, scheduling tool, booking tool, payment flow, automated routing, or response promise.
 
 ## 3. Verified Channel Rule
 
@@ -38,7 +38,7 @@ Private memory, assumptions, likely usernames, or external guesses are not enoug
 
 ## 5. Message Brief Model
 
-The message brief is a checklist, not a form.
+The message brief is guidance for the form or verified channels.
 
 It asks for:
 
@@ -59,27 +59,27 @@ Collaborate is for broader aligned opportunities where context comes before shap
 
 Contact is the manual endpoint that both routes can point toward until a future intake system exists.
 
-## 7. Future Backend Boundary
+## 7. Submission Backend Boundary
 
-Future Supabase, form, email, routing, or admin work can preserve the local content model in:
+Step 32 adds the form and server route while preserving the local content model in:
 
 `src/features/contact/contact-content.ts`
 
-Future backend work should not leak private operations into public client code.
+Backend work must not leak private operations into public client code. The browser form posts to `/api/submissions`; it does not import Supabase write clients.
 
 ## 8. No Fake Submission Rule
 
 Do not add:
 
-- fake submit buttons
+- fake submit behavior
 - fake success states
-- message sent copy
-- received copy
+- message sent copy before an actual API success
+- received copy before an actual API success
 - hidden form endpoints
 - fake response windows
 - fake capacity or demand claims
 
-The current page should stay honest that contact is direct and manual.
+The current page should stay honest that review is manual and backend setup may be missing.
 
 ## 9. Anti-Patterns
 

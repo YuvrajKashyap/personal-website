@@ -2,6 +2,7 @@ import { PageHero } from "@/components/layout/PageHero";
 import { SectionShell } from "@/components/layout/SectionShell";
 import { Reveal } from "@/components/motion/Reveal";
 import { CosmicCard } from "@/components/ui/CosmicCard";
+import { FormShell } from "@/components/ui/FormShell";
 import { LinkButton } from "@/components/ui/LinkButton";
 import { StatusBadge } from "@/components/ui/StatusBadge";
 import { TelemetryCard } from "@/components/ui/TelemetryCard";
@@ -16,6 +17,8 @@ import {
   servicesDefinition,
   servicesHero,
 } from "@/features/services/services-content";
+import { SubmissionForm } from "@/features/submissions/SubmissionForm";
+import { isSubmissionBackendConfigured } from "@/lib/submissions/config";
 
 function ServicesHeroPanel() {
   return (
@@ -175,7 +178,7 @@ function ProcessSection() {
       variant="wide"
       eyebrow="Request Process"
       title="Manual by design, clear by necessity."
-      description="There is no automated intake flow here. The current path is a focused contact route and a scoped follow-up conversation."
+      description="The form can save structured context when the backend is configured. The review path stays manual and scoped."
     >
       <ol className="services-process">
         {serviceProcessSteps.map((step) => (
@@ -188,6 +191,39 @@ function ProcessSection() {
           </li>
         ))}
       </ol>
+    </SectionShell>
+  );
+}
+
+function ServicesSubmissionSection({
+  backendEnabled,
+}: Readonly<{
+  backendEnabled: boolean;
+}>) {
+  return (
+    <SectionShell
+      id="services-submission"
+      variant="wide"
+      eyebrow="Scoped Request"
+      title="Send the request shape for manual review."
+      description="Use this only when there is enough context to evaluate a concrete product surface, workflow, prototype, or system."
+    >
+      <Reveal variant="scale-soft">
+        <FormShell
+          eyebrow="Services Intake"
+          title="Scoped request form"
+          description="This form stores context only when the Supabase backend is configured. It does not automate decisions."
+          className="submission-intake-panel"
+        >
+          <SubmissionForm
+            submissionType="services"
+            backendEnabled={backendEnabled}
+            sourcePath="/services"
+            title="Send scoped request context"
+            description="Focus on the surface, the constraint, and the decision that would make the next step clearer."
+          />
+        </FormShell>
+      </Reveal>
     </SectionShell>
   );
 }
@@ -273,6 +309,8 @@ function ClosingCta() {
 }
 
 export function ServicesPage() {
+  const backendEnabled = isSubmissionBackendConfigured();
+
   return (
     <main className="internal-page services-page">
       <PageHero
@@ -291,22 +329,31 @@ export function ServicesPage() {
       <ServiceLaneSection />
       <FitMatrixSection />
       <ProcessSection />
+      <ServicesSubmissionSection backendEnabled={backendEnabled} />
       <ProofSection />
       <ComparisonSection />
 
       <SectionShell
         id="services-boundary"
         variant="compact"
-        headerAction={<StatusBadge tone="muted">No backend flow</StatusBadge>}
+        headerAction={
+          <StatusBadge tone={backendEnabled ? "active" : "muted"}>
+            {backendEnabled ? "Backend configured" : "Backend pending"}
+          </StatusBadge>
+        }
         eyebrow="Manual Boundary"
-        title="Contact is the current intake path."
-        description="The page explains fit and routing. It does not pretend to submit requests, automate decisions, or replace a real conversation."
+        title="The request still starts with context."
+        description={
+          backendEnabled
+            ? "The form route can save scoped request context for manual review. It does not automate decisions or replace a real conversation."
+            : "Submission backend is not configured yet. Use the verified channels on the Contact page for now."
+        }
       >
         <TelemetryCard
           label="Current route"
-          value="Manual contact"
-          description="The request starts through Contact, then gets clarified before any next move exists."
-          source="No form flow"
+          value={backendEnabled ? "Server form route" : "Verified channels"}
+          description="The request starts with scoped context, then gets clarified before any next move exists."
+          source={backendEnabled ? "Server route" : "No backend env"}
           tone="active"
         />
       </SectionShell>

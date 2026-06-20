@@ -188,13 +188,13 @@ export const messageBriefItems = [
 ] as const satisfies readonly MessageBriefItem[];
 
 export const contactSourceNote = {
-  eyebrow: "Manual Boundary",
-  title: "Manual now, backend later.",
+  eyebrow: "Submission Boundary",
+  title: "Server-routed, manual review.",
   body:
-    "Contact is intentionally direct in this step. A future intake system can be added later, but there is no live backend flow here.",
+    "Contact now has a backend-aware submission route. If server env is missing, verified channels remain the active path.",
   label: "Current route",
   value: "Verified channels",
-  source: "No backend flow",
+  source: "Server route",
 } as const;
 
 export const contactProofLinks = [

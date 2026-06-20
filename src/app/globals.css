@@ -2232,6 +2232,181 @@ a.cosmic-card:hover {
   background: var(--surface-soft);
 }
 
+.submission-intake-panel {
+  position: relative;
+  overflow: hidden;
+}
+
+.submission-intake-panel::before {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 9% 0%, var(--glow-primary), transparent 34%),
+    linear-gradient(116deg, transparent, var(--orbit-line), transparent);
+  content: "";
+  opacity: 0.32;
+  pointer-events: none;
+}
+
+.submission-intake-panel > * {
+  position: relative;
+  z-index: 1;
+}
+
+.submission-form {
+  display: grid;
+  gap: var(--stack-md);
+}
+
+.submission-form__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--stack-sm);
+}
+
+.submission-form__field {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.submission-form__field--full {
+  grid-column: 1 / -1;
+}
+
+.submission-form__label {
+  color: var(--muted-foreground);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+}
+
+.submission-form__input,
+.submission-form__textarea {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: color-mix(in srgb, var(--surface) 78%, transparent);
+  color: var(--foreground);
+  font: inherit;
+  line-height: var(--leading-body);
+  outline: none;
+  padding: 0.9rem 1rem;
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    background 180ms ease;
+}
+
+.submission-form__textarea {
+  min-height: 11rem;
+  resize: vertical;
+}
+
+.submission-form__input::placeholder,
+.submission-form__textarea::placeholder {
+  color: color-mix(in srgb, var(--muted-foreground) 72%, transparent);
+}
+
+.submission-form__input:focus,
+.submission-form__textarea:focus {
+  border-color: var(--focus);
+  box-shadow: var(--focus-ring);
+}
+
+.submission-form__input:disabled,
+.submission-form__textarea:disabled,
+.submission-form__button:disabled {
+  cursor: not-allowed;
+  opacity: 0.58;
+}
+
+.submission-form__disabled,
+.submission-form__success,
+.submission-form__error--form {
+  display: grid;
+  gap: 0.35rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  padding: 0.95rem 1rem;
+}
+
+.submission-form__disabled {
+  background: var(--surface-soft);
+  color: var(--muted-foreground);
+}
+
+.submission-form__disabled strong {
+  color: var(--foreground);
+}
+
+.submission-form__honeypot {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.submission-form__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--stack-sm);
+}
+
+.submission-form__button {
+  min-height: 2.85rem;
+  border: 1px solid var(--accent);
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--accent-foreground);
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: var(--tracking-wider);
+  padding: 0.8rem 1.1rem;
+  text-transform: uppercase;
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    background 180ms ease;
+}
+
+.submission-form__button:not(:disabled):hover {
+  background: var(--accent-strong);
+  border-color: var(--accent-strong);
+  transform: translateY(-1px);
+}
+
+.submission-form__error {
+  color: var(--danger);
+  font-size: var(--text-sm);
+  line-height: var(--leading-body);
+}
+
+.submission-form__success {
+  border-color: color-mix(in srgb, var(--success) 52%, var(--border));
+  background: color-mix(in srgb, var(--success) 12%, var(--surface));
+  color: var(--foreground);
+}
+
+.submission-form__success strong {
+  color: var(--success);
+}
+
+.submission-form__error--form {
+  background: color-mix(in srgb, var(--danger) 10%, var(--surface));
+}
+
+html[data-theme="light"] .submission-form__input,
+html[data-theme="light"] .submission-form__textarea,
+html[data-theme="light"] .submission-form__disabled {
+  background: color-mix(in srgb, var(--surface) 86%, white);
+}
+
 .about-page .page-hero-copy .text-page-title {
   max-width: 13ch;
 }
@@ -4445,7 +4620,8 @@ html[data-theme="light"] .project-card-media {
   .collaborate-definition,
   .collaborate-fit-grid,
   .collaborate-comparison,
-  .contact-message-brief {
+  .contact-message-brief,
+  .submission-form__grid {
     grid-template-columns: 1fr;
   }
 

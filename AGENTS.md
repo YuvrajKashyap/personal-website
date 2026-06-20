@@ -52,6 +52,14 @@ Alternate light mode is Ivory Observatory: ivory and beige editorial premium int
 - Do not build project editing, tracker editing, page editing, or submissions management unless assigned.
 - Do not enable public writes from admin foundation work.
 - Do not use service-role or secret keys in browser/client code.
+- Public submission forms must post to `/api/submissions`, not directly to Supabase from browser code.
+- Keep `src/lib/supabase/service-client.ts` and submission insert helpers server-only.
+- Do not add public insert RLS policies for `submissions` unless an assigned step explicitly changes that boundary.
+- Do not fake submission success. Show success copy only after `/api/submissions` succeeds.
+- Preserve the disabled no-env submission state when server-side Supabase values are missing.
+- Do not ask for phone, budget, payment, availability, immigration, or sensitive private fields in public forms unless explicitly assigned.
+- Do not add email, CRM, scheduling, booking, payments, analytics, captcha, or rate-limit packages unless explicitly assigned.
+- Do not build an admin submissions inbox unless an assigned step explicitly asks for it.
 - Do not hardcode admin email bypasses or local admin allowlists.
 - Do not seed admin users automatically.
 - Do not expose raw auth errors or secrets in admin UI or URLs.
@@ -83,7 +91,7 @@ Alternate light mode is Ivory Observatory: ivory and beige editorial premium int
 - Do not build one-off page layouts unless the assigned step gives a clear reason.
 - Do not fake tracker metrics, project details, live status, forms, submissions, or success states.
 - Use source labels on telemetry cards when values could be mistaken for live data.
-- Treat `FormShell` as a wrapper only until a real form step is assigned.
+- Treat `FormShell` as a wrapper. Use it with real form behavior only when the assigned step adds that backend boundary.
 - Keep internal page placeholders honest and clearly bounded.
 - Keep admin routes outside the public template system unless an assigned step changes that boundary.
 - Use typed project data from `src/data/projects.ts` and helpers from `src/lib/projects`.
@@ -145,6 +153,7 @@ Alternate light mode is Ivory Observatory: ivory and beige editorial premium int
 - Contact must only show verified public channels from project config or existing public code.
 - Do not invent email, phone, booking, scheduling, calendar, CRM, inbox, or external contact links.
 - Do not add fake contact forms, fake submissions, fake success states, fake response times, or availability claims.
+- After Step 32, Contact, Services, and Collaborate may render `SubmissionForm`, but submission writes must remain server-routed and backend-aware.
 - Route Contact CTAs through verified channels and internal pages until a real intake flow is assigned.
 - Do not ask for sensitive private information in Contact message guidance.
 - `HomeLight` is now the final-direction Ivory Observatory hero, not a placeholder.
@@ -186,7 +195,7 @@ Alternate light mode is Ivory Observatory: ivory and beige editorial premium int
 - Do not expose `SUPABASE_SERVICE_ROLE_KEY` or any service role key to browser or client code.
 - Use `supabase/migrations` for schema changes.
 - Keep RLS enabled on Supabase tables.
-- Keep public writes disabled until an assigned form/backend step explicitly changes that boundary.
+- Keep public direct database writes disabled unless an assigned security step explicitly changes that boundary.
 - After Step 30, public project reads should use the data-source helpers in `src/lib/projects/project-data-source.ts`.
 - Keep local project fallback unless the main architect explicitly removes it.
 - Do not require Supabase environment variables for build.

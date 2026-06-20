@@ -70,19 +70,21 @@ Not-fit items should be respectful and boundary-setting:
 
 Avoid hostile wording. The page should feel selective, not dismissive.
 
-## 6. Manual contact and intake boundary
+## 6. Submission and intake boundary
 
-The current request path is manual and routes to `/contact`.
+The Services page now includes a scoped request form that posts to `/api/submissions`.
+
+If Supabase server environment values are missing, the form stays disabled and points users to verified channels on Contact.
 
 The Services page must not pretend there is:
 
-- A functional submission flow
 - Automated review
 - A booking system
 - A payment flow
-- A database-backed intake system
+- A guaranteed response
+- A database-backed intake system when backend env is missing
 
-Future work can add real contact, backend, and admin behavior when assigned.
+Admin review, email delivery, CRM routing, scheduling, booking, and payments remain deferred.
 
 ## 7. No-pricing and no-package rule
 
@@ -101,6 +103,8 @@ When those systems are assigned:
 - Do not expose service role keys to client code.
 - Do not fake successful submissions.
 - Keep Contact as the public request route unless architecture changes explicitly.
+- Keep browser code away from service-role or secret keys.
+- Preserve the server route boundary for submission writes.
 
 ## 9. Anti-patterns
 

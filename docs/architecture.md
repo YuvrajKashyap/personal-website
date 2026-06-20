@@ -594,7 +594,7 @@ The `/services` route is now a full public Services page rather than an internal
 - Structured local content lives in `src/features/services/services-content.ts`.
 - Services is the scoped build request route for practical execution, product surfaces, workflows, prototypes, and systems.
 - Collaborate remains the broader opportunity route for aligned builders, founders, creators, startups, technical groups, and longer-term possibilities.
-- Contact remains the manual intake route. No backend form, Supabase flow, payment, booking, or scheduling integration exists yet.
+- Contact remains the verified channel and direct context route. Step 32 adds a server-routed submission form, but no payment, booking, scheduling, CRM, email, or automated decision system exists.
 - The page uses local content sections for definition, service lanes, fit and not-fit signals, request process, proof surfaces, Services vs Collaborate, and closing CTA.
 - Proof links use real internal routes only.
 - Public copy must avoid fake pricing, packages, testimonials, clients, guarantees, delivery timelines, availability claims, revenue claims, sensitive immigration details, and fake submission behavior.
@@ -608,7 +608,7 @@ The `/collaborate` route is now a full public broader-alignment page rather than
 - Structured local content lives in `src/features/collaborate/collaborate-content.ts`.
 - Collaborate is the broader aligned-opportunity route for founders, builders, creators, startups, research or technical groups, and long-term aligned work.
 - Services stays the scoped build request route. Collaborate stays broader and more exploratory while still requiring clear context.
-- Contact remains the manual next step. No backend form, Supabase flow, payment, booking, calendar, or scheduling integration exists yet.
+- Contact remains the verified channel and direct context route. Step 32 adds a server-routed submission form, but no payment, booking, calendar, scheduling, CRM, email, or automated decision system exists.
 - The page uses local content sections for definition, collaboration lanes, fit and not-fit signals, alignment principles, how to reach out, proof surfaces, Services vs Collaborate, and closing CTA.
 - Proof links use real internal routes only.
 - Public copy must avoid fake collaborations, fake affiliations, fake outcomes, fake demand signals, sensitive immigration details, and fake submission behavior.
@@ -623,9 +623,10 @@ The `/contact` route is now a full public Contact page rather than an internal p
 - Contact is the manual verified-channel endpoint for Services, Collaborate, project context, and serious direct messages.
 - Verified channels are derived conservatively from `src/config/site.ts` and existing public footer usage.
 - The current verified public channels are GitHub and the canonical website URL.
-- No email address, phone number, calendar, booking link, scheduling tool, CRM, email API, Supabase flow, or backend intake system exists yet.
-- The page uses local content sections for verified channels, route guidance, message brief, manual boundary, proof surfaces, and closing CTA.
-- The message brief is a checklist. It is not a form and does not collect or send data.
+- No email address, phone number, calendar, booking link, scheduling tool, CRM, or email API exists yet.
+- Step 32 adds a backend-aware submission form that posts to `/api/submissions` and stays disabled when server env is missing.
+- The page uses local content sections for verified channels, route guidance, message brief, submission form, manual boundary, proof surfaces, and closing CTA.
+- The message brief remains guidance. The submission form owns the actual data entry surface.
 - Future Supabase, admin editing, and contact handling can preserve the model shape, but none of those systems are implemented in this step.
 
 ## Step 29 implementation note
@@ -675,5 +676,25 @@ Step 31 adds the private admin auth and dashboard foundation.
 - `/admin` is protected by a server-side guard that uses `getClaims()` and requires an active `admin_users` row.
 - Admin routes remain outside the public route group and do not render the public shell.
 - The admin dashboard is read-only and foundation-only.
-- No content CRUD, project editing, forms backend, submissions handling, public writes, admin seed, or service-role runtime client was added.
+- No content CRUD, project editing, submissions management UI, public writes, admin seed, or browser service-key usage was added.
 - The public site and local fallback still build and run without Supabase env values.
+
+## Step 32 implementation note
+
+Step 32 adds the submissions foundation for Contact, Services, and Collaborate.
+
+- Shared submission types live in `src/types/submission.ts`.
+- Validation lives in `src/lib/submissions/validation.ts`.
+- Backend configuration lives in `src/lib/submissions/config.ts`.
+- The server-only Supabase write client lives in `src/lib/supabase/service-client.ts`.
+- Insert behavior lives in `src/lib/submissions/submit-submission.ts`.
+- Public forms post to `src/app/api/submissions/route.ts`.
+- Shared form UI lives in `src/features/submissions/SubmissionForm.tsx`.
+- Contact, Services, and Collaborate render route-specific forms with server-provided backend status.
+- The browser does not write directly to Supabase.
+- The `submissions` table remains locked from public direct writes. No public insert RLS policy was added.
+- Valid submissions can be inserted only when server-side Supabase URL and server key values are configured.
+- If backend env is missing, forms show setup copy and `/api/submissions` returns safe `503` JSON for otherwise valid payloads.
+- Success copy appears only after an actual API success.
+- GET requests to `/api/submissions` do not expose submissions.
+- Admin submissions viewing, email delivery, CRM, scheduling, booking, captcha, analytics, and admin CRUD remain deferred.

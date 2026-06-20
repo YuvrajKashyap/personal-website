@@ -2,6 +2,7 @@ import { PageHero } from "@/components/layout/PageHero";
 import { SectionShell } from "@/components/layout/SectionShell";
 import { Reveal } from "@/components/motion/Reveal";
 import { CosmicCard } from "@/components/ui/CosmicCard";
+import { FormShell } from "@/components/ui/FormShell";
 import { LinkButton } from "@/components/ui/LinkButton";
 import { StatusBadge } from "@/components/ui/StatusBadge";
 import { TelemetryCard } from "@/components/ui/TelemetryCard";
@@ -16,6 +17,8 @@ import {
   type ContactChannel,
   type ContactRouteCard,
 } from "@/features/contact/contact-content";
+import { SubmissionForm } from "@/features/submissions/SubmissionForm";
+import { isSubmissionBackendConfigured } from "@/lib/submissions/config";
 
 function ContactHeroPanel() {
   return (
@@ -36,8 +39,8 @@ function ContactHeroPanel() {
         </div>
       </div>
       <p className="text-caption">
-        A clear contact surface for serious context without pretending a backend
-        flow exists.
+        A clear contact surface for serious context, verified channels, and a
+        backend-aware form boundary.
       </p>
     </div>
   );
@@ -185,22 +188,65 @@ function MessageBriefSection() {
   );
 }
 
-function ManualBoundarySection() {
+function ContactSubmissionSection({
+  backendEnabled,
+}: Readonly<{
+  backendEnabled: boolean;
+}>) {
+  return (
+    <SectionShell
+      id="contact-submission"
+      variant="wide"
+      eyebrow="Submission Route"
+      title="Send structured context for manual review."
+      description="This route keeps Contact useful without adding fake response promises, hidden automation, or private data requests."
+    >
+      <Reveal variant="scale-soft">
+        <FormShell
+          eyebrow="Manual Intake"
+          title="Contact form"
+          description="Use this for direct context that should be saved for manual review once the backend is configured."
+          className="submission-intake-panel"
+        >
+          <SubmissionForm
+            submissionType="contact"
+            backendEnabled={backendEnabled}
+            sourcePath="/contact"
+            title="Send contact context"
+            description="Keep it short, specific, and grounded in the route you want reviewed."
+          />
+        </FormShell>
+      </Reveal>
+    </SectionShell>
+  );
+}
+
+function ManualBoundarySection({
+  backendEnabled,
+}: Readonly<{
+  backendEnabled: boolean;
+}>) {
+  const status = backendEnabled ? "Backend configured" : "Backend pending";
+  const source = backendEnabled ? "Server route" : "No backend env";
+  const description = backendEnabled
+    ? "Submissions are routed through a server endpoint for manual review. Verified public channels remain visible for context."
+    : "Submission backend is not configured yet. Use the verified channels on the Contact page for now.";
+
   return (
     <SectionShell
       id="contact-boundary"
       variant="compact"
-      headerAction={<StatusBadge tone="muted">No backend flow</StatusBadge>}
+      headerAction={<StatusBadge tone={backendEnabled ? "active" : "muted"}>{status}</StatusBadge>}
       eyebrow={contactSourceNote.eyebrow}
-      title={contactSourceNote.title}
-      description={contactSourceNote.body}
+      title="Verified channels stay visible."
+      description={description}
     >
       <div className="contact-source-note">
         <TelemetryCard
           label={contactSourceNote.label}
           value={contactSourceNote.value}
-          description="Use the verified channels and route guidance on this page. A future intake system can reuse this content model without changing the public boundary."
-          source={contactSourceNote.source}
+          description="Use the verified channels and route guidance on this page. The form route keeps submissions server-side and bounded."
+          source={source}
           tone="active"
         />
       </div>
@@ -262,6 +308,8 @@ function ClosingCta() {
 }
 
 export function ContactPage() {
+  const backendEnabled = isSubmissionBackendConfigured();
+
   return (
     <main className="internal-page contact-page">
       <PageHero
@@ -283,7 +331,8 @@ export function ContactPage() {
       <ContactChannelsSection />
       <RouteGuidanceSection />
       <MessageBriefSection />
-      <ManualBoundarySection />
+      <ContactSubmissionSection backendEnabled={backendEnabled} />
+      <ManualBoundarySection backendEnabled={backendEnabled} />
       <ProofSection />
       <ClosingCta />
     </main>

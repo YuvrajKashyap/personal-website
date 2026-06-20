@@ -14,7 +14,7 @@ export const adminStatusCards = [
     label: "Scope",
     title: "Read-only foundation",
     description:
-      "Content editing, submissions, and public writes are intentionally not built.",
+      "Content editing and submissions management are intentionally not built.",
   },
 ] as const;
 
@@ -64,7 +64,7 @@ export const futureAdminAreas: readonly FutureAdminArea[] = [
   {
     title: "Submissions",
     description:
-      "Future private inbox for validated submissions after a real backend step.",
+      "Future private inbox for validated Contact, Services, and Collaborate submissions.",
   },
   {
     title: "Site Settings",
