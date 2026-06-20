@@ -128,6 +128,13 @@ Alternate light mode is Ivory Observatory: ivory and beige editorial premium int
 - Do not add fake collaborations, fake affiliations, fake outcomes, fake demand signals, fake founders, fake advisors, fake investors, or fake external proof.
 - Do not add fake forms, fake submissions, payment flows, booking tools, scheduling integrations, calendars, or backend routing unless an assigned step explicitly requires them.
 - Route Collaborate CTAs to Contact until a real contact flow is built.
+- Keep the Contact page focused on verified channels and manual routing.
+- Keep Contact content driven by `src/features/contact/contact-content.ts`.
+- Contact must only show verified public channels from project config or existing public code.
+- Do not invent email, phone, booking, scheduling, calendar, CRM, inbox, or external contact links.
+- Do not add fake contact forms, fake submissions, fake success states, fake response times, or availability claims.
+- Route Contact CTAs through verified channels and internal pages until a real intake flow is assigned.
+- Do not ask for sensitive private information in Contact message guidance.
 - `HomeLight` is now the final-direction Ivory Observatory hero, not a placeholder.
 - Keep `HomeLight` editorial, premium, token-driven, and distinct from the dark hero.
 - Do not regress light mode into a generic beige template or a simple inverted dark hero.

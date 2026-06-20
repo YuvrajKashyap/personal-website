@@ -4,7 +4,7 @@
 
 This website should feel like entering Yuvraj Kashyap's universe and operating system. It should signal elite builder, future founder, and systems-thinker energy while staying smooth, minimal, premium, responsive, accessible, and production-grade.
 
-The current public home page has the final-direction hero and curated Home gateway sections. Full About, Experience, Projects, Tracker, Services, and Collaborate pages now exist, while Contact, Supabase, and admin surfaces remain future work.
+The current public home page has the final-direction hero and curated Home gateway sections. Full About, Experience, Projects, Tracker, Services, Collaborate, and Contact pages now exist, while Supabase and admin surfaces remain future work.
 
 ## 2. High-level app architecture
 
@@ -497,8 +497,7 @@ The internal public page template system now exists for non-home public routes.
 - Home remains a separate gateway feature in `src/features/home` and was not refactored into the internal page templates.
 - Admin routes remain outside the public shell and outside the public template system.
 - Tracker placeholder telemetry uses source labels and does not fake live data.
-- Contact uses `FormShell` only as a wrapper. It does not submit, fake success, or imply a backend.
-- Full Contact, Supabase, admin, connected tracker sources, and media-rich case study builds remain future assigned steps.
+- Full Supabase, admin, connected tracker sources, and media-rich case study builds remain future assigned steps.
 
 ## Step 20 implementation note
 
@@ -611,4 +610,18 @@ The `/collaborate` route is now a full public broader-alignment page rather than
 - The page uses local content sections for definition, collaboration lanes, fit and not-fit signals, alignment principles, how to reach out, proof surfaces, Services vs Collaborate, and closing CTA.
 - Proof links use real internal routes only.
 - Public copy must avoid fake collaborations, fake affiliations, fake outcomes, fake demand signals, sensitive immigration details, and fake submission behavior.
+- Future Supabase, admin editing, and contact handling can preserve the model shape, but none of those systems are implemented in this step.
+
+## Step 28 implementation note
+
+The `/contact` route is now a full public Contact page rather than an internal placeholder.
+
+- Page composition lives in `src/features/contact/ContactPage.tsx`.
+- Structured local content lives in `src/features/contact/contact-content.ts`.
+- Contact is the manual verified-channel endpoint for Services, Collaborate, project context, and serious direct messages.
+- Verified channels are derived conservatively from `src/config/site.ts` and existing public footer usage.
+- The current verified public channels are GitHub and the canonical website URL.
+- No email address, phone number, calendar, booking link, scheduling tool, CRM, email API, Supabase flow, or backend intake system exists yet.
+- The page uses local content sections for verified channels, route guidance, message brief, manual boundary, proof surfaces, and closing CTA.
+- The message brief is a checklist. It is not a form and does not collect or send data.
 - Future Supabase, admin editing, and contact handling can preserve the model shape, but none of those systems are implemented in this step.

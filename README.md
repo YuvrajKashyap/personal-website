@@ -23,7 +23,7 @@ The future site should feel cinematic, orbital, and astrophysics-inspired while 
 
 ## Current Step Status
 
-Step 27 builds the full Collaborate page on top of structured local content. Home, About, Experience, Tracker, Services, Collaborate, Projects archive, and project details now exist, while full Contact, admin functionality, database integration, connected tracker sources, and media-rich project case studies are not implemented yet.
+Step 28 builds the full Contact page on top of structured local content. Home, About, Experience, Tracker, Services, Collaborate, Contact, Projects archive, and project details now exist, while admin functionality, database integration, connected tracker sources, and media-rich project case studies are not implemented yet.
 
 ## Documentation
 
@@ -39,6 +39,7 @@ Step 27 builds the full Collaborate page on top of structured local content. Hom
 - `docs/tracker-content.md` defines the Tracker page manual signal model, source-label rules, future integration boundary, and anti-patterns.
 - `docs/services-content.md` defines the Services page scoped-build model, Services vs Collaborate boundary, manual contact path, no-pricing rules, and future intake boundaries.
 - `docs/collaborate-content.md` defines the Collaborate page broader-alignment model, fit rules, manual contact path, Services boundary, and future intake boundaries.
+- `docs/contact-content.md` defines the Contact page verified-channel model, manual boundary, message brief, routing rules, and future intake boundaries.
 
 ## Local Commands
 
@@ -88,9 +89,9 @@ npm run optimize:hero-video
 - Tracker page
 - Services page
 - Collaborate page
+- Contact page
 - Project case study system
 - Connected tracker sources
-- Contact flow
 - Admin area and content management
 - Supabase or another backend if assigned in a later step
 - Open Graph and social media assets

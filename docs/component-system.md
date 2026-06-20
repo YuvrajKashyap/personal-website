@@ -2,7 +2,7 @@
 
 ## 1. Purpose
 
-The internal page component system gives every non-home public page a shared premium foundation. Full About, Experience, Projects, Tracker, Services, and Collaborate pages now use it, while Contact remains the remaining public placeholder surface.
+The internal page component system gives every non-home public page a shared premium foundation. Full About, Experience, Projects, Tracker, Services, Collaborate, and Contact pages now use it.
 
 It keeps pages visually aligned with Singularity OS and Ivory Observatory while preventing random one-off layouts.
 
@@ -68,7 +68,7 @@ Use only real links.
 
 ## 9. FormShell usage
 
-`FormShell` is a layout wrapper for the future Contact form.
+`FormShell` is a layout wrapper for future form-like surfaces.
 
 It does not submit anything. Do not add fake inputs, fake submit states, or fake success messages. Use clear placeholder language until a real form step exists.
 
@@ -211,3 +211,15 @@ The Collaborate page now uses the internal page component system for a full broa
 - `src/features/collaborate/collaborate-content.ts` owns the structured local content model.
 - Do not add a fake form, fake submission, scheduling tool, payment flow, outcome claim, demand signal, or external booking behavior to Collaborate.
 - Keep Collaborate distinct from Services. Collaborate is broader aligned opportunity. Services is scoped execution.
+
+## Step 28 Contact page note
+
+The Contact page now uses the internal page component system for a full manual verified-channel route.
+
+- `/contact` renders `src/features/contact/ContactPage.tsx`.
+- `PageHero` owns the single page `h1`, status chips, primary action, secondary action, and channel console.
+- `SectionShell` separates verified channels, route guidance, message brief, manual boundary, proof surfaces, and closing CTA.
+- `CosmicCard`, `TelemetryCard`, `StatusBadge`, `LinkButton`, and `Reveal` provide the reusable visual language.
+- `src/features/contact/contact-content.ts` owns the structured local content model.
+- Contact intentionally avoids a `form` element, submit button, fake success state, or backend behavior.
+- Future form work should preserve the verified-channel rule and should not invent contact methods.

@@ -268,3 +268,12 @@ The Collaborate page uses the existing internal page motion foundation only.
 - Motion should support clarity, seriousness, and scanability rather than networking-page theatrics.
 - No GSAP, Three.js, scroll timeline, constant loops, or new animation package was added.
 - Reduced-motion behavior continues through `MotionSystemProvider`.
+
+## 23. Step 28 Contact page motion
+
+The Contact page uses the existing internal page motion foundation only.
+
+- PageHero, verified channel cards, route cards, message brief items, proof cards, and CTA may reveal with existing `Reveal` presets.
+- Motion should support clarity, routing, and trust rather than fake form drama.
+- No GSAP, Three.js, scroll timeline, constant loops, or new animation package was added.
+- Reduced-motion behavior continues through `MotionSystemProvider`.
