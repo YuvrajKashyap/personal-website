@@ -4,7 +4,7 @@
 
 This website should feel like entering Yuvraj Kashyap's universe and operating system. It should signal elite builder, future founder, and systems-thinker energy while staying smooth, minimal, premium, responsive, accessible, and production-grade.
 
-The current public home page has the final-direction hero and curated Home gateway sections. Full About, Experience, Projects, Tracker, Services, Collaborate, and Contact pages now exist, while Supabase and admin surfaces remain future work.
+The current public home page has the final-direction hero and curated Home gateway sections. Full About, Experience, Projects, Tracker, Services, Collaborate, and Contact pages now exist. The Supabase schema foundation now exists locally, while the app data layer, admin auth, admin dashboard, and submissions backend remain future work.
 
 ## 2. High-level app architecture
 
@@ -378,16 +378,16 @@ Metadata should be accurate and minimal early. Do not add fake Open Graph claims
 
 ## 15. Supabase/backend boundary
 
-Supabase comes later. Do not implement it in the architecture step.
+The local Supabase schema foundation exists in `supabase/migrations/20260620165000_initial_schema.sql`. The frontend still uses local content and does not require Supabase environment values at runtime.
 
 Future approach:
 
-- Portfolio schema comes later.
+- Apply the local migration to a real Supabase project only when project access is available.
 - Public site first, admin second.
 - Local content first, then Supabase-backed content.
 - No service role key in client-side code.
 - Public reads for published content later.
-- Public inserts for submissions later.
+- Public inserts for submissions later. Step 29 keeps submissions locked down.
 - Admin-only management later.
 - Treat Supabase and Postgres as a real backend, not magic.
 - Keep data access behind server-side boundaries when needed.
@@ -625,3 +625,20 @@ The `/contact` route is now a full public Contact page rather than an internal p
 - The page uses local content sections for verified channels, route guidance, message brief, manual boundary, proof surfaces, and closing CTA.
 - The message brief is a checklist. It is not a form and does not collect or send data.
 - Future Supabase, admin editing, and contact handling can preserve the model shape, but none of those systems are implemented in this step.
+
+## Step 29 implementation note
+
+Step 29 adds the Supabase schema foundation without connecting the frontend data layer.
+
+- Local migration: `supabase/migrations/20260620165000_initial_schema.sql`.
+- Runbook: `supabase/README.md`.
+- Schema documentation: `docs/supabase-schema.md`.
+- The schema includes admin users, site settings, social links, projects, project links, project media, project detail sections, randomizer tables, content pages, content blocks, tracker tables, submissions, and audit history.
+- RLS is enabled on every table in the migration.
+- Public read policies are limited to safe public/published records.
+- Public writes are disabled, including submissions.
+- Admin policies use authenticated active admin identity through `public.is_site_admin()`.
+- The migration does not seed an admin user.
+- The current public app still uses local content and does not import Supabase runtime clients.
+- `.env.example` contains placeholders only. No real secrets belong in Git.
+- Real Supabase project creation and migration application are manual if authenticated project access is unavailable.

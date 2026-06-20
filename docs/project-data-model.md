@@ -14,9 +14,9 @@ Pure read helpers live in `src/lib/projects`.
 
 Route components and feature components should consume helper functions instead of filtering raw arrays in place.
 
-## 3. Future Supabase migration direction
+## 3. Supabase migration direction
 
-Supabase comes later. The local model should stay close to the future database shape so public pages can migrate without a route rewrite.
+The Supabase schema foundation now exists locally, but the app still reads from local content. The local model should stay close to the database shape so public pages can migrate without a route rewrite.
 
 Expected migration direction:
 
@@ -26,7 +26,27 @@ Expected migration direction:
 - Keep public reads limited to approved published content.
 - Keep admin editing behind server-side and authenticated boundaries later.
 
-Do not add Supabase client code in this step.
+Do not add Supabase client code until the assigned data-layer step.
+
+## 3.1 Supabase table mapping
+
+Step 29 maps the project model to:
+
+- `projects`
+- `project_links`
+- `project_media`
+- `project_detail_sections`
+- `project_randomizer_settings`
+- `project_randomizer_items`
+
+Current local data remains the source of truth until Step 30 or another assigned integration step changes the data-loading boundary.
+
+The same honesty rules apply in the database:
+
+- `needs_review` links must not render as verified public links.
+- Missing or needs-review media must not be presented as approved public media.
+- Draft and hidden visibility must not leak into public archive surfaces.
+- Randomizer eligibility must stay explicit.
 
 ## 4. Project type model
 

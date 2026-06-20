@@ -23,7 +23,7 @@ The future site should feel cinematic, orbital, and astrophysics-inspired while 
 
 ## Current Step Status
 
-Step 28 builds the full Contact page on top of structured local content. Home, About, Experience, Tracker, Services, Collaborate, Contact, Projects archive, and project details now exist, while admin functionality, database integration, connected tracker sources, and media-rich project case studies are not implemented yet.
+Step 29 adds the local Supabase schema foundation. Home, About, Experience, Tracker, Services, Collaborate, Contact, Projects archive, and project details now exist, while the public app still reads local content. Admin functionality, live Supabase data loading, connected tracker sources, submissions backend behavior, and media-rich project case studies are not implemented yet.
 
 ## Documentation
 
@@ -40,6 +40,7 @@ Step 28 builds the full Contact page on top of structured local content. Home, A
 - `docs/services-content.md` defines the Services page scoped-build model, Services vs Collaborate boundary, manual contact path, no-pricing rules, and future intake boundaries.
 - `docs/collaborate-content.md` defines the Collaborate page broader-alignment model, fit rules, manual contact path, Services boundary, and future intake boundaries.
 - `docs/contact-content.md` defines the Contact page verified-channel model, manual boundary, message brief, routing rules, and future intake boundaries.
+- `docs/supabase-schema.md` defines the Supabase schema foundation, RLS strategy, setup runbook, table groups, environment placeholders, and future data/admin/form boundaries.
 
 ## Local Commands
 
@@ -93,7 +94,7 @@ npm run optimize:hero-video
 - Project case study system
 - Connected tracker sources
 - Admin area and content management
-- Supabase or another backend if assigned in a later step
+- Supabase data layer connection
 - Open Graph and social media assets
 
 ## Design System Notes
@@ -102,7 +103,7 @@ Semantic design tokens, theme-specific typography, spacing utilities, the public
 
 ## Admin And Data Notes
 
-Supabase, authentication, admin editing flows, and private operations are intentionally deferred. No secrets should be committed. Use `.env.example` for safe public environment examples only.
+The Supabase schema foundation now exists in `supabase/migrations`, but the frontend is not connected to it yet. Authentication, admin editing flows, submissions backend behavior, and private operations are intentionally deferred. No secrets should be committed. Use `.env.example` for safe placeholder examples only.
 
 ## Content Integrity
 

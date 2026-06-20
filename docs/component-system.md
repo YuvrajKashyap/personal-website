@@ -223,3 +223,12 @@ The Contact page now uses the internal page component system for a full manual v
 - `src/features/contact/contact-content.ts` owns the structured local content model.
 - Contact intentionally avoids a `form` element, submit button, fake success state, or backend behavior.
 - Future form work should preserve the verified-channel rule and should not invent contact methods.
+
+## Step 29 Supabase schema note
+
+Step 29 adds backend schema files only. No UI component behavior changes are required.
+
+- Components should continue to consume local typed content until an assigned data-layer step connects Supabase.
+- Do not add Supabase client imports inside UI primitives.
+- Do not make `FormShell` submit data until a real form/backend step is assigned.
+- Future admin or form components should respect the RLS and submissions boundaries documented in `docs/supabase-schema.md`.

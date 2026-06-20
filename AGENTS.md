@@ -170,6 +170,15 @@ Alternate light mode is Ivory Observatory: ivory and beige editorial premium int
 - Do not hardcode secrets.
 - Do not add service role keys.
 - Do not commit secrets.
+- Never commit Supabase secrets, database passwords, JWTs, access tokens, or real connection strings.
+- Do not expose `SUPABASE_SERVICE_ROLE_KEY` or any service role key to browser or client code.
+- Use `supabase/migrations` for schema changes.
+- Keep RLS enabled on Supabase tables.
+- Keep public writes disabled until an assigned form/backend step explicitly changes that boundary.
+- Do not connect public pages to Supabase before the assigned data-layer step.
+- Preserve local content fallback unless the main architect explicitly changes that boundary.
+- Do not bypass typed data models when moving content toward Supabase.
+- Do not mark unverified links, media, contact methods, or project records as verified in the database.
 - Do not use em dashes in final public-facing website copy.
 - Do not bake important text into images.
 - Prioritize performance, accessibility, responsiveness, and production quality.
