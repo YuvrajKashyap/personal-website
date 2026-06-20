@@ -642,3 +642,21 @@ Step 29 adds the Supabase schema foundation without connecting the frontend data
 - The current public app still uses local content and does not import Supabase runtime clients.
 - `.env.example` contains placeholders only. No real secrets belong in Git.
 - Real Supabase project creation and migration application are manual if authenticated project access is unavailable.
+
+## Step 30 implementation note
+
+Step 30 adds the app data-layer foundation for public project reads.
+
+- Runtime-safe Supabase public config lives in `src/lib/supabase/config.ts`.
+- Public read client creation lives in `src/lib/supabase/public-client.ts`.
+- Minimal project-related database types live in `src/lib/supabase/database.types.ts`.
+- Project row mappers live in `src/lib/projects/project-mappers.ts`.
+- Async project data-source helpers live in `src/lib/projects/project-data-source.ts`.
+- `/projects` and `/projects/[slug]` now read through the data-source abstraction.
+- Local fallback remains required and is the default when `SITE_DATA_SOURCE` is unset.
+- `SITE_DATA_SOURCE=auto` can try Supabase when configured and fall back to local content on read failure.
+- `SITE_DATA_SOURCE=supabase` is strict and should only be used after the real Supabase project, schema, and env values are ready.
+- Public reads use publishable or anon keys only and rely on RLS.
+- No public writes, admin auth, forms backend, API routes, server actions, seeding, or service-role clients were added.
+- Home preview remains local for now to avoid widening this step beyond Projects.
+- About, Experience, Tracker, Services, Collaborate, and Contact remain local content in this step.

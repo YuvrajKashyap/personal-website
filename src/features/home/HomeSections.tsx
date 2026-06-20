@@ -8,7 +8,7 @@ import {
   signalItems,
   trackerPreview,
 } from "@/features/home/home-content";
-import { getFeaturedProjects } from "@/lib/projects";
+import { getFeaturedProjects } from "@/lib/projects/projects";
 
 type HomeSectionsProps = Readonly<{
   variant: "dark" | "light";

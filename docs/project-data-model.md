@@ -26,7 +26,7 @@ Expected migration direction:
 - Keep public reads limited to approved published content.
 - Keep admin editing behind server-side and authenticated boundaries later.
 
-Do not add Supabase client code until the assigned data-layer step.
+Step 30 adds Supabase-aware project read helpers while keeping local fallback as the default.
 
 ## 3.1 Supabase table mapping
 
@@ -39,7 +39,7 @@ Step 29 maps the project model to:
 - `project_randomizer_settings`
 - `project_randomizer_items`
 
-Current local data remains the source of truth until Step 30 or another assigned integration step changes the data-loading boundary.
+Local data remains the required fallback. Step 30 adds a data-loading boundary that can read published project rows from Supabase later when the real project, schema, and env values exist.
 
 The same honesty rules apply in the database:
 
@@ -261,7 +261,18 @@ Detail pages consume:
 
 Related project navigation uses published records, excludes the current project, and stays small. It is not a recommendation engine.
 
-Future Supabase migration should preserve these content shapes before moving records into a database-backed source.
+Step 30 adds mappers in `src/lib/projects/project-mappers.ts` so database rows can preserve these content shapes before reaching page components.
+
+The mappers preserve:
+
+- `needs_review` link status.
+- missing and needs-review media status.
+- visibility boundaries.
+- featured ordering fields.
+- randomizer eligibility fields.
+- project detail sections.
+
+Local content remains the fallback source when Supabase is not configured.
 
 ## 17. Anti-patterns
 

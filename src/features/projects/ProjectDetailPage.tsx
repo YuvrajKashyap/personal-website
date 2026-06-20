@@ -119,7 +119,7 @@ function ProjectHeroPanel({ project }: Readonly<{ project: Project }>) {
         </div>
         <div>
           <dt>Status source</dt>
-          <dd>Local project model</dd>
+          <dd>Project model</dd>
         </div>
       </dl>
     </div>
@@ -166,7 +166,7 @@ export function ProjectDetailPage({
         variant="wide"
         eyebrow="Project Detail"
         title="A structured read on the build."
-        description="The page uses approved local project data and keeps current-state boundaries visible."
+        description="The page uses approved project data and keeps current-state boundaries visible."
       >
         <DetailLayout
           className="project-detail-layout"
@@ -191,8 +191,8 @@ export function ProjectDetailPage({
               <TelemetryCard
                 label="Status"
                 value={projectStatusLabels[project.status]}
-                description={project.timelineLabel ?? "Local model status"}
-                source="Local data"
+                description={project.timelineLabel ?? "Project model status"}
+                source="Project data"
                 tone={telemetryTone(project.status)}
               />
               <TelemetryCard

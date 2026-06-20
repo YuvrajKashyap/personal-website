@@ -6,45 +6,15 @@ import { EmptyState } from "@/components/ui/EmptyState";
 import { ProjectDetailPage } from "@/features/projects/ProjectDetailPage";
 import {
   getAllProjects,
-  getProjectBySlug,
-  getPublishedProjects,
+  getProjectBySlugData,
+  getRelatedProjectsData,
 } from "@/lib/projects";
-import type { Project } from "@/types/project";
 
 type ProjectDetailRouteProps = {
   params: Promise<{
     slug: string;
   }>;
 };
-
-function getRelatedProjects(project: Project) {
-  const publishedProjects = getPublishedProjects().filter(
-    (candidate) => candidate.slug !== project.slug,
-  );
-
-  const preferredProjects = [
-    ...publishedProjects.filter(
-      (candidate) => candidate.category === project.category,
-    ),
-    ...publishedProjects.filter(
-      (candidate) => candidate.priority === project.priority,
-    ),
-    ...publishedProjects,
-  ];
-
-  const seenSlugs = new Set<string>();
-
-  return preferredProjects
-    .filter((candidate) => {
-      if (seenSlugs.has(candidate.slug)) {
-        return false;
-      }
-
-      seenSlugs.add(candidate.slug);
-      return true;
-    })
-    .slice(0, 3);
-}
 
 function ProjectDetailBoundary({ slug }: Readonly<{ slug: string }>) {
   return (
@@ -54,7 +24,7 @@ function ProjectDetailBoundary({ slug }: Readonly<{ slug: string }>) {
         title="Project not available"
         description={`No public project detail is available for ${slug}.`}
         status="Content boundary"
-        meta={["Local data checked", "No public case study"]}
+        meta={["Project data checked", "No public case study"]}
         secondaryAction={{ label: "Back to Projects", href: "/projects" }}
         variant="detail"
       />
@@ -82,7 +52,7 @@ export async function generateMetadata({
   params,
 }: ProjectDetailRouteProps): Promise<Metadata> {
   const { slug } = await params;
-  const project = getProjectBySlug(slug);
+  const project = await getProjectBySlugData(slug);
 
   if (!project || project.visibility === "hidden") {
     return {
@@ -101,7 +71,7 @@ export default async function ProjectDetailRoute({
   params,
 }: ProjectDetailRouteProps) {
   const { slug } = await params;
-  const project = getProjectBySlug(slug);
+  const project = await getProjectBySlugData(slug);
 
   if (!project || project.visibility === "hidden") {
     return <ProjectDetailBoundary slug={slug} />;
@@ -110,7 +80,7 @@ export default async function ProjectDetailRoute({
   return (
     <ProjectDetailPage
       project={project}
-      relatedProjects={getRelatedProjects(project)}
+      relatedProjects={await getRelatedProjectsData(project)}
     />
   );
 }

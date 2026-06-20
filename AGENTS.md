@@ -175,7 +175,14 @@ Alternate light mode is Ivory Observatory: ivory and beige editorial premium int
 - Use `supabase/migrations` for schema changes.
 - Keep RLS enabled on Supabase tables.
 - Keep public writes disabled until an assigned form/backend step explicitly changes that boundary.
-- Do not connect public pages to Supabase before the assigned data-layer step.
+- After Step 30, public project reads should use the data-source helpers in `src/lib/projects/project-data-source.ts`.
+- Keep local project fallback unless the main architect explicitly removes it.
+- Do not require Supabase environment variables for build.
+- Do not expose data-source errors to public users.
+- Do not write to Supabase from public pages.
+- Do not query admin users, submissions, audit logs, or private tables from public pages.
+- Do not bypass RLS.
+- Do not use service role or secret keys in browser, client components, or public read utilities.
 - Preserve local content fallback unless the main architect explicitly changes that boundary.
 - Do not bypass typed data models when moving content toward Supabase.
 - Do not mark unverified links, media, contact methods, or project records as verified in the database.

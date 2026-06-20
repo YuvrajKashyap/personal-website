@@ -48,7 +48,7 @@ export function ProjectsArchive({ projects }: ProjectsArchiveProps) {
         <EmptyState
           eyebrow="No Matches"
           title={`No projects match ${getProjectFilterLabel(activeFilter)}.`}
-          description="Choose another filter to return to available local project records."
+          description="Choose another filter to return to available project records."
         />
       )}
     </div>

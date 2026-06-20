@@ -23,7 +23,7 @@ The future site should feel cinematic, orbital, and astrophysics-inspired while 
 
 ## Current Step Status
 
-Step 29 adds the local Supabase schema foundation. Home, About, Experience, Tracker, Services, Collaborate, Contact, Projects archive, and project details now exist, while the public app still reads local content. Admin functionality, live Supabase data loading, connected tracker sources, submissions backend behavior, and media-rich project case studies are not implemented yet.
+Step 30 adds the public app data-layer foundation for Projects. Home, About, Experience, Tracker, Services, Collaborate, Contact, Projects archive, and project details now exist. Projects and project detail routes now read through a local-first data-source abstraction that can use Supabase later when the real project, schema, and environment values are ready. Admin functionality, submissions backend behavior, connected tracker sources, and media-rich project case studies are not implemented yet.
 
 ## Documentation
 
@@ -33,6 +33,7 @@ Step 29 adds the local Supabase schema foundation. Home, About, Experience, Trac
 - `docs/hero-assets.md` defines the selected dark hero source, poster variants, crop strategy, loading rules, and regeneration workflow.
 - `docs/motion-system.md` defines the Motion for React provider, presets, reveal components, reduced-motion strategy, performance rules, and animation guardrails.
 - `docs/component-system.md` defines the internal page primitives, usage rules, accessibility expectations, and anti-patterns for future non-home pages.
+- `docs/data-layer.md` defines the local-first project data-source layer, Supabase public read boundary, env modes, mappers, fallback behavior, and deferred backend work.
 - `docs/project-data-model.md` defines the local project content model, safe link and media rules, visibility boundaries, randomizer settings, and future Supabase migration direction.
 - `docs/about-content.md` defines the About page story arc, phase model, tone rules, tennis boundary, and future admin editability notes.
 - `docs/experience-content.md` defines the Experience page trajectory model, proof rules, leadership and research boundaries, tennis handling, and future admin editability notes.
@@ -92,9 +93,9 @@ npm run optimize:hero-video
 - Collaborate page
 - Contact page
 - Project case study system
+- Supabase-aware project data-source layer
 - Connected tracker sources
 - Admin area and content management
-- Supabase data layer connection
 - Open Graph and social media assets
 
 ## Design System Notes
@@ -103,7 +104,7 @@ Semantic design tokens, theme-specific typography, spacing utilities, the public
 
 ## Admin And Data Notes
 
-The Supabase schema foundation now exists in `supabase/migrations`, but the frontend is not connected to it yet. Authentication, admin editing flows, submissions backend behavior, and private operations are intentionally deferred. No secrets should be committed. Use `.env.example` for safe placeholder examples only.
+The Supabase schema foundation now exists in `supabase/migrations`, and Projects use a local-first data-source layer that can read Supabase public project rows later. Supabase is not required for build or deployment. Authentication, admin editing flows, submissions backend behavior, and private operations are intentionally deferred. No secrets should be committed. Use `.env.example` for safe placeholder examples only.
 
 ## Content Integrity
 

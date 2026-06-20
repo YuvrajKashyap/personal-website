@@ -182,8 +182,11 @@ Admin user management is limited to active owners/admins or manual service-role 
 `.env.example` includes placeholders only:
 
 ```text
+SITE_DATA_SOURCE=local
 NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=
 NEXT_PUBLIC_SUPABASE_ANON_KEY=
+SUPABASE_SECRET_KEY=
 SUPABASE_SERVICE_ROLE_KEY=
 SUPABASE_PROJECT_REF=
 ```
@@ -191,6 +194,21 @@ SUPABASE_PROJECT_REF=
 Real values belong in `.env.local` and Vercel environment variables later. `.env.local` must stay untracked.
 
 The service role key is server-only and must never be exposed to browser code.
+
+## 16.1 Step 30 App Data Layer
+
+Step 30 connects the public app to a data-source abstraction for project reads.
+
+- `src/lib/supabase/config.ts` reads safe public env values and `SITE_DATA_SOURCE`.
+- `src/lib/supabase/public-client.ts` creates a public read client only when configured.
+- `src/lib/supabase/database.types.ts` contains minimal project-table types until generated types are available.
+- `src/lib/projects/project-data-source.ts` reads project data through local fallback or Supabase.
+- `/projects` and `/projects/[slug]` now consume the data-source helpers.
+- Public Supabase reads target `projects`, `project_links`, `project_media`, and `project_detail_sections`.
+- Public reads rely on RLS and select published project records only.
+- No public writes, submissions inserts, admin auth, or service-role client were added.
+
+Schema application is still pending unless a real Supabase project is manually created and migrated later.
 
 ## 17. Manual Setup Instructions
 

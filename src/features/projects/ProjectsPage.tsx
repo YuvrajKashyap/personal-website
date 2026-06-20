@@ -7,17 +7,20 @@ import { ProjectCard } from "@/features/projects/ProjectCard";
 import { ProjectsArchive } from "@/features/projects/ProjectsArchive";
 import { RandomProjectButton } from "@/features/projects/RandomProjectButton";
 import {
-  getAllProjects,
-  getFeaturedProjects,
-  getPublishedProjects,
-  getRandomizerPool,
+  getAllProjectsData,
+  getFeaturedProjectsData,
+  getPublishedProjectsData,
+  getRandomizerPoolData,
 } from "@/lib/projects";
 
-export function ProjectsPage() {
-  const allProjects = getAllProjects();
-  const publishedProjects = getPublishedProjects();
-  const featuredProjects = getFeaturedProjects();
-  const randomizerPool = getRandomizerPool();
+export async function ProjectsPage() {
+  const [allProjects, publishedProjects, featuredProjects, randomizerPool] =
+    await Promise.all([
+      getAllProjectsData(),
+      getPublishedProjectsData(),
+      getFeaturedProjectsData(),
+      getRandomizerPoolData(),
+    ]);
 
   return (
     <main className="internal-page projects-page">
@@ -26,13 +29,13 @@ export function ProjectsPage() {
         title="Projects"
         description="Systems, products, experiments, and technical surfaces I have built or am actively shaping."
         status="Typed archive"
-        meta={["Flagship systems", "Local data", "Evidence first"]}
+        meta={["Flagship systems", "Project data", "Evidence first"]}
       >
         <div className="projects-hero-panel">
           <p className="text-mono-label">Discovery Control</p>
           <h2 className="text-card-title">Enter the archive through orbit.</h2>
           <p className="text-caption">
-            Random discovery uses the eligible published pool from the local
+            Random discovery uses the eligible published pool from the
             project model.
           </p>
           <RandomProjectButton projects={randomizerPool} />
@@ -47,7 +50,7 @@ export function ProjectsPage() {
             </span>
             <span>
               <strong>{allProjects.length}</strong>
-              Local records
+              Records
             </span>
           </div>
         </div>
@@ -75,7 +78,7 @@ export function ProjectsPage() {
         variant="wide"
         eyebrow="Project Index"
         title="A searchable archive with honest boundaries."
-        description="Filter the local project archive by hierarchy, state, and system category. Draft and needs-review work stays labeled honestly."
+        description="Filter the project archive by hierarchy, state, and system category. Draft and needs-review work stays labeled honestly."
       >
         <ProjectsArchive projects={allProjects} />
       </SectionShell>
@@ -89,7 +92,7 @@ export function ProjectsPage() {
             </h2>
             <p className="text-body-large">
               The random project control only draws from projects marked as
-              eligible in the local model. Hidden and draft records are kept out
+              eligible in the data model. Hidden and draft records are kept out
               of that orbit.
             </p>
           </div>
@@ -99,7 +102,7 @@ export function ProjectsPage() {
               label="Randomizer pool"
               value={String(randomizerPool.length)}
               description="Eligible published records available for random discovery."
-              source="Local data"
+              source="Project data"
               tone="active"
             />
           </div>
