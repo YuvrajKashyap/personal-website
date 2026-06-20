@@ -278,3 +278,11 @@ The current implementation preserves:
 - submissions server route boundary
 - SEO and analytics boundaries
 - no-secret policy
+
+## Step 35 Follow-up
+
+Step 35 extends this QA with the final taste, recruiter, founder/builder, content honesty, route, responsive, keyboard, theme/media, SEO, submissions, admin, performance, security, and npm audit pass.
+
+Follow-up evidence lives in `docs/final-launch-audit.md`.
+
+Step 35 also fixed a 1024px public-header overflow by moving the desktop navigation breakpoint from `lg` to `xl`.

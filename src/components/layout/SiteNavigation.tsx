@@ -37,7 +37,7 @@ export function SiteNavigation() {
     <div className="flex items-center gap-3">
       <nav
         aria-label="Primary navigation"
-        className="hidden items-center gap-1 lg:flex"
+        className="hidden items-center gap-1 xl:flex"
       >
         {primaryItems.map((item) => {
           const isActive = isNavItemActive(item, pathname);
@@ -55,7 +55,7 @@ export function SiteNavigation() {
         })}
       </nav>
 
-      <div className="hidden items-center gap-3 lg:flex">
+      <div className="hidden items-center gap-3 xl:flex">
         <ThemeToggle />
         {ctaItem ? (
           <Link
@@ -71,7 +71,7 @@ export function SiteNavigation() {
         ) : null}
       </div>
 
-      <div className="flex items-center gap-2 lg:hidden">
+      <div className="flex items-center gap-2 xl:hidden">
         <ThemeToggle />
         <button
           type="button"
@@ -101,7 +101,7 @@ export function SiteNavigation() {
 
       <div
         id={menuId}
-        className={`mobile-menu-panel lg:hidden ${isOpen ? "block" : "hidden"}`}
+        className={`mobile-menu-panel xl:hidden ${isOpen ? "block" : "hidden"}`}
       >
         <nav aria-label="Mobile primary navigation" className="stack-sm">
           {siteConfig.navItems.map((item) => {

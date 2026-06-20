@@ -4,7 +4,7 @@
 
 This website should feel like entering Yuvraj Kashyap's universe and operating system. It should signal elite builder, future founder, and systems-thinker energy while staying smooth, minimal, premium, responsive, accessible, and production-grade.
 
-The current public home page has the final-direction hero and curated Home gateway sections. Full About, Experience, Projects, Tracker, Services, Collaborate, and Contact pages now exist. The Supabase schema foundation, public project data layer, admin auth foundation, and read-only admin dashboard now exist locally. Content editing and the submissions backend remain future work.
+The current public home page has the final-direction hero and curated Home gateway sections. Full About, Experience, Projects, Tracker, Services, Collaborate, and Contact pages now exist. The Supabase schema foundation, public project data layer, admin auth foundation, submissions server route, and read-only admin dashboard now exist locally. Content editing, admin submissions review, and live Supabase operations remain future work.
 
 ## 2. High-level app architecture
 
@@ -63,9 +63,9 @@ The non-negotiable theme architecture is one app, one URL structure, one content
 - Shared primitives should live in shared folders.
 - Theme-specific components should live in theme-specific or feature-specific files.
 - Heavy dark-only assets must not load in light mode.
-- Theme state should eventually be cookie-aware, not only `localStorage`, to avoid initial theme flash.
-- Reduced motion should be supported from the foundation.
-- The final theme provider and design token system come in a later step.
+- Theme state is cookie-aware through `yk-theme`, not only `localStorage`, to avoid initial theme flash.
+- Reduced motion is supported from the foundation.
+- The theme provider, semantic design tokens, typography, spacing, public layout, and Home visual systems now exist.
 
 Future home pattern:
 
@@ -435,6 +435,7 @@ High-level sequence guardrails:
 - Full Home gateway sections now exist.
 - Internal page template system now exists.
 - Performance, accessibility, responsive, media, SEO, submissions, admin, and security QA pass now exists.
+- Final taste, recruiter, launch, and caveat audit now exists.
 - Cinematic assets later.
 - Feature pages later.
 - Supabase content editing and admin CRUD later.
@@ -733,3 +734,14 @@ Step 34 documents a performance, accessibility, responsive, media, SEO, submissi
 - Admin checks verified that admin routes use the admin shell and are not wrapped in the public site shell.
 - Secret scans found only safe placeholders, documentation references, SQL role names, and server-only paths.
 - `npm audit --audit-level=moderate` reported unresolved advisories. No force fix was applied in this step.
+
+## Step 35 final launch audit implementation note
+
+Step 35 documents the final taste, recruiter, founder/builder, content honesty, route, responsive, keyboard, theme/media, SEO, submissions, admin, performance, security, and npm audit pass.
+
+- Final launch evidence lives in `docs/final-launch-audit.md`.
+- Safe fixes were limited to a public navigation breakpoint correction, route status config cleanup, and documentation updates.
+- Public route statuses in `src/config/site.ts` now reflect that the public route surfaces are live, not stubs.
+- The public navigation uses the mobile-safe menu through 1024px and switches to full desktop navigation at `xl` to avoid tablet-width overflow.
+- The audit preserves the dark-only hero media boundary, light DOM media isolation, admin route boundary, no-env submissions behavior, and no-secret policy.
+- Final launch caveats remain explicit rather than hidden: live Supabase operations, live admin auth, live submission inserts, dashboard analytics review, manual screen-reader QA, physical-device QA, Lighthouse lab testing, and dependency advisory decisions.
