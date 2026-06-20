@@ -223,7 +223,19 @@ Deferred work:
 - analytics dashboard review after real production traffic
 - custom analytics events, if a later step explicitly approves them
 
-## 14. Anti-patterns
+## 14. Step 34 QA Notes
+
+Step 34 verified the SEO and analytics foundation through local route checks, SSR content checks, and static scans.
+
+- `/robots.txt`, `/sitemap.xml`, `/opengraph-image`, and `/twitter-image` returned successfully in local production mode.
+- Home metadata included canonical apex, Open Graph, Twitter, and verified JSON-LD output.
+- Robots disallowed admin and API paths.
+- Sitemap used canonical apex URLs and excluded admin and API routes.
+- Admin routes retained noindex metadata.
+- Static scans found localhost and preview deployment URLs only in documentation guardrails or local testing examples.
+- Static scans did not find disallowed runtime analytics providers beyond Vercel Analytics and Speed Insights.
+
+## 15. Anti-patterns
 
 - Adding fake schema claims.
 - Adding fake social profiles.

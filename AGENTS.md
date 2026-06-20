@@ -112,6 +112,12 @@ Alternate light mode is Ivory Observatory: ivory and beige editorial premium int
 - Do not add Google Analytics, Meta Pixel, ad pixels, session replay, heatmaps, or marketing automation unless a later assigned step explicitly requires it.
 - Do not add custom analytics events or form field tracking without explicit assignment.
 - Keep Vercel Analytics and Speed Insights integration privacy-boundary aware.
+- Keep `docs/qa-step-34.md` updated when future QA steps supersede or materially change the documented evidence.
+- Check responsive behavior at mobile, tablet, desktop, and wide desktop widths when touching layout.
+- Preserve skip links, real buttons, `aria-expanded`, `aria-controls`, labels, and visible focus states when touching navigation or forms.
+- Do not treat automated browser checks as a replacement for manual screen-reader or real-device QA when a later step requires it.
+- Do not run `npm audit fix --force` unless an assigned security step explicitly approves the dependency change.
+- Document unresolved audit advisories instead of silently changing major framework versions.
 - Keep the project model friendly to a later Supabase migration.
 - Do not overclaim Arcade or any project with third-party, embedded, or open-source attribution boundaries.
 - Do not upgrade draft, practice, archive, or needs-review projects into flagship placement without architect approval.

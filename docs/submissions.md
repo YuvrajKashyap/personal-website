@@ -268,3 +268,15 @@ Step 33 adds Vercel Analytics and Speed Insights at the app level, but it does n
 - The submissions no-env fallback remains a server behavior, not an analytics signal.
 
 Future analytics work must preserve the rule that contact, services, and collaborate form values are never tracked.
+
+## 18. Step 34 QA Notes
+
+Step 34 verified the submissions boundary in local production mode.
+
+- `GET /api/submissions` returned 405 and did not expose stored submissions.
+- An otherwise valid submission returned 503 when server-side Supabase values were missing.
+- Invalid submissions returned 400.
+- Honeypot submissions returned 400.
+- Contact, Services, and Collaborate rendered no-env form copy instead of fake success states.
+- Public form code continued to post to `/api/submissions` rather than writing to Supabase from the browser.
+- Supabase browser client usage remained limited to admin Auth.

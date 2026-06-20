@@ -434,6 +434,7 @@ High-level sequence guardrails:
 - Motion system foundation now exists.
 - Full Home gateway sections now exist.
 - Internal page template system now exists.
+- Performance, accessibility, responsive, media, SEO, submissions, admin, and security QA pass now exists.
 - Cinematic assets later.
 - Feature pages later.
 - Supabase content editing and admin CRUD later.
@@ -716,3 +717,19 @@ Step 33 adds the SEO, metadata, Open Graph, sitemap, robots, structured data, an
 - Robots and sitemap exclude admin and API paths.
 - No custom analytics events, form field tracking, ad pixels, Search Console verification, or fake schema claims were added.
 - SEO generation must not require Supabase environment values.
+
+## Step 34 QA implementation note
+
+Step 34 documents a performance, accessibility, responsive, media, SEO, submissions, admin, and security QA pass.
+
+- QA evidence lives in `docs/qa-step-34.md`.
+- Public route checks covered Home, About, Experience, Tracker, Services, Collaborate, Contact, Projects, project details, SEO assets, and submissions API behavior.
+- Responsive browser checks covered key public and admin routes at 320, 390, 768, 1280, and 1920 pixel widths.
+- Keyboard and accessibility checks verified the skip link, mobile navigation semantics, labeled controls, form labels, theme toggle, and real-link navigation patterns.
+- Theme checks verified dark default, light toggle, cookie persistence, dark persistence, and `html[data-theme]` behavior.
+- Media checks verified dark hero video sources, poster fallback, reduced-motion video suppression, and light DOM omission of dark hero media.
+- SEO checks verified canonical apex metadata, sitemap, robots, noindex admin pages, Open Graph routes, Twitter image route, and verified JSON-LD boundaries.
+- Submissions checks verified server-routed forms, no-env disabled behavior, safe 503 response for otherwise valid payloads, validation errors, honeypot rejection, and 405 for GET.
+- Admin checks verified that admin routes use the admin shell and are not wrapped in the public site shell.
+- Secret scans found only safe placeholders, documentation references, SQL role names, and server-only paths.
+- `npm audit --audit-level=moderate` reported unresolved advisories. No force fix was applied in this step.

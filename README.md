@@ -23,7 +23,7 @@ The future site should feel cinematic, orbital, and astrophysics-inspired while 
 
 ## Current Step Status
 
-Step 33 adds the SEO, metadata, Open Graph, sitemap, robots, structured data, Vercel Analytics, and Speed Insights foundation. Home, About, Experience, Tracker, Services, Collaborate, Contact, Projects archive, and project details exist. Projects and project detail routes read through a local-first data-source abstraction. Contact, Services, and Collaborate include backend-aware forms that post to `/api/submissions`, stay disabled when server-side Supabase values are missing, and avoid fake success states. Admin login, callback, logout, server guard, setup-required state, and a read-only dashboard shell exist. Content CRUD, admin submissions review, connected tracker sources, and media-rich project case studies are not implemented yet.
+Step 34 documents the performance, accessibility, responsive, media, SEO, submissions, admin, security, and audit QA pass. Home, About, Experience, Tracker, Services, Collaborate, Contact, Projects archive, and project details exist. Projects and project detail routes read through a local-first data-source abstraction. Contact, Services, and Collaborate include backend-aware forms that post to `/api/submissions`, stay disabled when server-side Supabase values are missing, and avoid fake success states. Admin login, callback, logout, server guard, setup-required state, and a read-only dashboard shell exist. Content CRUD, admin submissions review, connected tracker sources, and media-rich project case studies are not implemented yet.
 
 ## Documentation
 
@@ -37,6 +37,7 @@ Step 33 adds the SEO, metadata, Open Graph, sitemap, robots, structured data, Ve
 - `docs/admin-auth.md` defines the Supabase Auth admin foundation, magic-link flow, server guard, setup-required state, service-role boundary, and deferred CRUD/form work.
 - `docs/submissions.md` defines the Contact, Services, and Collaborate submissions foundation, validation, no-env behavior, server-only insert boundary, RLS strategy, and deferred admin/email/CRM work.
 - `docs/seo-analytics.md` defines the SEO, metadata, canonical URL, Open Graph, sitemap, robots, JSON-LD, Vercel Analytics, Speed Insights, privacy, and indexing boundaries.
+- `docs/qa-step-34.md` records the Step 34 performance, accessibility, responsive, media, SEO, submissions, admin, security, audit, and caveat evidence.
 - `docs/project-data-model.md` defines the local project content model, safe link and media rules, visibility boundaries, randomizer settings, and future Supabase migration direction.
 - `docs/about-content.md` defines the About page story arc, phase model, tone rules, tennis boundary, and future admin editability notes.
 - `docs/experience-content.md` defines the Experience page trajectory model, proof rules, leadership and research boundaries, tennis handling, and future admin editability notes.

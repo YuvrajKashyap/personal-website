@@ -200,3 +200,14 @@ Admin routes are private management surfaces and must stay out of public indexin
 - Analytics code avoids rendering on admin routes and drops admin path telemetry when event URLs are available.
 
 Do not add public Open Graph hype, structured data, or sitemap entries for admin routes.
+
+## 17. Step 34 QA Notes
+
+Step 34 verified the admin boundary in local production mode.
+
+- `/admin/login` rendered the admin shell.
+- `/admin/login` did not render the public `.site-header`.
+- `/admin/login` did not render the public footer.
+- `/admin/login` did not render public primary or mobile navigation.
+- `/admin` rendered a guarded setup-required or admin state, not a fake public page.
+- Admin pages remained outside sitemap generation and retained noindex behavior.
