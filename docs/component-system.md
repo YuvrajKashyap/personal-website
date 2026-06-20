@@ -231,4 +231,16 @@ Step 29 adds backend schema files only. No UI component behavior changes are req
 - Components should continue to consume local typed content until an assigned data-layer step connects Supabase.
 - Do not add Supabase client imports inside UI primitives.
 - Do not make `FormShell` submit data until a real form/backend step is assigned.
+
+## Step 31 admin component note
+
+Admin auth components live in `src/features/admin` and are outside the public internal page template system.
+
+- `AdminShell` is an admin-only shell and does not render `SiteHeader` or `SiteFooter`.
+- `AdminLoginPage` and `AdminLoginForm` own the magic-link entry.
+- `AdminSetupNotice` owns the no-env setup state.
+- `AdminAccessDenied` owns authenticated but unauthorized states.
+- `AdminDashboard` owns the read-only dashboard foundation.
+
+Do not use public page components to imply admin editing exists. Do not use admin components on public routes.
 - Future admin or form components should respect the RLS and submissions boundaries documented in `docs/supabase-schema.md`.

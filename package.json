@@ -13,6 +13,7 @@
     "optimize:hero-video": "node scripts/assets/optimize-hero-video.mjs"
   },
   "dependencies": {
+    "@supabase/ssr": "^0.12.0",
     "@supabase/supabase-js": "^2.108.2",
     "motion": "^12.40.0",
     "next": "16.2.4",

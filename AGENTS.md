@@ -47,6 +47,18 @@ Alternate light mode is Ivory Observatory: ivory and beige editorial premium int
 - Do not sacrifice accessibility or performance for motion.
 - Do not install GSAP, Three.js, React Three Fiber, Drei, Lenis, Supabase, or analytics unless a later assigned step explicitly asks for them.
 - Do not wrap admin routes with the public shell unless a later assigned step explicitly changes that boundary.
+- Keep admin routes outside the public shell.
+- Do not build admin CRUD unless the assigned step explicitly asks for it.
+- Do not build project editing, tracker editing, page editing, or submissions management unless assigned.
+- Do not enable public writes from admin foundation work.
+- Do not use service-role or secret keys in browser/client code.
+- Do not hardcode admin email bypasses or local admin allowlists.
+- Do not seed admin users automatically.
+- Do not expose raw auth errors or secrets in admin UI or URLs.
+- Preserve the no-env setup-required admin state.
+- Admin dashboard cards must not pretend editing, submissions, or live metrics exist.
+- Use `src/lib/supabase/client.ts` for browser Auth, `src/lib/supabase/server.ts` for cookie-aware server Auth, and `src/lib/supabase/auth.ts` for admin guards.
+- Preserve server-side admin authorization through verified Supabase claims and active `admin_users` rows.
 - Keep the header and footer token-driven, accessible, and responsive.
 - Keep mobile navigation keyboard accessible with real button semantics.
 - Do not make the navigation generic SaaS template styling.

@@ -16,6 +16,40 @@ type PublicTable<Row> = {
 export type Database = {
   public: {
     Tables: {
+      admin_users: PublicTable<{
+        id: string;
+        user_id: string;
+        email: string | null;
+        display_name: string | null;
+        role: "owner" | "admin" | "editor";
+        status: "active" | "invited" | "disabled";
+        created_at: string;
+        updated_at: string;
+      }>;
+      site_settings: PublicTable<{
+        id: string;
+        key: string;
+        value: Json;
+        is_public: boolean;
+        description: string | null;
+        created_at: string;
+        updated_at: string;
+      }>;
+      submissions: PublicTable<{
+        id: string;
+        submission_type: "contact" | "services" | "collaborate" | "general";
+        status: "new" | "reviewed" | "archived" | "spam";
+        name: string | null;
+        email: string | null;
+        subject: string | null;
+        message: string | null;
+        company: string | null;
+        website: string | null;
+        source_path: string | null;
+        metadata: Json;
+        created_at: string;
+        updated_at: string;
+      }>;
       projects: PublicTable<{
         id: string;
         slug: string;
@@ -112,7 +146,16 @@ export type Database = {
       }>;
     };
     Views: Record<string, never>;
-    Functions: Record<string, never>;
+    Functions: {
+      is_site_admin: {
+        Args: Record<PropertyKey, never>;
+        Returns: boolean;
+      };
+      is_site_owner_or_admin: {
+        Args: Record<PropertyKey, never>;
+        Returns: boolean;
+      };
+    };
     Enums: Record<string, never>;
     CompositeTypes: Record<string, never>;
   };
@@ -124,6 +167,9 @@ export type TableRow<TableName extends keyof PublicTables> =
   PublicTables[TableName]["Row"];
 
 // Manually maintained until a real Supabase project can generate canonical types.
+export type SupabaseAdminUserRow = TableRow<"admin_users">;
+export type SupabaseSiteSettingsRow = TableRow<"site_settings">;
+export type SupabaseSubmissionRow = TableRow<"submissions">;
 export type SupabaseProjectRow = TableRow<"projects">;
 export type SupabaseProjectLinkRow = TableRow<"project_links">;
 export type SupabaseProjectMediaRow = TableRow<"project_media">;

@@ -210,6 +210,33 @@ Step 30 connects the public app to a data-source abstraction for project reads.
 
 Schema application is still pending unless a real Supabase project is manually created and migrated later.
 
+## 16.2 Step 31 Admin Auth Foundation
+
+Step 31 adds Supabase Auth and admin dashboard code on top of the existing schema.
+
+- Admin authorization uses `admin_users`.
+- The authenticated user must have a matching `admin_users.user_id`.
+- The matching row must have `status = active`.
+- Server authorization uses Supabase Auth `getClaims()` and then checks `admin_users`.
+- No hardcoded admin email bypass exists.
+- No admin user is seeded by code or migration.
+- No service-role runtime client was created.
+
+No new RLS migration was required in Step 31 because the Step 29 migration already allows:
+
+- active admins to read admin user rows through `public.is_site_admin()`
+- authenticated users to read their own `admin_users` row through `user_id = auth.uid()`
+
+First admin setup is still manual:
+
+1. Create the Supabase Auth user.
+2. Get the Auth user id.
+3. Insert a matching `admin_users` row manually.
+4. Set the row status to `active`.
+5. Use `/admin/login` to request the magic link.
+
+Remote schema application remains pending unless the real Supabase project has been created and migrated outside this repository.
+
 ## 17. Manual Setup Instructions
 
 If project access is not available to Codex:

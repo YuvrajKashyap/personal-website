@@ -71,7 +71,9 @@ async function getSupabaseProjects(): Promise<Project[]> {
   }
 
   return sortProjects(
-    ((data ?? []) as SupabaseProjectWithRelations[]).map(mapSupabaseProjectRow),
+    ((data ?? []) as unknown as SupabaseProjectWithRelations[]).map(
+      mapSupabaseProjectRow,
+    ),
   );
 }
 

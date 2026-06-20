@@ -251,3 +251,16 @@ Do not seed production data unless the real project is safely available and expl
 - Displaying data-source errors to public users.
 - Duplicating the project model for Supabase only.
 - Moving unrelated pages to Supabase during this step.
+
+## 19. Step 31 Admin Auth Boundary
+
+Step 31 adds Supabase SSR auth utilities for private admin routes.
+
+The public data layer remains separate:
+
+- `src/lib/supabase/public-client.ts` is still for public project reads only.
+- `src/lib/supabase/client.ts` is for browser Auth flows.
+- `src/lib/supabase/server.ts` is for cookie-aware server Auth flows.
+- `src/lib/supabase/auth.ts` owns admin authorization helpers.
+
+The public project data layer still defaults to local fallback when Supabase env values are missing. Admin auth does not enable public writes, submissions inserts, content editing, or service-role reads.

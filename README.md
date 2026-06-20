@@ -23,7 +23,7 @@ The future site should feel cinematic, orbital, and astrophysics-inspired while 
 
 ## Current Step Status
 
-Step 30 adds the public app data-layer foundation for Projects. Home, About, Experience, Tracker, Services, Collaborate, Contact, Projects archive, and project details now exist. Projects and project detail routes now read through a local-first data-source abstraction that can use Supabase later when the real project, schema, and environment values are ready. Admin functionality, submissions backend behavior, connected tracker sources, and media-rich project case studies are not implemented yet.
+Step 31 adds the private admin auth and dashboard foundation. Home, About, Experience, Tracker, Services, Collaborate, Contact, Projects archive, and project details now exist. Projects and project detail routes read through a local-first data-source abstraction that can use Supabase later when the real project, schema, and environment values are ready. Admin login, callback, logout, server guard, setup-required state, and a read-only dashboard shell now exist. Content CRUD, submissions backend behavior, connected tracker sources, and media-rich project case studies are not implemented yet.
 
 ## Documentation
 
@@ -34,6 +34,7 @@ Step 30 adds the public app data-layer foundation for Projects. Home, About, Exp
 - `docs/motion-system.md` defines the Motion for React provider, presets, reveal components, reduced-motion strategy, performance rules, and animation guardrails.
 - `docs/component-system.md` defines the internal page primitives, usage rules, accessibility expectations, and anti-patterns for future non-home pages.
 - `docs/data-layer.md` defines the local-first project data-source layer, Supabase public read boundary, env modes, mappers, fallback behavior, and deferred backend work.
+- `docs/admin-auth.md` defines the Supabase Auth admin foundation, magic-link flow, server guard, setup-required state, service-role boundary, and deferred CRUD/form work.
 - `docs/project-data-model.md` defines the local project content model, safe link and media rules, visibility boundaries, randomizer settings, and future Supabase migration direction.
 - `docs/about-content.md` defines the About page story arc, phase model, tone rules, tennis boundary, and future admin editability notes.
 - `docs/experience-content.md` defines the Experience page trajectory model, proof rules, leadership and research boundaries, tennis handling, and future admin editability notes.
@@ -68,6 +69,8 @@ npm run optimize:hero-video
 - `/contact`
 - `/admin`
 - `/admin/login`
+- `/admin/auth/callback`
+- `/admin/logout`
 
 ## Future Major Systems
 
@@ -94,8 +97,9 @@ npm run optimize:hero-video
 - Contact page
 - Project case study system
 - Supabase-aware project data-source layer
+- Admin auth and read-only dashboard foundation
 - Connected tracker sources
-- Admin area and content management
+- Admin content management
 - Open Graph and social media assets
 
 ## Design System Notes
@@ -104,7 +108,7 @@ Semantic design tokens, theme-specific typography, spacing utilities, the public
 
 ## Admin And Data Notes
 
-The Supabase schema foundation now exists in `supabase/migrations`, and Projects use a local-first data-source layer that can read Supabase public project rows later. Supabase is not required for build or deployment. Authentication, admin editing flows, submissions backend behavior, and private operations are intentionally deferred. No secrets should be committed. Use `.env.example` for safe placeholder examples only.
+The Supabase schema foundation now exists in `supabase/migrations`, Projects use a local-first data-source layer, and admin auth/dashboard foundation exists through Supabase SSR utilities. Supabase is still not required for build or public deployment. Live admin auth requires a real Supabase project, applied schema, public auth env values, a manually created Auth user, and a manually inserted active `admin_users` row. Admin editing flows, submissions backend behavior, and private write operations are intentionally deferred. No secrets should be committed. Use `.env.example` for safe placeholder examples only.
 
 ## Content Integrity
 

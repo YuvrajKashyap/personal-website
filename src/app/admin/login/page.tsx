@@ -1,11 +1,9 @@
-import { RouteStub } from "@/components/shared/RouteStub";
+import { AdminLoginPage } from "@/features/admin/AdminLoginPage";
 
-export default function AdminLoginPage() {
-  return (
-    <RouteStub
-      eyebrow="Admin Login"
-      title="Login"
-      description="A future authentication entry point for private administration."
-    />
-  );
+type AdminLoginRouteProps = {
+  searchParams?: Promise<Record<string, string | string[] | undefined>>;
+};
+
+export default function AdminLoginRoute(props: AdminLoginRouteProps) {
+  return <AdminLoginPage {...props} />;
 }

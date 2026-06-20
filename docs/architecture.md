@@ -4,7 +4,7 @@
 
 This website should feel like entering Yuvraj Kashyap's universe and operating system. It should signal elite builder, future founder, and systems-thinker energy while staying smooth, minimal, premium, responsive, accessible, and production-grade.
 
-The current public home page has the final-direction hero and curated Home gateway sections. Full About, Experience, Projects, Tracker, Services, Collaborate, and Contact pages now exist. The Supabase schema foundation now exists locally, while the app data layer, admin auth, admin dashboard, and submissions backend remain future work.
+The current public home page has the final-direction hero and curated Home gateway sections. Full About, Experience, Projects, Tracker, Services, Collaborate, and Contact pages now exist. The Supabase schema foundation, public project data layer, admin auth foundation, and read-only admin dashboard now exist locally. Content editing and the submissions backend remain future work.
 
 ## 2. High-level app architecture
 
@@ -35,6 +35,8 @@ Current admin routes:
 
 - `/admin`
 - `/admin/login`
+- `/admin/auth/callback`
+- `/admin/logout`
 
 Future admin routes:
 
@@ -394,10 +396,10 @@ Future approach:
 
 ## 16. Admin boundary
 
-Admin routes are stubs right now. They should eventually manage projects, about sections, experience, tracker content, submissions, social links, and site settings.
+Admin routes now have Supabase Auth foundation and a read-only dashboard shell. They should eventually manage projects, about sections, experience, tracker content, submissions, social links, and site settings.
 
 - Admin is not public-facing.
-- Admin must use real auth later.
+- Admin uses Supabase Auth with server-side active admin checks.
 - No admin functionality should be faked.
 - Admin implementation must not leak private operations into public client code.
 - Public pages should never rely on private admin-only client state.
@@ -434,7 +436,7 @@ High-level sequence guardrails:
 - Internal page template system now exists.
 - Cinematic assets later.
 - Feature pages later.
-- Supabase and admin later.
+- Supabase content editing and admin CRUD later.
 - Analytics and performance measurement later.
 
 Do not jump ahead just because a folder exists.
@@ -660,3 +662,18 @@ Step 30 adds the app data-layer foundation for public project reads.
 - No public writes, admin auth, forms backend, API routes, server actions, seeding, or service-role clients were added.
 - Home preview remains local for now to avoid widening this step beyond Projects.
 - About, Experience, Tracker, Services, Collaborate, and Contact remain local content in this step.
+
+## Step 31 implementation note
+
+Step 31 adds the private admin auth and dashboard foundation.
+
+- Supabase SSR auth utilities live in `src/lib/supabase/client.ts`, `src/lib/supabase/server.ts`, and `src/lib/supabase/auth.ts`.
+- Admin token refresh is scoped to admin routes through `proxy.ts`.
+- `/admin/login` provides setup-required, access-denied, and magic-link login states.
+- `/admin/auth/callback` exchanges PKCE auth codes and redirects only to safe `/admin` paths.
+- `/admin/logout` signs out through the server Supabase client.
+- `/admin` is protected by a server-side guard that uses `getClaims()` and requires an active `admin_users` row.
+- Admin routes remain outside the public route group and do not render the public shell.
+- The admin dashboard is read-only and foundation-only.
+- No content CRUD, project editing, forms backend, submissions handling, public writes, admin seed, or service-role runtime client was added.
+- The public site and local fallback still build and run without Supabase env values.
