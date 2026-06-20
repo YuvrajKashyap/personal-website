@@ -1,5 +1,6 @@
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
+import { SiteStructuredData } from "@/components/seo/SiteStructuredData";
 
 export default function SiteLayout({
   children,
@@ -13,6 +14,7 @@ export default function SiteLayout({
         {children}
       </div>
       <SiteFooter />
+      <SiteStructuredData />
     </div>
   );
 }

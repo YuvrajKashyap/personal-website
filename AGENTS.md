@@ -100,6 +100,18 @@ Alternate light mode is Ivory Observatory: ivory and beige editorial premium int
 - Never show `needs_review` project links as verified public links.
 - Project media must point to existing assets, be marked for review, or be omitted.
 - Preserve project randomizer fields so future discovery UI can use the same data model.
+- Keep SEO config centralized in `src/config/seo.ts`.
+- Keep canonical URLs on `https://yuvrajkashyap.com`.
+- Do not add `www`, localhost, or preview deployment URLs as canonical URLs.
+- Keep sitemap generation public-only and deterministic.
+- Keep admin and API routes excluded from sitemap and blocked or noindexed.
+- Do not add fake SEO, Open Graph, or schema claims.
+- Do not add fake reviews, ratings, awards, employers, alumni claims, customers, revenue, users, products for sale, or organization claims.
+- Do not add fake social profiles or unverified contact links to structured data.
+- Keep project metadata and project Open Graph output backed by typed project data.
+- Do not add Google Analytics, Meta Pixel, ad pixels, session replay, heatmaps, or marketing automation unless a later assigned step explicitly requires it.
+- Do not add custom analytics events or form field tracking without explicit assignment.
+- Keep Vercel Analytics and Speed Insights integration privacy-boundary aware.
 - Keep the project model friendly to a later Supabase migration.
 - Do not overclaim Arcade or any project with third-party, embedded, or open-source attribution boundaries.
 - Do not upgrade draft, practice, archive, or needs-review projects into flagship placement without architect approval.

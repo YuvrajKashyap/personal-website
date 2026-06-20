@@ -23,7 +23,7 @@ The future site should feel cinematic, orbital, and astrophysics-inspired while 
 
 ## Current Step Status
 
-Step 32 adds the public submissions foundation. Home, About, Experience, Tracker, Services, Collaborate, Contact, Projects archive, and project details now exist. Projects and project detail routes read through a local-first data-source abstraction. Contact, Services, and Collaborate now include backend-aware forms that post to `/api/submissions`, stay disabled when server-side Supabase values are missing, and avoid fake success states. Admin login, callback, logout, server guard, setup-required state, and a read-only dashboard shell exist. Content CRUD, admin submissions review, connected tracker sources, and media-rich project case studies are not implemented yet.
+Step 33 adds the SEO, metadata, Open Graph, sitemap, robots, structured data, Vercel Analytics, and Speed Insights foundation. Home, About, Experience, Tracker, Services, Collaborate, Contact, Projects archive, and project details exist. Projects and project detail routes read through a local-first data-source abstraction. Contact, Services, and Collaborate include backend-aware forms that post to `/api/submissions`, stay disabled when server-side Supabase values are missing, and avoid fake success states. Admin login, callback, logout, server guard, setup-required state, and a read-only dashboard shell exist. Content CRUD, admin submissions review, connected tracker sources, and media-rich project case studies are not implemented yet.
 
 ## Documentation
 
@@ -36,6 +36,7 @@ Step 32 adds the public submissions foundation. Home, About, Experience, Tracker
 - `docs/data-layer.md` defines the local-first project data-source layer, Supabase public read boundary, env modes, mappers, fallback behavior, and deferred backend work.
 - `docs/admin-auth.md` defines the Supabase Auth admin foundation, magic-link flow, server guard, setup-required state, service-role boundary, and deferred CRUD/form work.
 - `docs/submissions.md` defines the Contact, Services, and Collaborate submissions foundation, validation, no-env behavior, server-only insert boundary, RLS strategy, and deferred admin/email/CRM work.
+- `docs/seo-analytics.md` defines the SEO, metadata, canonical URL, Open Graph, sitemap, robots, JSON-LD, Vercel Analytics, Speed Insights, privacy, and indexing boundaries.
 - `docs/project-data-model.md` defines the local project content model, safe link and media rules, visibility boundaries, randomizer settings, and future Supabase migration direction.
 - `docs/about-content.md` defines the About page story arc, phase model, tone rules, tennis boundary, and future admin editability notes.
 - `docs/experience-content.md` defines the Experience page trajectory model, proof rules, leadership and research boundaries, tennis handling, and future admin editability notes.
@@ -104,7 +105,8 @@ npm run optimize:hero-video
 - Admin submissions review
 - Connected tracker sources
 - Admin content management
-- Open Graph and social media assets
+- favicon and app icon polish
+- Search Console verification if a real token is provided
 
 ## Design System Notes
 
@@ -112,7 +114,7 @@ Semantic design tokens, theme-specific typography, spacing utilities, the public
 
 ## Admin And Data Notes
 
-The Supabase schema foundation now exists in `supabase/migrations`, Projects use a local-first data-source layer, admin auth/dashboard foundation exists through Supabase SSR utilities, and submissions are server-routed through `/api/submissions`. Supabase is still not required for build or public deployment. Live admin auth requires a real Supabase project, applied schema, public auth env values, a manually created Auth user, and a manually inserted active `admin_users` row. Live submission inserts require server-side Supabase values. Admin editing flows, submissions review UI, and private content write operations are intentionally deferred. No secrets should be committed. Use `.env.example` for safe placeholder examples only.
+The Supabase schema foundation now exists in `supabase/migrations`, Projects use a local-first data-source layer, admin auth/dashboard foundation exists through Supabase SSR utilities, submissions are server-routed through `/api/submissions`, and SEO/analytics code does not require Supabase env values. Supabase is still not required for build or public deployment. Live admin auth requires a real Supabase project, applied schema, public auth env values, a manually created Auth user, and a manually inserted active `admin_users` row. Live submission inserts require server-side Supabase values. Admin editing flows, submissions review UI, and private content write operations are intentionally deferred. No secrets should be committed. Use `.env.example` for safe placeholder examples only.
 
 ## Content Integrity
 

@@ -256,3 +256,15 @@ Each page still explains its route boundary. Services remains scoped execution. 
 - Asking for sensitive personal data.
 - Rendering submitted HTML as trusted content.
 - Building an admin inbox before that step is assigned.
+
+## 17. Step 33 Analytics Boundary
+
+Step 33 adds Vercel Analytics and Speed Insights at the app level, but it does not add submission analytics.
+
+- No form submission events were added.
+- No form field values are tracked.
+- No submission payload data is sent to analytics from form components.
+- `/api/submissions` does not add analytics behavior.
+- The submissions no-env fallback remains a server behavior, not an analytics signal.
+
+Future analytics work must preserve the rule that contact, services, and collaborate form values are never tracked.

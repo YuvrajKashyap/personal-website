@@ -9,6 +9,7 @@ import {
   getProjectBySlugData,
   getRelatedProjectsData,
 } from "@/lib/projects";
+import { createProjectMetadata } from "@/lib/seo/metadata";
 
 type ProjectDetailRouteProps = {
   params: Promise<{
@@ -55,16 +56,10 @@ export async function generateMetadata({
   const project = await getProjectBySlugData(slug);
 
   if (!project || project.visibility === "hidden") {
-    return {
-      title: "Project Not Available | Yuvraj Kashyap",
-      description: "No public project detail is available for this slug.",
-    };
+    return createProjectMetadata();
   }
 
-  return {
-    title: `${project.title} | Yuvraj Kashyap`,
-    description: project.summary,
-  };
+  return createProjectMetadata(project);
 }
 
 export default async function ProjectDetailRoute({

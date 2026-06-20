@@ -1,12 +1,7 @@
-import type { Metadata } from "next";
-
 import { AboutPage } from "@/features/about/AboutPage";
+import { createPageMetadata } from "@/lib/seo/metadata";
 
-export const metadata: Metadata = {
-  title: "About | Yuvraj Kashyap",
-  description:
-    "Background, trajectory, discipline, and current building phase of Yuvraj Kashyap.",
-};
+export const metadata = createPageMetadata("about");
 
 export default function AboutRoutePage() {
   return <AboutPage />;

@@ -1,12 +1,7 @@
-import type { Metadata } from "next";
-
 import { ContactPage } from "@/features/contact/ContactPage";
+import { createPageMetadata } from "@/lib/seo/metadata";
 
-export const metadata: Metadata = {
-  title: "Contact | Yuvraj Kashyap",
-  description:
-    "Direct manual contact routes for scoped requests, broader collaboration, and project context.",
-};
+export const metadata = createPageMetadata("contact");
 
 export default function ContactRoute() {
   return <ContactPage />;

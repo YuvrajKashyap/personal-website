@@ -6,7 +6,14 @@ import { AdminSetupNotice } from "@/features/admin/AdminSetupNotice";
 import { AdminShell } from "@/features/admin/AdminShell";
 import { getAllProjects } from "@/lib/projects/projects";
 import { getProjectsDataSourceStatus } from "@/lib/projects/project-data-source";
+import { createNoindexMetadata } from "@/lib/seo/metadata";
 import { getAdminAuthState, getAdminLoginRedirect } from "@/lib/supabase/auth";
+
+export const metadata = createNoindexMetadata(
+  "Admin",
+  "Private admin surface for site operations.",
+  "/admin",
+);
 
 export default async function AdminPage() {
   const authState = await getAdminAuthState();

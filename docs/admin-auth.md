@@ -189,3 +189,14 @@ Editing flows should:
 - Building CRUD during the auth foundation step.
 - Enabling public writes.
 - Pretending setup is live before a real Supabase project exists.
+
+## 16. Step 33 SEO Boundary
+
+Admin routes are private management surfaces and must stay out of public indexing.
+
+- `/admin` and `/admin/login` use noindex metadata.
+- Robots disallow `/admin` and `/admin/`.
+- The sitemap excludes admin routes.
+- Analytics code avoids rendering on admin routes and drops admin path telemetry when event URLs are available.
+
+Do not add public Open Graph hype, structured data, or sitemap entries for admin routes.

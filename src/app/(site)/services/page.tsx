@@ -1,12 +1,7 @@
-import type { Metadata } from "next";
-
 import { ServicesPage } from "@/features/services/ServicesPage";
+import { createPageMetadata } from "@/lib/seo/metadata";
 
-export const metadata: Metadata = {
-  title: "Services | Yuvraj Kashyap",
-  description:
-    "Scoped build requests for product surfaces, systems, prototypes, and technical execution.",
-};
+export const metadata = createPageMetadata("services");
 
 export default function ServicesRoute() {
   return <ServicesPage />;

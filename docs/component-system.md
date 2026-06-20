@@ -258,3 +258,15 @@ The shared public submission form lives in `src/features/submissions/SubmissionF
 - It shows success copy only after API success.
 
 Keep form styling token-driven through the scoped `.submission-form` classes in `src/app/globals.css`.
+
+## Step 33 SEO and analytics component note
+
+SEO and analytics components are non-visual infrastructure.
+
+- `src/components/seo/JsonLd.tsx` renders JSON-LD scripts from verified data only.
+- `src/components/seo/SiteStructuredData.tsx` emits public Person and WebSite schema for the public route group.
+- `src/components/analytics/VercelAnalytics.tsx` mounts Vercel Analytics and Speed Insights without custom event tracking.
+- Analytics should not be used to track form field values or admin interactions.
+- Structured data must not invent reviews, ratings, employers, alumni, awards, products, services for sale, social profiles, or organization claims.
+
+Do not use SEO components as visual content components. Do not add analytics behavior inside form components unless a later assigned step explicitly requires it.

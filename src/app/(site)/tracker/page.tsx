@@ -1,12 +1,7 @@
-import type { Metadata } from "next";
-
 import { TrackerPage } from "@/features/tracker/TrackerPage";
+import { createPageMetadata } from "@/lib/seo/metadata";
 
-export const metadata: Metadata = {
-  title: "Tracker | Yuvraj Kashyap",
-  description:
-    "Current state, active systems, and manual operating signal for Yuvraj Kashyap.",
-};
+export const metadata = createPageMetadata("tracker");
 
 export default function TrackerRoute() {
   return <TrackerPage />;

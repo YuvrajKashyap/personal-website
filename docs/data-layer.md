@@ -264,3 +264,14 @@ The public data layer remains separate:
 - `src/lib/supabase/auth.ts` owns admin authorization helpers.
 
 The public project data layer still defaults to local fallback when Supabase env values are missing. Admin auth does not enable public writes, submissions inserts, content editing, or service-role reads.
+
+## 20. Step 33 SEO Data Boundary
+
+SEO routes must stay safe without Supabase environment values.
+
+- `src/app/sitemap.ts` uses public route metadata and local typed project data.
+- Project metadata may use the existing project data-source helper, which already falls back safely when configured for local or auto mode.
+- Generated project Open Graph images use local typed project data for deterministic image generation.
+- SEO helpers must not query submissions, admin users, audit logs, or private tables.
+- Metadata should not expose data-source errors to public users.
+- Sitemap entries should include published public project slugs only.

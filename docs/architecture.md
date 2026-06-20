@@ -698,3 +698,21 @@ Step 32 adds the submissions foundation for Contact, Services, and Collaborate.
 - Success copy appears only after an actual API success.
 - GET requests to `/api/submissions` do not expose submissions.
 - Admin submissions viewing, email delivery, CRM, scheduling, booking, captcha, analytics, and admin CRUD remain deferred.
+
+## Step 33 implementation note
+
+Step 33 adds the SEO, metadata, Open Graph, sitemap, robots, structured data, and Vercel observability foundation.
+
+- Central SEO config lives in `src/config/seo.ts`.
+- Metadata helpers live in `src/lib/seo/metadata.ts`.
+- Sitemap route data lives in `src/lib/seo/routes.ts`.
+- Verified JSON-LD helpers live in `src/lib/seo/jsonld.ts`.
+- Public site structured data renders through `src/components/seo/SiteStructuredData.tsx`.
+- Vercel Analytics and Speed Insights render through `src/components/analytics/VercelAnalytics.tsx`.
+- Root Open Graph and Twitter images are generated with `next/og`.
+- Project detail Open Graph images use typed local project data and safe fallbacks.
+- Public page metadata uses canonical apex URLs.
+- Admin pages use noindex metadata.
+- Robots and sitemap exclude admin and API paths.
+- No custom analytics events, form field tracking, ad pixels, Search Console verification, or fake schema claims were added.
+- SEO generation must not require Supabase environment values.
