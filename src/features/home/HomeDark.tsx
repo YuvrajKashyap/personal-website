@@ -2,9 +2,8 @@ import Link from "next/link";
 
 import { MotionScrollCue } from "@/components/motion/MotionScrollCue";
 import { Reveal } from "@/components/motion/Reveal";
-import { OrbitalNavigation } from "@/components/navigation/OrbitalNavigation";
-import { orbitalDestinations } from "@/config/site";
 import { HeroVideoBackground } from "@/features/home/HeroVideoBackground";
+import { HeroNameHeadline } from "@/features/home/HeroNameHeadline";
 import { HomeSections } from "@/features/home/HomeSections";
 import { homeContent } from "@/features/home/home-content";
 
@@ -43,21 +42,11 @@ export function HomeDark() {
 
         <div className="home-dark-hero-section site-container-wide">
           <div className="home-dark-copy">
-            <div className="mb-8 flex flex-wrap items-center gap-3">
-              {homeContent.telemetry.map((item, index) => (
-                <Reveal key={item} variant="chip" delay={0.34 + index * 0.045}>
-                  <span className="hero-chip">{item}</span>
-                </Reveal>
-              ))}
-            </div>
-
             <Reveal delay={0.08}>
               <p className="text-kicker">{homeContent.eyebrow}</p>
             </Reveal>
             <Reveal delay={0.14} variant="blur-in">
-              <h1 className="mt-5 max-w-4xl text-display text-balance">
-                {homeContent.headline}
-              </h1>
+              <HeroNameHeadline className="mt-5" />
             </Reveal>
             <Reveal delay={0.22}>
               <p className="mt-7 text-body-large text-pretty">
@@ -80,19 +69,6 @@ export function HomeDark() {
               </Link>
             </Reveal>
           </div>
-
-          <Reveal
-            className="home-dark-orbital-nav"
-            delay={0.42}
-            variant="scale-soft"
-          >
-            <OrbitalNavigation
-              items={orbitalDestinations}
-              variant="dark"
-              eyebrow="Orbital Destinations"
-              title="Navigate the system"
-            />
-          </Reveal>
         </div>
 
         <MotionScrollCue />

@@ -93,7 +93,7 @@ Future implementation should conditionally load these assets only when dark mode
 Step 13 implementation note:
 
 - The static dark homepage hero initially rendered the poster only in the dark home view.
-- The light home view does not render the dark poster, video, image source, or video source.
+- The light home view renders the shared cinematic source through a CSS color-grade treatment.
 - Home text, CTAs, chips, navigation, and UI remain coded HTML and CSS layered over media.
 - Step 14 replaces the dark poster-only environmental layer with poster-backed video.
 
@@ -111,17 +111,18 @@ Implementation rules:
 - No controls are shown.
 - The poster picture remains behind the video so the hero does not flash black while video loads or fails.
 - Reduced-motion users keep the poster fallback and do not mount the video.
-- `HomeLight` does not render or reference dark posters, videos, source tags, or video paths.
+- `HomeLight` renders the shared poster and video through the light `HeroVideoBackground` variant.
 - Hero text, CTAs, chips, navigation, and overlays remain real coded UI layered over media.
 
-## 11. Step 15 light hero asset isolation
+## 11. Light hero graded media treatment
 
-Step 15 builds the final-direction Ivory Observatory light hero without using dark cinematic hero assets.
+The Ivory Observatory hero now keeps the cinematic black-hole motion while reinterpreting it through a light-mode color grade.
 
-- `HomeLight` uses CSS, SVG, semantic tokens, and coded UI only.
-- No dark poster, video, image source, or video source is rendered by the light hero.
-- The dark cinematic media remains exclusive to `HomeDark`.
-- Light mode should continue to avoid downloading `singularity-loop` and `singularity-poster` assets.
+- `HomeLight` uses the shared `HeroVideoBackground` component with `variant="light"`.
+- Light mode applies an inverted ivory, lacquer red, and oxblood CSS grade over the shared poster and video.
+- The light treatment keeps coded UI, observatory grid, panels, navigation, and overlays as real HTML/CSS.
+- Reduced-motion users still keep the graded poster fallback and do not mount the video.
+- Do not create a separate light app, route, backend, or data layer for this treatment.
 
 ## 12. Future animation step notes
 
@@ -156,10 +157,10 @@ Output metadata:
 
 | Asset | Codec | Dimensions | FPS | Duration | Pixel format | Size |
 | --- | --- | --- | --- | --- | --- | --- |
-| `singularity-loop.webm` | VP9 | 1920 by 1080 | 24 | 15.000s | yuv420p | 1.28 MiB |
-| `singularity-loop.mp4` | H.264 | 1920 by 1080 | 24 | 15.000s | yuv420p | 3.94 MiB |
-| `singularity-loop-mobile.webm` | VP9 | 1280 by 720 | 24 | 15.000s | yuv420p | 0.56 MiB |
-| `singularity-loop-mobile.mp4` | H.264 | 1280 by 720 | 24 | 15.000s | yuv420p | 1.15 MiB |
+| `singularity-loop.webm` | VP9 | 1920 by 1080 | 24 | 15.000s | yuv420p | 1.88 MiB |
+| `singularity-loop.mp4` | H.264 | 1920 by 1080 | 24 | 15.000s | yuv420p | 5.89 MiB |
+| `singularity-loop-mobile.webm` | VP9 | 1280 by 720 | 24 | 15.000s | yuv420p | 0.80 MiB |
+| `singularity-loop-mobile.mp4` | H.264 | 1280 by 720 | 24 | 15.000s | yuv420p | 1.90 MiB |
 
 Codec choices:
 
@@ -168,6 +169,7 @@ Codec choices:
 - All outputs remove audio.
 - All outputs preserve 24 fps and yuv420p compatibility.
 - MP4 outputs use `+faststart`.
+- The current quality profile uses VP9 CRF 26 desktop, VP9 CRF 29 mobile, H.264 CRF 18 desktop, and H.264 CRF 20 mobile.
 
 Fallback strategy:
 

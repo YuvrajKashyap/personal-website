@@ -133,9 +133,9 @@ Confirmed locally:
 - `yk-theme=dark` persists after reload.
 - Dark mode renders the hero video with WebM sources before MP4 fallbacks.
 - Reduced motion suppresses the video element and keeps the poster fallback.
-- Light mode does not render `singularity-loop` or `singularity-poster` references.
+- Light mode renders the shared hero media through the Ivory Observatory graded video treatment.
 
-This preserves the dark-only cinematic media boundary.
+This preserves reduced-motion fallback behavior while allowing both home themes to share the cinematic source.
 
 ## 9. SEO/social audit
 
