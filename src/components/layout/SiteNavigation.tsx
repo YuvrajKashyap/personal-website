@@ -79,7 +79,7 @@ export function SiteNavigation() {
           aria-expanded={isOpen}
           aria-controls={menuId}
           onClick={() => setIsOpen((current) => !current)}
-          className="mobile-menu-trigger focus-ring inline-flex min-h-11 min-w-11 items-center justify-center rounded-full border border-border bg-surface-glass text-foreground shadow-[var(--shadow-soft)]"
+          className="focus-ring inline-flex min-h-11 min-w-11 items-center justify-center rounded-full border border-border bg-surface-glass text-foreground shadow-[var(--shadow-soft)]"
         >
           <svg
             aria-hidden="true"
