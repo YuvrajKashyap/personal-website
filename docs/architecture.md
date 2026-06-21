@@ -154,8 +154,8 @@ Step 12 optimized hero video details:
 - Typed media paths live in `src/config/media.ts`.
 - Regenerate approved production videos with `npm run optimize:hero-video`.
 - The raw candidate folder `assets/source/hero/animation-candidates/` remains ignored and uncommitted.
-- Homepage integration still comes later.
-- Future homepage implementation must conditionally load these dark video assets only in dark mode.
+- Homepage integration uses the same approved source across theme-specific hero treatments.
+- Future homepage implementation must keep theme-specific presentation in one app and one data layer.
 - Reduced-motion and video failure states must use the still poster fallback.
 - No text, buttons, navigation, metrics, or UI panels should be baked into the video.
 
@@ -166,8 +166,8 @@ Step 13 static dark home hero details:
 - `HomeDark` renders the static Singularity OS hero with the optimized poster image.
 - `HomeLight` remains a polished Ivory Observatory temporary view until the final light hero step.
 - Shared homepage copy lives in `src/features/home/home-content.ts`.
-- The dark poster is only rendered by `HomeDark`.
-- The light view must not render dark hero poster or video tags.
+- The shared cinematic source can render in both home themes when a theme-specific treatment is applied.
+- The light view must use the Ivory Observatory grade and overlays rather than the dark Singularity OS treatment.
 - No video integration happened in this step.
 - Text, CTAs, telemetry chips, and UI are coded elements layered over the asset.
 
@@ -179,7 +179,8 @@ Step 14 dark hero video integration details:
 - Mobile WebM and MP4 sources are preserved for small viewports.
 - The still poster remains behind the video as the loading, failure, and reduced-motion fallback.
 - Reduced-motion users should see the static poster and should not autoplay the video.
-- `HomeLight` remains isolated and must not render or reference dark poster or video assets.
+- `HomeLight` may render the shared poster and video through the light `HeroVideoBackground` variant.
+- The light variant must preserve the Ivory Observatory grade and reduced-motion poster fallback.
 - The video is decorative, `aria-hidden`, muted, looped, and `playsInline`.
 - Hero text, CTAs, telemetry chips, navigation, and overlays remain coded UI layered above media.
 
@@ -187,9 +188,9 @@ Step 15 light home hero details:
 
 - `HomeLight` is now a final-direction Ivory Observatory hero instead of a temporary placeholder.
 - Dark and light home heroes intentionally diverge in layout and visual language while sharing the same core content and links.
-- The light hero uses coded CSS and SVG observatory motifs, including orbital rings, axis lines, metadata chips, and an editorial instrument panel.
+- The light hero uses the shared cinematic video source with coded CSS observatory motifs, orbital rings, axis lines, and an editorial instrument panel.
 - The light hero uses the ivory, charcoal, and laal red token family from `src/app/globals.css`.
-- `HomeLight` must not render or reference dark hero posters, videos, source tags, or media paths.
+- `HomeLight` renders shared hero media only through the light video variant with ivory, lacquer red, and oxblood grading.
 - Shared home copy remains in `src/features/home/home-content.ts`.
 - No lower homepage sections were added in this step.
 
