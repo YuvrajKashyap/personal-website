@@ -37,7 +37,32 @@ export const siteConfig = {
       href: "https://github.com/YuvrajKashyap",
       external: true,
     },
+    {
+      label: "LinkedIn",
+      href: "https://www.linkedin.com/in/yuvraj-kashyap",
+      external: true,
+    },
+    {
+      label: "X",
+      href: "https://x.com/Yuv_kk",
+      external: true,
+    },
+    {
+      label: "YouTube",
+      href: "https://www.youtube.com/@yk.blueprint",
+      external: true,
+    },
+    {
+      label: "Instagram",
+      href: "https://www.instagram.com/y.kxshyap/",
+      external: true,
+    },
   ] satisfies SocialLink[],
+  resume: {
+    label: "Resume",
+    href: "/media/resume/yuvraj-kashyap-resume.pdf",
+    download: "yuvraj-kashyap-resume.pdf",
+  },
 };
 
 export const orbitalDestinations = [

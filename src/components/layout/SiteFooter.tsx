@@ -6,9 +6,6 @@ export function SiteFooter() {
   const footerRoutes = siteConfig.navItems.filter(
     (item) => item.href !== "/" && item.href !== "/contact",
   );
-  const githubLink = siteConfig.socialLinks.find(
-    (link) => link.label === "GitHub",
-  );
 
   return (
     <footer className="site-footer">
@@ -30,16 +27,17 @@ export function SiteFooter() {
           </nav>
 
           <div className="flex flex-wrap items-center gap-3 sm:justify-end">
-            {githubLink ? (
+            {siteConfig.socialLinks.map((link) => (
               <a
-                href={githubLink.href}
+                key={link.href}
+                href={link.href}
                 target="_blank"
                 rel="noreferrer"
                 className="footer-link"
               >
-                GitHub
+                {link.label}
               </a>
-            ) : null}
+            ))}
             <Link href="/contact" className="footer-link">
               Contact
             </Link>

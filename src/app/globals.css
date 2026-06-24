@@ -697,6 +697,93 @@ html[data-theme="light"] .site-header {
   max-width: 48rem;
 }
 
+.hero-action-list {
+  display: flex;
+  max-width: min(100%, 45rem);
+  flex-wrap: wrap;
+  gap: 0.62rem;
+}
+
+.hero-action-button {
+  position: relative;
+  display: inline-flex;
+  min-height: 2.85rem;
+  align-items: center;
+  gap: 0.58rem;
+  border: 1px solid color-mix(in srgb, var(--border) 82%, transparent);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--surface-glass) 76%, transparent);
+  color: var(--foreground);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  line-height: 1;
+  overflow: hidden;
+  padding: 0.32rem 0.78rem 0.32rem 0.36rem;
+  text-decoration: none;
+  transition:
+    border-color var(--motion-duration-fast) var(--motion-ease-standard),
+    background var(--motion-duration-fast) var(--motion-ease-standard),
+    color var(--motion-duration-fast) var(--motion-ease-standard),
+    transform var(--motion-duration-fast) var(--motion-ease-standard);
+}
+
+.hero-action-button::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 18%, transparent), transparent 58%);
+  opacity: 0;
+  transition: opacity var(--motion-duration-fast) var(--motion-ease-standard);
+}
+
+.hero-action-button:hover {
+  border-color: var(--border-strong);
+  background: var(--surface-strong);
+  color: var(--foreground);
+  transform: translateY(-1px);
+}
+
+.hero-action-button:hover::before {
+  opacity: 1;
+}
+
+.hero-action-icon-shell,
+.hero-action-label {
+  position: relative;
+  z-index: 1;
+}
+
+.hero-action-icon-shell {
+  display: inline-flex;
+  width: 2.25rem;
+  height: 2.25rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--accent) 86%, var(--foreground));
+  color: var(--accent-foreground);
+  box-shadow: 0 0 20px color-mix(in srgb, var(--accent) 28%, transparent);
+}
+
+.hero-action-icon {
+  width: 1rem;
+  height: 1rem;
+}
+
+.hero-action-label {
+  white-space: nowrap;
+}
+
+html[data-theme="light"] .hero-action-button {
+  background: color-mix(in srgb, var(--surface-glass) 88%, white);
+  color: var(--foreground);
+}
+
+html[data-theme="light"] .hero-action-icon-shell {
+  background: var(--accent);
+  color: var(--accent-foreground);
+}
+
 .hero-name-lockup {
   display: inline-flex;
   max-width: 8ch;
@@ -1684,6 +1771,26 @@ html[data-theme="light"] .hero-name-lockup {
 @media (max-width: 520px) {
   .hero-name-lockup {
     font-size: var(--text-4xl);
+  }
+
+  .hero-action-list {
+    display: flex;
+    max-width: min(100%, 16rem);
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.6rem;
+  }
+
+  .hero-action-button {
+    width: 100%;
+    min-width: 0;
+    justify-content: flex-start;
+    padding-inline-end: 0.72rem;
+  }
+
+  .hero-action-label {
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .orbital-navigation__header {

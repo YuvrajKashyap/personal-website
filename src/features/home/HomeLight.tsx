@@ -1,6 +1,5 @@
-import Link from "next/link";
-
 import { Reveal } from "@/components/motion/Reveal";
+import { HeroActionLinks } from "@/features/home/HeroActionLinks";
 import { HeroNameHeadline } from "@/features/home/HeroNameHeadline";
 import { HeroVideoBackground } from "@/features/home/HeroVideoBackground";
 import { HomeSections } from "@/features/home/HomeSections";
@@ -33,19 +32,8 @@ export function HomeLight() {
               </p>
             </Reveal>
 
-            <Reveal className="cluster mt-10" delay={0.32} variant="cta">
-              <Link
-                href={homeContent.primaryCta.href}
-                className="focus-ring inline-flex min-h-12 items-center justify-center rounded-full bg-accent px-5 py-3 text-sm font-semibold text-accent-foreground shadow-[var(--shadow-glow)] transition hover:bg-[var(--interactive-hover)]"
-              >
-                {homeContent.primaryCta.label}
-              </Link>
-              <Link
-                href={homeContent.secondaryCta.href}
-                className="focus-ring inline-flex min-h-12 items-center justify-center rounded-full border border-border-strong bg-surface-glass px-5 py-3 text-sm font-semibold text-foreground transition hover:bg-surface-strong"
-              >
-                {homeContent.secondaryCta.label}
-              </Link>
+            <Reveal className="mt-10" delay={0.32} variant="cta">
+              <HeroActionLinks />
             </Reveal>
           </div>
         </div>

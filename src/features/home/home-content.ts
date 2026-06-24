@@ -6,14 +6,6 @@ export const homeContent = {
     lines: ["YUVRAJ", "KASHYAP"],
   },
   body: "I design software, products, and operating systems that turn ideas into leverage.",
-  primaryCta: {
-    label: "Explore My Universe",
-    href: "#home-signal",
-  },
-  secondaryCta: {
-    label: "View Projects",
-    href: "/projects",
-  },
 } as const;
 
 export const signalItems = [
