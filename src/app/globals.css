@@ -812,6 +812,67 @@ html[data-theme="light"] .site-header {
   height: 1.16rem;
 }
 
+.hero-action-logo {
+  display: block;
+  width: 1.22rem;
+  height: 1.22rem;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.hero-action-logo-chatgpt,
+.hero-action-logo-grok {
+  background: currentColor;
+  mask-position: center;
+  mask-repeat: no-repeat;
+  mask-size: contain;
+  -webkit-mask-position: center;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-size: contain;
+}
+
+.hero-action-logo-chatgpt {
+  mask-image: url("/media/social/chatgpt.svg");
+  -webkit-mask-image: url("/media/social/chatgpt.svg");
+}
+
+.hero-action-logo-claude {
+  width: 1.28rem;
+  height: 1.28rem;
+  background-image: url("/media/social/claude.svg");
+}
+
+.hero-action-logo-gemini {
+  width: 1.32rem;
+  height: 1.32rem;
+  background-image: url("/media/social/gemini.svg");
+}
+
+.hero-action-logo-grok {
+  width: 1.32rem;
+  height: 1.32rem;
+  mask-image: url("/media/social/grok.svg");
+  -webkit-mask-image: url("/media/social/grok.svg");
+}
+
+.hero-action-button-ai .hero-action-icon-shell {
+  border-color: color-mix(in srgb, var(--foreground) 22%, var(--border));
+  background:
+    radial-gradient(circle at 28% 18%, rgb(255 255 255 / 0.2), transparent 46%),
+    color-mix(in srgb, var(--surface-glass) 72%, var(--background) 28%);
+  color: var(--foreground);
+  box-shadow:
+    0 0 20px color-mix(in srgb, var(--accent-secondary) 18%, transparent),
+    inset 0 1px 0 rgb(255 255 255 / 0.16);
+}
+
+.hero-action-button-ai:hover .hero-action-icon-shell {
+  box-shadow:
+    0 0 30px color-mix(in srgb, var(--accent-secondary) 24%, transparent),
+    inset 0 1px 0 rgb(255 255 255 / 0.2);
+}
+
 .hero-action-label {
   display: block;
   max-width: 100%;
@@ -841,6 +902,14 @@ html[data-theme="light"] .hero-action-button::before {
 html[data-theme="light"] .hero-action-icon-shell {
   background: var(--accent);
   color: var(--accent-foreground);
+}
+
+html[data-theme="light"] .hero-action-button-ai .hero-action-icon-shell {
+  border-color: color-mix(in srgb, var(--foreground) 18%, var(--border));
+  background:
+    radial-gradient(circle at 28% 18%, rgb(255 255 255 / 0.54), transparent 46%),
+    color-mix(in srgb, var(--surface-strong) 88%, var(--surface-soft));
+  color: var(--foreground);
 }
 
 .hero-name-lockup {
@@ -1839,19 +1908,19 @@ html[data-theme="light"] .hero-name-lockup {
 
   .hero-action-row {
     width: 100%;
-    gap: clamp(0.28rem, 1.2vw, 0.42rem);
+    gap: clamp(0.22rem, 0.95vw, 0.36rem);
     padding-bottom: 0.32rem;
   }
 
   .hero-action-button {
-    width: clamp(3.05rem, 14vw, 3.55rem);
+    width: clamp(3rem, 13.6vw, 3.46rem);
     min-height: 4.28rem;
     min-width: 0;
     padding: 0.3rem 0.14rem 0.24rem;
   }
 
   .hero-action-button-ai {
-    width: clamp(3.42rem, 15vw, 4rem);
+    width: clamp(3.34rem, 14.5vw, 3.9rem);
   }
 
   .hero-action-icon-shell {

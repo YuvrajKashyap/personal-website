@@ -23,17 +23,33 @@ type HeroAction = Readonly<{
   ariaLabel: string;
 }>;
 
+const aiContextHref = `${siteConfig.url}/ai/yuvraj-kashyap-recruiter-brief.md`;
+
 const aiBriefPrompt = [
-  "Give a recruiter a concise, evidence-backed briefing on Yuvraj Kashyap.",
-  "Use public sources first: yuvrajkashyap.com, github.com/YuvrajKashyap, and linkedin.com/in/yuvraj-kashyap.",
-  "Summarize his builder identity, strongest software and AI systems signal, project themes, current focus, and useful interview questions.",
-  "Do not invent credentials, employers, metrics, awards, or claims that are not publicly verified.",
+  "You are helping a recruiter or serious collaborator understand Yuvraj Kashyap.",
+  `First read this public briefing: ${aiContextHref}.`,
+  `Then inspect the public site at ${siteConfig.url}, especially /about, /experience, /projects, /tracker, /services, /collaborate, and /contact.`,
+  "Summarize his builder identity, background, strongest software and AI systems signal, project themes, current focus, and useful interview questions.",
+  "Use public evidence only. Do not invent credentials, employers, metrics, awards, GPA, roles, adoption, revenue, or private details.",
+  "If browsing is unavailable, ask the visitor to paste the briefing file before answering.",
 ].join(" ");
 
 const chatGptHref = `https://chatgpt.com/?${new URLSearchParams({
   hints: "search",
   q: aiBriefPrompt,
   "temporary-chat": "true",
+}).toString()}`;
+
+const claudeHref = `https://claude.ai/new?${new URLSearchParams({
+  q: aiBriefPrompt,
+}).toString()}`;
+
+const geminiHref = `https://gemini.google.com/app?${new URLSearchParams({
+  q: aiBriefPrompt,
+}).toString()}`;
+
+const grokHref = `https://grok.com/?${new URLSearchParams({
+  q: aiBriefPrompt,
 }).toString()}`;
 
 const socialIconByLabel: Record<string, HeroActionIconName> = {
@@ -59,7 +75,7 @@ const aiActions = [
   {
     id: "claude",
     label: "Claude",
-    href: "https://claude.ai/",
+    href: claudeHref,
     icon: "claude",
     group: "ai",
     external: true,
@@ -68,7 +84,7 @@ const aiActions = [
   {
     id: "gemini",
     label: "Gemini",
-    href: "https://gemini.google.com/",
+    href: geminiHref,
     icon: "gemini",
     group: "ai",
     external: true,
@@ -77,7 +93,7 @@ const aiActions = [
   {
     id: "grok",
     label: "Grok",
-    href: "https://grok.com/",
+    href: grokHref,
     icon: "grok",
     group: "ai",
     external: true,
@@ -121,49 +137,14 @@ function getReachOutActions(): HeroAction[] {
 function HeroActionIcon({ icon }: Readonly<{ icon: HeroActionIconName }>) {
   switch (icon) {
     case "chatgpt":
-      return (
-        <svg viewBox="0 0 24 24" aria-hidden="true" className="hero-action-icon">
-          <path
-            fill="none"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="1.55"
-            d="M8.15 4.33a4.33 4.33 0 0 1 7.38-.86 4.33 4.33 0 0 1 5.02 5.78 4.33 4.33 0 0 1-2.34 7.16 4.33 4.33 0 0 1-7.39 3.11 4.33 4.33 0 0 1-5.47-5.25 4.33 4.33 0 0 1 .7-7.66 4.3 4.3 0 0 1 2.1-2.28Z"
-          />
-          <path
-            fill="none"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="1.55"
-            d="m8.2 4.35 3.78 2.18 3.55-2.05M5.35 14.27l3.75-2.17V7.85m1.72 11.67v-4.31l-3.62-2.09m10.99 3.29-3.7-2.14-3.67 2.12m9.73-7.14-3.74 2.16v4.18m-1.28-11.11v4.3l3.67 2.12M9.1 7.85l3.78 2.18 3.93-2.25M9.1 12.1l3.78-2.07 3.93 2.25m-5.99 2.93v-4.34"
-          />
-        </svg>
-      );
     case "claude":
-      return (
-        <svg viewBox="0 0 24 24" aria-hidden="true" className="hero-action-icon">
-          <path
-            fill="currentColor"
-            d="M11.98 2.35 14.76 8l6.24.9-4.51 4.39 1.06 6.2-5.57-2.93-5.57 2.93 1.06-6.2L2.96 8.9 9.2 8l2.78-5.65Z"
-          />
-          <circle cx="12" cy="12" r="2.15" fill="currentColor" opacity="0.36" />
-        </svg>
-      );
     case "gemini":
+    case "grok":
       return (
-        <svg viewBox="0 0 24 24" aria-hidden="true" className="hero-action-icon">
-          <path
-            fill="currentColor"
-            d="M12 1.85c.73 4.94 3.21 8.42 8.15 9.15-4.94.73-7.42 4.21-8.15 9.15-.73-4.94-3.21-8.42-8.15-9.15 4.94-.73 7.42-4.21 8.15-9.15Z"
-          />
-          <path
-            fill="currentColor"
-            d="M18.1 2.85c.34 2.28 1.49 3.89 3.78 4.22-2.29.34-3.44 1.95-3.78 4.23-.34-2.28-1.48-3.89-3.77-4.23 2.29-.33 3.43-1.94 3.77-4.22Z"
-            opacity="0.58"
-          />
-        </svg>
+        <span
+          aria-hidden="true"
+          className={`hero-action-logo hero-action-logo-${icon}`}
+        />
       );
     case "github":
       return (
@@ -171,26 +152,6 @@ function HeroActionIcon({ icon }: Readonly<{ icon: HeroActionIconName }>) {
           <path
             fill="currentColor"
             d="M12 .5a12 12 0 0 0-3.79 23.39c.6.11.82-.26.82-.58v-2.04c-3.34.73-4.04-1.42-4.04-1.42-.55-1.4-1.34-1.77-1.34-1.77-1.09-.75.08-.74.08-.74 1.21.08 1.85 1.24 1.85 1.24 1.07 1.84 2.82 1.31 3.51 1 .11-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.92 0-1.31.47-2.38 1.24-3.22-.12-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23A11.5 11.5 0 0 1 12 6.48c1.02 0 2.05.14 3.01.4 2.28-1.55 3.29-1.23 3.29-1.23.66 1.66.24 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.6-2.81 5.62-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.7.83.58A12 12 0 0 0 12 .5Z"
-          />
-        </svg>
-      );
-    case "grok":
-      return (
-        <svg viewBox="0 0 24 24" aria-hidden="true" className="hero-action-icon">
-          <path
-            fill="none"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            d="M6.7 7.05a7.2 7.2 0 0 1 10.1.13 7.02 7.02 0 0 1 .38 9.52 6.56 6.56 0 0 1-5.07 2.3 6.03 6.03 0 0 1-5.92-5.93 5.5 5.5 0 0 1 5.52-5.49h4.98"
-          />
-          <path
-            fill="none"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeWidth="2"
-            d="m15.4 4.15 3.05 3.03-3.05 3.03"
           />
         </svg>
       );
@@ -203,7 +164,14 @@ function HeroActionIcon({ icon }: Readonly<{ icon: HeroActionIconName }>) {
             strokeWidth="1.9"
             d="M7.4 2.9h9.2a4.5 4.5 0 0 1 4.5 4.5v9.2a4.5 4.5 0 0 1-4.5 4.5H7.4a4.5 4.5 0 0 1-4.5-4.5V7.4a4.5 4.5 0 0 1 4.5-4.5Z"
           />
-          <circle cx="12" cy="12" r="3.7" fill="none" stroke="currentColor" strokeWidth="1.9" />
+          <circle
+            cx="12"
+            cy="12"
+            r="3.7"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.9"
+          />
           <circle cx="17.15" cy="6.85" r="1.05" fill="currentColor" />
         </svg>
       );
@@ -255,7 +223,7 @@ function HeroActionButton({ action }: Readonly<{ action: HeroAction }>) {
     <a
       href={action.href}
       aria-label={action.ariaLabel}
-      className={`hero-action-button hero-action-button-${action.group} focus-ring`}
+      className={`hero-action-button hero-action-button-${action.group} hero-action-button-${action.id} focus-ring`}
       target={action.external ? "_blank" : undefined}
       rel={action.external ? "noreferrer" : undefined}
       download={action.download}
