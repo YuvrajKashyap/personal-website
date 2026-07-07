@@ -139,21 +139,14 @@ export function HeroVideoBackground({
 }: HeroVideoBackgroundProps) {
   const media = heroMedia.singularity;
   const allowsMotion = useAllowsHeroMotion();
-  const useLandscapePhonePoster = variant === "dark";
 
   return (
     <div className={`home-hero-media home-hero-media-${variant}`} aria-hidden="true">
       <picture className="home-hero-poster">
-        {useLandscapePhonePoster ? null : (
-          <source media="(max-width: 640px)" srcSet={media.posterMobile} />
-        )}
+        <source media="(min-width: 641px) and (max-width: 1024px)" srcSet={media.posterTablet} />
         <source
-          media={
-            useLandscapePhonePoster
-              ? "(min-width: 641px) and (max-width: 1024px)"
-              : "(max-width: 1024px)"
-          }
-          srcSet={media.posterTablet}
+          media="(max-width: 640px) and (prefers-reduced-motion: reduce)"
+          srcSet={media.posterMobile}
         />
         <img
           src={media.poster}
@@ -164,12 +157,9 @@ export function HeroVideoBackground({
         />
       </picture>
 
-      {variant === "dark" ? <HeroVideoLayer media={media} viewport="mobile" /> : null}
+      <HeroVideoLayer media={media} viewport="mobile" />
       {allowsMotion ? (
-        <HeroVideoLayer
-          media={media}
-          viewport={variant === "dark" ? "desktop" : "all"}
-        />
+        <HeroVideoLayer media={media} viewport="desktop" />
       ) : null}
     </div>
   );
