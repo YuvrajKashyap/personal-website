@@ -1862,13 +1862,40 @@ html[data-theme="light"] .hero-name-lockup {
 
   .home-hero-shade {
     background:
-      radial-gradient(circle at 66% 34%, transparent 0%, transparent 20%, rgb(3 4 6 / 0.5) 52%, rgb(3 4 6 / 0.88) 100%),
-      linear-gradient(180deg, rgb(3 4 6 / 0.36) 0%, rgb(3 4 6 / 0.76) 46%, rgb(3 4 6 / 0.92) 100%);
+      radial-gradient(circle at 50% 24%, transparent 0%, transparent 34%, rgb(3 4 6 / 0.36) 62%, rgb(3 4 6 / 0.86) 100%),
+      linear-gradient(180deg, rgb(3 4 6 / 0.18) 0%, rgb(3 4 6 / 0.58) 48%, rgb(3 4 6 / 0.92) 100%);
   }
 
   .home-hero-image,
   .home-hero-video {
     object-position: 62% center;
+  }
+
+  .home-hero-media-dark .home-hero-poster,
+  .home-hero-media-dark .home-hero-video-mobile {
+    inset: auto;
+    top: clamp(5rem, 11svh, 6.6rem);
+    left: 40%;
+    width: min(128vw, 34rem);
+    max-width: none;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    transform: translateX(-50%);
+  }
+
+  .home-hero-media-dark .home-hero-image,
+  .home-hero-media-dark .home-hero-video-mobile {
+    object-fit: cover;
+    object-position: center center;
+  }
+
+  .home-hero-media-dark .home-hero-video-mobile {
+    opacity: 0.94;
+    transition: opacity 120ms var(--motion-ease-standard);
+  }
+
+  .home-hero-media-dark .home-hero-video-desktop {
+    display: none;
   }
 
   .home-hero-orbit {

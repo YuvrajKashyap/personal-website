@@ -6,6 +6,7 @@ import { heroMedia } from "@/config/media";
 
 type HeroVideoMedia = (typeof heroMedia)["singularity"];
 type HeroVideoVariant = "dark" | "light";
+type HeroVideoViewport = "all" | "mobile" | "desktop";
 
 function useAllowsHeroMotion() {
   const [allowsMotion, setAllowsMotion] = useState(false);
@@ -28,7 +29,29 @@ function useAllowsHeroMotion() {
   return allowsMotion;
 }
 
-function HeroVideoLayer({ media }: { media: HeroVideoMedia }) {
+function getMobileSourceMedia(viewport: HeroVideoViewport) {
+  if (viewport === "mobile") {
+    return "(prefers-reduced-motion: no-preference) and (max-width: 767px)";
+  }
+
+  return "(max-width: 767px)";
+}
+
+function getDesktopSourceMedia(viewport: HeroVideoViewport) {
+  if (viewport === "desktop") {
+    return "(prefers-reduced-motion: no-preference) and (min-width: 768px)";
+  }
+
+  return undefined;
+}
+
+function HeroVideoLayer({
+  media,
+  viewport = "all",
+}: {
+  media: HeroVideoMedia;
+  viewport?: HeroVideoViewport;
+}) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
 
@@ -55,10 +78,17 @@ function HeroVideoLayer({ media }: { media: HeroVideoMedia }) {
     requestPlayback();
   }, [requestPlayback]);
 
+  const mobileSourceMedia = getMobileSourceMedia(viewport);
+  const desktopSourceMedia = getDesktopSourceMedia(viewport);
+  const renderMobileSources = viewport !== "desktop";
+  const renderDesktopSources = viewport !== "mobile";
+
   return (
     <video
       ref={videoRef}
-      className={`home-hero-video${isVideoPlaying ? " home-hero-video-ready" : ""}`}
+      className={`home-hero-video home-hero-video-${viewport}${
+        isVideoPlaying ? " home-hero-video-ready" : ""
+      }`}
       poster={media.poster}
       autoPlay
       muted
@@ -76,18 +106,26 @@ function HeroVideoLayer({ media }: { media: HeroVideoMedia }) {
         setIsVideoPlaying(false);
       }}
     >
-      <source
-        media="(max-width: 767px)"
-        src={media.videoMobileWebm}
-        type="video/webm"
-      />
-      <source
-        media="(max-width: 767px)"
-        src={media.videoMobileMp4}
-        type="video/mp4"
-      />
-      <source src={media.videoWebm} type="video/webm" />
-      <source src={media.videoMp4} type="video/mp4" />
+      {renderMobileSources ? (
+        <>
+          <source
+            media={mobileSourceMedia}
+            src={media.videoMobileWebm}
+            type="video/webm"
+          />
+          <source
+            media={mobileSourceMedia}
+            src={media.videoMobileMp4}
+            type="video/mp4"
+          />
+        </>
+      ) : null}
+      {renderDesktopSources ? (
+        <>
+          <source media={desktopSourceMedia} src={media.videoWebm} type="video/webm" />
+          <source media={desktopSourceMedia} src={media.videoMp4} type="video/mp4" />
+        </>
+      ) : null}
     </video>
   );
 }
@@ -101,12 +139,22 @@ export function HeroVideoBackground({
 }: HeroVideoBackgroundProps) {
   const media = heroMedia.singularity;
   const allowsMotion = useAllowsHeroMotion();
+  const useLandscapePhonePoster = variant === "dark";
 
   return (
     <div className={`home-hero-media home-hero-media-${variant}`} aria-hidden="true">
       <picture className="home-hero-poster">
-        <source media="(max-width: 640px)" srcSet={media.posterMobile} />
-        <source media="(max-width: 1024px)" srcSet={media.posterTablet} />
+        {useLandscapePhonePoster ? null : (
+          <source media="(max-width: 640px)" srcSet={media.posterMobile} />
+        )}
+        <source
+          media={
+            useLandscapePhonePoster
+              ? "(min-width: 641px) and (max-width: 1024px)"
+              : "(max-width: 1024px)"
+          }
+          srcSet={media.posterTablet}
+        />
         <img
           src={media.poster}
           alt=""
@@ -116,7 +164,13 @@ export function HeroVideoBackground({
         />
       </picture>
 
-      {allowsMotion ? <HeroVideoLayer media={media} /> : null}
+      {variant === "dark" ? <HeroVideoLayer media={media} viewport="mobile" /> : null}
+      {allowsMotion ? (
+        <HeroVideoLayer
+          media={media}
+          viewport={variant === "dark" ? "desktop" : "all"}
+        />
+      ) : null}
     </div>
   );
 }
