@@ -697,12 +697,47 @@ html[data-theme="light"] .site-header {
   max-width: 48rem;
 }
 
+@media (min-width: 769px) {
+  .home-dark-copy {
+    transform: translateX(clamp(-2rem, -2vw, -1.25rem));
+  }
+}
+
 .hero-action-list {
   display: flex;
   max-width: min(100%, 46rem);
   flex-direction: column;
   align-items: flex-start;
   gap: 0.78rem;
+}
+
+.hero-rotating-text {
+  max-width: min(100%, 46rem);
+  min-height: 3.5em;
+}
+
+.hero-rotating-text__cursor {
+  display: inline-block;
+  width: 0.08em;
+  height: 1.05em;
+  margin-inline-start: 0.14em;
+  border-radius: 999px;
+  background: var(--accent);
+  box-shadow: 0 0 18px var(--glow-primary);
+  transform: translateY(0.14em);
+  animation: hero-typing-caret 0.92s steps(2, end) infinite;
+}
+
+@keyframes hero-typing-caret {
+  0%,
+  46% {
+    opacity: 1;
+  }
+
+  47%,
+  100% {
+    opacity: 0.16;
+  }
 }
 
 .hero-action-row {
@@ -913,32 +948,118 @@ html[data-theme="light"] .hero-action-button-ai .hero-action-icon-shell {
 }
 
 .hero-name-lockup {
+  --hero-name-aura: rgb(240 201 106 / 0.22);
+  --hero-name-aura-strong: rgb(255 217 130 / 0.34);
+  --hero-name-sheen: rgb(255 247 221 / 0.42);
+  --hero-name-proximity: 0;
+  --hero-name-glow-x: 50%;
+  --hero-name-glow-y: 50%;
+  --hero-name-lustre-x: 50%;
+  --hero-name-sheen-offset: 0%;
+  --hero-name-shift-x: 0px;
+  --hero-name-shift-y: 0px;
+
   display: inline-flex;
   max-width: 8ch;
+  align-items: center;
   flex-direction: column;
+  position: relative;
+  isolation: isolate;
   color: var(--foreground);
   font-family: var(--font-sans);
   font-size: var(--text-5xl);
   font-weight: 700;
   letter-spacing: 0;
   line-height: 0.88;
+  text-align: center;
   text-transform: uppercase;
+}
+
+.hero-name-lockup::before,
+.hero-name-lockup::after {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  z-index: -1;
+}
+
+.hero-name-lockup::before {
+  inset: -0.18em -0.12em -0.14em;
+  border-radius: 38% 48% 42% 52%;
+  background:
+    radial-gradient(ellipse at var(--hero-name-glow-x) var(--hero-name-glow-y), var(--hero-name-aura-strong), transparent 58%),
+    linear-gradient(100deg, transparent 0%, var(--hero-name-aura) 42%, transparent 82%);
+  filter: blur(22px);
+  opacity: calc(0.34 + (var(--hero-name-proximity) * 0.48));
+  transform:
+    translate3d(var(--hero-name-shift-x), var(--hero-name-shift-y), 0)
+    scale(calc(0.982 + (var(--hero-name-proximity) * 0.044)));
+  transition:
+    background 180ms cubic-bezier(0.22, 0.8, 0.28, 1),
+    opacity 180ms cubic-bezier(0.22, 0.8, 0.28, 1),
+    transform 180ms cubic-bezier(0.22, 0.8, 0.28, 1);
+}
+
+.hero-name-lockup::after {
+  inset: -0.08em -0.04em;
+  background: linear-gradient(115deg, transparent 16%, var(--hero-name-sheen) 48%, transparent 72%);
+  filter: blur(10px);
+  mix-blend-mode: screen;
+  opacity: calc(var(--hero-name-proximity) * 0.34);
+  transform: translateX(var(--hero-name-sheen-offset));
+  transition:
+    opacity 160ms cubic-bezier(0.22, 0.8, 0.28, 1),
+    transform 160ms cubic-bezier(0.22, 0.8, 0.28, 1);
 }
 
 .hero-name-line {
   display: block;
+  background:
+    linear-gradient(98deg, var(--foreground) 0%, var(--accent-strong) 34%, #fff8df 50%, var(--accent-muted) 74%, var(--foreground) 100%);
+  background-size: 220% 100%;
+  background-position: var(--hero-name-lustre-x) 50%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  filter:
+    drop-shadow(0 0 calc(8px + (var(--hero-name-proximity) * 12px)) var(--hero-name-aura))
+    drop-shadow(0 0 calc(22px + (var(--hero-name-proximity) * 28px)) var(--hero-name-aura));
+  transform: translate3d(var(--hero-name-shift-x), var(--hero-name-shift-y), 0);
+  transition:
+    background-position 150ms cubic-bezier(0.22, 0.8, 0.28, 1),
+    filter 160ms cubic-bezier(0.22, 0.8, 0.28, 1),
+    transform 160ms cubic-bezier(0.22, 0.8, 0.28, 1);
+  -webkit-text-fill-color: transparent;
 }
 
-.hero-name-line-offset {
-  margin-inline-start: 0.82ch;
+.hero-name-line-yuvraj {
+  font-size: 0.9em;
 }
 
 html[data-theme="dark"] .hero-name-lockup {
-  text-shadow: 0 0 42px var(--glow-primary);
+  --hero-name-aura: rgb(240 201 106 / 0.24);
+  --hero-name-aura-strong: rgb(255 217 130 / 0.38);
+  --hero-name-sheen: rgb(255 248 219 / 0.52);
 }
 
 html[data-theme="light"] .hero-name-lockup {
+  --hero-name-aura: rgb(185 28 28 / 0.13);
+  --hero-name-aura-strong: rgb(127 29 29 / 0.2);
+  --hero-name-sheen: rgb(255 255 255 / 0.5);
+
   color: var(--foreground);
+}
+
+html[data-theme="light"] .hero-name-line {
+  background:
+    linear-gradient(98deg, var(--foreground) 0%, #7f1d1d 36%, #b91c1c 50%, #4c1d18 76%, var(--foreground) 100%);
+  background-size: 220% 100%;
+  background-position: var(--hero-name-lustre-x) 50%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  filter:
+    drop-shadow(0 0 calc(7px + (var(--hero-name-proximity) * 9px)) rgb(127 29 29 / 0.1))
+    drop-shadow(0 0 calc(18px + (var(--hero-name-proximity) * 22px)) rgb(185 28 28 / 0.12));
 }
 
 @media (min-width: 768px) {

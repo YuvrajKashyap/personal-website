@@ -3,6 +3,7 @@ import { Reveal } from "@/components/motion/Reveal";
 import { HeroActionLinks } from "@/features/home/HeroActionLinks";
 import { HeroVideoBackground } from "@/features/home/HeroVideoBackground";
 import { HeroNameHeadline } from "@/features/home/HeroNameHeadline";
+import { HeroRotatingText } from "@/features/home/HeroRotatingText";
 import { HomeSections } from "@/features/home/HomeSections";
 import { homeContent } from "@/features/home/home-content";
 
@@ -48,9 +49,7 @@ export function HomeDark() {
               <HeroNameHeadline className="mt-5" />
             </Reveal>
             <Reveal delay={0.22}>
-              <p className="mt-7 text-body-large text-pretty">
-                {homeContent.body}
-              </p>
+              <HeroRotatingText className="mt-7" />
             </Reveal>
 
             <Reveal className="mt-10" delay={0.3} variant="cta">

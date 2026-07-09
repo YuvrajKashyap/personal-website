@@ -1,11 +1,28 @@
 export const homeContent = {
-  eyebrow: "BUILDER. OPERATOR. FUTURE FOUNDER.",
+  eyebrow: "BUILDER. OPERATOR. ALCHEMIST.",
   name: "Yuvraj Kashyap",
   headline: {
     label: "Yuvraj Kashyap",
     lines: ["YUVRAJ", "KASHYAP"],
   },
-  body: "I design software, products, and operating systems that turn ideas into leverage.",
+  bodyLines: [
+    "I like designing software.",
+    "I like playing tennis.",
+    "I'm into nerd things.",
+    "I like engineering.",
+    "I like robotics.",
+    "I like talking about money.",
+    "I like business.",
+    "I like entrepreneurship.",
+    "I'm into space.",
+    "I often think about space and astrophysics.",
+    "I like astrophysics and ontology.",
+    "I like learning about intelligence and simulated intelligence.",
+    "I like being curious.",
+    "I like being competitive.",
+    "I'm pretty competitive.",
+    "I'm an autodidact.",
+  ],
 } as const;
 
 export const signalItems = [

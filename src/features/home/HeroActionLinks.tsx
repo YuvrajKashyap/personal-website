@@ -19,7 +19,7 @@ type HeroAction = Readonly<{
   icon: HeroActionIconName;
   group: "ai" | "reach-out";
   external?: true;
-  download?: string;
+  openInNewTab?: true;
   ariaLabel: string;
 }>;
 
@@ -127,8 +127,8 @@ function getReachOutActions(): HeroAction[] {
       href: siteConfig.resume.href,
       icon: "resume",
       group: "reach-out",
-      download: siteConfig.resume.download,
-      ariaLabel: "Download Yuvraj Kashyap resume",
+      openInNewTab: true,
+      ariaLabel: "Open Yuvraj Kashyap resume in a new tab",
     },
     ...socialActions,
   ] satisfies HeroAction[];
@@ -219,14 +219,15 @@ function HeroActionIcon({ icon }: Readonly<{ icon: HeroActionIconName }>) {
 }
 
 function HeroActionButton({ action }: Readonly<{ action: HeroAction }>) {
+  const opensInNewTab = action.external || action.openInNewTab;
+
   return (
     <a
       href={action.href}
       aria-label={action.ariaLabel}
       className={`hero-action-button hero-action-button-${action.group} hero-action-button-${action.id} focus-ring`}
-      target={action.external ? "_blank" : undefined}
-      rel={action.external ? "noreferrer" : undefined}
-      download={action.download}
+      target={opensInNewTab ? "_blank" : undefined}
+      rel={opensInNewTab ? "noreferrer" : undefined}
     >
       <span className="hero-action-icon-shell" aria-hidden="true">
         <HeroActionIcon icon={action.icon} />

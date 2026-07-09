@@ -61,7 +61,6 @@ export const siteConfig = {
   resume: {
     label: "Resume",
     href: "/media/resume/yuvraj-kashyap-resume.pdf",
-    download: "yuvraj-kashyap-resume.pdf",
   },
 };
 
