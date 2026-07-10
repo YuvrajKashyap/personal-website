@@ -7,6 +7,8 @@ export const homeContent = {
   },
   bodyLines: [
     "I like designing software.",
+    "I'm a full-stack software engineer.",
+    "Software has been hardcoded into my life.",
     "I like playing tennis.",
     "I'm into nerd things.",
     "I like engineering.",
@@ -22,6 +24,16 @@ export const homeContent = {
     "I like being competitive.",
     "I'm pretty competitive.",
     "I'm an autodidact.",
+    "I'm a Polymath.",
+    "I am an optimizationist.",
+    "Kaizen.",
+    "I'm into multimodal AI.",
+    "Talk to me about world models.",
+    "Talk to me about embodied AI.",
+    "I'm into neurosymbolic reasoning.",
+    "I'm into cosmology.",
+    "I'm into physics.",
+    "I like inventing.",
   ],
 } as const;
 

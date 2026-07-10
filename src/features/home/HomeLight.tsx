@@ -24,14 +24,14 @@ export function HomeLight() {
             <Reveal delay={0.08}>
               <p className="text-kicker">{homeContent.eyebrow}</p>
             </Reveal>
-            <Reveal delay={0.16}>
+            <Reveal delay={0.14} variant="blur-in">
               <HeroNameHeadline className="mt-5" />
             </Reveal>
-            <Reveal delay={0.24}>
+            <Reveal delay={0.22}>
               <HeroRotatingText className="mt-7" />
             </Reveal>
 
-            <Reveal className="mt-10" delay={0.32} variant="cta">
+            <Reveal className="mt-10" delay={0.3} variant="cta">
               <HeroActionLinks />
             </Reveal>
           </div>

@@ -1,5 +1,7 @@
 import Link from "next/link";
 
+import { SiteEmblemLink } from "@/components/layout/SiteEmblemLink";
+
 export function AdminShell({
   eyebrow,
   title,
@@ -14,10 +16,10 @@ export function AdminShell({
       <div className="admin-shell-backdrop" aria-hidden="true" />
       <div className="admin-shell-inner">
         <header className="admin-shell-header">
-          <Link className="admin-brand focus-ring" href="/" aria-label="Go to public site">
-            <span>YK</span>
-            <span>Admin</span>
-          </Link>
+          <SiteEmblemLink
+            ariaLabel="Go to public site"
+            className="admin-emblem-link focus-ring"
+          />
           <Link className="admin-quiet-link focus-ring" href="/">
             Public site
           </Link>

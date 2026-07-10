@@ -1,5 +1,4 @@
-import Link from "next/link";
-
+import { SiteEmblemLink } from "@/components/layout/SiteEmblemLink";
 import { SiteNavigation } from "@/components/layout/SiteNavigation";
 
 export function SiteHeader() {
@@ -9,18 +8,7 @@ export function SiteHeader() {
         Skip to main content
       </a>
       <div className="site-header-inner site-container-wide">
-        <Link
-          href="/"
-          aria-label="Yuvraj Kashyap home"
-          className="brand-mark focus-ring"
-        >
-          <span className="font-telemetry text-sm font-bold tracking-[0.24em]">
-            YK
-          </span>
-          <span className="hidden text-sm font-semibold sm:inline">
-            Yuvraj Kashyap
-          </span>
-        </Link>
+        <SiteEmblemLink />
         <SiteNavigation />
       </div>
     </header>

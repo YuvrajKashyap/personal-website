@@ -34,11 +34,8 @@ export function SiteNavigation() {
   const ctaItem = siteConfig.navItems.find((item) => item.cta);
 
   return (
-    <div className="flex items-center gap-3">
-      <nav
-        aria-label="Primary navigation"
-        className="hidden items-center gap-1 xl:flex"
-      >
+    <div className="site-navigation">
+      <nav aria-label="Primary navigation" className="site-navigation-primary">
         {primaryItems.map((item) => {
           const isActive = isNavItemActive(item, pathname);
 
@@ -55,7 +52,7 @@ export function SiteNavigation() {
         })}
       </nav>
 
-      <div className="hidden items-center gap-3 xl:flex">
+      <div className="site-navigation-actions">
         <ThemeToggle />
         {ctaItem ? (
           <Link
@@ -71,7 +68,7 @@ export function SiteNavigation() {
         ) : null}
       </div>
 
-      <div className="flex items-center gap-2 xl:hidden">
+      <div className="site-navigation-mobile-actions">
         <ThemeToggle />
         <button
           type="button"
