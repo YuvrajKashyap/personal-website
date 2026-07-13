@@ -1,240 +1,302 @@
 import Link from "next/link";
+import type { ReactNode } from "react";
 
 import { Reveal } from "@/components/motion/Reveal";
+import { aboutHomePreview } from "@/features/about/about-content";
 import {
-  aboutPreview,
-  finalCta,
-  opportunityPreview,
-  signalItems,
-  trackerPreview,
-} from "@/features/home/home-content";
+  collaborateHero,
+  collaborationLanes,
+} from "@/features/collaborate/collaborate-content";
+import {
+  experienceEntries,
+  experienceHero,
+} from "@/features/experience/experience-content";
+import {
+  trackerHero,
+  trackerStatusCards,
+} from "@/features/tracker/tracker-content";
 import { getFeaturedProjects } from "@/lib/projects/projects";
 
 type HomeSectionsProps = Readonly<{
   variant: "dark" | "light";
 }>;
 
-type SectionHeaderProps = Readonly<{
-  eyebrow: string;
-  title: string;
-  body?: string;
+type ChapterShellProps = Readonly<{
+  children: ReactNode;
+  className: string;
+  id: string;
+  label: string;
+  number: string;
 }>;
 
-function SectionHeader({ eyebrow, title, body }: SectionHeaderProps) {
+function ChapterShell({
+  children,
+  className,
+  id,
+  label,
+  number,
+}: ChapterShellProps) {
   return (
-    <Reveal className="home-section-header">
+    <section id={id} className={`home-section home-chapter ${className}`}>
+      <div className="site-container-wide home-chapter-grid">
+        <Reveal className="home-chapter-marker" inView variant="fade-in">
+          <span>{number}</span>
+          <p>{label}</p>
+        </Reveal>
+        <div className="home-chapter-content">{children}</div>
+      </div>
+    </section>
+  );
+}
+
+function ChapterHeader({
+  body,
+  eyebrow,
+  title,
+}: Readonly<{ body: string; eyebrow: string; title: string }>) {
+  return (
+    <Reveal className="home-chapter-header" inView>
       <p className="text-kicker">{eyebrow}</p>
       <h2 className="text-section-title text-balance">{title}</h2>
-      {body ? <p className="text-body text-pretty">{body}</p> : null}
+      <p className="text-body text-pretty">{body}</p>
     </Reveal>
   );
 }
 
-function SignalStrip() {
+function AboutChapter() {
   return (
-    <section id="home-signal" className="home-section home-signal-section">
-      <div className="site-container-wide">
-        <SectionHeader
-          eyebrow="Signal Strip"
-          title="A quick read on the operating system."
+    <ChapterShell
+      className="home-about-chapter"
+      id="home-about-preview"
+      label="About"
+      number="01"
+    >
+      <div className="home-about-story">
+        <Reveal className="home-about-intro" inView>
+          <p className="home-about-paragraph text-pretty">
+            {aboutHomePreview.body}
+          </p>
+          <Link href="/about" className="home-section-link focus-ring">
+            More about me
+          </Link>
+        </Reveal>
+
+        <Reveal className="home-about-portrait" inView variant="blur-in">
+          <div
+            aria-label="Portrait placeholder for Yuvraj Kashyap"
+            className="home-about-portrait-placeholder"
+            role="img"
+          >
+            <span aria-hidden="true">YK</span>
+          </div>
+        </Reveal>
+      </div>
+    </ChapterShell>
+  );
+}
+
+function ExperienceChapter() {
+  const entries = experienceEntries.slice(0, 3);
+
+  return (
+    <ChapterShell
+      className="home-experience-chapter"
+      id="home-experience-preview"
+      label="Experience"
+      number="02"
+    >
+      <div className="home-experience-layout">
+        <ChapterHeader
+          eyebrow={experienceHero.eyebrow}
+          title={experienceHero.title}
+          body={experienceHero.description}
         />
 
-        <div className="home-signal-grid" aria-label="Yuvraj Kashyap signal areas">
-          {signalItems.map((item, index) => (
-            <Reveal key={item.label} delay={index * 0.06} variant="chip">
-              <article className="home-signal-card">
-                <span className="home-card-index">
-                  {String(index + 1).padStart(2, "0")}
-                </span>
-                <h3>{item.label}</h3>
-                <p>{item.description}</p>
+        <div className="home-experience-ledger">
+          {entries.map((entry, index) => (
+            <Reveal
+              key={entry.id}
+              className="home-experience-entry"
+              delay={index * 0.08}
+              inView
+            >
+              <article>
+                <div className="home-experience-entry-meta">
+                  <span>{String(index + 1).padStart(2, "0")}</span>
+                  <p>{entry.eyebrow}</p>
+                </div>
+                <div className="home-experience-entry-copy">
+                  <h3>{entry.title}</h3>
+                  <p>{entry.body}</p>
+                  <ul aria-label={`${entry.title} signals`}>
+                    {entry.signals.slice(0, 2).map((signal) => (
+                      <li key={signal}>{signal}</li>
+                    ))}
+                  </ul>
+                </div>
               </article>
             </Reveal>
           ))}
         </div>
+
+        <Reveal inView variant="cta">
+          <Link href="/experience" className="home-section-link focus-ring">
+            View experience
+          </Link>
+        </Reveal>
       </div>
-    </section>
+    </ChapterShell>
   );
 }
 
-function FeaturedProjectsPreview() {
-  const featuredProjectPreviews = getFeaturedProjects().slice(0, 4);
+function ProjectsChapter() {
+  const projects = getFeaturedProjects().slice(0, 3);
 
   return (
-    <section
+    <ChapterShell
+      className="home-projects-chapter"
       id="home-projects-preview"
-      className="home-section home-projects-section"
+      label="Projects"
+      number="03"
     >
-      <div className="site-container-wide">
-        <div className="home-section-split">
-          <SectionHeader
-            eyebrow="Featured Projects"
-            title="Proof surfaces, not a full archive."
-            body="A focused preview of the systems that will anchor the Projects page."
-          />
-
-          <Reveal variant="cta">
-            <Link href="/projects" className="home-section-link focus-ring">
-              View Projects
-            </Link>
-          </Reveal>
-        </div>
-
-        <div className="home-project-grid">
-          {featuredProjectPreviews.map((project, index) => (
-            <Reveal key={project.title} delay={index * 0.07}>
-              <Link
-                href="/projects"
-                className="home-project-card focus-ring"
-                aria-label={`View Projects preview for ${project.title}`}
-              >
-                <span className="home-card-index">
-                  {String(index + 1).padStart(2, "0")}
-                </span>
-                <div>
-                  <p className="home-project-status">
-                    {project.eyebrow ?? project.priority}
-                  </p>
-                  <h3>{project.title}</h3>
-                  <p>{project.summary}</p>
-                </div>
-              </Link>
-            </Reveal>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function TrackerPreview() {
-  return (
-    <section
-      id="home-tracker-preview"
-      className="home-section home-tracker-section"
-    >
-      <div className="site-container-wide">
-        <div className="home-tracker-panel">
-          <SectionHeader
-            eyebrow={trackerPreview.eyebrow}
-            title={trackerPreview.title}
-            body={trackerPreview.description}
-          />
-
-          <dl className="home-tracker-grid">
-            {trackerPreview.items.map((item, index) => (
-              <Reveal key={item.label} delay={index * 0.06} variant="fade-in">
-                <div>
-                  <dt>{item.label}</dt>
-                  <dd>{item.value}</dd>
-                </div>
-              </Reveal>
-            ))}
-          </dl>
-
-          <Reveal variant="cta">
-            <Link href={trackerPreview.cta.href} className="home-section-link focus-ring">
-              {trackerPreview.cta.label}
-            </Link>
-          </Reveal>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function AboutPreview() {
-  return (
-    <section id="home-about-preview" className="home-section home-about-section">
-      <div className="site-container-wide home-about-layout">
-        <SectionHeader
-          eyebrow={aboutPreview.eyebrow}
-          title={aboutPreview.title}
-          body={aboutPreview.body}
+      <div className="home-projects-heading">
+        <ChapterHeader
+          eyebrow="PROJECTS"
+          title="Systems that make the direction tangible."
+          body="A focused set of active and published builds across AI, search infrastructure, product systems, and frontend craft."
         />
+        <Reveal inView variant="cta">
+          <Link href="/projects" className="home-section-link focus-ring">
+            Explore all projects
+          </Link>
+        </Reveal>
+      </div>
 
-        <Reveal className="home-about-path" variant="scale-soft">
-          <ol aria-label="About preview path">
-            {aboutPreview.path.map((item, index) => (
-              <li key={item}>
+      <div className="home-project-showcase">
+        {projects.map((project, index) => (
+          <Reveal
+            key={project.id}
+            className={index === 0 ? "home-project-featured" : "home-project-secondary"}
+            delay={index * 0.08}
+            inView
+            variant={index === 0 ? "scale-soft" : "fade-up"}
+          >
+            <Link
+              href={`/projects/${project.slug}`}
+              className="home-project-surface focus-ring"
+              aria-label={`View ${project.title} project`}
+            >
+              <div className="home-project-surface-topline">
                 <span>{String(index + 1).padStart(2, "0")}</span>
-                <strong>{item}</strong>
-              </li>
-            ))}
-          </ol>
-          <Link href={aboutPreview.cta.href} className="home-section-link focus-ring">
-            {aboutPreview.cta.label}
-          </Link>
-        </Reveal>
+                <p>{project.eyebrow ?? project.priority}</p>
+              </div>
+              <div>
+                <h3>{project.title}</h3>
+                <p>{project.summary}</p>
+              </div>
+              <ul aria-label={`${project.title} technologies`}>
+                {project.tags.slice(0, 3).map((tag) => (
+                  <li key={tag}>{tag}</li>
+                ))}
+              </ul>
+            </Link>
+          </Reveal>
+        ))}
       </div>
-    </section>
+    </ChapterShell>
   );
 }
 
-function OpportunitySplit() {
-  const opportunities = [
-    opportunityPreview.services,
-    opportunityPreview.collaborate,
-  ] as const;
+function TrackerChapter() {
+  const statusCards = trackerStatusCards.slice(0, 3);
 
   return (
-    <section
-      id="home-opportunities"
-      className="home-section home-opportunities-section"
+    <ChapterShell
+      className="home-tracker-chapter"
+      id="home-tracker-preview"
+      label="Tracker"
+      number="04"
     >
-      <div className="site-container-wide">
-        <SectionHeader
-          eyebrow={opportunityPreview.eyebrow}
-          title={opportunityPreview.title}
+      <div className="home-tracker-heading">
+        <ChapterHeader
+          eyebrow={trackerHero.eyebrow}
+          title={trackerHero.title}
+          body={trackerHero.description}
         />
-
-        <div className="home-opportunity-grid">
-          {opportunities.map((item, index) => (
-            <Reveal key={item.title} delay={index * 0.08} variant="scale-soft">
-              <article className="home-opportunity-card">
-                <span className="home-card-index">
-                  {String(index + 1).padStart(2, "0")}
-                </span>
-                <h3>{item.title}</h3>
-                <p>{item.description}</p>
-                <Link href={item.href} className="home-section-link focus-ring">
-                  {item.cta}
-                </Link>
-              </article>
-            </Reveal>
-          ))}
-        </div>
+        <Reveal className="home-tracker-source" inView variant="fade-in">
+          <span aria-hidden="true" />
+          <p>Manual current-state signal</p>
+        </Reveal>
       </div>
-    </section>
+
+      <dl className="home-status-stream">
+        {statusCards.map((card, index) => (
+          <Reveal
+            key={card.id}
+            className="home-status-item"
+            delay={index * 0.08}
+            inView
+            variant="fade-up"
+          >
+            <div>
+              <dt>
+                <span>{String(index + 1).padStart(2, "0")}</span>
+                {card.label}
+              </dt>
+              <dd>{card.value}</dd>
+              <p>{card.description}</p>
+              <small>{card.source}</small>
+            </div>
+          </Reveal>
+        ))}
+      </dl>
+
+      <Reveal inView variant="cta">
+        <Link href="/tracker" className="home-section-link focus-ring">
+          Open tracker
+        </Link>
+      </Reveal>
+    </ChapterShell>
   );
 }
 
-function HomeFinalCta() {
+function CollaborateChapter() {
+  const lanes = collaborationLanes.slice(0, 3);
+
   return (
-    <section id="home-contact" className="home-section home-final-section">
-      <div className="site-container-narrow">
-        <Reveal className="home-final-cta" variant="scale-soft">
-          <p className="text-kicker">{finalCta.eyebrow}</p>
-          <h2 className="text-page-title text-balance">{finalCta.title}</h2>
-          <p className="text-body-large text-pretty">{finalCta.body}</p>
-          <Link href={finalCta.cta.href} className="home-final-link focus-ring">
-            {finalCta.cta.label}
-          </Link>
-        </Reveal>
-      </div>
-    </section>
+    <ChapterShell
+      className="home-collaborate-chapter"
+      id="home-collaborate-preview"
+      label="Collaborate"
+      number="05"
+    >
+      <Reveal className="home-collaborate-stage" inView variant="scale-soft">
+        <p className="text-kicker">{collaborateHero.eyebrow}</p>
+        <h2 className="text-page-title text-balance">{collaborateHero.title}</h2>
+        <p className="text-body-large text-pretty">{collaborateHero.description}</p>
+
+        <ul className="home-collaborate-lanes" aria-label="Collaboration areas">
+          {lanes.map((lane) => (
+            <li key={lane.id}>{lane.eyebrow}</li>
+          ))}
+        </ul>
+
+        <Link href="/collaborate" className="home-collaborate-link focus-ring">
+          Explore collaboration
+        </Link>
+      </Reveal>
+    </ChapterShell>
   );
 }
 
 export function HomeSections({ variant }: HomeSectionsProps) {
   return (
     <div className="home-sections" data-home-variant={variant}>
-      <SignalStrip />
-      <FeaturedProjectsPreview />
-      <TrackerPreview />
-      <AboutPreview />
-      <OpportunitySplit />
-      <HomeFinalCta />
+      <AboutChapter />
+      <ExperienceChapter />
+      <ProjectsChapter />
+      <TrackerChapter />
+      <CollaborateChapter />
     </div>
   );
 }
