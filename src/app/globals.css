@@ -5740,8 +5740,7 @@ html[data-custom-cursor] textarea {
   opacity: 1;
 }
 
-.site-cursor-core,
-.site-cursor-ring {
+.site-cursor-anchor {
   position: fixed;
   top: 0;
   left: 0;
@@ -5752,85 +5751,71 @@ html[data-custom-cursor] textarea {
 
 .site-cursor-dot {
   position: absolute;
-  top: -2.5px;
-  left: -2.5px;
+  top: -5px;
+  left: -5px;
   display: block;
-  width: 5px;
-  height: 5px;
+  width: 10px;
+  height: 10px;
   border-radius: 999px;
-  background: var(--accent);
-  transition: transform 0.25s var(--ease-signal, ease);
+  background: #08070a;
+  box-shadow:
+    0 0 0 1.5px rgb(255 255 255 / 0.55),
+    0 1px 3px rgb(0 0 0 / 0.45);
+  transition:
+    transform 0.22s var(--ease-signal, ease),
+    box-shadow 0.22s var(--ease-signal, ease);
 }
 
-.site-cursor-ring-inner {
+.site-cursor-dot::after {
   position: absolute;
-  top: -15px;
-  left: -15px;
-  display: block;
-  width: 30px;
-  height: 30px;
-  transition: transform 0.25s var(--ease-signal, ease);
-}
-
-.site-cursor-ring-base {
-  position: absolute;
-  inset: 0;
-  border: 1px solid color-mix(in srgb, var(--foreground) 32%, transparent);
+  inset: -5px;
+  border: 1.5px solid var(--accent);
   border-radius: 999px;
-  transition: border-color 0.25s var(--ease-signal, ease);
-}
-
-.site-cursor-ring-arc {
-  position: absolute;
-  inset: 0;
-  border-radius: 999px;
-  background: conic-gradient(
-    from 0deg,
-    var(--accent) 0deg,
-    var(--accent) 80deg,
-    transparent 80deg
-  );
-  mask: radial-gradient(
-    farthest-side,
-    transparent calc(100% - 1.5px),
-    black calc(100% - 0.5px)
-  );
-  -webkit-mask: radial-gradient(
-    farthest-side,
-    transparent calc(100% - 1.5px),
-    black calc(100% - 0.5px)
-  );
+  content: "";
   opacity: 0;
-  transition: opacity 0.25s var(--ease-signal, ease);
-}
-
-.site-cursor.is-pointer .site-cursor-ring-inner {
-  transform: scale(1.25);
-}
-
-.site-cursor.is-pointer .site-cursor-ring-base {
-  border-color: color-mix(in srgb, var(--accent) 55%, transparent);
-}
-
-.site-cursor.is-pointer .site-cursor-ring-arc {
-  opacity: 1;
-  animation: cursor-arc-spin 1.4s linear infinite;
+  transform: scale(0.5);
+  transition:
+    opacity 0.22s var(--ease-signal, ease),
+    transform 0.22s var(--ease-signal, ease);
 }
 
 .site-cursor.is-pointer .site-cursor-dot {
-  transform: scale(0.6);
+  transform: scale(1.2);
+  box-shadow:
+    0 0 0 1.5px color-mix(in srgb, var(--accent) 85%, white),
+    0 0 14px var(--glow-primary),
+    0 1px 3px rgb(0 0 0 / 0.45);
 }
 
-.site-cursor.is-down .site-cursor-ring-inner {
+.site-cursor.is-pointer .site-cursor-dot::after {
+  opacity: 1;
+  transform: scale(1);
+  animation: cursor-hover-pulse 1.8s var(--ease-signal, ease) infinite;
+}
+
+.site-cursor.is-down .site-cursor-dot {
   transform: scale(0.85);
 }
 
-.site-cursor.is-pointer.is-down .site-cursor-ring-inner {
-  transform: scale(1.05);
+.site-cursor.is-pointer.is-down .site-cursor-dot {
+  transform: scale(1);
 }
 
-@keyframes cursor-arc-spin {
-  to {
-    transform: rotate(360deg);
+@keyframes cursor-hover-pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
   }
+
+  50% {
+    opacity: 0.55;
+    transform: scale(1.18);
+  }
+}
+
+html[data-theme="light"] .site-cursor-dot {
+  box-shadow:
+    0 0 0 1.5px rgb(255 255 255 / 0.9),
+    0 1px 3px rgb(0 0 0 / 0.28);
 }

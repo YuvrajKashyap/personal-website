@@ -1,11 +1,6 @@
 "use client";
 
-import {
-  motion,
-  useMotionValue,
-  useReducedMotion,
-  useSpring,
-} from "motion/react";
+import { motion, useMotionValue, useReducedMotion } from "motion/react";
 import { useEffect, useState, useSyncExternalStore } from "react";
 
 const FINE_POINTER_QUERY = "(hover: hover) and (pointer: fine)";
@@ -40,8 +35,6 @@ const INTERACTIVE_SELECTOR = [
 const TEXT_FIELD_SELECTOR =
   'input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]), textarea';
 
-const ringSpring = { stiffness: 560, damping: 42, mass: 0.5 } as const;
-
 export function SiteCursor() {
   const shouldReduceMotion = useReducedMotion();
   const hasFinePointer = useSyncExternalStore(
@@ -57,8 +50,6 @@ export function SiteCursor() {
 
   const x = useMotionValue(-100);
   const y = useMotionValue(-100);
-  const ringX = useSpring(x, ringSpring);
-  const ringY = useSpring(y, ringSpring);
 
   useEffect(() => {
     if (!isActive) {
@@ -135,16 +126,7 @@ export function SiteCursor() {
 
   return (
     <div className={`site-cursor ${stateClass}`} aria-hidden="true">
-      <motion.span
-        className="site-cursor-ring"
-        style={{ x: ringX, y: ringY }}
-      >
-        <span className="site-cursor-ring-inner">
-          <span className="site-cursor-ring-base" />
-          <span className="site-cursor-ring-arc" />
-        </span>
-      </motion.span>
-      <motion.span className="site-cursor-core" style={{ x, y }}>
+      <motion.span className="site-cursor-anchor" style={{ x, y }}>
         <span className="site-cursor-dot" />
       </motion.span>
     </div>
