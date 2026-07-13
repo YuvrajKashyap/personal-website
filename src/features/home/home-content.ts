@@ -1,5 +1,5 @@
 export const homeContent = {
-  eyebrow: "BUILDER. OPERATOR. ALCHEMIST.",
+  roles: ["BUILDER", "OPERATOR", "ALCHEMIST"],
   name: "Yuvraj Kashyap",
   headline: {
     label: "Yuvraj Kashyap",
@@ -34,6 +34,12 @@ export const homeContent = {
     "I'm into cosmology.",
     "I'm into physics.",
     "I like inventing.",
+    "I've worked heavily with ML Models.",
+    "I've built many full-stack apps.",
+    "I enjoy building software in my free time.",
+    "I enjoy building software at the intersection of AI, robotics, and world models.",
+    "I enjoy building software at the intersection of finance, data, and AI.",
+    "Building software for myself is a hack.",
   ],
 } as const;
 
