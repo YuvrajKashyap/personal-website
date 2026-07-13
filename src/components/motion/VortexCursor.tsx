@@ -6,7 +6,23 @@ import {
   useReducedMotion,
   useSpring,
 } from "motion/react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
+
+const FINE_POINTER_QUERY = "(hover: hover) and (pointer: fine)";
+
+function subscribeToFinePointer(callback: () => void) {
+  const mediaQuery = window.matchMedia(FINE_POINTER_QUERY);
+  mediaQuery.addEventListener("change", callback);
+  return () => mediaQuery.removeEventListener("change", callback);
+}
+
+function getFinePointerSnapshot() {
+  return window.matchMedia(FINE_POINTER_QUERY).matches;
+}
+
+function getFinePointerServerSnapshot() {
+  return false;
+}
 
 const INTERACTIVE_SELECTOR = [
   "a",
@@ -33,7 +49,12 @@ const trailSprings = [
 
 export function VortexCursor() {
   const shouldReduceMotion = useReducedMotion();
-  const [isActive, setIsActive] = useState(false);
+  const hasFinePointer = useSyncExternalStore(
+    subscribeToFinePointer,
+    getFinePointerSnapshot,
+    getFinePointerServerSnapshot,
+  );
+  const isActive = hasFinePointer && !shouldReduceMotion;
   const [isVisible, setIsVisible] = useState(false);
   const [isPointer, setIsPointer] = useState(false);
   const [isHiddenZone, setIsHiddenZone] = useState(false);
@@ -60,15 +81,10 @@ export function VortexCursor() {
   ];
 
   useEffect(() => {
-    if (shouldReduceMotion) {
+    if (!isActive) {
       return undefined;
     }
 
-    if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
-      return undefined;
-    }
-
-    setIsActive(true);
     document.documentElement.dataset.customCursor = "true";
 
     function onPointerMove(event: PointerEvent) {
@@ -123,7 +139,7 @@ export function VortexCursor() {
       );
       window.removeEventListener("blur", onLeaveWindow);
     };
-  }, [shouldReduceMotion, x, y]);
+  }, [isActive, x, y]);
 
   if (!isActive) {
     return null;
