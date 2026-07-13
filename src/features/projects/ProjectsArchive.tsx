@@ -1,5 +1,6 @@
 "use client";
 
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useMemo, useState } from "react";
 
 import { EmptyState } from "@/components/ui/EmptyState";
@@ -19,6 +20,7 @@ type ProjectsArchiveProps = Readonly<{
 
 export function ProjectsArchive({ projects }: ProjectsArchiveProps) {
   const [activeFilter, setActiveFilter] = useState<ProjectFilterId>("all");
+  const shouldReduceMotion = useReducedMotion();
 
   const filteredProjects = useMemo(
     () =>
@@ -39,11 +41,26 @@ export function ProjectsArchive({ projects }: ProjectsArchiveProps) {
       />
 
       {filteredProjects.length > 0 ? (
-        <div className="projects-archive-grid" id="projects-archive-grid">
-          {filteredProjects.map((project, index) => (
-            <ProjectCard key={project.slug} project={project} index={index} />
-          ))}
-        </div>
+        <motion.div className="projects-archive-grid" id="projects-archive-grid" layout>
+          <AnimatePresence mode="popLayout">
+            {filteredProjects.map((project, index) => (
+              <motion.div
+                key={project.slug}
+                layout
+                initial={shouldReduceMotion ? false : { opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={shouldReduceMotion ? undefined : { opacity: 0, y: -12 }}
+                transition={{
+                  duration: shouldReduceMotion ? 0 : 0.36,
+                  delay: shouldReduceMotion ? 0 : index * 0.04,
+                  ease: [0.22, 0.8, 0.28, 1],
+                }}
+              >
+                <ProjectCard project={project} index={index} />
+              </motion.div>
+            ))}
+          </AnimatePresence>
+        </motion.div>
       ) : (
         <EmptyState
           eyebrow="No Matches"
