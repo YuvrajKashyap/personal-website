@@ -3,9 +3,9 @@ import { Reveal } from "@/components/motion/Reveal";
 import { HeroActionLinks } from "@/features/home/HeroActionLinks";
 import { HeroVideoBackground } from "@/features/home/HeroVideoBackground";
 import { HeroNameHeadline } from "@/features/home/HeroNameHeadline";
+import { HeroRoleCycle } from "@/features/home/HeroRoleCycle";
 import { HeroRotatingText } from "@/features/home/HeroRotatingText";
 import { HomeSections } from "@/features/home/HomeSections";
-import { homeContent } from "@/features/home/home-content";
 
 export function HomeDark() {
   return (
@@ -42,13 +42,17 @@ export function HomeDark() {
 
         <div className="home-dark-hero-section site-container-wide">
           <div className="home-dark-copy">
-            <Reveal delay={0.08}>
-              <p className="text-kicker">{homeContent.eyebrow}</p>
+            <Reveal className="home-hero-role-reveal" delay={0.08}>
+              <HeroRoleCycle />
             </Reveal>
-            <Reveal delay={0.14} variant="blur-in">
+            <Reveal
+              className="home-hero-name-reveal"
+              delay={0.14}
+              variant="blur-in"
+            >
               <HeroNameHeadline className="mt-5" />
             </Reveal>
-            <Reveal delay={0.22}>
+            <Reveal className="home-hero-typing-reveal" delay={0.22}>
               <HeroRotatingText className="mt-7" />
             </Reveal>
 
