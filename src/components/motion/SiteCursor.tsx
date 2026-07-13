@@ -37,17 +37,12 @@ const INTERACTIVE_SELECTOR = [
   "[data-cursor-pointer]",
 ].join(", ");
 
-const TEXT_FIELD_SELECTOR = 'input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]), textarea';
+const TEXT_FIELD_SELECTOR =
+  'input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]), textarea';
 
-const ringSpring = { stiffness: 620, damping: 38, mass: 0.55 } as const;
-const trailSprings = [
-  { stiffness: 420, damping: 34, mass: 0.6 },
-  { stiffness: 300, damping: 32, mass: 0.65 },
-  { stiffness: 210, damping: 30, mass: 0.7 },
-  { stiffness: 150, damping: 28, mass: 0.75 },
-] as const;
+const ringSpring = { stiffness: 560, damping: 42, mass: 0.5 } as const;
 
-export function VortexCursor() {
+export function SiteCursor() {
   const shouldReduceMotion = useReducedMotion();
   const hasFinePointer = useSyncExternalStore(
     subscribeToFinePointer,
@@ -64,21 +59,6 @@ export function VortexCursor() {
   const y = useMotionValue(-100);
   const ringX = useSpring(x, ringSpring);
   const ringY = useSpring(y, ringSpring);
-  const trail0X = useSpring(ringX, trailSprings[0]);
-  const trail0Y = useSpring(ringY, trailSprings[0]);
-  const trail1X = useSpring(trail0X, trailSprings[1]);
-  const trail1Y = useSpring(trail0Y, trailSprings[1]);
-  const trail2X = useSpring(trail1X, trailSprings[2]);
-  const trail2Y = useSpring(trail1Y, trailSprings[2]);
-  const trail3X = useSpring(trail2X, trailSprings[3]);
-  const trail3Y = useSpring(trail2Y, trailSprings[3]);
-
-  const trailDots = [
-    { x: trail0X, y: trail0Y },
-    { x: trail1X, y: trail1Y },
-    { x: trail2X, y: trail2Y },
-    { x: trail3X, y: trail3Y },
-  ];
 
   useEffect(() => {
     if (!isActive) {
@@ -154,25 +134,18 @@ export function VortexCursor() {
     .join(" ");
 
   return (
-    <div className={`vortex-cursor ${stateClass}`} aria-hidden="true">
-      {trailDots.map((dot, index) => (
-        <motion.span
-          key={index}
-          className={`vortex-cursor-trail vortex-cursor-trail-${index}`}
-          style={{ x: dot.x, y: dot.y }}
-        />
-      ))}
+    <div className={`site-cursor ${stateClass}`} aria-hidden="true">
       <motion.span
-        className="vortex-cursor-ring"
+        className="site-cursor-ring"
         style={{ x: ringX, y: ringY }}
       >
-        <span className="vortex-cursor-ring-inner">
-          <span className="vortex-cursor-swirl" />
-          <span className="vortex-cursor-swirl vortex-cursor-swirl-reverse" />
+        <span className="site-cursor-ring-inner">
+          <span className="site-cursor-ring-base" />
+          <span className="site-cursor-ring-arc" />
         </span>
       </motion.span>
-      <motion.span className="vortex-cursor-core" style={{ x, y }}>
-        <span className="vortex-cursor-core-dot" />
+      <motion.span className="site-cursor-core" style={{ x, y }}>
+        <span className="site-cursor-dot" />
       </motion.span>
     </div>
   );

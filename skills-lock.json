@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "inspira-ui": {
+      "source": "secondsky/claude-skills",
+      "sourceType": "github",
+      "skillPath": "plugins/inspira-ui/skills/inspira-ui/SKILL.md",
+      "computedHash": "c05c25201029e1079d1cf3216dfc4beb876edc2a8b90f27fc0c3e61c6db71848"
+    }
+  }
+}
