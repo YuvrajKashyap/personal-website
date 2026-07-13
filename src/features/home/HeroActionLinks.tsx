@@ -1,4 +1,5 @@
 import { siteConfig } from "@/config/site";
+import resumeIcon from "../../../assets/icons/resume-icon.svg";
 
 type HeroActionIconName =
   | "chatgpt"
@@ -186,16 +187,14 @@ function HeroActionIcon({ icon }: Readonly<{ icon: HeroActionIconName }>) {
       );
     case "resume":
       return (
-        <svg viewBox="0 0 24 24" aria-hidden="true" className="hero-action-icon">
-          <path
-            fill="none"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="1.9"
-            d="M6.5 2.8h7.3l3.7 3.8v14.6h-11V2.8Zm7 0v4.1h4M8.8 11.1h6.4M8.8 14.6h6.4M8.8 18.1h4.1"
-          />
-        </svg>
+        <span
+          aria-hidden="true"
+          className="hero-action-icon hero-action-icon-resume"
+          style={{
+            maskImage: `url("${resumeIcon.src}")`,
+            WebkitMaskImage: `url("${resumeIcon.src}")`,
+          }}
+        />
       );
     case "x":
       return (
@@ -220,20 +219,34 @@ function HeroActionIcon({ icon }: Readonly<{ icon: HeroActionIconName }>) {
 
 function HeroActionButton({ action }: Readonly<{ action: HeroAction }>) {
   const opensInNewTab = action.external || action.openInNewTab;
+  const target = opensInNewTab ? "_blank" : undefined;
+  const rel = opensInNewTab ? "noreferrer" : undefined;
 
   return (
-    <a
-      href={action.href}
-      aria-label={action.ariaLabel}
-      className={`hero-action-button hero-action-button-${action.group} hero-action-button-${action.id} focus-ring`}
-      target={opensInNewTab ? "_blank" : undefined}
-      rel={opensInNewTab ? "noreferrer" : undefined}
+    <div
+      className={`hero-action-item hero-action-item-${action.group} hero-action-item-${action.id}`}
     >
-      <span className="hero-action-icon-shell" aria-hidden="true">
-        <HeroActionIcon icon={action.icon} />
-      </span>
-      <span className="hero-action-label">{action.label}</span>
-    </a>
+      <a
+        href={action.href}
+        className="hero-action-label-link"
+        target={target}
+        rel={rel}
+        tabIndex={-1}
+      >
+        <span className="hero-action-label">{action.label}</span>
+      </a>
+      <a
+        href={action.href}
+        aria-label={action.ariaLabel}
+        className={`hero-action-icon-link hero-action-icon-link-${action.group} hero-action-icon-link-${action.id}`}
+        target={target}
+        rel={rel}
+      >
+        <span className="hero-action-icon-shell" aria-hidden="true">
+          <HeroActionIcon icon={action.icon} />
+        </span>
+      </a>
+    </div>
   );
 }
 
