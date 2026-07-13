@@ -1,0 +1,20 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="1.75"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  role="img"
+  aria-labelledby="resume-icon-title"
+>
+  <title id="resume-icon-title">Resume</title>
+  <path d="M6.75 2.75h7.5l4 4v14.5H6.75a2 2 0 0 1-2-2V4.75a2 2 0 0 1 2-2Z" />
+  <path d="M14.25 2.75v4h4" />
+  <circle cx="9" cy="9.25" r="1.75" />
+  <path d="M6.75 14c.55-1.35 1.3-2 2.25-2s1.7.65 2.25 2" />
+  <path d="M14 11h1.75M14 14h1.75M7 17.5h8.75" />
+</svg>
