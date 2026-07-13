@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Space_Grotesk, Space_Mono } from "next/font/google";
 import { VercelAnalytics } from "@/components/analytics/VercelAnalytics";
 import { MotionSystemProvider } from "@/components/motion/MotionSystemProvider";
+import { ScrollProgressBar } from "@/components/motion/ScrollProgressBar";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
 import { seoConfig } from "@/config/seo";
 import { getServerTheme } from "@/lib/theme/server";
@@ -99,7 +100,10 @@ export default async function RootLayout({
     >
       <body className="flex min-h-full flex-col antialiased">
         <ThemeProvider initialTheme={theme}>
-          <MotionSystemProvider>{children}</MotionSystemProvider>
+          <MotionSystemProvider>
+            <ScrollProgressBar />
+            {children}
+          </MotionSystemProvider>
         </ThemeProvider>
         <VercelAnalytics />
       </body>
