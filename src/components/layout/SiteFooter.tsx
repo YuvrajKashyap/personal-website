@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { Reveal } from "@/components/motion/Reveal";
 import { siteConfig } from "@/config/site";
 
 export function SiteFooter() {
@@ -9,7 +10,10 @@ export function SiteFooter() {
 
   return (
     <footer className="site-footer">
-      <div className="site-container-wide grid gap-8 py-10 md:grid-cols-[1.2fr_2fr] md:items-start">
+      <Reveal
+        className="site-container-wide grid gap-8 py-10 md:grid-cols-[1.2fr_2fr] md:items-start"
+        variant="fade-in"
+      >
         <div className="stack-sm">
           <p className="text-card-title">Yuvraj Kashyap</p>
           <p className="text-caption">
@@ -46,7 +50,7 @@ export function SiteFooter() {
             </Link>
           </div>
         </div>
-      </div>
+      </Reveal>
 
       <div className="site-container-wide border-t border-border py-5">
         <p className="text-caption">Built by Yuvraj Kashyap.</p>
