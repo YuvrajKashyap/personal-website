@@ -1,3 +1,7 @@
+"use client";
+
+import { useSpotlight } from "@/lib/motion/useSpotlight";
+
 export type TelemetryCardProps = Readonly<{
   label: string;
   value: string;
@@ -15,8 +19,14 @@ export function TelemetryCard({
   tone = "default",
   children,
 }: TelemetryCardProps) {
+  const spotlight = useSpotlight();
+
   return (
-    <article className={`telemetry-card telemetry-card-${tone}`}>
+    <article
+      className={`telemetry-card telemetry-card-${tone}`}
+      onPointerMove={spotlight.onPointerMove}
+      onPointerLeave={spotlight.onPointerLeave}
+    >
       <div className="telemetry-card-header">
         <p className="text-mono-label">{label}</p>
         {source ? <span>{source}</span> : null}

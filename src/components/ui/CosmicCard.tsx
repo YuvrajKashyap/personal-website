@@ -1,4 +1,8 @@
+"use client";
+
 import Link from "next/link";
+
+import { useSpotlight } from "@/lib/motion/useSpotlight";
 
 export type CosmicCardProps = Readonly<{
   eyebrow?: string;
@@ -42,10 +46,16 @@ export function CosmicCard({
   const classes = ["cosmic-card", `cosmic-card-${variant}`, className]
     .filter(Boolean)
     .join(" ");
+  const spotlight = useSpotlight();
 
   if (href) {
     return (
-      <Link href={href} className={`${classes} focus-ring`}>
+      <Link
+        href={href}
+        className={`${classes} focus-ring`}
+        onPointerMove={spotlight.onPointerMove}
+        onPointerLeave={spotlight.onPointerLeave}
+      >
         <CosmicCardContent
           eyebrow={eyebrow}
           title={title}
@@ -59,7 +69,11 @@ export function CosmicCard({
   }
 
   return (
-    <article className={classes}>
+    <article
+      className={classes}
+      onPointerMove={spotlight.onPointerMove}
+      onPointerLeave={spotlight.onPointerLeave}
+    >
       <CosmicCardContent
         eyebrow={eyebrow}
         title={title}
