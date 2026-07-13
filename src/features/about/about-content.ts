@@ -41,6 +41,11 @@ export const aboutIntro = {
     "The throughline is movement under pressure: adapting across places, training through competition, and turning that discipline into software, product thinking, and builder momentum.",
 } as const;
 
+export const aboutHomePreview = {
+  body:
+    "I'm Yuvraj Kashyap, a Computer Science student at the University of Texas at Dallas, an ex-college tennis player, and a software builder drawn to ambitious systems, thoughtful interfaces, and ideas that create leverage.",
+} as const;
+
 export const aboutPhases = [
   {
     id: "origin",
