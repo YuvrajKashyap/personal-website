@@ -1,3 +1,8 @@
+"use client";
+
+import { motion, useReducedMotion, type Variants } from "motion/react";
+
+import { Magnetic } from "@/components/motion/Magnetic";
 import { siteConfig } from "@/config/site";
 import resumeIcon from "../../../assets/icons/resume-icon.svg";
 
@@ -223,7 +228,7 @@ function HeroActionButton({ action }: Readonly<{ action: HeroAction }>) {
   const rel = opensInNewTab ? "noreferrer" : undefined;
 
   return (
-    <div
+    <Magnetic
       className={`hero-action-item hero-action-item-${action.group} hero-action-item-${action.id}`}
     >
       <a
@@ -246,25 +251,101 @@ function HeroActionButton({ action }: Readonly<{ action: HeroAction }>) {
           <HeroActionIcon icon={action.icon} />
         </span>
       </a>
-    </div>
+    </Magnetic>
   );
 }
 
+const actionItemVariants: Variants = {
+  hidden: {
+    opacity: 0,
+    y: 18,
+    scale: 0.7,
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: {
+      type: "spring",
+      stiffness: 320,
+      damping: 24,
+      mass: 0.7,
+    },
+  },
+};
+
+function rowVariants(delay: number): Variants {
+  return {
+    hidden: {},
+    visible: {
+      transition: {
+        staggerChildren: 0.055,
+        delayChildren: delay,
+      },
+    },
+  };
+}
+
 export function HeroActionLinks() {
+  const shouldReduceMotion = useReducedMotion();
   const reachOutActions = getReachOutActions();
+
+  if (shouldReduceMotion) {
+    return (
+      <div className="hero-action-list" aria-label="Primary external links">
+        <div className="hero-action-row" aria-label="Reach out links">
+          {reachOutActions.map((action) => (
+            <HeroActionButton action={action} key={action.id} />
+          ))}
+        </div>
+        <div
+          className="hero-action-row hero-action-row-ai"
+          aria-label="Ask AI links"
+        >
+          {aiActions.map((action) => (
+            <HeroActionButton action={action} key={action.id} />
+          ))}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="hero-action-list" aria-label="Primary external links">
-      <div className="hero-action-row" aria-label="Reach out links">
+      <motion.div
+        className="hero-action-row"
+        aria-label="Reach out links"
+        initial="hidden"
+        animate="visible"
+        variants={rowVariants(0.45)}
+      >
         {reachOutActions.map((action) => (
-          <HeroActionButton action={action} key={action.id} />
+          <motion.div
+            className="hero-action-slot"
+            key={action.id}
+            variants={actionItemVariants}
+          >
+            <HeroActionButton action={action} />
+          </motion.div>
         ))}
-      </div>
-      <div className="hero-action-row hero-action-row-ai" aria-label="Ask AI links">
+      </motion.div>
+      <motion.div
+        className="hero-action-row hero-action-row-ai"
+        aria-label="Ask AI links"
+        initial="hidden"
+        animate="visible"
+        variants={rowVariants(0.82)}
+      >
         {aiActions.map((action) => (
-          <HeroActionButton action={action} key={action.id} />
+          <motion.div
+            className="hero-action-slot"
+            key={action.id}
+            variants={actionItemVariants}
+          >
+            <HeroActionButton action={action} />
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
     </div>
   );
 }

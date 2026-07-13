@@ -35,9 +35,9 @@ export function HomeLight() {
               <HeroRotatingText className="mt-7" />
             </Reveal>
 
-            <Reveal className="mt-10" delay={0.3} variant="cta">
+            <div className="mt-10">
               <HeroActionLinks />
-            </Reveal>
+            </div>
           </div>
         </div>
       </section>
