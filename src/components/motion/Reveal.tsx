@@ -19,6 +19,7 @@ type RevealProps = Readonly<{
   children: React.ReactNode;
   className?: string;
   delay?: number;
+  inView?: boolean;
   variant?: RevealVariant;
 }>;
 
@@ -35,6 +36,7 @@ export function Reveal({
   children,
   className,
   delay = 0,
+  inView = true,
   variant = "fade-up",
 }: RevealProps) {
   const shouldReduceMotion = useReducedMotion();
@@ -43,7 +45,9 @@ export function Reveal({
     <motion.div
       className={className}
       initial={shouldReduceMotion ? false : "hidden"}
-      animate="visible"
+      animate={inView ? undefined : "visible"}
+      whileInView={inView ? "visible" : undefined}
+      viewport={inView ? { amount: 0.2, once: true } : undefined}
       variants={shouldReduceMotion ? reducedMotionReveal : revealVariants[variant]}
       transition={getRevealTransition(shouldReduceMotion ? 0 : delay)}
     >
