@@ -1,5 +1,6 @@
 "use client";
 
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useId, useRef, useState } from "react";
 
 import type {
@@ -84,6 +85,7 @@ export function SubmissionForm({
 }: SubmissionFormProps) {
   const formId = useId();
   const formRef = useRef<HTMLFormElement>(null);
+  const shouldReduceMotion = useReducedMotion();
   const [status, setStatus] = useState<SubmissionStatus>("idle");
   const [errors, setErrors] = useState<SubmissionValidationErrors>({});
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -251,11 +253,19 @@ export function SubmissionForm({
 
       <div className="submission-form__actions">
         <button
-          className="submission-form__button focus-ring"
+          className={[
+            "submission-form__button focus-ring",
+            isSubmitting ? "submission-form__button-loading" : undefined,
+          ]
+            .filter(Boolean)
+            .join(" ")}
           type="submit"
           disabled={isDisabled}
         >
-          {isSubmitting ? "Saving" : "Send for manual review"}
+          {isSubmitting ? (
+            <span className="submission-form__spinner" aria-hidden="true" />
+          ) : null}
+          <span>{isSubmitting ? "Saving" : "Send for manual review"}</span>
         </button>
         <p className="text-caption">
           Required fields are name, email, subject, and message.
@@ -263,17 +273,33 @@ export function SubmissionForm({
       </div>
 
       <div id={`${formId}-status`} aria-live="polite">
-        {status === "success" ? (
-          <p className="submission-form__success">
-            <strong>Submission received.</strong>
-            <span>Your message was saved for manual review.</span>
-          </p>
-        ) : null}
-        {status === "error" && errorMessage ? (
-          <p className="submission-form__error submission-form__error--form">
-            {errorMessage}
-          </p>
-        ) : null}
+        <AnimatePresence mode="wait">
+          {status === "success" ? (
+            <motion.p
+              key="success"
+              className="submission-form__success"
+              initial={shouldReduceMotion ? false : { opacity: 0, y: 8, scale: 0.98 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={shouldReduceMotion ? undefined : { opacity: 0, y: -6 }}
+              transition={{ duration: shouldReduceMotion ? 0 : 0.32, ease: [0.22, 0.8, 0.28, 1] }}
+            >
+              <strong>Submission received.</strong>
+              <span>Your message was saved for manual review.</span>
+            </motion.p>
+          ) : null}
+          {status === "error" && errorMessage ? (
+            <motion.p
+              key="error"
+              className="submission-form__error submission-form__error--form"
+              initial={shouldReduceMotion ? false : { opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={shouldReduceMotion ? undefined : { opacity: 0, y: -6 }}
+              transition={{ duration: shouldReduceMotion ? 0 : 0.32, ease: [0.22, 0.8, 0.28, 1] }}
+            >
+              {errorMessage}
+            </motion.p>
+          ) : null}
+        </AnimatePresence>
       </div>
     </form>
   );
