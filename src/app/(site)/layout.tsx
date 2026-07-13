@@ -1,5 +1,6 @@
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
+import { VortexCursor } from "@/components/motion/VortexCursor";
 import { SiteStructuredData } from "@/components/seo/SiteStructuredData";
 
 export default function SiteLayout({
@@ -15,6 +16,7 @@ export default function SiteLayout({
       </div>
       <SiteFooter />
       <SiteStructuredData />
+      <VortexCursor />
     </div>
   );
 }
