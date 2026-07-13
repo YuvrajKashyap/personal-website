@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
 
@@ -63,7 +64,12 @@ function ChapterHeader({
   );
 }
 
-function AboutChapter() {
+function AboutChapter({ variant }: Readonly<{ variant: "dark" | "light" }>) {
+  const emblemSrc =
+    variant === "dark"
+      ? "/media/emblem/king-emblem.webp"
+      : "/media/emblem/light-emblem.webp";
+
   return (
     <ChapterShell
       className="home-about-chapter"
@@ -82,13 +88,14 @@ function AboutChapter() {
         </Reveal>
 
         <Reveal className="home-about-portrait" inView variant="blur-in">
-          <div
-            aria-label="Portrait placeholder for Yuvraj Kashyap"
-            className="home-about-portrait-placeholder"
-            role="img"
-          >
-            <span aria-hidden="true">YK</span>
-          </div>
+          <Image
+            src={emblemSrc}
+            alt="YK emblem"
+            className="home-about-emblem"
+            width={880}
+            height={880}
+            sizes="(max-width: 900px) 80vw, 32rem"
+          />
         </Reveal>
       </div>
     </ChapterShell>
@@ -128,11 +135,6 @@ function ExperienceChapter() {
                 <div className="home-experience-entry-copy">
                   <h3>{entry.title}</h3>
                   <p>{entry.body}</p>
-                  <ul aria-label={`${entry.title} signals`}>
-                    {entry.signals.slice(0, 2).map((signal) => (
-                      <li key={signal}>{signal}</li>
-                    ))}
-                  </ul>
                 </div>
               </article>
             </Reveal>
@@ -292,7 +294,7 @@ function CollaborateChapter() {
 export function HomeSections({ variant }: HomeSectionsProps) {
   return (
     <div className="home-sections" data-home-variant={variant}>
-      <AboutChapter />
+      <AboutChapter variant={variant} />
       <ExperienceChapter />
       <ProjectsChapter />
       <TrackerChapter />
