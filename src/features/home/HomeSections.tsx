@@ -2,7 +2,9 @@ import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
 
+import { ParallaxDrift } from "@/components/motion/ParallaxDrift";
 import { Reveal } from "@/components/motion/Reveal";
+import { ScrollPath } from "@/components/motion/ScrollPath";
 import { aboutHomePreview } from "@/features/about/about-content";
 import {
   collaborateHero,
@@ -88,14 +90,16 @@ function AboutChapter({ variant }: Readonly<{ variant: "dark" | "light" }>) {
         </Reveal>
 
         <Reveal className="home-about-portrait" inView variant="blur-in">
-          <Image
-            src={emblemSrc}
-            alt="YK emblem"
-            className="home-about-emblem"
-            width={880}
-            height={880}
-            sizes="(max-width: 900px) 80vw, 32rem"
-          />
+          <ParallaxDrift range={30}>
+            <Image
+              src={emblemSrc}
+              alt="YK emblem"
+              className="home-about-emblem"
+              width={880}
+              height={880}
+              sizes="(max-width: 900px) 80vw, 32rem"
+            />
+          </ParallaxDrift>
         </Reveal>
       </div>
     </ChapterShell>
@@ -294,6 +298,7 @@ function CollaborateChapter() {
 export function HomeSections({ variant }: HomeSectionsProps) {
   return (
     <div className="home-sections" data-home-variant={variant}>
+      <ScrollPath />
       <AboutChapter variant={variant} />
       <ExperienceChapter />
       <ProjectsChapter />

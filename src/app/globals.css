@@ -5819,3 +5819,73 @@ html[data-theme="light"] .site-cursor-dot {
     0 0 0 1.5px rgb(255 255 255 / 0.9),
     0 1px 3px rgb(0 0 0 / 0.28);
 }
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+.scroll-path-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.scroll-path-svg {
+  display: block;
+  overflow: visible;
+}
+
+.scroll-path-track {
+  fill: none;
+  stroke: color-mix(in srgb, var(--foreground) 22%, transparent);
+  stroke-dasharray: 3 8;
+  stroke-linecap: round;
+  stroke-width: 1;
+}
+
+.scroll-path-progress {
+  fill: none;
+  stroke: var(--accent);
+  stroke-linecap: round;
+  stroke-width: 2;
+  filter: drop-shadow(0 0 6px var(--glow-primary));
+}
+
+.scroll-path-node-ring {
+  fill: var(--home-flow-bg, var(--background));
+  stroke: color-mix(in srgb, var(--foreground) 30%, transparent);
+  stroke-width: 1;
+}
+
+.scroll-path-node-dot {
+  fill: var(--accent);
+  transform-box: fill-box;
+  transform-origin: center;
+  filter: drop-shadow(0 0 5px var(--glow-primary));
+}
+
+.scroll-path-traveler-halo {
+  fill: var(--accent);
+  opacity: 0.16;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.scroll-path-traveler-mid {
+  fill: var(--accent);
+  opacity: 0.32;
+}
+
+.scroll-path-traveler-core {
+  fill: var(--accent);
+  filter: drop-shadow(0 0 8px var(--glow-primary));
+}
+
+@media (max-width: 899px) {
+  .scroll-path-layer {
+    display: none;
+  }
+}
