@@ -1336,6 +1336,12 @@ html[data-theme="light"] .hero-name-line {
   }
 }
 
+[data-hero-activity="paused"] .hero-name-lockup,
+[data-hero-activity="paused"] .home-role-cycle__word,
+[data-hero-activity="paused"] .hero-rotating-text__cursor {
+  animation-play-state: paused;
+}
+
 @media (min-width: 768px) {
   .hero-name-lockup {
     font-size: var(--text-6xl);
@@ -2269,6 +2275,12 @@ html[data-theme="light"] .hero-name-line {
   display: grid;
   grid-template-columns: clamp(3.75rem, 6vw, 5.5rem) minmax(0, 1fr);
   gap: clamp(1.5rem, 4vw, 4rem);
+}
+
+@media (min-width: 900px) {
+  .site-container-wide.home-chapter-grid {
+    padding-inline-start: clamp(5rem, 6vw, 5.75rem);
+  }
 }
 
 .home-chapter-marker {
@@ -5898,6 +5910,40 @@ html[data-theme="light"] .site-cursor-dot {
 
 .scroll-path-svg {
   display: block;
+  overflow: hidden;
+}
+
+.scroll-path-segment {
+  position: absolute;
+  contain: layout paint;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.scroll-path-progress-effect {
+  filter: drop-shadow(0 0 6px var(--glow-primary));
+}
+
+.scroll-path-node {
+  position: absolute;
+  display: block;
+  width: 2rem;
+  height: 2rem;
+  overflow: visible;
+  transform: translate3d(-50%, -50%, 0);
+}
+
+.scroll-path-traveler {
+  position: absolute;
+  top: -1.5rem;
+  left: -1.5rem;
+  width: 3rem;
+  height: 3rem;
+  will-change: transform;
+}
+
+.scroll-path-traveler svg {
+  display: block;
   overflow: visible;
 }
 
@@ -5914,7 +5960,6 @@ html[data-theme="light"] .site-cursor-dot {
   stroke: var(--accent);
   stroke-linecap: round;
   stroke-width: 2;
-  filter: drop-shadow(0 0 6px var(--glow-primary));
 }
 
 .scroll-path-node-ring {

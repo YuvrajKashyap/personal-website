@@ -2,6 +2,7 @@
 
 import {
   motion,
+  useMotionTemplate,
   useMotionValue,
   useMotionValueEvent,
   useReducedMotion,
@@ -11,9 +12,19 @@ import {
   useVelocity,
   type MotionValue,
 } from "motion/react";
-import { useEffect, useRef, useState, useSyncExternalStore } from "react";
+import {
+  useEffect,
+  useId,
+  useMemo,
+  useRef,
+  useState,
+  useSyncExternalStore,
+} from "react";
 
 const WIDE_QUERY = "(min-width: 900px)";
+const PATH_SEGMENT_HEIGHT = 384;
+const PATH_EFFECT_PADDING = 24;
+const PATH_LANE_PADDING = 32;
 
 function subscribeToWide(callback: () => void) {
   const mediaQuery = window.matchMedia(WIDE_QUERY);
@@ -36,10 +47,59 @@ type PathAnchor = Readonly<{ x: number; y: number; frac: number }>;
 type PathGeometry = Readonly<{
   width: number;
   height: number;
+  laneStart: number;
+  laneWidth: number;
   d: string;
   total: number;
   anchors: readonly PathAnchor[];
+  pointAt: (progress: number) => PathPoint;
 }>;
+
+type PathSegment = Readonly<{
+  start: number;
+  end: number;
+  renderStart: number;
+  renderEnd: number;
+}>;
+
+type PathLayout = Readonly<{
+  width: number;
+  height: number;
+  anchorPoints: readonly PathPoint[];
+  points: readonly PathPoint[];
+  signature: string;
+}>;
+
+function createPathSegments(geometry: PathGeometry) {
+  const segments: PathSegment[] = [];
+  let start = 0;
+
+  while (start < geometry.height) {
+    const end = Math.min(geometry.height, start + PATH_SEGMENT_HEIGHT);
+
+    segments.push({
+      start,
+      end,
+      renderStart: Math.max(0, start - PATH_EFFECT_PADDING),
+      renderEnd: Math.min(geometry.height, end + PATH_EFFECT_PADDING),
+    });
+    start = end;
+  }
+
+  return segments;
+}
+
+function getActiveSegmentIndex(
+  segments: readonly PathSegment[],
+  travelerY: number,
+) {
+  const index = segments.findIndex(
+    (segment, segmentIndex) =>
+      travelerY < segment.end || segmentIndex === segments.length - 1,
+  );
+
+  return Math.max(0, index);
+}
 
 function catmullRomPath(points: readonly PathPoint[]) {
   if (points.length < 2) {
@@ -63,7 +123,7 @@ function catmullRomPath(points: readonly PathPoint[]) {
   return d;
 }
 
-function measureGeometry(parent: HTMLElement): PathGeometry | null {
+function measurePathLayout(parent: HTMLElement): PathLayout | null {
   const chapters = parent.querySelectorAll<HTMLElement>(".home-chapter");
 
   if (chapters.length === 0) {
@@ -95,6 +155,16 @@ function measureGeometry(parent: HTMLElement): PathGeometry | null {
     { x: base + 44, y: height - 48 },
   ];
 
+  const signature = [width, height, ...points.flatMap(({ x, y }) => [x, y])]
+    .map((value) => value.toFixed(1))
+    .join(":");
+
+  return { width, height, anchorPoints, points, signature };
+}
+
+function createPathGeometry(layout: PathLayout): PathGeometry | null {
+  const { anchorPoints, height, points, width } = layout;
+
   const d = catmullRomPath(points);
   const probe = document.createElementNS("http://www.w3.org/2000/svg", "path");
   probe.setAttribute("d", d);
@@ -115,18 +185,44 @@ function measureGeometry(parent: HTMLElement): PathGeometry | null {
     let bestIndex = 0;
     let bestDistance = Number.POSITIVE_INFINITY;
 
-    samples.forEach((sample, index) => {
+    for (let index = 0; index <= sampleCount; index += 1) {
+      const sample = samples[index];
       const distance = Math.hypot(sample.x - anchor.x, sample.y - anchor.y);
       if (distance < bestDistance) {
         bestDistance = distance;
         bestIndex = index;
       }
-    });
+    }
 
     return { x: anchor.x, y: anchor.y, frac: bestIndex / sampleCount };
   });
 
-  return { width, height, d, total, anchors };
+  const sampledX = samples.map((sample) => sample.x);
+  const laneStart = Math.max(
+    0,
+    Math.floor(Math.min(...sampledX) - PATH_LANE_PADDING),
+  );
+  const laneEnd = Math.min(
+    width,
+    Math.ceil(Math.max(...sampledX) + PATH_LANE_PADDING),
+  );
+
+  function pointAt(progress: number) {
+    const clamped = Math.min(1, Math.max(0, progress));
+    const point = probe.getPointAtLength(clamped * total);
+    return { x: point.x, y: point.y };
+  }
+
+  return {
+    width,
+    height,
+    laneStart,
+    laneWidth: Math.max(1, laneEnd - laneStart),
+    d,
+    total,
+    anchors,
+    pointAt,
+  };
 }
 
 function PathNode({
@@ -145,22 +241,134 @@ function PathNode({
   const ringOpacity = useTransform(raw, [0, 1], [0.4, 1]);
 
   return (
-    <g>
+    <svg
+      className="scroll-path-node"
+      width="32"
+      height="32"
+      viewBox="-16 -16 32 32"
+      style={{ left: anchor.x, top: anchor.y }}
+    >
       <motion.circle
         className="scroll-path-node-ring"
-        cx={anchor.x}
-        cy={anchor.y}
         r={9}
         style={{ opacity: ringOpacity }}
       />
       <motion.circle
         className="scroll-path-node-dot"
-        cx={anchor.x}
-        cy={anchor.y}
         r={3.6}
         style={{ scale: pop, opacity: raw }}
       />
-    </g>
+    </svg>
+  );
+}
+
+function ActiveProgressPath({
+  geometry,
+  progress,
+}: Readonly<{
+  geometry: PathGeometry;
+  progress: MotionValue<number>;
+}>) {
+  const dashOffset = useTransform(
+    progress,
+    (value) => geometry.total * (1 - Math.min(1, Math.max(0, value))),
+  );
+
+  return (
+    <motion.path
+      className="scroll-path-progress"
+      d={geometry.d}
+      style={{
+        strokeDasharray: geometry.total,
+        strokeDashoffset: dashOffset,
+      }}
+    />
+  );
+}
+
+function ScrollPathSegment({
+  geometry,
+  isActive,
+  isComplete,
+  progress,
+  segment,
+}: Readonly<{
+  geometry: PathGeometry;
+  isActive: boolean;
+  isComplete: boolean;
+  progress: MotionValue<number>;
+  segment: PathSegment;
+}>) {
+  const clipId = useId().replaceAll(":", "");
+  const renderHeight = segment.renderEnd - segment.renderStart;
+
+  return (
+    <svg
+      className="scroll-path-svg scroll-path-segment"
+      width={geometry.laneWidth}
+      height={renderHeight}
+      viewBox={`${geometry.laneStart} ${segment.renderStart} ${geometry.laneWidth} ${renderHeight}`}
+      style={{ left: geometry.laneStart, top: segment.renderStart }}
+    >
+      <defs>
+        <clipPath id={clipId} clipPathUnits="userSpaceOnUse">
+          <rect
+            x={geometry.laneStart}
+            y={segment.start}
+            width={geometry.laneWidth}
+            height={segment.end - segment.start}
+          />
+        </clipPath>
+      </defs>
+      <g clipPath={`url(#${clipId})`}>
+        <path className="scroll-path-track" d={geometry.d} />
+      </g>
+      {isComplete ? (
+        <g className="scroll-path-progress-effect">
+          <g clipPath={`url(#${clipId})`}>
+            <path
+              className="scroll-path-progress"
+              d={geometry.d}
+              strokeDasharray={geometry.total}
+              strokeDashoffset={0}
+            />
+          </g>
+        </g>
+      ) : null}
+      {isActive ? (
+        <g className="scroll-path-progress-effect">
+          <g clipPath={`url(#${clipId})`}>
+            <ActiveProgressPath geometry={geometry} progress={progress} />
+          </g>
+        </g>
+      ) : null}
+    </svg>
+  );
+}
+
+function ScrollPathTraveler({
+  stretch,
+  x,
+  y,
+}: Readonly<{
+  stretch: MotionValue<number>;
+  x: MotionValue<number>;
+  y: MotionValue<number>;
+}>) {
+  const transform = useMotionTemplate`translate3d(${x}px, ${y}px, 0)`;
+
+  return (
+    <motion.div className="scroll-path-traveler" style={{ transform }}>
+      <svg width="48" height="48" viewBox="-24 -24 48 48">
+        <motion.circle
+          className="scroll-path-traveler-halo"
+          r={11}
+          style={{ scale: stretch }}
+        />
+        <circle className="scroll-path-traveler-mid" r={6} />
+        <circle className="scroll-path-traveler-core" r={3.2} />
+      </svg>
+    </motion.div>
   );
 }
 
@@ -173,57 +381,46 @@ function ScrollPathScene({
   progress: MotionValue<number>;
   stretch: MotionValue<number>;
 }>) {
-  const progressPathRef = useRef<SVGPathElement>(null);
-  const dashOffset = useTransform(
-    progress,
-    (value) => geometry.total * (1 - Math.min(1, Math.max(0, value))),
-  );
   const travelerX = useMotionValue(0);
   const travelerY = useMotionValue(0);
+  const segments = useMemo(() => createPathSegments(geometry), [geometry]);
+  const initialPoint = geometry.pointAt(progress.get());
+  const initialSegmentIndex = getActiveSegmentIndex(segments, initialPoint.y);
+  const activeSegmentIndexRef = useRef(initialSegmentIndex);
+  const [activeSegmentIndex, setActiveSegmentIndex] = useState(
+    initialSegmentIndex,
+  );
 
   useEffect(() => {
-    const path = progressPathRef.current;
-
-    if (!path) {
-      return;
-    }
-
-    const clamped = Math.min(1, Math.max(0, progress.get()));
-    const point = path.getPointAtLength(clamped * geometry.total);
+    const point = geometry.pointAt(progress.get());
     travelerX.set(point.x);
     travelerY.set(point.y);
   }, [geometry, progress, travelerX, travelerY]);
 
   useMotionValueEvent(progress, "change", (value) => {
-    const path = progressPathRef.current;
-
-    if (!path) {
-      return;
-    }
-
-    const clamped = Math.min(1, Math.max(0, value));
-    const point = path.getPointAtLength(clamped * geometry.total);
+    const point = geometry.pointAt(value);
     travelerX.set(point.x);
     travelerY.set(point.y);
+
+    const nextSegmentIndex = getActiveSegmentIndex(segments, point.y);
+    if (nextSegmentIndex !== activeSegmentIndexRef.current) {
+      activeSegmentIndexRef.current = nextSegmentIndex;
+      setActiveSegmentIndex(nextSegmentIndex);
+    }
   });
 
   return (
-    <svg
-      className="scroll-path-svg"
-      width={geometry.width}
-      height={geometry.height}
-      viewBox={`0 0 ${geometry.width} ${geometry.height}`}
-    >
-      <path className="scroll-path-track" d={geometry.d} />
-      <motion.path
-        ref={progressPathRef}
-        className="scroll-path-progress"
-        d={geometry.d}
-        style={{
-          strokeDasharray: geometry.total,
-          strokeDashoffset: dashOffset,
-        }}
-      />
+    <>
+      {segments.map((segment, index) => (
+        <ScrollPathSegment
+          key={segment.start}
+          geometry={geometry}
+          isActive={index === activeSegmentIndex}
+          isComplete={index < activeSegmentIndex}
+          progress={progress}
+          segment={segment}
+        />
+      ))}
       {geometry.anchors.map((anchor) => (
         <PathNode
           key={`${anchor.x}-${anchor.y}`}
@@ -231,21 +428,56 @@ function ScrollPathScene({
           progress={progress}
         />
       ))}
-      <motion.g style={{ x: travelerX, y: travelerY }}>
-        <motion.circle
-          className="scroll-path-traveler-halo"
-          r={11}
-          style={{ scale: stretch }}
+      <ScrollPathTraveler
+        stretch={stretch}
+        x={travelerX}
+        y={travelerY}
+      />
+    </>
+  );
+}
+
+function StaticScrollPathScene({
+  geometry,
+  progress,
+}: Readonly<{
+  geometry: PathGeometry;
+  progress: MotionValue<number>;
+}>) {
+  const segments = useMemo(() => createPathSegments(geometry), [geometry]);
+
+  return (
+    <>
+      {segments.map((segment) => (
+        <ScrollPathSegment
+          key={segment.start}
+          geometry={geometry}
+          isActive={false}
+          isComplete={false}
+          progress={progress}
+          segment={segment}
         />
-        <circle className="scroll-path-traveler-mid" r={6} />
-        <circle className="scroll-path-traveler-core" r={3.2} />
-      </motion.g>
-    </svg>
+      ))}
+      {geometry.anchors.map((anchor) => (
+        <svg
+          key={`${anchor.x}-${anchor.y}`}
+          className="scroll-path-node"
+          width="32"
+          height="32"
+          viewBox="-16 -16 32 32"
+          style={{ left: anchor.x, top: anchor.y }}
+        >
+          <circle className="scroll-path-node-ring" r={9} />
+          <circle className="scroll-path-node-dot" r={3.6} />
+        </svg>
+      ))}
+    </>
   );
 }
 
 export function ScrollPath() {
   const wrapperRef = useRef<HTMLDivElement>(null);
+  const layoutSignatureRef = useRef("");
   const shouldReduceMotion = useReducedMotion();
   const isWide = useSyncExternalStore(
     subscribeToWide,
@@ -271,7 +503,7 @@ export function ScrollPath() {
 
   useEffect(() => {
     if (!isWide) {
-      setGeometry(null);
+      layoutSignatureRef.current = "";
       return undefined;
     }
 
@@ -285,7 +517,21 @@ export function ScrollPath() {
 
     function run() {
       frame = 0;
-      setGeometry(measureGeometry(parent as HTMLElement));
+      const layout = measurePathLayout(parent as HTMLElement);
+
+      if (!layout) {
+        layoutSignatureRef.current = "";
+        setGeometry(null);
+        return;
+      }
+
+      if (layout.signature === layoutSignatureRef.current) {
+        return;
+      }
+
+      const nextGeometry = createPathGeometry(layout);
+      layoutSignatureRef.current = nextGeometry ? layout.signature : "";
+      setGeometry(nextGeometry);
     }
 
     frame = window.requestAnimationFrame(run);
@@ -315,30 +561,7 @@ export function ScrollPath() {
   if (shouldReduceMotion) {
     return (
       <div ref={wrapperRef} className="scroll-path-layer" aria-hidden="true">
-        <svg
-          className="scroll-path-svg"
-          width={geometry.width}
-          height={geometry.height}
-          viewBox={`0 0 ${geometry.width} ${geometry.height}`}
-        >
-          <path className="scroll-path-track" d={geometry.d} />
-          {geometry.anchors.map((anchor) => (
-            <g key={`${anchor.x}-${anchor.y}`}>
-              <circle
-                className="scroll-path-node-ring"
-                cx={anchor.x}
-                cy={anchor.y}
-                r={9}
-              />
-              <circle
-                className="scroll-path-node-dot"
-                cx={anchor.x}
-                cy={anchor.y}
-                r={3.6}
-              />
-            </g>
-          ))}
-        </svg>
+        <StaticScrollPathScene geometry={geometry} progress={progress} />
       </div>
     );
   }

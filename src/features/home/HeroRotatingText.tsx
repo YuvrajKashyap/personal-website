@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useReducedMotion } from "motion/react";
 
 import { homeContent } from "@/features/home/home-content";
+import { useHeroActivity } from "@/features/home/useHeroActivity";
 
 type TypingPhase = "typing" | "holding" | "deleting";
 
@@ -34,6 +35,8 @@ export function HeroRotatingText({
   className?: string;
 }>) {
   const shouldReduceMotion = useReducedMotion();
+  const textRef = useRef<HTMLParagraphElement>(null);
+  const isHeroActive = useHeroActivity(textRef);
   const lines = homeContent.bodyLines;
   const [lineOrder, setLineOrder] = useState(() =>
     Array.from({ length: lines.length }, (_, index) => index),
@@ -48,6 +51,10 @@ export function HeroRotatingText({
     : currentLine.slice(0, visibleLength);
 
   useEffect(() => {
+    if (!isHeroActive) {
+      return undefined;
+    }
+
     if (!isOrderReady) {
       const timeout = window.setTimeout(() => {
         setLineOrder(shuffleLineIndexes(lines.length));
@@ -112,6 +119,7 @@ export function HeroRotatingText({
     return () => window.clearTimeout(timeout);
   }, [
     currentLine,
+    isHeroActive,
     isOrderReady,
     lineIndex,
     lineOrder,
@@ -127,6 +135,7 @@ export function HeroRotatingText({
       className={`hero-rotating-text text-body-large text-pretty${
         className ? ` ${className}` : ""
       }`}
+      ref={textRef}
     >
       <span className="visually-hidden">{currentLine}</span>
       <span aria-hidden="true" className="hero-rotating-text__value">

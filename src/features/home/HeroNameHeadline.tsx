@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import { useReducedMotion } from "motion/react";
 
 import { homeContent } from "@/features/home/home-content";
+import { useHeroActivity } from "@/features/home/useHeroActivity";
 
 type HeroNameHeadlineProps = {
   className?: string;
@@ -12,12 +13,9 @@ type HeroNameHeadlineProps = {
 export function HeroNameHeadline({ className }: HeroNameHeadlineProps) {
   const lockupRef = useRef<HTMLHeadingElement>(null);
   const shouldReduceMotion = useReducedMotion();
+  const isHeroActive = useHeroActivity(lockupRef);
 
   useEffect(() => {
-    if (shouldReduceMotion) {
-      return undefined;
-    }
-
     let animationFrame = 0;
 
     const resetInteraction = () => {
@@ -35,6 +33,11 @@ export function HeroNameHeadline({ className }: HeroNameHeadlineProps) {
       lockup.style.setProperty("--hero-name-shift-x", "0px");
       lockup.style.setProperty("--hero-name-shift-y", "0px");
     };
+
+    if (shouldReduceMotion || !isHeroActive) {
+      resetInteraction();
+      return undefined;
+    }
 
     const handlePointerMove = (event: PointerEvent) => {
       window.cancelAnimationFrame(animationFrame);
@@ -81,7 +84,7 @@ export function HeroNameHeadline({ className }: HeroNameHeadlineProps) {
       window.removeEventListener("pointermove", handlePointerMove);
       window.removeEventListener("pointerout", handlePointerOut);
     };
-  }, [shouldReduceMotion]);
+  }, [isHeroActive, shouldReduceMotion]);
 
   return (
     <h1

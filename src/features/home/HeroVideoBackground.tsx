@@ -53,12 +53,13 @@ function HeroVideoLayer({
   viewport?: HeroVideoViewport;
 }) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
+  const isInViewRef = useRef(false);
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
 
   const requestPlayback = useCallback(() => {
     const video = videoRef.current;
 
-    if (!video) {
+    if (!video || !isInViewRef.current) {
       return;
     }
 
@@ -75,7 +76,31 @@ function HeroVideoLayer({
   }, []);
 
   useEffect(() => {
-    requestPlayback();
+    const video = videoRef.current;
+
+    if (!video) {
+      return undefined;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isInViewRef.current = entry.isIntersecting;
+
+        if (entry.isIntersecting) {
+          requestPlayback();
+        } else {
+          video.pause();
+        }
+      },
+      { threshold: 0.01 },
+    );
+
+    observer.observe(video);
+
+    return () => {
+      observer.disconnect();
+      video.pause();
+    };
   }, [requestPlayback]);
 
   const mobileSourceMedia = getMobileSourceMedia(viewport);
