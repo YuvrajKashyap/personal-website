@@ -59,7 +59,16 @@ export const projects = [
       },
     ],
     timelineLabel: "Active build",
-    links: [],
+    links: [
+      {
+        label: "GitHub repo",
+        href: "https://github.com/YuvrajKashyap/aletheia",
+        type: "repo",
+        isPrimary: true,
+        status: "verified",
+        external: true,
+      },
+    ],
     media: [],
   },
   {
@@ -179,6 +188,13 @@ export const projects = [
         href: "https://yuvrajkashyap.com",
         type: "live",
         isPrimary: true,
+        status: "verified",
+        external: true,
+      },
+      {
+        label: "GitHub repo",
+        href: "https://github.com/YuvrajKashyap/personal-website",
+        type: "repo",
         status: "verified",
         external: true,
       },

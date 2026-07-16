@@ -1,5 +1,11 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Space_Grotesk, Space_Mono } from "next/font/google";
+import {
+  Geist,
+  Geist_Mono,
+  Space_Grotesk,
+  Space_Mono,
+  Unbounded,
+} from "next/font/google";
 import { VercelAnalytics } from "@/components/analytics/VercelAnalytics";
 import { MotionSystemProvider } from "@/components/motion/MotionSystemProvider";
 import { ScrollProgressBar } from "@/components/motion/ScrollProgressBar";
@@ -30,6 +36,13 @@ const spaceMono = Space_Mono({
   variable: "--font-space-mono",
   subsets: ["latin"],
   weight: ["400", "700"],
+  display: "swap",
+});
+
+const unbounded = Unbounded({
+  variable: "--font-unbounded",
+  subsets: ["latin"],
+  weight: ["800"],
   display: "swap",
 });
 
@@ -96,7 +109,7 @@ export default async function RootLayout({
       lang="en"
       data-theme={theme}
       suppressHydrationWarning
-      className={`${geistSans.variable} ${geistMono.variable} ${spaceGrotesk.variable} ${spaceMono.variable} h-full`}
+      className={`${geistSans.variable} ${geistMono.variable} ${spaceGrotesk.variable} ${spaceMono.variable} ${unbounded.variable} h-full`}
     >
       <body className="flex min-h-full flex-col antialiased">
         <ThemeProvider initialTheme={theme}>

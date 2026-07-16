@@ -1,24 +1,22 @@
-import Image from "next/image";
-import Link from "next/link";
 import type { ReactNode } from "react";
 
 import { ParallaxDrift } from "@/components/motion/ParallaxDrift";
+import { AboutPortrait } from "@/features/home/AboutPortrait";
 import { Reveal } from "@/components/motion/Reveal";
 import { ScrollPath } from "@/components/motion/ScrollPath";
+import { ScrollReadText } from "@/components/motion/ScrollReadText";
+import { SectionLink } from "@/components/ui/SectionLink";
 import { aboutHomePreview } from "@/features/about/about-content";
+import { ContactSection } from "@/features/home/ContactSection";
+import { ContactSignal } from "@/features/home/ContactSignal";
+import { SplitTextReveal } from "@/components/motion/SplitTextReveal";
 import {
-  collaborateHero,
-  collaborationLanes,
-} from "@/features/collaborate/collaborate-content";
-import {
-  experienceEntries,
-  experienceHero,
+  resumeEducation,
+  resumeRoles,
 } from "@/features/experience/experience-content";
-import {
-  trackerHero,
-  trackerStatusCards,
-} from "@/features/tracker/tracker-content";
-import { getFeaturedProjects } from "@/lib/projects/projects";
+import { ResumeLedger } from "@/features/home/ResumeLedger";
+import { ProjectGrid } from "@/features/home/ProjectGrid";
+import { getPublishedProjects } from "@/lib/projects/projects";
 
 type HomeSectionsProps = Readonly<{
   variant: "dark" | "light";
@@ -55,23 +53,29 @@ function ChapterShell({
 function ChapterHeader({
   body,
   eyebrow,
+  secondaryBody,
   title,
-}: Readonly<{ body: string; eyebrow: string; title: string }>) {
+}: Readonly<{
+  body: string;
+  eyebrow?: string;
+  secondaryBody?: string;
+  title: string;
+}>) {
   return (
     <Reveal className="home-chapter-header" inView>
-      <p className="text-kicker">{eyebrow}</p>
-      <h2 className="text-section-title text-balance">{title}</h2>
+      {eyebrow ? <p className="text-kicker">{eyebrow}</p> : null}
+      <h2 className="text-section-title text-balance">
+        <SplitTextReveal text={title} variant="rise" hoverWave />
+      </h2>
       <p className="text-body text-pretty">{body}</p>
+      {secondaryBody ? (
+        <p className="text-body text-pretty">{secondaryBody}</p>
+      ) : null}
     </Reveal>
   );
 }
 
-function AboutChapter({ variant }: Readonly<{ variant: "dark" | "light" }>) {
-  const emblemSrc =
-    variant === "dark"
-      ? "/media/emblem/king-emblem.webp"
-      : "/media/emblem/light-emblem.webp";
-
+function AboutChapter() {
   return (
     <ChapterShell
       className="home-about-chapter"
@@ -80,25 +84,16 @@ function AboutChapter({ variant }: Readonly<{ variant: "dark" | "light" }>) {
       number="01"
     >
       <div className="home-about-story">
-        <Reveal className="home-about-intro" inView>
-          <p className="home-about-paragraph text-pretty">
-            {aboutHomePreview.body}
-          </p>
-          <Link href="/about" className="home-section-link focus-ring">
-            More about me
-          </Link>
-        </Reveal>
+        <div className="home-about-intro">
+          <ScrollReadText
+            className="home-about-paragraph text-pretty"
+            text={aboutHomePreview.body}
+          />
+        </div>
 
         <Reveal className="home-about-portrait" inView variant="blur-in">
           <ParallaxDrift range={30}>
-            <Image
-              src={emblemSrc}
-              alt="YK emblem"
-              className="home-about-emblem"
-              width={880}
-              height={880}
-              sizes="(max-width: 900px) 80vw, 32rem"
-            />
+            <AboutPortrait />
           </ParallaxDrift>
         </Reveal>
       </div>
@@ -107,8 +102,6 @@ function AboutChapter({ variant }: Readonly<{ variant: "dark" | "light" }>) {
 }
 
 function ExperienceChapter() {
-  const entries = experienceEntries.slice(0, 3);
-
   return (
     <ChapterShell
       className="home-experience-chapter"
@@ -116,47 +109,45 @@ function ExperienceChapter() {
       label="Experience"
       number="02"
     >
+      <h2 className="text-section-title text-balance home-experience-title">
+        <SplitTextReveal text="Experience" variant="flip" hoverWave />
+      </h2>
       <div className="home-experience-layout">
-        <ChapterHeader
-          eyebrow={experienceHero.eyebrow}
-          title={experienceHero.title}
-          body={experienceHero.description}
-        />
-
-        <div className="home-experience-ledger">
-          {entries.map((entry, index) => (
-            <Reveal
-              key={entry.id}
-              className="home-experience-entry"
-              delay={index * 0.08}
-              inView
-            >
-              <article>
-                <div className="home-experience-entry-meta">
-                  <span>{String(index + 1).padStart(2, "0")}</span>
-                  <p>{entry.eyebrow}</p>
-                </div>
-                <div className="home-experience-entry-copy">
-                  <h3>{entry.title}</h3>
-                  <p>{entry.body}</p>
-                </div>
-              </article>
-            </Reveal>
-          ))}
-        </div>
-
-        <Reveal inView variant="cta">
-          <Link href="/experience" className="home-section-link focus-ring">
-            View experience
-          </Link>
+        <Reveal className="resume-credentials" inView>
+          <div className="resume-credentials-head">
+            <h3>
+              <SplitTextReveal
+                text={resumeEducation.school}
+                variant="flip"
+                hoverWave
+              />
+            </h3>
+            <p>{resumeEducation.degree}</p>
+          </div>
+          <ul aria-label="Credentials">
+            {resumeEducation.credentials.map((credential) => (
+              <li key={credential}>{credential}</li>
+            ))}
+          </ul>
         </Reveal>
+
+        <ResumeLedger roles={resumeRoles} />
+
+        <div className="home-experience-links">
+          <Reveal inView variant="cta">
+            <SectionLink
+              href="/media/resume/yuvraj-kashyap-resume.pdf"
+              label="Download resume"
+            />
+          </Reveal>
+        </div>
       </div>
     </ChapterShell>
   );
 }
 
 function ProjectsChapter() {
-  const projects = getFeaturedProjects().slice(0, 3);
+  const projects = getPublishedProjects();
 
   return (
     <ChapterShell
@@ -165,131 +156,35 @@ function ProjectsChapter() {
       label="Projects"
       number="03"
     >
-      <div className="home-projects-heading">
+      <div className="home-projects-layout">
         <ChapterHeader
-          eyebrow="PROJECTS"
-          title="Systems that make the direction tangible."
-          body="A focused set of active and published builds across AI, search infrastructure, product systems, and frontend craft."
+          title="Projects"
+          body="Some of the software and hardware I have built."
+          secondaryBody="A lot of them are hosted, some aren't — but feel free to explore the actual site."
         />
+        <ProjectGrid projects={projects} />
         <Reveal inView variant="cta">
-          <Link href="/projects" className="home-section-link focus-ring">
-            Explore all projects
-          </Link>
+          <SectionLink
+            href="https://github.com/YuvrajKashyap"
+            label="Explore my GitHub"
+            external
+          />
         </Reveal>
-      </div>
-
-      <div className="home-project-showcase">
-        {projects.map((project, index) => (
-          <Reveal
-            key={project.id}
-            className={index === 0 ? "home-project-featured" : "home-project-secondary"}
-            delay={index * 0.08}
-            inView
-            variant={index === 0 ? "scale-soft" : "fade-up"}
-          >
-            <Link
-              href={`/projects/${project.slug}`}
-              className="home-project-surface focus-ring"
-              aria-label={`View ${project.title} project`}
-            >
-              <div className="home-project-surface-topline">
-                <span>{String(index + 1).padStart(2, "0")}</span>
-                <p>{project.eyebrow ?? project.priority}</p>
-              </div>
-              <div>
-                <h3>{project.title}</h3>
-                <p>{project.summary}</p>
-              </div>
-              <ul aria-label={`${project.title} technologies`}>
-                {project.tags.slice(0, 3).map((tag) => (
-                  <li key={tag}>{tag}</li>
-                ))}
-              </ul>
-            </Link>
-          </Reveal>
-        ))}
       </div>
     </ChapterShell>
   );
 }
 
-function TrackerChapter() {
-  const statusCards = trackerStatusCards.slice(0, 3);
-
+function ContactChapter() {
   return (
     <ChapterShell
-      className="home-tracker-chapter"
-      id="home-tracker-preview"
-      label="Tracker"
+      className="home-contact-chapter"
+      id="home-contact"
+      label="Contact"
       number="04"
     >
-      <div className="home-tracker-heading">
-        <ChapterHeader
-          eyebrow={trackerHero.eyebrow}
-          title={trackerHero.title}
-          body={trackerHero.description}
-        />
-        <Reveal className="home-tracker-source" inView variant="fade-in">
-          <span aria-hidden="true" />
-          <p>Manual current-state signal</p>
-        </Reveal>
-      </div>
-
-      <dl className="home-status-stream">
-        {statusCards.map((card, index) => (
-          <Reveal
-            key={card.id}
-            className="home-status-item"
-            delay={index * 0.08}
-            inView
-            variant="fade-up"
-          >
-            <div>
-              <dt>
-                <span>{String(index + 1).padStart(2, "0")}</span>
-                {card.label}
-              </dt>
-              <dd>{card.value}</dd>
-              <p>{card.description}</p>
-              <small>{card.source}</small>
-            </div>
-          </Reveal>
-        ))}
-      </dl>
-
-      <Reveal inView variant="cta">
-        <Link href="/tracker" className="home-section-link focus-ring">
-          Open tracker
-        </Link>
-      </Reveal>
-    </ChapterShell>
-  );
-}
-
-function CollaborateChapter() {
-  const lanes = collaborationLanes.slice(0, 3);
-
-  return (
-    <ChapterShell
-      className="home-collaborate-chapter"
-      id="home-collaborate-preview"
-      label="Collaborate"
-      number="05"
-    >
-      <Reveal className="home-collaborate-stage" inView variant="scale-soft">
-        <p className="text-kicker">{collaborateHero.eyebrow}</p>
-        <h2 className="text-page-title text-balance">{collaborateHero.title}</h2>
-        <p className="text-body-large text-pretty">{collaborateHero.description}</p>
-
-        <ul className="home-collaborate-lanes" aria-label="Collaboration areas">
-          {lanes.map((lane) => (
-            <li key={lane.id}>{lane.eyebrow}</li>
-          ))}
-        </ul>
-
-        <Link href="/collaborate" className="home-collaborate-link focus-ring">
-          Explore collaboration
-        </Link>
+      <Reveal inView variant="scale-soft">
+        <ContactSection />
       </Reveal>
     </ChapterShell>
   );
@@ -299,11 +194,13 @@ export function HomeSections({ variant }: HomeSectionsProps) {
   return (
     <div className="home-sections" data-home-variant={variant}>
       <ScrollPath />
-      <AboutChapter variant={variant} />
+      <AboutChapter />
       <ExperienceChapter />
       <ProjectsChapter />
-      <TrackerChapter />
-      <CollaborateChapter />
+      <ContactChapter />
+      <div className="home-contact-hologram">
+        <ContactSignal />
+      </div>
     </div>
   );
 }

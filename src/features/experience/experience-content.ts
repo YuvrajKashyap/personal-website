@@ -20,6 +20,92 @@ export type ExperienceEntry = Readonly<{
   order: number;
 }>;
 
+export type ResumeRole = Readonly<{
+  id: string;
+  role: string;
+  organization: string;
+  period: string;
+  current?: boolean;
+  bullets: readonly string[];
+  skills: readonly string[];
+}>;
+
+export const resumeEducation = {
+  school: "University of Texas at Dallas",
+  degree:
+    "B.S. Computer Science · Minor in Finance · Entrepreneurship & Innovation Certificate",
+  credentials: ["Dean's List", "NCAA DII Tennis", "Class of 2027"],
+} as const;
+
+export const resumeRoles = [
+  {
+    id: "cyc-vp-finance",
+    role: "VP of Finance & Project Team Lead",
+    organization: "Consult Your Community · UT Dallas",
+    period: "Jan 2026 — Present",
+    current: true,
+    bullets: [
+      "Led cross-functional consulting engagements for Glydr, a hardware company building foot-based computer control interfaces, and Get in the Path, an education nonprofit.",
+      "Built Glydr's web-based gaming hub prototype and drove execution across product operations, pricing and financial strategy, go-to-market planning, and final client deliverables.",
+    ],
+    skills: ["Product ops", "Financial strategy", "Go-to-market", "Prototyping"],
+  },
+  {
+    id: "uav-smart-city-researcher",
+    role: "Undergraduate Researcher, UAV / Smart City Systems",
+    organization: "University of Texas at Dallas",
+    period: "Oct 2025 — Present",
+    current: true,
+    bullets: [
+      "Built a geometry-driven UAV swarm simulation framework over a 4 km × 4 km OpenStreetMap/Blender urban environment to evaluate multi-agent path planning, visibility, and coverage under realistic city constraints.",
+      "Modeled occlusions, non-convex obstacles, and sensing constraints with learning-guided coordination heuristics to study UAV behavior beyond simplified grid environments.",
+    ],
+    skills: ["Python", "Blender / OSM", "Multi-agent planning", "Simulation"],
+  },
+  {
+    id: "peer-advisor-university-housing",
+    role: "Peer Advisor, University Housing",
+    organization: "University of Texas at Dallas",
+    period: "May 2024 — Present",
+    current: true,
+    bullets: [
+      "Serve as a Peer Advisor for 120+ residents, acting as the primary point of contact for academic, personal, and housing-related concerns.",
+    ],
+    skills: ["Leadership", "Communication", "Residence life"],
+  },
+  {
+    id: "independent-sat-tutor",
+    role: "Academic Tutor & Outreach",
+    organization: "Independent · Dallas–Fort Worth",
+    period: "May 2025 — Aug 2025",
+    bullets: [
+      "Provided volunteer 1-on-1 SAT tutoring as a skill-building and outreach activity, adapting instruction to individual student learning goals.",
+    ],
+    skills: ["Teaching", "Communication", "Outreach"],
+  },
+  {
+    id: "nova-electrical-engineer",
+    role: "Systems & Electrical Engineer, NOVA Autonomous Driving",
+    organization: "University of Texas at Dallas",
+    period: "Sep 2023 — Jun 2025",
+    bullets: [
+      "Built Python preprocessing pipelines for 3D sensor data, including voxel-grid point cloud downsampling that reduced scan size from 370,277 to 20,528 points while preserving geometric structure.",
+      "Designed, maintained, and debugged primary and secondary power systems for an autonomous vehicle, including dual battery banks, high-voltage lines, and multiple I/O buses, translating hardware constraints into systems-level fixes.",
+    ],
+    skills: ["Python", "Point clouds", "Power systems", "Perception"],
+  },
+  {
+    id: "aim-ai-ml-mentee",
+    role: "Mentee, AIM — AI & Machine Learning Program",
+    organization: "University of Texas at Dallas",
+    period: "Sep 2023 — Apr 2024",
+    bullets: [
+      "Selected as a mentee in a competitive AI-focused mentorship program, collaborating on a team-based technical project.",
+    ],
+    skills: ["AI", "Reinforcement learning", "Collaboration"],
+  },
+] as const satisfies readonly ResumeRole[];
+
 export const experienceHero = {
   eyebrow: "EXPERIENCE",
   title: "Proof, trajectory, and operating layers.",

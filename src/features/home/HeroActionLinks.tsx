@@ -30,15 +30,16 @@ type HeroAction = Readonly<{
 }>;
 
 const aiContextHref = `${siteConfig.url}/ai/yuvraj-kashyap-recruiter-brief.md`;
+const githubHref = "https://github.com/YuvrajKashyap";
 
 const aiBriefPrompt = [
-  "You are helping a recruiter or serious collaborator understand Yuvraj Kashyap.",
-  `First read this public briefing: ${aiContextHref}.`,
-  `Then inspect the public site at ${siteConfig.url}, especially /about, /experience, /projects, /tracker, /services, /collaborate, and /contact.`,
-  "Summarize his builder identity, background, strongest software and AI systems signal, project themes, current focus, and useful interview questions.",
-  "Use public evidence only. Do not invent credentials, employers, metrics, awards, GPA, roles, adoption, revenue, or private details.",
-  "If browsing is unavailable, ask the visitor to paste the briefing file before answering.",
-].join(" ");
+  "You've been opened from yuvrajkashyap.com. The visitor wants a proper briefing on Yuvraj Kashyap — the person behind the site.",
+  `Primary sources, all public and fetchable:\n- ${siteConfig.url}/llms.txt — structured profile (llms.txt standard)\n- ${aiContextHref} — extended brief\n- ${githubHref} — repositories and READMEs`,
+  `Fetch what you can with your browsing tools. If a fetch fails, fall back to web search scoped to site:yuvrajkashyap.com. His LinkedIn and X can add color. Keep every claim grounded in his own pages — never blend in results about other people, and never invent employers, GPA, metrics, awards, or adoption.`,
+  "Then deliver the briefing, clean and well-formatted:",
+  "1. Who he is — identity, education, and the arc so far.\n2. Experience — each role and research position, and what he concretely built or delivered in it.\n3. Projects — the systems with real engineering depth (AI, search, simulation, full-stack), and what each one proves about how he works.\n4. The pattern — the problems he keeps choosing, his engineering instincts, and where his trajectory points.\n5. Beyond the code — NCAA DII tennis, the finance and entrepreneurship side, and whatever else completes the picture.",
+  "Be specific, quote real details from what you read, and close by offering to go deeper on any single project or question.",
+].join("\n\n");
 
 const chatGptHref = `https://chatgpt.com/?${new URLSearchParams({
   hints: "search",
@@ -107,7 +108,7 @@ const aiActions = [
   },
 ] satisfies HeroAction[];
 
-function getReachOutActions(): HeroAction[] {
+export function getReachOutActions(): HeroAction[] {
   const socialActions = reachOutSocialOrder.flatMap<HeroAction>((label) => {
     const link = siteConfig.socialLinks.find((item) => item.label === label);
 
@@ -222,7 +223,7 @@ function HeroActionIcon({ icon }: Readonly<{ icon: HeroActionIconName }>) {
   }
 }
 
-function HeroActionButton({ action }: Readonly<{ action: HeroAction }>) {
+export function HeroActionButton({ action }: Readonly<{ action: HeroAction }>) {
   const opensInNewTab = action.external || action.openInNewTab;
   const target = opensInNewTab ? "_blank" : undefined;
   const rel = opensInNewTab ? "noreferrer" : undefined;

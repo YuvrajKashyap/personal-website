@@ -1,7 +1,12 @@
 "use client";
 
 import { motion, useMotionValue, useReducedMotion } from "motion/react";
-import { useEffect, useState, useSyncExternalStore } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
+
+import {
+  CURSOR_TRAIL_EVENT,
+  isCursorTrailEnabled,
+} from "@/components/theme/CursorTrailToggle";
 
 const FINE_POINTER_QUERY = "(hover: hover) and (pointer: fine)";
 
@@ -35,6 +40,10 @@ const INTERACTIVE_SELECTOR = [
 const TEXT_FIELD_SELECTOR =
   'input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]), textarea';
 
+const TRAIL_LIFE_MS = 380;
+const TRAIL_MAX_POINTS = 70;
+const TRAIL_COLOR = "232, 38, 45";
+
 export function SiteCursor() {
   const shouldReduceMotion = useReducedMotion();
   const hasFinePointer = useSyncExternalStore(
@@ -50,6 +59,7 @@ export function SiteCursor() {
 
   const x = useMotionValue(-100);
   const y = useMotionValue(-100);
+  const trailRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
     if (!isActive) {
@@ -57,6 +67,91 @@ export function SiteCursor() {
     }
 
     document.documentElement.dataset.customCursor = "true";
+
+    // Fading red ribbon that chases the dot, drawn on its own canvas so the
+    // cursor itself stays untouched. The rAF loop only runs while points are
+    // alive and stops on its own once the trail has fully faded.
+    const trailCanvas = trailRef.current;
+    const trailCtx = trailCanvas?.getContext("2d");
+    const trailPoints: Array<{ x: number; y: number; t: number }> = [];
+    let trailFrame = 0;
+    let trailDpr = 1;
+    let trailEnabled = isCursorTrailEnabled();
+
+    function onTrailToggle() {
+      trailEnabled = isCursorTrailEnabled();
+
+      if (!trailEnabled) {
+        trailPoints.length = 0;
+
+        if (trailCtx && trailCanvas) {
+          trailCtx.setTransform(1, 0, 0, 1, 0, 0);
+          trailCtx.clearRect(0, 0, trailCanvas.width, trailCanvas.height);
+        }
+      }
+    }
+
+    function sizeTrailCanvas() {
+      if (!trailCanvas) {
+        return;
+      }
+
+      trailDpr = Math.min(window.devicePixelRatio || 1, 2);
+      trailCanvas.width = Math.round(window.innerWidth * trailDpr);
+      trailCanvas.height = Math.round(window.innerHeight * trailDpr);
+    }
+
+    function drawTrail() {
+      trailFrame = 0;
+
+      if (!trailCtx || !trailCanvas) {
+        return;
+      }
+
+      const now = performance.now();
+
+      while (trailPoints.length && now - trailPoints[0].t > TRAIL_LIFE_MS) {
+        trailPoints.shift();
+      }
+
+      trailCtx.setTransform(trailDpr, 0, 0, trailDpr, 0, 0);
+      trailCtx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+
+      if (trailPoints.length > 1) {
+        trailCtx.globalCompositeOperation = "lighter";
+        trailCtx.lineCap = "round";
+        trailCtx.lineJoin = "round";
+
+        for (let i = 1; i < trailPoints.length; i += 1) {
+          const from = trailPoints[i - 1];
+          const to = trailPoints[i];
+          const strength = Math.max(0, 1 - (now - to.t) / TRAIL_LIFE_MS);
+
+          // soft glow pass under a crisp core pass
+          trailCtx.strokeStyle = `rgba(${TRAIL_COLOR}, ${strength * 0.12})`;
+          trailCtx.lineWidth = 2 + strength * 9;
+          trailCtx.beginPath();
+          trailCtx.moveTo(from.x, from.y);
+          trailCtx.lineTo(to.x, to.y);
+          trailCtx.stroke();
+
+          trailCtx.strokeStyle = `rgba(${TRAIL_COLOR}, ${strength * 0.55})`;
+          trailCtx.lineWidth = 0.6 + strength * 2.6;
+          trailCtx.beginPath();
+          trailCtx.moveTo(from.x, from.y);
+          trailCtx.lineTo(to.x, to.y);
+          trailCtx.stroke();
+        }
+
+        trailCtx.globalCompositeOperation = "source-over";
+      }
+
+      if (trailPoints.length) {
+        trailFrame = window.requestAnimationFrame(drawTrail);
+      }
+    }
+
+    sizeTrailCanvas();
 
     function onPointerMove(event: PointerEvent) {
       if (event.pointerType !== "mouse") {
@@ -66,6 +161,24 @@ export function SiteCursor() {
       x.set(event.clientX);
       y.set(event.clientY);
       setIsVisible(true);
+
+      if (!trailEnabled) {
+        return;
+      }
+
+      trailPoints.push({
+        x: event.clientX,
+        y: event.clientY,
+        t: performance.now(),
+      });
+
+      if (trailPoints.length > TRAIL_MAX_POINTS) {
+        trailPoints.shift();
+      }
+
+      if (!trailFrame) {
+        trailFrame = window.requestAnimationFrame(drawTrail);
+      }
     }
 
     function onPointerOver(event: PointerEvent) {
@@ -97,6 +210,8 @@ export function SiteCursor() {
     window.addEventListener("pointerup", onPointerUp, { passive: true });
     document.documentElement.addEventListener("pointerleave", onLeaveWindow);
     window.addEventListener("blur", onLeaveWindow);
+    window.addEventListener("resize", sizeTrailCanvas, { passive: true });
+    window.addEventListener(CURSOR_TRAIL_EVENT, onTrailToggle);
 
     return () => {
       delete document.documentElement.dataset.customCursor;
@@ -109,6 +224,12 @@ export function SiteCursor() {
         onLeaveWindow,
       );
       window.removeEventListener("blur", onLeaveWindow);
+      window.removeEventListener("resize", sizeTrailCanvas);
+      window.removeEventListener(CURSOR_TRAIL_EVENT, onTrailToggle);
+
+      if (trailFrame) {
+        window.cancelAnimationFrame(trailFrame);
+      }
     };
   }, [isActive, x, y]);
 
@@ -126,7 +247,9 @@ export function SiteCursor() {
 
   return (
     <div className={`site-cursor ${stateClass}`} aria-hidden="true">
+      <canvas ref={trailRef} className="site-cursor-trail" />
       <motion.span className="site-cursor-anchor" style={{ x, y }}>
+        <span className="site-cursor-halo" />
         <span className="site-cursor-dot" />
       </motion.span>
     </div>

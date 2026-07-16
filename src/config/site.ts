@@ -7,18 +7,16 @@ import type {
 
 export const siteConfig = {
   name: "Yuvraj Kashyap",
+  email: "ykyuvrajkashyap@gmail.com",
   domain: "yuvrajkashyap.com",
   url: "https://yuvrajkashyap.com",
   description: "Personal website and operating interface for Yuvraj Kashyap.",
   navItems: [
     { label: "Home", href: "/" },
-    { label: "About", href: "/about" },
-    { label: "Experience", href: "/experience" },
-    { label: "Projects", href: "/projects" },
-    { label: "Tracker", href: "/tracker" },
-    { label: "Services", href: "/services" },
-    { label: "Collaborate", href: "/collaborate" },
-    { label: "Get in Touch", href: "/contact", cta: true },
+    { label: "About", href: "/#home-about-preview" },
+    { label: "Experience", href: "/#home-experience-preview" },
+    { label: "Projects", href: "/#home-projects-preview" },
+    { label: "Contact", href: "/#home-contact" },
   ] satisfies NavItem[],
   publicRoutes: [
     { label: "Home", href: "/", status: "live" },
