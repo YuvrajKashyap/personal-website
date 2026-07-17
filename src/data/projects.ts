@@ -208,12 +208,12 @@ export const projects = [
     shortTitle: "Capital",
     eyebrow: "Product system",
     summary:
-      "Personal finance operating system for syncing, alerts, and spending visibility.",
+      "Private financial command center for account state, cash flow, spending intent, and net worth.",
     description:
-      "Capital is a product system direction for personal finance visibility, account syncing, alerts, and recurring operational awareness.",
+      "Capital is a private, single-owner finance application that combines connected account data, a manual monthly ledger, recurring analysis, alerts, and digest reporting in one operating interface.",
     category: "product_system",
     type: "app",
-    status: "active_build",
+    status: "portfolio_ready",
     priority: "strong",
     visibility: "published",
     featured: true,
@@ -222,7 +222,7 @@ export const projects = [
     randomizerEligible: true,
     randomizerBucket: "product",
     randomizerWeight: 1,
-    tags: ["Finance", "Product system", "Alerts", "Automation"],
+    tags: ["Fintech", "Data systems", "Product design", "Automation"],
     stack: [
       "TypeScript",
       "Next.js",
@@ -234,40 +234,63 @@ export const projects = [
       "Web Push",
     ],
     highlights: [
-      "Personal finance operating system direction",
-      "Alert and visibility workflows",
-      "Product architecture across data and interface layers",
+      "Plaid synchronization with encrypted provider token storage",
+      "Owner-scoped Supabase data model with server-only privileged paths",
+      "Responsive analytics, manual ledger, alerts, and digest workflows",
     ],
     problem:
-      "Personal finance visibility is fragmented across accounts, bills, alerts, and spending patterns.",
+      "Personal financial context is fragmented across institutions, statements, notifications, and separate planning tools, making it difficult to explain what changed and why.",
     solution:
-      "A personal finance operating system direction with sync, alerts, account state, and spending visibility foundations.",
+      "A server-first command center that unifies account state, transactions, intentional monthly planning, recurring behavior, historical trends, net worth, and scheduled summaries for one authenticated owner.",
     whatItProves:
-      "Ability to work with product systems, secure flows, financial data architecture, and practical user workflows.",
+      "Full-stack product ownership across a high-trust data model, third-party integrations, financial analysis, privacy boundaries, and a distinctive responsive interface.",
     detailSections: [
       {
-        eyebrow: "Workflow",
-        title: "Visibility before prediction",
-        body: "Capital is framed around account state, recurring awareness, alerts, and review workflows. The public page does not imply customer banking usage.",
+        eyebrow: "Product Model",
+        title: "Explain change, not just balances",
+        body: "The product connects balances and transactions to manual spending intent, recurring patterns, cash-flow trends, net-worth history, and digest reporting so the owner can understand movement across the whole system.",
       },
       {
-        eyebrow: "System Boundary",
-        title: "Finance needs careful wording",
-        body: "The project can describe sync, alerts, and product architecture without exposing private data or claiming production financial outcomes.",
+        eyebrow: "Architecture",
+        title: "Server-first financial operations",
+        body: "Next.js routes and server services coordinate Supabase Auth and Postgres, Plaid synchronization, webhook handling, alert evaluation, Resend email, Web Push, and authenticated Vercel Cron work.",
+      },
+      {
+        eyebrow: "Security Boundary",
+        title: "Narrow owner access",
+        body: "There is no public sign-up. User-facing data is owner-scoped, privileged provider work stays server-side, and Plaid access tokens are encrypted before persistence.",
+      },
+      {
+        eyebrow: "Presentation",
+        title: "Public proof, private product",
+        body: "The public case study contains privacy-reviewed synthetic screenshots and technical documentation. The connected app, source, credentials, and production deployment remain private.",
       },
     ],
-    timelineLabel: "Active build",
+    timelineLabel: "Private product / public case study",
+    updatedAt: "2026-07-17",
+    notes:
+      "Capital is personal finance software, not a public banking product or financial institution. The screenshots use fictional synthetic data from an isolated read-only presentation build.",
     links: [
       {
-        label: "Possible live site",
-        href: "https://capital.yuvrajkashyap.com",
-        type: "live",
-        status: "needs_review",
+        label: "View public case study",
+        href: "https://github.com/YuvrajKashyap/capital-case-study",
+        type: "case_study",
+        isPrimary: true,
+        status: "verified",
         external: true,
-        note: "Possible project URL. Do not show as verified until reviewed.",
+        note: "Sanitized documentation and synthetic screenshots. The connected application remains private.",
       },
     ],
-    media: [],
+    media: [
+      {
+        type: "cover",
+        src: "/media/projects/capital/overview.jpg",
+        alt: "Capital synthetic financial overview with net worth, liquidity, investments, liabilities, and account health",
+        theme: "both",
+        status: "ready",
+        note: "Fictional synthetic data from an isolated read-only presentation build.",
+      },
+    ],
   },
   {
     id: "project_axis",

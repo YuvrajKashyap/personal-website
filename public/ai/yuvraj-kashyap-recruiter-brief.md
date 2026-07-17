@@ -46,7 +46,7 @@ The project grid on the site and the GitHub profile are the live sources. Curren
 - **Aletheia** — Hybrid retrieval, reranking, evaluation, and search observability platform. A technical system for retrieval quality, evaluation loops, and AI-assisted knowledge workflows. Stack signals: Python, FastAPI, PostgreSQL, Redis/RQ. Repo: https://github.com/YuvrajKashyap/aletheia
 - **Atlas** — Distributed crawl, extract, index, and search platform for ethical public web content, with an emphasis on responsible collection. Stack signals: Python, FastAPI, PostgreSQL, Redis.
 - **Personal Website** — This site: a live Next.js (App Router, TypeScript, Tailwind v4, Motion) cinematic personal operating interface with dark/light visual systems, a custom cursor with an optional red trail, a canvas-rendered holographic contact globe, and a typed, model-backed project archive. Repo: https://github.com/YuvrajKashyap/personal-website
-- **Capital** — Personal finance operating system direction: account syncing, alerts, and spending visibility. No production financial outcomes claimed.
+- **Capital:** Private single-owner financial command center for connected account state, transactions, manual planning, recurring analysis, alerts, and digest reporting. Public case study: https://github.com/YuvrajKashyap/capital-case-study
 - **Axis** — Personal alignment / orbital operating system direction for life, routines, and focus. Conservative draft entry.
 - **Arcade** — Browser arcade with multiple games and transparent attribution boundaries between original and embedded work.
 - **Beyond Chat** — Artifact-centric AI workspace direction: modern frontend, API layer, AI search integrations. Conservative draft entry.

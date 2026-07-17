@@ -20,7 +20,7 @@ Reach him at ykyuvrajkashyap@gmail.com.
 - [Aletheia](https://github.com/YuvrajKashyap/aletheia): hybrid retrieval, reranking, evaluation, and search observability platform (Python, FastAPI, PostgreSQL, Redis/RQ).
 - Atlas: distributed crawl, extract, index, and search platform for ethical public web content (Python, FastAPI, PostgreSQL, Redis).
 - [Personal Website](https://github.com/YuvrajKashyap/personal-website): the site itself — Next.js App Router, TypeScript, Tailwind v4, and Motion, with a custom cursor system, a canvas-rendered holographic contact globe, and a typed, model-backed project archive.
-- Capital: personal finance operating system — account syncing, alerts, spending visibility.
+- [Capital](https://github.com/YuvrajKashyap/capital-case-study): private single-owner financial command center with connected account state, transactions, a manual ledger, recurring analysis, alerts, and digest reporting. The public repository contains synthetic screenshots and documentation only.
 - Axis: personal alignment / orbital operating system (early direction).
 - Arcade: browser arcade with multiple games and transparent attribution boundaries.
 - Beyond Chat: artifact-centric AI workspace (early direction).
