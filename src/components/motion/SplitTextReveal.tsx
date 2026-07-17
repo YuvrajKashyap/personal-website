@@ -3,6 +3,8 @@
 import { motion, useReducedMotion, type Variants } from "motion/react";
 import type { CSSProperties } from "react";
 
+import { useSectionReveal } from "@/components/motion/SectionRevealContext";
+
 type SplitTextRevealProps = Readonly<{
   text: string;
   /** "rise": letters float up out of a blur. "flip": letters flip up from flat. */
@@ -53,6 +55,8 @@ export function SplitTextReveal({
   className,
 }: SplitTextRevealProps) {
   const shouldReduceMotion = useReducedMotion();
+  const section = useSectionReveal();
+  const sectionDriven = section !== null;
 
   if (shouldReduceMotion) {
     return <span className={className}>{text}</span>;
@@ -62,8 +66,9 @@ export function SplitTextReveal({
     <motion.span
       className={`split-text split-text-${variant}${hoverWave ? " hover-wave" : ""}${className ? ` ${className}` : ""}`}
       initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, amount: 0.7 }}
+      animate={sectionDriven ? (section ? "visible" : "hidden") : undefined}
+      whileInView={sectionDriven ? undefined : "visible"}
+      viewport={sectionDriven ? undefined : { once: false, amount: 0.7 }}
       variants={containerVariants}
       aria-label={text}
     >

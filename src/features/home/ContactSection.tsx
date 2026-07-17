@@ -10,14 +10,36 @@ import { useEffect, useRef, useState } from "react";
 
 import { HoverWaveText } from "@/components/motion/HoverWaveText";
 import { Magnetic } from "@/components/motion/Magnetic";
+import { useSectionReveal } from "@/components/motion/SectionRevealContext";
 import { siteConfig } from "@/config/site";
-import { CONTACT_COPY_EVENT } from "@/features/home/ContactSignal";
+import { gravitationalEase } from "@/lib/motion/presets";
+import { CONTACT_COPY_EVENT } from "@/features/home/contact-events";
 import {
   getReachOutActions,
   HeroActionButton,
 } from "@/features/home/HeroActionLinks";
 
 const COPY_RESET_MS = 2000;
+
+// Focus-pull: the contact copy resolves out of a soft blur, each line rising
+// and sharpening in sequence — a calmer, distinct signature from the projects'
+// 3D deal-in above it.
+const contactStageVariants: Variants = {
+  hidden: {},
+  visible: {
+    transition: { staggerChildren: 0.12, delayChildren: 0.05 },
+  },
+};
+
+const contactLineVariants: Variants = {
+  hidden: { opacity: 0, y: 30, filter: "blur(10px)" },
+  visible: {
+    opacity: 1,
+    y: 0,
+    filter: "blur(0px)",
+    transition: { duration: 0.75, ease: gravitationalEase },
+  },
+};
 
 const socialsVariants: Variants = {
   hidden: {},
@@ -213,17 +235,41 @@ function EmailCopyCard() {
 export function ContactSection() {
   const shouldReduceMotion = useReducedMotion();
   const socialActions = getReachOutActions();
+  const section = useSectionReveal();
+  const sectionDriven = !shouldReduceMotion && section !== null;
+  const sectionAnimate = sectionDriven
+    ? section
+      ? "visible"
+      : "hidden"
+    : undefined;
 
   return (
     <div className="home-contact-stage">
-      <div className="home-contact-copy">
-        <h2 className="text-page-title text-balance">
+      <motion.div
+        className="home-contact-copy"
+        initial={shouldReduceMotion ? undefined : "hidden"}
+        animate={sectionAnimate}
+        whileInView={
+          shouldReduceMotion || sectionDriven ? undefined : "visible"
+        }
+        viewport={sectionDriven ? undefined : { once: false, amount: 0.4 }}
+        variants={shouldReduceMotion ? undefined : contactStageVariants}
+      >
+        <motion.h2
+          className="text-page-title text-balance"
+          variants={shouldReduceMotion ? undefined : contactLineVariants}
+        >
           <HoverWaveText text="get in touch." />
-        </h2>
+        </motion.h2>
 
-        <EmailCopyCard />
+        <motion.div variants={shouldReduceMotion ? undefined : contactLineVariants}>
+          <EmailCopyCard />
+        </motion.div>
 
-        <div className="contact-mail-links">
+        <motion.div
+          className="contact-mail-links"
+          variants={shouldReduceMotion ? undefined : contactLineVariants}
+        >
           <span className="contact-mail-lead">
             or open your mail app
             <span aria-hidden="true"> &rarr;</span>
@@ -251,14 +297,17 @@ export function ContactSection() {
               &#8599;
             </span>
           </a>
-        </div>
+        </motion.div>
 
         <motion.div
           className="contact-socials"
           aria-label="Social and resume links"
           initial={shouldReduceMotion ? undefined : "hidden"}
-          whileInView={shouldReduceMotion ? undefined : "visible"}
-          viewport={{ once: true, amount: 0.4 }}
+          animate={sectionAnimate}
+          whileInView={
+            shouldReduceMotion || sectionDriven ? undefined : "visible"
+          }
+          viewport={sectionDriven ? undefined : { once: false, amount: 0.4 }}
           variants={shouldReduceMotion ? undefined : socialsVariants}
         >
           {socialActions.map((action) => (
@@ -271,7 +320,7 @@ export function ContactSection() {
             </motion.div>
           ))}
         </motion.div>
-      </div>
+      </motion.div>
     </div>
   );
 }

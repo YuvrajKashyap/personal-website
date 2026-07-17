@@ -387,7 +387,7 @@ export function OrbitalMark({ className, variant = "nav" }: OrbitalMarkProps) {
         className="orbital-svg"
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, amount: 0.3 }}
+        viewport={{ once: false, amount: 0.3 }}
       >
         {defs}
 

@@ -12,6 +12,7 @@ import Link from "next/link";
 import type { PointerEvent, ReactNode } from "react";
 
 import type { Project } from "@/types/project";
+import { useSectionReveal } from "@/components/motion/SectionRevealContext";
 import { gravitationalEase } from "@/lib/motion/presets";
 
 type ProjectGridProps = Readonly<{
@@ -23,17 +24,32 @@ const TILT_SPRING = { stiffness: 240, damping: 20, mass: 0.55 };
 const gridVariants = {
   hidden: {},
   visible: {
-    transition: { staggerChildren: 0.09, delayChildren: 0.08 },
+    transition: { staggerChildren: 0.11, delayChildren: 0.06 },
   },
 };
 
+// Deal-in: each card is stacked flat and tipped away, then unfolds upright from
+// its bottom edge as it settles — a physical "dealt from the deck" cascade.
 const cardVariants = {
-  hidden: { opacity: 0, y: 26, scale: 0.97 },
+  hidden: {
+    opacity: 0,
+    y: 88,
+    rotateX: -38,
+    scale: 0.9,
+    filter: "blur(6px)",
+  },
   visible: {
     opacity: 1,
     y: 0,
+    rotateX: 0,
     scale: 1,
-    transition: { duration: 0.65, ease: gravitationalEase },
+    filter: "blur(0px)",
+    transition: {
+      duration: 0.85,
+      ease: gravitationalEase,
+      opacity: { duration: 0.5, ease: gravitationalEase },
+      filter: { duration: 0.5, ease: gravitationalEase },
+    },
   },
 };
 
@@ -59,6 +75,32 @@ function ProjectTile({ project }: Readonly<{ project: Project }>) {
   const glareY = useTransform(pointerY, (value) => `${value * 100}%`);
   const glare = useMotionTemplate`radial-gradient(340px circle at ${glareX} ${glareY}, rgb(255 244 214 / 0.16), transparent 60%)`;
 
+  // Preview bloom: the screenshot irises open from the exact point the cursor
+  // entered, then drifts against the tilt for depth and settles its zoom.
+  const hover = useSpring(0, { stiffness: 150, damping: 25 });
+  const entryX = useMotionValue(50);
+  const entryY = useMotionValue(50);
+  // 175% guarantees the circle clears the far corner from any entry point,
+  // even while the spring is still settling toward its target.
+  const bloomRadius = useTransform(hover, [0, 1], [0, 175]);
+  const previewClip = useMotionTemplate`circle(${bloomRadius}% at ${entryX}% ${entryY}%)`;
+  const previewShiftX = useSpring(
+    useTransform(pointerX, [0, 1], [9, -9]),
+    TILT_SPRING,
+  );
+  const previewShiftY = useSpring(
+    useTransform(pointerY, [0, 1], [9, -9]),
+    TILT_SPRING,
+  );
+  const previewScale = useTransform(hover, [0, 1], [1.18, 1.06]);
+
+  function onPointerEnter(event: PointerEvent<HTMLElement>) {
+    const bounds = event.currentTarget.getBoundingClientRect();
+    entryX.set(((event.clientX - bounds.left) / bounds.width) * 100);
+    entryY.set(((event.clientY - bounds.top) / bounds.height) * 100);
+    hover.set(1);
+  }
+
   function onPointerMove(event: PointerEvent<HTMLElement>) {
     const bounds = event.currentTarget.getBoundingClientRect();
     pointerX.set((event.clientX - bounds.left) / bounds.width);
@@ -68,6 +110,7 @@ function ProjectTile({ project }: Readonly<{ project: Project }>) {
   function onPointerLeave() {
     pointerX.set(0.5);
     pointerY.set(0.5);
+    hover.set(0);
   }
 
   const repoHref = getRepoHref(project);
@@ -80,13 +123,33 @@ function ProjectTile({ project }: Readonly<{ project: Project }>) {
           ? undefined
           : { rotateX, rotateY, transformPerspective: 900 }
       }
+      onPointerEnter={shouldReduceMotion ? undefined : onPointerEnter}
       onPointerMove={shouldReduceMotion ? undefined : onPointerMove}
       onPointerLeave={shouldReduceMotion ? undefined : onPointerLeave}
     >
       <div className="project-tile-thumb" data-category={project.category}>
-        <span className="project-tile-watermark" aria-hidden="true">
-          {project.title[0]}
-        </span>
+        <motion.span
+          className="project-tile-preview"
+          style={shouldReduceMotion ? undefined : { clipPath: previewClip }}
+          aria-hidden="true"
+        >
+          <motion.img
+            src={`/media/project-previews/${project.slug}.webp`}
+            alt=""
+            loading="lazy"
+            decoding="async"
+            style={
+              shouldReduceMotion
+                ? undefined
+                : {
+                    x: previewShiftX,
+                    y: previewShiftY,
+                    scale: previewScale,
+                  }
+            }
+          />
+          <span className="project-tile-preview-scrim" />
+        </motion.span>
         <span className="project-tile-corner is-tl" aria-hidden="true" />
         <span className="project-tile-corner is-tr" aria-hidden="true" />
         <span className="project-tile-corner is-bl" aria-hidden="true" />
@@ -96,7 +159,7 @@ function ProjectTile({ project }: Readonly<{ project: Project }>) {
           <p className="project-tile-summary">{project.summary}</p>
           {project.stack.length > 0 ? (
             <ul className="project-tile-stack" aria-label="Tech stack">
-              {project.stack.slice(0, 4).map((item) => (
+              {project.stack.slice(0, 3).map((item) => (
                 <li key={item}>{item}</li>
               ))}
             </ul>
@@ -139,26 +202,39 @@ function ProjectTile({ project }: Readonly<{ project: Project }>) {
     );
 
   return (
-    <motion.div variants={shouldReduceMotion ? undefined : cardVariants}>
+    <motion.div
+      variants={shouldReduceMotion ? undefined : cardVariants}
+      style={
+        shouldReduceMotion
+          ? undefined
+          : { transformOrigin: "50% 100%", transformPerspective: 1100 }
+      }
+    >
       {wrap(tileContent)}
     </motion.div>
   );
 }
 
 /**
- * Minimal project grid: each tile is a single button — title, summary, and
- * stack chips on an animated cover — that opens the project's GitHub repo
- * (falling back to the project page when no public repo exists).
+ * Minimal project grid: each tile is a single button — title, summary, and a
+ * quiet stack line on a calm cover — that opens the project's GitHub repo
+ * (falling back to the project page when no public repo exists). Hover keeps
+ * the theatrics: the project's screenshot blooms open from the cursor entry
+ * point with parallax depth, plus tilt, glare, scanline, corner brackets, and
+ * the open arrow.
  */
 export function ProjectGrid({ projects }: ProjectGridProps) {
   const shouldReduceMotion = useReducedMotion();
+  const section = useSectionReveal();
+  const sectionDriven = section !== null;
 
   return (
     <motion.div
       className="project-grid"
       initial={shouldReduceMotion ? false : "hidden"}
-      whileInView="visible"
-      viewport={{ amount: 0.12, once: true }}
+      animate={sectionDriven ? (section ? "visible" : "hidden") : undefined}
+      whileInView={sectionDriven ? undefined : "visible"}
+      viewport={sectionDriven ? undefined : { amount: 0.12, once: false }}
       variants={shouldReduceMotion ? undefined : gridVariants}
     >
       {projects.map((project) => (

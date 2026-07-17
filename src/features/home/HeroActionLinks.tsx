@@ -141,6 +141,114 @@ export function getReachOutActions(): HeroAction[] {
   ] satisfies HeroAction[];
 }
 
+// Arrow points straight left, toward the AI buttons. The stroke draws itself
+// (pathLength) and the solid head pops at the end; sparks twinkle along the
+// path as it draws, and the label writes out left-to-right.
+const NUDGE_ARROW_CURVE = "M96 9 C 72 3, 40 18, 12 18";
+const NUDGE_ARROW_HEAD = "M3 18 L 12 11.5 L 12 24.5 Z";
+const NUDGE_DELAY = 1;
+
+// p = position along the draw (0 = tail near the label, 1 = the arrowhead), so
+// sparks light up in step with the stroke drawing toward the buttons.
+const NUDGE_SPARKS = [
+  { x: 83, y: 4, r: 2.2, p: 0.16, white: false },
+  { x: 68, y: 5, r: 1.5, p: 0.3, white: true },
+  { x: 55, y: 13, r: 2.4, p: 0.44, white: false },
+  { x: 42, y: 10, r: 1.7, p: 0.57, white: false },
+  { x: 29, y: 18, r: 1.4, p: 0.7, white: true },
+  { x: 18, y: 14, r: 2.1, p: 0.83, white: false },
+  { x: 7, y: 22, r: 1.8, p: 0.96, white: false },
+];
+
+function AskAiNudge({ animated = false }: Readonly<{ animated?: boolean }>) {
+  if (!animated) {
+    return (
+      <span className="hero-ai-nudge-inner">
+        <span className="hero-ai-nudge-arrow" aria-hidden="true">
+          <svg viewBox="0 0 100 28" fill="none">
+            <path
+              d={NUDGE_ARROW_CURVE}
+              stroke="currentColor"
+              strokeWidth="3.4"
+              strokeLinecap="round"
+            />
+            <path
+              d={NUDGE_ARROW_HEAD}
+              fill="currentColor"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </span>
+        <span className="hero-ai-nudge-text">ask AI all about me!</span>
+      </span>
+    );
+  }
+
+  return (
+    <span className="hero-ai-nudge-inner">
+      <span className="hero-ai-nudge-arrow" aria-hidden="true">
+        <svg viewBox="0 0 100 28" fill="none">
+          <motion.path
+            d={NUDGE_ARROW_CURVE}
+            stroke="currentColor"
+            strokeWidth="3.4"
+            strokeLinecap="round"
+            initial={{ pathLength: 0 }}
+            animate={{ pathLength: 1 }}
+            transition={{ delay: NUDGE_DELAY, duration: 0.9, ease: "easeInOut" }}
+          />
+          <motion.path
+            d={NUDGE_ARROW_HEAD}
+            fill="currentColor"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinejoin="round"
+            style={{ transformBox: "fill-box", transformOrigin: "center" }}
+            initial={{ opacity: 0, scale: 0 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{
+              delay: NUDGE_DELAY + 0.74,
+              type: "spring",
+              stiffness: 380,
+              damping: 17,
+            }}
+          />
+          {NUDGE_SPARKS.map((spark) => (
+            <motion.circle
+              key={`${spark.x}-${spark.y}`}
+              cx={spark.x}
+              cy={spark.y}
+              className={`hero-ai-nudge-spark${spark.white ? " is-white" : ""}`}
+              initial={{ r: 0, opacity: 0 }}
+              animate={{ r: [0, spark.r, 0], opacity: [0, 1, 0] }}
+              transition={{
+                delay: NUDGE_DELAY + spark.p * 0.85,
+                duration: 0.8,
+                ease: "easeOut",
+                times: [0, 0.35, 1],
+              }}
+            />
+          ))}
+        </svg>
+      </span>
+      <motion.span
+        className="hero-ai-nudge-text"
+        initial={{ clipPath: "inset(0 100% 0 0)" }}
+        animate={{ clipPath: "inset(0 0% 0 0)" }}
+        transition={{
+          delay: NUDGE_DELAY + 0.15,
+          duration: 0.75,
+          ease: [0.16, 1, 0.3, 1],
+        }}
+      >
+        ask AI all about me!
+      </motion.span>
+    </span>
+  );
+}
+
 function HeroActionIcon({ icon }: Readonly<{ icon: HeroActionIconName }>) {
   switch (icon) {
     case "chatgpt":
@@ -306,6 +414,9 @@ export function HeroActionLinks() {
           {aiActions.map((action) => (
             <HeroActionButton action={action} key={action.id} />
           ))}
+          <div className="hero-ai-nudge">
+            <AskAiNudge />
+          </div>
         </div>
       </div>
     );
@@ -346,6 +457,9 @@ export function HeroActionLinks() {
             <HeroActionButton action={action} />
           </motion.div>
         ))}
+        <div className="hero-ai-nudge">
+          <AskAiNudge animated />
+        </div>
       </motion.div>
     </div>
   );

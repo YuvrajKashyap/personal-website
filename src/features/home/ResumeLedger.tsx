@@ -9,7 +9,8 @@ import {
 } from "motion/react";
 import { useRef, type PointerEvent } from "react";
 
-import { SplitTextReveal } from "@/components/motion/SplitTextReveal";
+import { HoverWaveText } from "@/components/motion/HoverWaveText";
+import { useSectionReveal } from "@/components/motion/SectionRevealContext";
 import type { ResumeRole } from "@/features/experience/experience-content";
 import { gravitationalEase } from "@/lib/motion/presets";
 
@@ -17,29 +18,63 @@ type ResumeLedgerProps = Readonly<{
   roles: readonly ResumeRole[];
 }>;
 
-const entryVariants = {
+// The ledger orchestrates the whole section: roles cascade down the rail when
+// it scrolls in and clear together when it leaves — none toggle on their own.
+const ledgerVariants = {
   hidden: {},
   visible: {
-    transition: { staggerChildren: 0.07, delayChildren: 0.1 },
+    transition: { staggerChildren: 0.28, delayChildren: 0.08 },
   },
 };
 
-const itemVariants = {
-  hidden: { opacity: 0, y: 16 },
+const entryVariants = {
+  hidden: {},
+  visible: {
+    transition: { staggerChildren: 0.16, delayChildren: 0.06 },
+  },
+};
+
+// Classy "dossier unseal": the whole role body wipes in left-to-right,
+// emerging slightly from the timeline rail — no per-letter reveal. Its skill
+// chips settle in afterwards as a quiet finishing flourish. Kept to
+// GPU-friendly transform + opacity (plus the clip wipe) — no animated blur,
+// which was the source of the scroll jank.
+const bodyVariants = {
+  hidden: {
+    opacity: 0,
+    x: -18,
+    clipPath: "inset(0 100% 0 0 round 1rem)",
+  },
   visible: {
     opacity: 1,
-    y: 0,
-    transition: { duration: 0.6, ease: gravitationalEase },
+    x: 0,
+    clipPath: "inset(0 0% 0 0 round 1rem)",
+    transition: {
+      duration: 1.15,
+      ease: gravitationalEase,
+      opacity: { duration: 0.75, ease: gravitationalEase },
+      delayChildren: 0.7,
+      staggerChildren: 0.08,
+    },
+  },
+};
+
+const whenVariants = {
+  hidden: { opacity: 0, x: 16 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.85, ease: gravitationalEase },
   },
 };
 
 const chipVariants = {
-  hidden: { opacity: 0, y: 8, scale: 0.94 },
+  hidden: { opacity: 0, y: 10, scale: 0.92 },
   visible: {
     opacity: 1,
     y: 0,
     scale: 1,
-    transition: { duration: 0.45, ease: gravitationalEase },
+    transition: { type: "spring" as const, stiffness: 340, damping: 20 },
   },
 };
 
@@ -66,12 +101,16 @@ function trackSpotlight(event: PointerEvent<HTMLElement>) {
 
 /**
  * Resume-style experience ledger: a scroll-drawn timeline rail with a comet
- * head, nodes that pop as each role reveals, flip-in role titles, staggered
- * bullets and skill chips, and a cursor-tracking spotlight per entry.
+ * head, nodes that pop as each role reveals, roles that unseal from the rail
+ * with a clip-wipe, staggered bullets and skill chips, and a cursor-tracking
+ * spotlight per entry. Reveals are driven section-wide: roles cascade in as
+ * the section scrolls into view and clear together once it fully leaves.
  */
 export function ResumeLedger({ roles }: ResumeLedgerProps) {
   const ref = useRef<HTMLDivElement>(null);
   const shouldReduceMotion = useReducedMotion();
+  const section = useSectionReveal();
+  const sectionDriven = section !== null;
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start 0.85", "end 0.6"],
@@ -84,7 +123,15 @@ export function ResumeLedger({ roles }: ResumeLedgerProps) {
   const cometTop = useTransform(railProgress, (value) => `${value * 100}%`);
 
   return (
-    <div ref={ref} className="resume-ledger">
+    <motion.div
+      ref={ref}
+      className="resume-ledger"
+      initial={shouldReduceMotion ? false : "hidden"}
+      animate={sectionDriven ? (section ? "visible" : "hidden") : undefined}
+      whileInView={sectionDriven ? undefined : "visible"}
+      viewport={sectionDriven ? undefined : { amount: 0.15, once: false }}
+      variants={shouldReduceMotion ? undefined : ledgerVariants}
+    >
       <span className="resume-rail" aria-hidden="true">
         <motion.span
           className="resume-rail-fill"
@@ -99,9 +146,6 @@ export function ResumeLedger({ roles }: ResumeLedgerProps) {
         <motion.article
           key={entry.id}
           className="resume-entry"
-          initial={shouldReduceMotion ? false : "hidden"}
-          whileInView="visible"
-          viewport={{ amount: 0.35, once: true }}
           variants={entryVariants}
         >
           <motion.span
@@ -112,28 +156,25 @@ export function ResumeLedger({ roles }: ResumeLedgerProps) {
             {entry.current ? <span className="resume-node-pulse" /> : null}
           </motion.span>
 
-          <motion.div className="resume-entry-when" variants={itemVariants}>
+          <motion.div className="resume-entry-when" variants={whenVariants}>
             <p className="resume-entry-period">{entry.period}</p>
             {entry.current ? (
               <p className="resume-entry-live">Active</p>
             ) : null}
           </motion.div>
 
-          <div
+          <motion.div
             className="resume-entry-body"
+            variants={bodyVariants}
             onPointerMove={trackSpotlight}
           >
-            <motion.h3 variants={itemVariants}>
-              <SplitTextReveal text={entry.role} variant="flip" hoverWave />
-            </motion.h3>
-            <motion.p className="resume-entry-org" variants={itemVariants}>
-              {entry.organization}
-            </motion.p>
+            <h3>
+              <HoverWaveText text={entry.role} />
+            </h3>
+            <p className="resume-entry-org">{entry.organization}</p>
             <ul className="resume-entry-points">
               {entry.bullets.map((bullet) => (
-                <motion.li key={bullet} variants={itemVariants}>
-                  {bullet}
-                </motion.li>
+                <li key={bullet}>{bullet}</li>
               ))}
             </ul>
             <ul className="resume-entry-skills" aria-label="Skills used">
@@ -143,9 +184,9 @@ export function ResumeLedger({ roles }: ResumeLedgerProps) {
                 </motion.li>
               ))}
             </ul>
-          </div>
+          </motion.div>
         </motion.article>
       ))}
-    </div>
+    </motion.div>
   );
 }

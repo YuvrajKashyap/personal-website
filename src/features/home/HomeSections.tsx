@@ -3,12 +3,13 @@ import type { ReactNode } from "react";
 import { ParallaxDrift } from "@/components/motion/ParallaxDrift";
 import { AboutPortrait } from "@/features/home/AboutPortrait";
 import { Reveal } from "@/components/motion/Reveal";
+import { SectionReveal } from "@/components/motion/SectionReveal";
 import { ScrollPath } from "@/components/motion/ScrollPath";
 import { ScrollReadText } from "@/components/motion/ScrollReadText";
 import { SectionLink } from "@/components/ui/SectionLink";
 import { aboutHomePreview } from "@/features/about/about-content";
 import { ContactSection } from "@/features/home/ContactSection";
-import { ContactSignal } from "@/features/home/ContactSignal";
+import { ContactSignalLazy } from "@/features/home/ContactSignalLazy";
 import { SplitTextReveal } from "@/components/motion/SplitTextReveal";
 import {
   resumeEducation,
@@ -39,13 +40,13 @@ function ChapterShell({
 }: ChapterShellProps) {
   return (
     <section id={id} className={`home-section home-chapter ${className}`}>
-      <div className="site-container-wide home-chapter-grid">
+      <SectionReveal className="site-container-wide home-chapter-grid">
         <Reveal className="home-chapter-marker" inView variant="fade-in">
           <span>{number}</span>
           <p>{label}</p>
         </Reveal>
         <div className="home-chapter-content">{children}</div>
-      </div>
+      </SectionReveal>
     </section>
   );
 }
@@ -159,8 +160,8 @@ function ProjectsChapter() {
       <div className="home-projects-layout">
         <ChapterHeader
           title="Projects"
-          body="Some of the software and hardware I have built."
-          secondaryBody="A lot of them are hosted, some aren't — but feel free to explore the actual site."
+          body="Some of the software and hardware I've built."
+          secondaryBody="A lot of them are hosted, some aren't, but feel free to explore the actual sites."
         />
         <ProjectGrid projects={projects} />
         <Reveal inView variant="cta">
@@ -183,9 +184,7 @@ function ContactChapter() {
       label="Contact"
       number="04"
     >
-      <Reveal inView variant="scale-soft">
-        <ContactSection />
-      </Reveal>
+      <ContactSection />
     </ChapterShell>
   );
 }
@@ -199,7 +198,7 @@ export function HomeSections({ variant }: HomeSectionsProps) {
       <ProjectsChapter />
       <ContactChapter />
       <div className="home-contact-hologram">
-        <ContactSignal />
+        <ContactSignalLazy />
       </div>
     </div>
   );

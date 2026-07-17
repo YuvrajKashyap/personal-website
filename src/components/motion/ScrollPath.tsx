@@ -53,6 +53,7 @@ type PathGeometry = Readonly<{
   total: number;
   anchors: readonly PathAnchor[];
   pointAt: (progress: number) => PathPoint;
+  fracAtY: (y: number) => number;
 }>;
 
 type PathSegment = Readonly<{
@@ -213,6 +214,39 @@ function createPathGeometry(layout: PathLayout): PathGeometry | null {
     return { x: point.x, y: point.y };
   }
 
+  // Inverse lookup: the path fraction whose point sits at a given page y.
+  // Path y is monotonically increasing, so a binary search over the samples
+  // is enough. This lets the traveler track the viewport midpoint exactly.
+  const sampleYs = samples.map((sample) => sample.y);
+
+  function fracAtY(y: number) {
+    if (y <= sampleYs[0]) {
+      return 0;
+    }
+
+    if (y >= sampleYs[sampleCount]) {
+      return 1;
+    }
+
+    let low = 0;
+    let high = sampleCount;
+
+    while (low < high) {
+      const mid = (low + high) >> 1;
+
+      if (sampleYs[mid] < y) {
+        low = mid + 1;
+      } else {
+        high = mid;
+      }
+    }
+
+    const upper = sampleYs[low];
+    const lower = sampleYs[low - 1];
+    const t = upper === lower ? 0 : (y - lower) / (upper - lower);
+    return (low - 1 + t) / sampleCount;
+  }
+
   return {
     width,
     height,
@@ -222,6 +256,7 @@ function createPathGeometry(layout: PathLayout): PathGeometry | null {
     total,
     anchors,
     pointAt,
+    fracAtY,
   };
 }
 
@@ -485,12 +520,28 @@ export function ScrollPath() {
     getWideServerSnapshot,
   );
   const [geometry, setGeometry] = useState<PathGeometry | null>(null);
+  const geometryRef = useRef<PathGeometry | null>(null);
+  // Motion reads this ref only from its subscribed transform callback.
+  // eslint-disable-next-line react-hooks/refs
+  geometryRef.current = geometry;
 
+  // Progress 0..1 tracks the viewport midpoint across the wrapper, then maps
+  // through the path's y-inverse so the traveler always sits mid-screen.
   const { scrollYProgress } = useScroll({
     target: wrapperRef,
-    offset: ["start 0.85", "end 0.92"],
+    offset: ["start center", "end center"],
   });
-  const progress = useSpring(scrollYProgress, {
+  const centerProgress = useTransform(scrollYProgress, (value) => {
+    const currentGeometry = geometryRef.current;
+
+    if (!currentGeometry) {
+      return 0;
+    }
+
+    const centerY = Math.min(1, Math.max(0, value)) * currentGeometry.height;
+    return currentGeometry.fracAtY(centerY);
+  });
+  const progress = useSpring(centerProgress, {
     stiffness: 90,
     damping: 26,
     mass: 0.4,

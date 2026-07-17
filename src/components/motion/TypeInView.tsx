@@ -25,10 +25,23 @@ export function TypeInView({
 }: TypeInViewProps) {
   const ref = useRef<HTMLSpanElement>(null);
   const shouldReduceMotion = useReducedMotion();
-  const inView = useInView(ref, { once: true, amount: 0.6 });
+  const inView = useInView(ref, { once: false, amount: 0.6 });
   const [count, setCount] = useState(0);
   const done = count >= text.length;
   const [caretVisible, setCaretVisible] = useState(true);
+
+  // When the line scrolls out of view, reset so it re-types from scratch the
+  // next time it comes back. Adjusting state during render (guarded by the
+  // previous in-view value) is React's sanctioned pattern for this — an effect
+  // would flash the fully-typed line for a frame before clearing.
+  const [wasInView, setWasInView] = useState(inView);
+  if (wasInView !== inView) {
+    setWasInView(inView);
+    if (!inView && count !== 0) {
+      setCount(0);
+      setCaretVisible(true);
+    }
+  }
 
   useEffect(() => {
     if (!inView || shouldReduceMotion) {

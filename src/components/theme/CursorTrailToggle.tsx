@@ -27,33 +27,44 @@ function subscribeToCursorTrail(callback: () => void) {
   };
 }
 
+function getCursorTrailServerSnapshot() {
+  return false;
+}
+
+export function useCursorTrailEnabled() {
+  return useSyncExternalStore(
+    subscribeToCursorTrail,
+    isCursorTrailEnabled,
+    getCursorTrailServerSnapshot,
+  );
+}
+
+function setCursorTrailEnabled(enabled: boolean) {
+  cursorTrailFallback = enabled;
+
+  try {
+    window.localStorage.setItem(
+      CURSOR_TRAIL_STORAGE_KEY,
+      enabled ? "on" : "off",
+    );
+  } catch {
+    // storage unavailable; the event still updates the current session
+  }
+
+  window.dispatchEvent(
+    new CustomEvent(CURSOR_TRAIL_EVENT, { detail: { enabled } }),
+  );
+}
+
 /**
  * Minimal comet-icon button that toggles the red cursor trail on and off.
  * Persists the choice and broadcasts CURSOR_TRAIL_EVENT for SiteCursor.
  */
 export function CursorTrailToggle() {
-  const enabled = useSyncExternalStore(
-    subscribeToCursorTrail,
-    isCursorTrailEnabled,
-    () => false,
-  );
+  const enabled = useCursorTrailEnabled();
 
   function toggle() {
-    const next = !enabled;
-    cursorTrailFallback = next;
-
-    try {
-      window.localStorage.setItem(
-        CURSOR_TRAIL_STORAGE_KEY,
-        next ? "on" : "off",
-      );
-    } catch {
-      // storage unavailable; the event still updates the current session
-    }
-
-    window.dispatchEvent(
-      new CustomEvent(CURSOR_TRAIL_EVENT, { detail: { enabled: next } }),
-    );
+    setCursorTrailEnabled(!enabled);
   }
 
   return (

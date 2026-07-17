@@ -8,9 +8,9 @@ export const projects = [
     shortTitle: "Aletheia",
     eyebrow: "Flagship build",
     summary:
-      "Hybrid retrieval, reranking, evaluation, and search observability platform.",
+      "Hybrid search platform running keyword and vector retrieval with reranking, evaluation pipelines, and ranking observability.",
     description:
-      "Aletheia is a technical system for retrieval quality, evaluation loops, search observability, and AI-assisted knowledge workflows.",
+      "Aletheia runs keyword and vector retrieval side by side, reranks the merged results, and measures quality with evaluation pipelines and observability tooling. FastAPI services over PostgreSQL, OpenSearch, and Qdrant, with Redis-backed background jobs.",
     category: "ai_systems",
     type: "platform",
     status: "active_build",
@@ -22,7 +22,13 @@ export const projects = [
     randomizerEligible: true,
     randomizerBucket: "flagship",
     randomizerWeight: 1.2,
-    tags: ["AI systems", "Retrieval", "Search", "Evaluation"],
+    tags: [
+      "Information retrieval",
+      "Vector search",
+      "RAG",
+      "Search evaluation",
+      "Backend systems",
+    ],
     stack: [
       "Python",
       "FastAPI",
@@ -36,16 +42,16 @@ export const projects = [
       "Next.js",
     ],
     highlights: [
-      "Hybrid retrieval system direction",
-      "Reranking and evaluation workflow",
-      "Search observability surface",
+      "Keyword and vector retrieval merged with reranking",
+      "Evaluation pipelines that score retrieval quality",
+      "Observability into how rankings are produced",
     ],
     problem:
-      "Modern search and retrieval systems need more than keyword matching. Retrieval quality, ranking behavior, evaluation feedback, and observability need to be visible in one system.",
+      "Retrieval systems fail quietly. Without evaluation loops and observability there is no way to tell why a query returned weak results or whether a ranking change actually helped.",
     solution:
-      "A hybrid retrieval and search observability platform direction that combines API surfaces, retrieval backends, background jobs, database state, and evaluation-oriented architecture.",
+      "One platform that serves hybrid retrieval and reranking behind an API, scores results with evaluation pipelines, and exposes ranking behavior for inspection.",
     whatItProves:
-      "Ability to design AI and search infrastructure beyond a simple chatbot wrapper.",
+      "Search infrastructure engineering: index design, ranking pipelines, evaluation methodology, and the backend services that hold them together.",
     detailSections: [
       {
         eyebrow: "Architecture",
@@ -78,9 +84,9 @@ export const projects = [
     shortTitle: "Atlas",
     eyebrow: "Flagship build",
     summary:
-      "Distributed crawl, extract, index, and search platform for ethical public web content.",
+      "Distributed crawl, extraction, versioning, and search platform with an on-demand AWS runtime.",
     description:
-      "Atlas is a data infrastructure direction for crawling, extraction, indexing, and search across public web content with an emphasis on responsible collection.",
+      "Atlas covers the full path from crawl to query: durable distributed crawling of public web content, content extraction and versioning, indexing, and search, on infrastructure that spins up on demand in AWS.",
     category: "search_infrastructure",
     type: "platform",
     status: "active_build",
@@ -92,7 +98,13 @@ export const projects = [
     randomizerEligible: true,
     randomizerBucket: "systems",
     randomizerWeight: 1.15,
-    tags: ["Crawling", "Search", "Indexing", "Data infrastructure"],
+    tags: [
+      "Distributed systems",
+      "Web crawling",
+      "Search infrastructure",
+      "AWS",
+      "Data pipelines",
+    ],
     stack: [
       "Python",
       "FastAPI",
@@ -103,16 +115,16 @@ export const projects = [
       "Next.js",
     ],
     highlights: [
-      "Distributed crawl pipeline direction",
-      "Extraction and indexing workflow",
-      "Search platform architecture",
+      "Durable distributed crawl pipeline",
+      "Content extraction with versioned storage",
+      "On-demand AWS runtime for pipeline compute",
     ],
     problem:
-      "Search experiences depend on reliable ingestion, extraction, indexing, and retrieval pipelines.",
+      "Search quality is decided long before ranking. Crawling, extraction, and indexing have to be durable and repeatable, and most projects skip straight past them.",
     solution:
-      "A distributed crawl, extract, index, and search system for ethical public web content using backend services, queues, storage, and search infrastructure.",
+      "A platform that treats crawling, extraction, versioning, indexing, and retrieval as one system, backed by queues, storage, and search infrastructure with compute that spins up on demand.",
     whatItProves:
-      "Ability to reason about data pipelines, indexing, and search systems end to end.",
+      "End-to-end data infrastructure: distributed pipeline design, storage and versioning decisions, and cloud runtime architecture.",
     detailSections: [
       {
         eyebrow: "Pipeline",
@@ -136,9 +148,9 @@ export const projects = [
     shortTitle: "Website",
     eyebrow: "Live build",
     summary:
-      "Cinematic personal operating interface for identity, projects, tracker, services, collaboration, and current-state signal.",
+      "This site: a fully custom Next.js build with a hand-rolled motion system, two complete visual themes, and a canvas-rendered contact hologram.",
     description:
-      "The personal website is a live Next.js system for public identity, project signal, theme-aware visual direction, and a future admin-backed operating layer.",
+      "The site you are on right now. Next.js App Router with TypeScript and Tailwind CSS v4, a custom scroll-driven motion system, two full visual themes in one architecture, a canvas-rendered holographic contact globe, and typed project content, deployed on Vercel.",
     category: "personal_os",
     type: "website",
     status: "live",
@@ -150,7 +162,13 @@ export const projects = [
     randomizerEligible: true,
     randomizerBucket: "flagship",
     randomizerWeight: 1.2,
-    tags: ["Next.js", "Design system", "Motion", "Personal OS"],
+    tags: [
+      "Next.js",
+      "TypeScript",
+      "Motion design",
+      "Design systems",
+      "Frontend engineering",
+    ],
     stack: [
       "Next.js App Router",
       "TypeScript",
@@ -159,16 +177,16 @@ export const projects = [
       "Vercel",
     ],
     highlights: [
-      "Dark and light visual systems",
-      "Cinematic Home gateway",
-      "Typed content and component foundations",
+      "Custom scroll-driven motion system built on Motion",
+      "Two complete visual themes sharing one architecture",
+      "Canvas-rendered interactive contact hologram",
     ],
     problem:
-      "A normal portfolio does not communicate trajectory, taste, current state, and builder identity strongly enough.",
+      "A template portfolio says nothing about how someone builds or where their quality bar sits.",
     solution:
-      "A cinematic personal operating interface with dual visual systems, project archive, tracker, services, collaboration, and admin-ready architecture.",
+      "A fully custom build where the design system, the motion engineering, and the content architecture are themselves the portfolio piece.",
     whatItProves:
-      "Ability to combine frontend craft, product architecture, visual systems, deployment, and personal positioning.",
+      "Frontend craft at the detail level: animation engineering, theming architecture, canvas rendering, and shipping polish.",
     detailSections: [
       {
         eyebrow: "Experience",
@@ -580,46 +598,60 @@ export const projects = [
     shortTitle: "Axis",
     eyebrow: "Product system",
     summary:
-      "Personal alignment and orbital operating system direction for life, routines, and focus.",
+      "Spatial personal alignment system for seeing drift, choosing the next move, and getting back to action.",
     description:
-      "Axis is a conservative project entry for a personal alignment interface. The public content should stay restrained until the project is reviewed for portfolio readiness.",
+      "Axis maps goals, routines, and focus into a spatial interface so drift is visible at a glance and the next move is obvious. Built with Next.js, TypeScript, and Supabase.",
     category: "personal_os",
     type: "system",
     status: "needs_review",
     priority: "strong",
-    visibility: "draft",
+    visibility: "published",
     featured: false,
     order: 50,
     randomizerEligible: false,
     randomizerBucket: "product",
     randomizerWeight: 0.8,
-    tags: ["Personal OS", "Alignment", "Routines", "Focus"],
+    tags: [
+      "Product design",
+      "Spatial UI",
+      "Next.js",
+      "Supabase",
+      "TypeScript",
+    ],
     stack: ["Next.js", "TypeScript", "Supabase"],
     highlights: [
-      "Personal operating system direction",
-      "Alignment and routine interface concepts",
-      "Orbital product language",
+      "Spatial interface for goals, routines, and focus",
+      "Drift between plan and behavior made visible",
+      "Action-first product model",
     ],
     problem:
-      "Personal growth and execution can become scattered without an operating layer for alignment and direction.",
+      "Goals drift quietly. Task lists record what to do but never show how far behavior has moved from the plan.",
     solution:
-      "A personal alignment and orbital operating system concept focused on goals, focus, systems, and direction.",
+      "A spatial interface that positions goals, routines, and focus so drift is visible and the way back is one clear move.",
     whatItProves:
-      "Product thinking around personal systems and operating interfaces.",
+      "Original product thinking and the frontend range to build an unconventional interface well.",
     detailSections: [
       {
-        eyebrow: "Status",
-        title: "Draft surface with a clear boundary",
-        body: "Axis is represented as a needs-review project. The page can explain the concept without presenting it as a finished public product.",
+        eyebrow: "Product Model",
+        title: "Drift as a first-class signal",
+        body: "Axis treats the gap between intention and behavior as the core thing worth rendering, so the interface is organized around seeing drift and closing it.",
       },
       {
-        eyebrow: "Interface Direction",
-        title: "Personal systems as product language",
-        body: "The project explores how routines, goals, focus, and direction can be organized through an operating interface.",
+        eyebrow: "Interface",
+        title: "Spatial rather than list-based",
+        body: "Goals, routines, and focus are laid out spatially instead of stacked in lists, which makes alignment and misalignment legible at a glance.",
       },
     ],
     timelineLabel: "Needs review",
     links: [
+      {
+        label: "GitHub repository",
+        href: "https://github.com/YuvrajKashyap/Axis",
+        type: "repo",
+        isPrimary: true,
+        status: "verified",
+        external: true,
+      },
       {
         label: "Possible live site",
         href: "https://axis.yuvrajkashyap.com",
@@ -638,48 +670,62 @@ export const projects = [
     shortTitle: "Arcade",
     eyebrow: "Supporting build",
     summary:
-      "Browser arcade direction with multiple games and transparent attribution boundaries.",
+      "Browser arcade platform with multiple playable games built in React and TypeScript.",
     description:
-      "Arcade is a supporting fun-build entry. Public copy must distinguish original coded work from any external or embedded exceptions.",
+      "A personal arcade of playable browser games on Next.js. Game loops, input handling, collision, and score state built in React and TypeScript, with attribution clearly marked for anything not written from scratch.",
     category: "frontend_experience",
     type: "website",
     status: "needs_review",
     priority: "supporting",
-    visibility: "draft",
+    visibility: "published",
     featured: false,
     order: 60,
     randomizerEligible: false,
     randomizerBucket: "experimental",
     randomizerWeight: 0.7,
-    tags: ["Frontend", "Games", "Browser UI", "Creative build"],
-    stack: ["TypeScript", "React", "Frontend games"],
+    tags: [
+      "Game development",
+      "React",
+      "TypeScript",
+      "Interactive UI",
+      "Next.js",
+    ],
+    stack: ["TypeScript", "React", "Next.js"],
     highlights: [
-      "Browser game surface direction",
-      "Multiple gameplay experiments",
-      "Attribution-aware portfolio handling",
+      "Multiple playable browser games on one platform",
+      "Game loops, input, and collision handled in React",
+      "Clear attribution for any external work",
     ],
     problem:
-      "Small interactive browser projects are a useful way to practice frontend structure, interaction, and game-like UI surfaces.",
+      "Games are the hardest interfaces to fake. Input, timing, collision, and state either work at 60fps or they visibly do not.",
     solution:
-      "A browser arcade surface that collects playable web experiences while handling externally sourced or embedded exceptions transparently.",
+      "A collection of playable browser games under one platform, built as real-time frontend engineering practice with transparent attribution.",
     attributionNotes:
       "Do not overclaim third-party, embedded, or open-source game work. Public UI must call out exceptions clearly when reviewed.",
     whatItProves:
-      "Creative frontend implementation, interaction design, and transparent attribution discipline.",
+      "Real-time frontend engineering: game loops, input handling, and state kept correct under a frame budget.",
     detailSections: [
       {
-        eyebrow: "Boundary",
-        title: "Attribution is part of the system",
-        body: "Arcade is useful as a frontend interaction surface only when externally sourced, embedded, or open-source exceptions stay clearly identified.",
+        eyebrow: "Engineering",
+        title: "Real-time constraints in the browser",
+        body: "Each game handles its own loop, input, collision, and score state in React, which forces correctness and performance habits that static pages never test.",
       },
       {
-        eyebrow: "Interface",
-        title: "Practice in playable browser surfaces",
-        body: "The project is framed as interaction practice and product-surface organization, not as a claim that every game is fully original.",
+        eyebrow: "Integrity",
+        title: "Attribution built in",
+        body: "Anything externally sourced, embedded, or open source is identified as such, so the original engineering work stands on its own.",
       },
     ],
     timelineLabel: "Needs review",
     links: [
+      {
+        label: "GitHub repository",
+        href: "https://github.com/YuvrajKashyap/arcade",
+        type: "repo",
+        isPrimary: true,
+        status: "verified",
+        external: true,
+      },
       {
         label: "Possible live site",
         href: "https://arcade.yuvrajkashyap.com",
@@ -697,46 +743,311 @@ export const projects = [
     title: "Beyond Chat",
     shortTitle: "Beyond Chat",
     eyebrow: "AI workspace",
-    summary: "Artifact-centric AI workspace direction.",
+    summary:
+      "Agent workspace for governed execution, connected knowledge, and durable, reviewable outputs.",
     description:
-      "Beyond Chat is a conservative project entry for an artifact-centric AI workspace using a modern frontend, API layer, and AI search integrations.",
+      "Beyond Chat is an agent workspace where AI work produces durable, reviewable artifacts instead of disappearing into a chat log. React frontend, FastAPI backend, with Supabase, OpenRouter model routing, and Tavily search.",
     category: "ai_systems",
     type: "app",
     status: "draft",
     priority: "strong",
-    visibility: "draft",
+    visibility: "published",
     featured: false,
     order: 70,
     randomizerEligible: false,
     randomizerBucket: "experimental",
     randomizerWeight: 0.8,
-    tags: ["AI workspace", "Artifacts", "Frontend", "API"],
+    tags: [
+      "AI agents",
+      "LLM applications",
+      "FastAPI",
+      "React",
+      "Full-stack",
+    ],
     stack: ["React", "TypeScript", "FastAPI", "Supabase", "OpenRouter", "Tavily"],
     highlights: [
-      "Artifact-centric workspace direction",
-      "AI-assisted workflow surface",
-      "Frontend and API architecture",
+      "Durable, reviewable artifacts instead of chat transcripts",
+      "Governed agent execution with a review step",
+      "Model routing and web search tooling integrated",
     ],
     problem:
-      "AI workflows often get trapped in plain chat interfaces.",
+      "Chat interfaces lose work. Outputs scroll away, context evaporates, and there is no review step between an agent and its effects.",
     solution:
-      "An artifact-centric AI workspace direction exploring structured outputs, search tooling, and workspace-style interaction.",
+      "An agent workspace where runs produce structured artifacts that can be reviewed, kept, and built on, with connected knowledge and governed execution.",
     whatItProves:
-      "Ability to think beyond chat UI into artifact and workspace AI product patterns.",
+      "Product judgment about where AI tooling is heading and the full-stack execution to build it: React frontend, FastAPI backend, model routing, and search integration.",
     detailSections: [
       {
         eyebrow: "Product Shape",
         title: "Artifacts instead of only conversation",
-        body: "Beyond Chat is framed around structured workspace output and tool-assisted interaction rather than treating chat as the whole product.",
+        body: "Work products are durable, structured artifacts rather than messages in a scrollback, so output can be reviewed, versioned, and reused.",
       },
       {
-        eyebrow: "Boundary",
-        title: "Draft direction, not adoption claim",
-        body: "The public page describes the product pattern and technical direction without claiming usage, release status, or external validation.",
+        eyebrow: "Execution Model",
+        title: "Governed by design",
+        body: "Agent execution is organization-first: connected knowledge feeds the work, and outputs stay reviewable instead of taking effect silently.",
       },
     ],
     timelineLabel: "Draft",
-    links: [],
+    links: [
+      {
+        label: "GitHub repository",
+        href: "https://github.com/YuvrajKashyap/Beyond-Chat",
+        type: "repo",
+        isPrimary: true,
+        status: "verified",
+        external: true,
+      },
+    ],
+    media: [],
+  },
+  {
+    id: "project_chronos",
+    slug: "chronos",
+    title: "Chronos",
+    shortTitle: "Chronos",
+    eyebrow: "Personal system",
+    summary:
+      "Live time-investment ledger with public proof-of-work and a private Supabase-backed timer.",
+    description:
+      "Chronos is a time-investment ledger: a private timer tracks focused work sessions in Supabase, and a public surface turns that history into visible proof-of-work.",
+    category: "personal_os",
+    type: "app",
+    status: "active_build",
+    priority: "strong",
+    visibility: "published",
+    featured: false,
+    order: 80,
+    randomizerEligible: false,
+    randomizerBucket: "product",
+    randomizerWeight: 0.8,
+    tags: [
+      "Full-stack",
+      "Next.js",
+      "Supabase",
+      "TypeScript",
+      "Time tracking",
+    ],
+    stack: ["TypeScript", "Next.js", "Supabase"],
+    highlights: [
+      "Public proof-of-work ledger",
+      "Private Supabase-backed timer",
+      "Live time-investment history",
+    ],
+    problem:
+      "Deep work leaves no visible record. Hours of focused effort disappear with nothing durable to point at.",
+    solution:
+      "A ledger that records focused sessions privately and publishes the aggregate as live, verifiable proof-of-work.",
+    whatItProves:
+      "Personal-systems product thinking and full-stack execution with a public/private data boundary.",
+    links: [
+      {
+        label: "GitHub repository",
+        href: "https://github.com/YuvrajKashyap/chronos",
+        type: "repo",
+        isPrimary: true,
+        status: "verified",
+        external: true,
+      },
+    ],
+    media: [],
+  },
+  {
+    id: "project_northstar",
+    slug: "northstar",
+    title: "Northstar",
+    shortTitle: "Northstar",
+    eyebrow: "AI system",
+    summary:
+      "Memory-first financial planning agent with inspectable, approval-gated reasoning.",
+    description:
+      "Northstar is a financial planning agent built memory-first: it keeps durable context about goals and constraints, and every plan it proposes is inspectable and gated behind explicit approval before anything is acted on.",
+    category: "ai_systems",
+    type: "system",
+    status: "active_build",
+    priority: "strong",
+    visibility: "published",
+    featured: false,
+    order: 90,
+    randomizerEligible: false,
+    randomizerBucket: "systems",
+    randomizerWeight: 0.8,
+    tags: [
+      "AI agents",
+      "Memory systems",
+      "Human-in-the-loop",
+      "TypeScript",
+      "Fintech",
+    ],
+    stack: ["TypeScript"],
+    highlights: [
+      "Memory-first agent architecture",
+      "Inspectable reasoning traces",
+      "Approval-gated execution",
+    ],
+    problem:
+      "Agent-driven financial planning is only trustworthy if you can see the reasoning and nothing happens without sign-off.",
+    solution:
+      "An agent whose memory, reasoning, and proposed actions are all surfaced for review, with approval gates in front of execution.",
+    whatItProves:
+      "Judgment about trust boundaries in agent design: memory, transparency, and human control treated as first-class features.",
+    links: [
+      {
+        label: "GitHub repository",
+        href: "https://github.com/YuvrajKashyap/northstar",
+        type: "repo",
+        isPrimary: true,
+        status: "verified",
+        external: true,
+      },
+    ],
+    media: [],
+  },
+  {
+    id: "project_luccas_hair",
+    slug: "luccas-hair",
+    title: "Lucca's Hair",
+    shortTitle: "Lucca's Hair",
+    eyebrow: "Client work",
+    summary:
+      "Production client website with a verified Square booking flow, responsive UI, local SEO, tests, and CI.",
+    description:
+      "A production website delivered for Lucca's Hair: verified Square booking integration, responsive UI, local SEO, and an engineering setup with tests and CI. Client work shipped and maintained like a product.",
+    category: "product_system",
+    type: "website",
+    status: "live",
+    priority: "strong",
+    visibility: "published",
+    featured: false,
+    order: 100,
+    randomizerEligible: false,
+    randomizerBucket: "product",
+    randomizerWeight: 0.8,
+    tags: [
+      "Client work",
+      "Next.js",
+      "Square API",
+      "Local SEO",
+      "Production",
+    ],
+    stack: ["TypeScript", "Next.js", "Square"],
+    highlights: [
+      "Verified Square booking flow",
+      "Responsive UI with local SEO",
+      "Tests and CI on client work",
+    ],
+    problem:
+      "A real business needed a website that takes bookings reliably, ranks in local search, and stays maintainable after handoff.",
+    solution:
+      "A production build around a verified Square booking flow, with the tests, CI, and SEO a client site rarely gets.",
+    whatItProves:
+      "Delivering and maintaining production software for a real client, end to end.",
+    links: [
+      {
+        label: "GitHub repository",
+        href: "https://github.com/YuvrajKashyap/luccas-hair",
+        type: "repo",
+        isPrimary: true,
+        status: "verified",
+        external: true,
+      },
+    ],
+    media: [],
+  },
+  {
+    id: "project_dallas_3d_city_model",
+    slug: "dallas-3d-city-model",
+    title: "Dallas 3D City Model",
+    shortTitle: "Dallas 3D",
+    eyebrow: "Research tooling",
+    summary:
+      "Reproducible Dallas LOD1 city model for height provenance, visibility coverage, and A* path experiments.",
+    description:
+      "A reproducible LOD1 3D model of Dallas built for research: building-height provenance is tracked, and the model serves as the substrate for visibility-coverage analysis and A* path-planning experiments.",
+    category: "ai_systems",
+    type: "system",
+    status: "active_build",
+    priority: "strong",
+    visibility: "published",
+    featured: false,
+    order: 110,
+    randomizerEligible: false,
+    randomizerBucket: "systems",
+    randomizerWeight: 0.8,
+    tags: [
+      "Python",
+      "Simulation",
+      "3D modeling",
+      "Path planning",
+      "Research engineering",
+    ],
+    stack: ["Python", "OpenStreetMap", "Blender"],
+    highlights: [
+      "Reproducible LOD1 city model",
+      "Building-height provenance",
+      "Visibility coverage and A* experiments",
+    ],
+    problem:
+      "Urban autonomy research needs a city model that is reproducible and honest about where its geometry comes from.",
+    solution:
+      "A pipeline that builds Dallas in LOD1 with tracked height provenance, then runs visibility and path-planning experiments on top.",
+    whatItProves:
+      "Research-grade engineering: reproducibility, data provenance, and geometric algorithms over real-world data.",
+    links: [
+      {
+        label: "GitHub repository",
+        href: "https://github.com/YuvrajKashyap/dallas-3d-city-model",
+        type: "repo",
+        isPrimary: true,
+        status: "verified",
+        external: true,
+      },
+    ],
+    media: [],
+  },
+  {
+    id: "project_register2park_automation",
+    slug: "register2park-automation",
+    title: "Register2Park Automation",
+    shortTitle: "R2P Automation",
+    eyebrow: "Developer tooling",
+    summary:
+      "Operator-controlled Selenium workflow for authorized guest parking registration, with review-first defaults, tests, and CI.",
+    description:
+      "A Selenium automation for authorized guest parking registration, built operator-first: private configuration, review-first defaults so nothing submits without a human check, and tests with CI behind it.",
+    category: "developer_tooling",
+    type: "experiment",
+    status: "portfolio_ready",
+    priority: "supporting",
+    visibility: "published",
+    featured: false,
+    order: 120,
+    randomizerEligible: false,
+    randomizerBucket: "experimental",
+    randomizerWeight: 0.7,
+    tags: ["Python", "Selenium", "Automation", "Testing", "CI/CD"],
+    stack: ["Python", "Selenium"],
+    highlights: [
+      "Operator-controlled, review-first workflow",
+      "Private configuration boundary",
+      "Tests and CI on a personal tool",
+    ],
+    problem:
+      "Repetitive form workflows are worth automating only if a human stays in control of every submission.",
+    solution:
+      "A Selenium workflow with review-first defaults and private configuration, engineered with tests and CI rather than as a throwaway script.",
+    whatItProves:
+      "Discipline in automation: human control, safe defaults, and real engineering hygiene on small tools.",
+    links: [
+      {
+        label: "GitHub repository",
+        href: "https://github.com/YuvrajKashyap/register2park-automation",
+        type: "repo",
+        isPrimary: true,
+        status: "verified",
+        external: true,
+      },
+    ],
     media: [],
   },
 ] satisfies Project[];

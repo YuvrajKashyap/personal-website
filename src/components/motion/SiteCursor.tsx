@@ -3,10 +3,7 @@
 import { motion, useMotionValue, useReducedMotion } from "motion/react";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 
-import {
-  CURSOR_TRAIL_EVENT,
-  isCursorTrailEnabled,
-} from "@/components/theme/CursorTrailToggle";
+import { useCursorTrailEnabled } from "@/components/theme/CursorTrailToggle";
 
 const FINE_POINTER_QUERY = "(hover: hover) and (pointer: fine)";
 
@@ -52,6 +49,7 @@ export function SiteCursor() {
     getFinePointerServerSnapshot,
   );
   const isActive = hasFinePointer && !shouldReduceMotion;
+  const trailEnabled = useCursorTrailEnabled();
   const [isVisible, setIsVisible] = useState(false);
   const [isPointer, setIsPointer] = useState(false);
   const [isHiddenZone, setIsHiddenZone] = useState(false);
@@ -76,20 +74,6 @@ export function SiteCursor() {
     const trailPoints: Array<{ x: number; y: number; t: number }> = [];
     let trailFrame = 0;
     let trailDpr = 1;
-    let trailEnabled = isCursorTrailEnabled();
-
-    function onTrailToggle() {
-      trailEnabled = isCursorTrailEnabled();
-
-      if (!trailEnabled) {
-        trailPoints.length = 0;
-
-        if (trailCtx && trailCanvas) {
-          trailCtx.setTransform(1, 0, 0, 1, 0, 0);
-          trailCtx.clearRect(0, 0, trailCanvas.width, trailCanvas.height);
-        }
-      }
-    }
 
     function sizeTrailCanvas() {
       if (!trailCanvas) {
@@ -211,7 +195,6 @@ export function SiteCursor() {
     document.documentElement.addEventListener("pointerleave", onLeaveWindow);
     window.addEventListener("blur", onLeaveWindow);
     window.addEventListener("resize", sizeTrailCanvas, { passive: true });
-    window.addEventListener(CURSOR_TRAIL_EVENT, onTrailToggle);
 
     return () => {
       delete document.documentElement.dataset.customCursor;
@@ -225,13 +208,12 @@ export function SiteCursor() {
       );
       window.removeEventListener("blur", onLeaveWindow);
       window.removeEventListener("resize", sizeTrailCanvas);
-      window.removeEventListener(CURSOR_TRAIL_EVENT, onTrailToggle);
 
       if (trailFrame) {
         window.cancelAnimationFrame(trailFrame);
       }
     };
-  }, [isActive, x, y]);
+  }, [isActive, trailEnabled, x, y]);
 
   if (!isActive) {
     return null;
@@ -247,7 +229,9 @@ export function SiteCursor() {
 
   return (
     <div className={`site-cursor ${stateClass}`} aria-hidden="true">
-      <canvas ref={trailRef} className="site-cursor-trail" />
+      {trailEnabled ? (
+        <canvas ref={trailRef} className="site-cursor-trail" />
+      ) : null}
       <motion.span className="site-cursor-anchor" style={{ x, y }}>
         <span className="site-cursor-halo" />
         <span className="site-cursor-dot" />

@@ -1071,6 +1071,77 @@ html[data-theme="light"] .site-navigation[data-scrolled] .nav-capsule {
   flex: 0 0 auto;
 }
 
+/* Playful "ask AI all about me!" nudge sitting to the right of the AI buttons,
+   with a hand-drawn arrow curving back toward them. */
+.hero-ai-nudge {
+  flex: 0 0 auto;
+  align-self: center;
+  margin-inline-start: 0.4rem;
+  color: var(--accent);
+}
+
+/* Tilt/flex live on the inner wrapper so Motion's entrance transform on the
+   outer slot doesn't clobber the playful rotation. */
+.hero-ai-nudge-inner {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  transform: rotate(-4deg);
+  transform-origin: left center;
+}
+
+.hero-ai-nudge-arrow {
+  display: inline-flex;
+  width: 3.4rem;
+  flex: 0 0 auto;
+  filter: drop-shadow(0 0 10px var(--glow-primary));
+  animation: hero-ai-nudge-bob 2.4s ease-in-out 2.6s infinite;
+}
+
+.hero-ai-nudge-arrow svg {
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.hero-ai-nudge-spark {
+  fill: var(--accent);
+  filter: drop-shadow(0 0 3px var(--glow-primary));
+}
+
+.hero-ai-nudge-spark.is-white {
+  fill: #fff;
+}
+
+.hero-ai-nudge-text {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: 0.01em;
+  text-transform: lowercase;
+  white-space: nowrap;
+  text-shadow: 0 0 14px var(--glow-primary);
+}
+
+@keyframes hero-ai-nudge-bob {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  50% {
+    transform: translateX(-4px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-ai-nudge-arrow {
+    animation: none;
+  }
+}
+
 .hero-action-item {
   position: relative;
   display: inline-flex;
@@ -1138,6 +1209,17 @@ html[data-theme="light"] .site-navigation[data-scrolled] .nav-capsule {
   color: var(--accent-strong);
   box-shadow: 0 0 22px var(--glow-primary);
   transform: scale(1.12);
+}
+
+/* Light theme: keep the inverted icon the exact red the button was
+   (--accent-strong is a much darker maroon there). */
+html[data-theme="light"] .hero-action-icon-link:hover .hero-action-icon-shell,
+html[data-theme="light"]
+  .hero-action-label-link:hover
+  ~ .hero-action-icon-link
+  .hero-action-icon-shell {
+  border-color: var(--accent);
+  color: var(--accent);
 }
 
 .hero-action-icon-link:active .hero-action-icon-shell {
@@ -1503,6 +1585,7 @@ html[data-theme="light"] .hero-name-line {
 
 [data-hero-activity="paused"] .hero-name-lockup,
 [data-hero-activity="paused"] .home-role-cycle__word,
+[data-hero-activity="paused"] .hero-ai-nudge-arrow,
 [data-hero-activity="paused"] .hero-rotating-text__cursor {
   animation-play-state: paused;
 }
@@ -1561,7 +1644,6 @@ html[data-theme="light"] .hero-name-line {
   background: var(--background);
   opacity: 0;
   transition: opacity var(--motion-duration-slow) var(--motion-ease-standard);
-  will-change: opacity;
 }
 
 .home-hero-video-ready {
@@ -2272,6 +2354,11 @@ html[data-theme="light"] .hero-name-line {
   color: #0a0805;
 }
 
+/* Light theme fills with dark red, so hovered text flips to cream instead */
+html[data-theme="light"] .section-link:hover {
+  color: var(--accent-foreground);
+}
+
 .section-link:hover .section-link-fill {
   transform: translateY(0) skewY(0deg);
 }
@@ -2280,6 +2367,10 @@ html[data-theme="light"] .hero-name-line {
   width: 11px;
   height: 11px;
   border-color: #0a0805;
+}
+
+html[data-theme="light"] .section-link:hover .section-link-corner {
+  border-color: var(--accent-foreground);
 }
 
 .section-link:hover .section-link-label {
@@ -2696,7 +2787,6 @@ html[data-theme="light"] .hero-name-line {
   display: inline-block;
   /* text-indent inherits; keep the paragraph indent off the word boxes */
   text-indent: 0;
-  will-change: transform, filter;
 }
 
 .scroll-read-word-base {
@@ -2730,7 +2820,6 @@ html[data-theme="light"] .hero-name-line {
     0 24px 60px rgb(0 0 0 / 0.45),
     0 0 46px var(--glow-primary);
   transform-style: preserve-3d;
-  will-change: transform;
 }
 
 .about-portrait-image {
@@ -2939,6 +3028,10 @@ html[data-theme="light"] .hero-name-line {
   animation: resume-node-pulse 2.2s cubic-bezier(0.16, 1, 0.3, 1) infinite;
 }
 
+[data-section-reveal-active="false"] .resume-node-pulse {
+  animation-play-state: paused;
+}
+
 @keyframes resume-node-pulse {
   0% {
     opacity: 0.9;
@@ -3123,7 +3216,7 @@ html[data-theme="light"] .hero-name-line {
   display: grid;
   width: 100%;
   grid-template-columns: repeat(auto-fill, minmax(19rem, 1fr));
-  gap: clamp(1.4rem, 2.5vw, 2rem);
+  gap: clamp(1.6rem, 3vw, 2.4rem);
 }
 
 .project-tile {
@@ -3135,7 +3228,6 @@ html[data-theme="light"] .hero-name-line {
 
 .project-tile-inner {
   height: 100%;
-  will-change: transform;
 }
 
 .project-tile-thumb {
@@ -3145,71 +3237,71 @@ html[data-theme="light"] .hero-name-line {
   justify-content: flex-end;
   overflow: hidden;
   isolation: isolate;
-  min-height: 15rem;
+  min-height: 14rem;
   height: 100%;
   border: 1px solid var(--home-flow-border);
   border-radius: 1rem;
   background:
-    radial-gradient(circle at 82% 12%, var(--glow-primary), transparent 46%),
-    linear-gradient(148deg, rgb(240 201 106 / 0.12), transparent 52%),
+    linear-gradient(165deg, rgb(240 201 106 / 0.05), transparent 55%),
     var(--surface-soft, #090b10);
   transition:
     border-color 240ms ease,
     box-shadow 300ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.project-tile-thumb[data-category="search_infrastructure"] {
-  background:
-    radial-gradient(circle at 16% 88%, var(--glow-primary), transparent 44%),
-    linear-gradient(24deg, rgb(240 201 106 / 0.1), transparent 55%),
-    var(--surface-soft, #090b10);
-}
-
-.project-tile-thumb[data-category="product_system"] {
-  background:
-    radial-gradient(circle at 50% 120%, var(--glow-primary), transparent 52%),
-    linear-gradient(210deg, rgb(240 201 106 / 0.1), transparent 48%),
-    var(--surface-soft, #090b10);
-}
-
-.project-tile-thumb[data-category="personal_os"] {
-  background:
-    radial-gradient(circle at 12% 10%, var(--glow-primary), transparent 42%),
-    linear-gradient(322deg, rgb(240 201 106 / 0.12), transparent 50%),
-    var(--surface-soft, #090b10);
-}
-
-.project-tile-thumb::before {
+/* Screenshot preview that irises open from the cursor entry point on hover.
+   The clip-path circle is driven per-tile from JS; everything under it goes
+   cinematic: dark scrim for legibility, copy flips to light in both themes. */
+.project-tile-preview {
   position: absolute;
   inset: 0;
-  z-index: -1;
-  content: "";
-  background-image:
-    linear-gradient(rgb(255 255 255 / 0.035) 1px, transparent 1px),
-    linear-gradient(90deg, rgb(255 255 255 / 0.035) 1px, transparent 1px);
-  background-size: 34px 34px;
-  mask-image: radial-gradient(circle at 50% 40%, black, transparent 78%);
+  z-index: 0;
+  display: block;
+  overflow: hidden;
+  border-radius: inherit;
+  pointer-events: none;
 }
 
-.project-tile-watermark {
+.project-tile-preview img {
   position: absolute;
-  right: -0.06em;
-  bottom: -0.32em;
-  color: var(--foreground);
-  font-size: 9.5rem;
-  font-weight: 800;
-  line-height: 1;
-  opacity: 0.07;
-  transition: transform 500ms cubic-bezier(0.16, 1, 0.3, 1), opacity 300ms ease;
+  inset: -7%;
+  width: 114%;
+  /* Tailwind preflight clamps img to max-width: 100%, which cut the overscan
+     and left a blank strip on the tile's right edge. */
+  max-width: none;
+  height: 114%;
+  object-fit: cover;
 }
 
-.project-tile:hover .project-tile-watermark {
-  opacity: 0.12;
-  transform: translateY(-6px) scale(1.06);
+.project-tile-preview-scrim {
+  position: absolute;
+  inset: 0;
+  /* Keep the top open so the screenshot reads, then drop to near-solid behind
+     the copy block so title, summary, and stack stay effortlessly legible. */
+  background: linear-gradient(
+    180deg,
+    rgb(5 6 10 / 0.12) 0%,
+    rgb(5 6 10 / 0.3) 42%,
+    rgb(5 6 10 / 0.78) 68%,
+    rgb(5 6 10 / 0.96) 100%
+  );
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-tile-preview {
+    opacity: 0;
+    transition: opacity 260ms ease;
+  }
+
+  .project-tile:hover .project-tile-preview,
+  .project-tile:focus-visible .project-tile-preview {
+    opacity: 1;
+  }
 }
 
 .project-tile-thumb-copy {
   position: relative;
+  z-index: 1;
   padding: 3.5rem 1.1rem 1.1rem;
 }
 
@@ -3222,32 +3314,58 @@ html[data-theme="light"] .hero-name-line {
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
   overflow: hidden;
+  transition:
+    color 260ms ease,
+    text-shadow 260ms ease;
 }
 
+.project-tile:hover .project-tile-summary {
+  color: rgb(242 238 226 / 0.97);
+  text-shadow: 0 1px 10px rgb(5 6 10 / 0.85);
+}
+
+/* Quiet single-line stack readout: no chip boxes, just mono text and dots */
 .project-tile-stack {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.4rem;
-  margin-top: 0.8rem;
+  align-items: baseline;
+  gap: 0.3rem 0.6rem;
+  margin-top: 0.7rem;
   padding: 0;
   list-style: none;
 }
 
 .project-tile-stack li {
-  padding: 0.22rem 0.55rem;
-  border: 1px solid var(--home-flow-border);
-  border-radius: 999px;
-  color: var(--accent);
+  color: var(--muted-foreground);
   font-family: var(--font-mono);
   font-size: 0.62rem;
   font-weight: 600;
   letter-spacing: var(--tracking-wider);
   text-transform: uppercase;
-  transition: border-color 240ms ease, color 240ms ease;
+  transition:
+    color 240ms ease,
+    text-shadow 240ms ease;
+}
+
+.project-tile-stack li + li::before {
+  content: "·";
+  margin-right: 0.6rem;
+  color: var(--home-flow-border-strong);
 }
 
 .project-tile:hover .project-tile-stack li {
-  border-color: var(--accent-strong);
+  color: var(--accent-strong, var(--accent));
+  text-shadow: 0 1px 8px rgb(5 6 10 / 0.9);
+}
+
+/* Light theme's accent-strong is a dark maroon that vanishes against the
+   preview scrim; use a bright red that stays legible over the image. */
+html[data-theme="light"] .project-tile:hover .project-tile-stack li {
+  color: #ff7261;
+}
+
+.project-tile:hover .project-tile-stack li + li::before {
+  color: rgb(233 228 214 / 0.55);
 }
 
 .project-tile-thumb-copy strong {
@@ -3256,11 +3374,16 @@ html[data-theme="light"] .hero-name-line {
   font-size: clamp(var(--text-xl), 1.8vw, var(--text-2xl));
   font-weight: 700;
   line-height: 1.1;
-  transition: transform 320ms cubic-bezier(0.16, 1, 0.3, 1);
+  transition:
+    transform 320ms cubic-bezier(0.16, 1, 0.3, 1),
+    color 260ms ease,
+    text-shadow 260ms ease;
 }
 
 .project-tile:hover .project-tile-thumb-copy strong {
   transform: translateX(4px);
+  color: #f8f4e9;
+  text-shadow: 0 1px 18px rgb(5 6 10 / 0.6);
 }
 
 /* Bracket corners that snap outward on hover */
@@ -3638,7 +3761,6 @@ html[data-theme="light"] .hero-name-line {
 
 .split-text-char {
   display: inline-block;
-  will-change: transform;
 }
 
 .split-text-flip {
@@ -3661,12 +3783,15 @@ html[data-theme="light"] .hero-name-line {
   color: var(--foreground);
 }
 
-/* Full-width block below the contact chapter, centered to the page */
+/* Full-width block below the contact chapter, centered to the page.
+   .home-sections disables pointer events; opt back in so the hologram
+   stays draggable. */
 .home-contact-hologram {
   position: relative;
   display: grid;
   justify-items: center;
   padding-block: 1rem clamp(3rem, 8vw, 5rem);
+  pointer-events: auto;
 }
 
 @media (max-width: 960px) {
@@ -4460,7 +4585,9 @@ html[data-theme="light"] .hero-name-line {
   transform: translateY(0) scale(1);
   transform-origin: center;
   animation: home-role-radiance 9s linear infinite;
-  will-change: color, filter, text-shadow, transform;
+  /* transform only: color/filter/text-shadow are not compositable, hinting
+     them just forces extra layer invalidation */
+  will-change: transform;
 }
 
 .home-role-cycle__word:nth-child(2) {
@@ -7489,4 +7616,3 @@ html[data-theme="light"] .orbital-frame {
 
 
 /* watcher nudge */
-

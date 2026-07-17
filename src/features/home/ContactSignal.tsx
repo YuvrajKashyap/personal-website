@@ -3,7 +3,7 @@
 import { useReducedMotion } from "motion/react";
 import { useEffect, useRef } from "react";
 
-export const CONTACT_COPY_EVENT = "contact-email-copied";
+import { CONTACT_COPY_EVENT } from "@/features/home/contact-events";
 
 const EMAIL = "ykyuvrajkashyap@gmail.com";
 const TAU = Math.PI * 2;
@@ -190,6 +190,30 @@ export function ContactSignal() {
     let palette = HOLO_DARK;
     let monoFont = "ui-monospace, monospace";
 
+    // Unit-space gradients cached per palette and reused every frame via
+    // canvas transforms — identical pixels, no per-frame allocations.
+    let coreGradient: CanvasGradient | null = null;
+    let scanGradient: CanvasGradient | null = null;
+    let gradientPaletteKey = "";
+
+    function ensureGradients() {
+      if (gradientPaletteKey === palette.core + palette.wire) {
+        return;
+      }
+
+      gradientPaletteKey = palette.core + palette.wire;
+
+      coreGradient = ctx.createRadialGradient(0, 0, 0, 0, 0, 1);
+      coreGradient.addColorStop(0, palette.core);
+      coreGradient.addColorStop(0.25, palette.bright);
+      coreGradient.addColorStop(1, "transparent");
+
+      scanGradient = ctx.createLinearGradient(0, -1, 0, 1);
+      scanGradient.addColorStop(0, "transparent");
+      scanGradient.addColorStop(0.5, palette.wire);
+      scanGradient.addColorStop(1, "transparent");
+    }
+
     let yaw = 0.6;
     let pitch = -0.28;
     let pitchTarget = -0.28;
@@ -200,7 +224,6 @@ export function ContactSignal() {
     let segmentAngle = 0;
     let gimbalA = 0;
     let gimbalB = 0;
-    let dropoutUntil = 0;
     let bootStart = -1;
     let frame = 0;
     let lastTime = 0;
@@ -279,11 +302,17 @@ export function ContactSignal() {
         }
       }
 
-      const speedBoost = 1 + flare * 2.6;
+      // Spin energy: how hard the visitor is throwing the globe around.
+      // Everything glows brighter and whirls faster the harder it spins.
+      const spinEnergy = Math.min(
+        1,
+        Math.abs(spin) * 220 + (drag.active ? 0.3 : 0),
+      );
+      const speedBoost = 1 + flare * 2.6 + spinEnergy * 1.8;
 
       if (!once) {
         yaw += (0.0024 + spin) * step;
-        spin *= Math.pow(0.945, step);
+        spin *= Math.pow(0.96, step);
         pitch += (pitchTarget - pitch) * 0.055 * step;
         bezelAngle += 0.0011 * step * speedBoost;
         arcAngleA += 0.012 * step * speedBoost;
@@ -293,20 +322,7 @@ export function ContactSignal() {
         gimbalB -= 0.0044 * step * speedBoost;
       }
 
-      // Hologram flicker: soft shimmer plus rare short glitch dropouts.
-      let flicker = once
-        ? 1
-        : 0.9 +
-          0.06 * Math.sin(now * 0.019) +
-          0.04 * Math.sin(now * 0.047 + 1.3);
-
-      if (!once) {
-        if (now < dropoutUntil) {
-          flicker *= 0.45;
-        } else if (Math.random() < 0.006) {
-          dropoutUntil = now + 50 + Math.random() * 70;
-        }
-      }
+      const flicker = 1;
 
       const centerX = width / 2;
       const centerY =
@@ -357,18 +373,17 @@ export function ContactSignal() {
       ctx.lineCap = "round";
 
       // --- Horizontal scan band drifting down, clipped to the bezel circle ---
+      ensureGradients();
       const scanY = ((now * 0.045) % (height + 240)) - 120;
-      const scanGradient = ctx.createLinearGradient(0, scanY - 70, 0, scanY + 70);
-      scanGradient.addColorStop(0, "transparent");
-      scanGradient.addColorStop(0.5, palette.wire);
-      scanGradient.addColorStop(1, "transparent");
       ctx.save();
       const scanClip = new Path2D();
       scanClip.arc(centerX, centerY, bezelR, 0, TAU);
       ctx.clip(scanClip);
-      ctx.fillStyle = scanGradient;
+      ctx.translate(0, scanY);
+      ctx.scale(1, 70);
+      ctx.fillStyle = scanGradient ?? palette.wire;
       alpha((0.05 + flare * 0.05) * detailBoot);
-      ctx.fillRect(0, scanY - 70, width, 140);
+      ctx.fillRect(0, -1, width, 2);
       ctx.restore();
 
       // --- Ambient particles orbiting the core ---
@@ -525,7 +540,11 @@ export function ContactSignal() {
 
       for (let b = 0; b < ALPHA_BUCKETS; b += 1) {
         const depth = (b + 0.5) / ALPHA_BUCKETS;
-        alpha((0.05 + depth * 0.36) * (1 + flare * 0.9) * sphereBoot);
+        alpha(
+          (0.05 + depth * 0.36) *
+            (1 + flare * 0.9 + spinEnergy * 0.5) *
+            sphereBoot,
+        );
         ctx.stroke(buckets[b]);
       }
 
@@ -557,23 +576,18 @@ export function ContactSignal() {
 
       // --- Reactor core with rotating dashed halo ring ---
       const coreR =
-        sphereR * (0.15 + 0.02 * Math.sin(now * 0.003)) * (1 + flare * 0.55);
-      const coreGradient = ctx.createRadialGradient(
-        centerX,
-        centerY,
-        0,
-        centerX,
-        centerY,
-        coreR * 2.6,
-      );
-      coreGradient.addColorStop(0, palette.core);
-      coreGradient.addColorStop(0.25, palette.bright);
-      coreGradient.addColorStop(1, "transparent");
-      ctx.fillStyle = coreGradient;
-      alpha((0.5 + flare * 0.45) * sphereBoot);
+        sphereR *
+        (0.15 + 0.02 * Math.sin(now * 0.003)) *
+        (1 + flare * 0.55 + spinEnergy * 0.5);
+      ctx.save();
+      ctx.translate(centerX, centerY);
+      ctx.scale(coreR * 2.6, coreR * 2.6);
+      ctx.fillStyle = coreGradient ?? palette.bright;
+      alpha((0.5 + flare * 0.45 + spinEnergy * 0.35) * sphereBoot);
       ctx.beginPath();
-      ctx.arc(centerX, centerY, coreR * 2.6, 0, TAU);
+      ctx.arc(0, 0, 1, 0, TAU);
       ctx.fill();
+      ctx.restore();
 
       ctx.strokeStyle = palette.wire;
       ctx.lineWidth = 1;
@@ -666,7 +680,7 @@ export function ContactSignal() {
         alpha(
           (0.08 + node.depth * 0.8) *
             (0.55 + blink * 0.7) *
-            (1 + flare) *
+            (1 + flare + spinEnergy * 0.6) *
             sphereBoot,
         );
         ctx.fillStyle = i === lockedNode ? palette.core : palette.bright;
@@ -690,11 +704,15 @@ export function ContactSignal() {
         const cosTilt = Math.cos(gimbal.tilt);
         const sinTilt = Math.sin(gimbal.tilt);
 
-        const gimbalPoint = (u: number): Vec3 => ({
-          x: Math.cos(u) * gimbal.radius,
-          y: Math.sin(u) * gimbal.radius * sinTilt,
-          z: Math.sin(u) * gimbal.radius * cosTilt,
-        });
+        const gimbalPoint = (u: number): Vec3 => {
+          const sinU = Math.sin(u);
+
+          return {
+            x: Math.cos(u) * gimbal.radius,
+            y: sinU * gimbal.radius * sinTilt,
+            z: sinU * gimbal.radius * cosTilt,
+          };
+        };
 
         const ringPath = new Path2D();
         let started = false;
@@ -712,7 +730,11 @@ export function ContactSignal() {
         }
 
         ctx.strokeStyle = palette.wire;
-        glowStroke(ringPath, 1.1, gimbal.strength * (1 + flare * 0.8) * sphereBoot);
+        glowStroke(
+          ringPath,
+          1.1,
+          gimbal.strength * (1 + flare * 0.8 + spinEnergy * 0.7) * sphereBoot,
+        );
 
         const markerU = gimbal.angle * 3.1;
         ctx.strokeStyle = palette.bright;
@@ -834,14 +856,17 @@ export function ContactSignal() {
       );
 
       ctx.textAlign = "right";
-      ctx.fillStyle = flare > 0.04 ? palette.core : palette.text;
-      alpha((flare > 0.04 ? 0.7 + flare * 0.3 : 0.55) * detailBoot);
+      const energized = flare > 0.04 || spinEnergy > 0.45;
+      ctx.fillStyle = energized ? palette.core : palette.text;
+      alpha((energized ? 0.7 + flare * 0.3 : 0.55) * detailBoot);
       ctx.fillText(
         flare > 0.04
           ? "ADDRESS COPIED"
           : boot < 1
             ? "CALIBRATING…"
-            : "LINK READY",
+            : spinEnergy > 0.45
+              ? "MANUAL OVERRIDE"
+              : "JARVIS?",
         centerX + bezelR * 0.62,
         centerY + bezelR * 0.98,
       );
@@ -910,9 +935,9 @@ export function ContactSignal() {
           userAdjusted = true;
         }
 
-        yaw += dx * 0.007;
-        spin = dx * 0.0006;
-        pitchTarget = Math.min(1.35, Math.max(-1.35, pitchTarget - dy * 0.005));
+        yaw += dx * 0.008;
+        spin = dx * 0.0008;
+        pitchTarget = Math.min(1.5, Math.max(-1.5, pitchTarget - dy * 0.005));
       } else if (!userAdjusted) {
         // Gentle pointer-follow tilt, but never fight an orientation the
         // user chose by dragging.
@@ -1000,11 +1025,15 @@ export function ContactSignal() {
       render(0, true);
     } else {
       document.addEventListener("visibilitychange", onVisibilityChange);
-      canvas.addEventListener("pointermove", onPointerMove);
-      canvas.addEventListener("pointerleave", onPointerLeave);
-      canvas.addEventListener("pointerdown", onPointerDown);
-      canvas.addEventListener("pointerup", onPointerUp);
-      canvas.addEventListener("pointercancel", onPointerLeave);
+      canvas.addEventListener("pointermove", onPointerMove, { passive: true });
+      canvas.addEventListener("pointerleave", onPointerLeave, {
+        passive: true,
+      });
+      canvas.addEventListener("pointerdown", onPointerDown, { passive: true });
+      canvas.addEventListener("pointerup", onPointerUp, { passive: true });
+      canvas.addEventListener("pointercancel", onPointerLeave, {
+        passive: true,
+      });
       syncRunning();
     }
 

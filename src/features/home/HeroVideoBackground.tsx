@@ -1,56 +1,45 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  useSyncExternalStore,
+} from "react";
 
 import { heroMedia } from "@/config/media";
 
 type HeroVideoMedia = (typeof heroMedia)["singularity"];
 type HeroVideoVariant = "dark" | "light";
-type HeroVideoViewport = "all" | "mobile" | "desktop";
+type HeroVideoViewport = "mobile" | "desktop";
 
-function useAllowsHeroMotion() {
-  const [allowsMotion, setAllowsMotion] = useState(false);
+const DESKTOP_VIEWPORT_QUERY = "(min-width: 768px)";
+const MOBILE_VIDEO_MEDIA =
+  "(prefers-reduced-motion: no-preference) and (max-width: 767px)";
+const DESKTOP_VIDEO_MEDIA =
+  "(prefers-reduced-motion: no-preference) and (min-width: 768px)";
 
-  useEffect(() => {
-    const mediaQuery = window.matchMedia("(prefers-reduced-motion: no-preference)");
-
-    const updateMotionPreference = () => {
-      setAllowsMotion(mediaQuery.matches);
-    };
-
-    updateMotionPreference();
-    mediaQuery.addEventListener("change", updateMotionPreference);
-
-    return () => {
-      mediaQuery.removeEventListener("change", updateMotionPreference);
-    };
-  }, []);
-
-  return allowsMotion;
+function subscribeToDesktopViewport(callback: () => void) {
+  const mediaQuery = window.matchMedia(DESKTOP_VIEWPORT_QUERY);
+  mediaQuery.addEventListener("change", callback);
+  return () => mediaQuery.removeEventListener("change", callback);
 }
 
-function getMobileSourceMedia(viewport: HeroVideoViewport) {
-  if (viewport === "mobile") {
-    return "(prefers-reduced-motion: no-preference) and (max-width: 767px)";
-  }
-
-  return "(max-width: 767px)";
+function getDesktopViewportSnapshot() {
+  return window.matchMedia(DESKTOP_VIEWPORT_QUERY).matches;
 }
 
-function getDesktopSourceMedia(viewport: HeroVideoViewport) {
-  if (viewport === "desktop") {
-    return "(prefers-reduced-motion: no-preference) and (min-width: 768px)";
-  }
-
-  return undefined;
+function getDesktopViewportServerSnapshot() {
+  return false;
 }
 
 function HeroVideoLayer({
   media,
-  viewport = "all",
+  viewport,
 }: {
   media: HeroVideoMedia;
-  viewport?: HeroVideoViewport;
+  viewport: HeroVideoViewport;
 }) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const isInViewRef = useRef(false);
@@ -69,9 +58,13 @@ function HeroVideoLayer({
     const playRequest = video.play();
 
     if (playRequest !== undefined) {
-      playRequest.catch(() => {
-        setIsVideoPlaying(false);
-      });
+      playRequest
+        .then(() => {
+          setIsVideoPlaying(true);
+        })
+        .catch(() => {
+          setIsVideoPlaying(false);
+        });
     }
   }, []);
 
@@ -103,11 +96,6 @@ function HeroVideoLayer({
     };
   }, [requestPlayback]);
 
-  const mobileSourceMedia = getMobileSourceMedia(viewport);
-  const desktopSourceMedia = getDesktopSourceMedia(viewport);
-  const renderMobileSources = viewport !== "desktop";
-  const renderDesktopSources = viewport !== "mobile";
-
   return (
     <video
       ref={videoRef}
@@ -131,26 +119,33 @@ function HeroVideoLayer({
         setIsVideoPlaying(false);
       }}
     >
-      {renderMobileSources ? (
+      {viewport === "mobile" ? (
         <>
           <source
-            media={mobileSourceMedia}
+            media={MOBILE_VIDEO_MEDIA}
             src={media.videoMobileWebm}
             type="video/webm"
           />
           <source
-            media={mobileSourceMedia}
+            media={MOBILE_VIDEO_MEDIA}
             src={media.videoMobileMp4}
             type="video/mp4"
           />
         </>
-      ) : null}
-      {renderDesktopSources ? (
+      ) : (
         <>
-          <source media={desktopSourceMedia} src={media.videoWebm} type="video/webm" />
-          <source media={desktopSourceMedia} src={media.videoMp4} type="video/mp4" />
+          <source
+            media={DESKTOP_VIDEO_MEDIA}
+            src={media.videoWebm}
+            type="video/webm"
+          />
+          <source
+            media={DESKTOP_VIDEO_MEDIA}
+            src={media.videoMp4}
+            type="video/mp4"
+          />
         </>
-      ) : null}
+      )}
     </video>
   );
 }
@@ -163,7 +158,12 @@ export function HeroVideoBackground({
   variant = "dark",
 }: HeroVideoBackgroundProps) {
   const media = heroMedia.singularity;
-  const allowsMotion = useAllowsHeroMotion();
+  const isDesktopViewport = useSyncExternalStore(
+    subscribeToDesktopViewport,
+    getDesktopViewportSnapshot,
+    getDesktopViewportServerSnapshot,
+  );
+  const videoViewport = isDesktopViewport ? "desktop" : "mobile";
 
   return (
     <div className={`home-hero-media home-hero-media-${variant}`} aria-hidden="true">
@@ -182,10 +182,11 @@ export function HeroVideoBackground({
         />
       </picture>
 
-      <HeroVideoLayer media={media} viewport="mobile" />
-      {allowsMotion ? (
-        <HeroVideoLayer media={media} viewport="desktop" />
-      ) : null}
+      <HeroVideoLayer
+        key={videoViewport}
+        media={media}
+        viewport={videoViewport}
+      />
     </div>
   );
 }

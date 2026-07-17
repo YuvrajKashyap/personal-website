@@ -2,6 +2,7 @@
 
 import { motion, useReducedMotion } from "motion/react";
 
+import { useSectionReveal } from "@/components/motion/SectionRevealContext";
 import {
   blurIn,
   chipReveal,
@@ -40,14 +41,29 @@ export function Reveal({
   variant = "fade-up",
 }: RevealProps) {
   const shouldReduceMotion = useReducedMotion();
+  const section = useSectionReveal();
+  // Driven by the surrounding section when one is present and this Reveal is in
+  // its scroll-triggered ("inView") mode — so it reveals/hides with the whole
+  // section rather than on its own threshold.
+  const sectionDriven = inView && section !== null;
 
   return (
     <motion.div
       className={className}
       initial={shouldReduceMotion ? false : "hidden"}
-      animate={inView ? undefined : "visible"}
-      whileInView={inView ? "visible" : undefined}
-      viewport={inView ? { amount: 0.2, once: true } : undefined}
+      animate={
+        sectionDriven
+          ? section
+            ? "visible"
+            : "hidden"
+          : inView
+            ? undefined
+            : "visible"
+      }
+      whileInView={sectionDriven || !inView ? undefined : "visible"}
+      viewport={
+        sectionDriven || !inView ? undefined : { amount: 0.2, once: false }
+      }
       variants={shouldReduceMotion ? reducedMotionReveal : revealVariants[variant]}
       transition={getRevealTransition(shouldReduceMotion ? 0 : delay)}
     >

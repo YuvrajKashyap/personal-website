@@ -8,7 +8,7 @@ import {
 } from "motion/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useId, useState } from "react";
+import { useCallback, useEffect, useId, useRef, useState } from "react";
 
 import { CursorTrailToggle } from "@/components/theme/CursorTrailToggle";
 import { ThemeToggle } from "@/components/theme/ThemeToggle";
@@ -103,22 +103,22 @@ const sectionIds = siteConfig.navItems
   .map((item) => item.href.split("#")[1])
   .filter((id): id is string => Boolean(id));
 
-/** Last nav section whose top has crossed the upper half of the viewport. */
-function computeActiveSection() {
-  let current = "";
+let sectionCache: Array<{ id: string; element: HTMLElement }> | null = null;
 
-  for (const id of sectionIds) {
-    const element = document.getElementById(id);
+function getSections() {
+  if (!sectionCache) {
+    sectionCache = [];
 
-    if (
-      element &&
-      element.getBoundingClientRect().top <= window.innerHeight * 0.45
-    ) {
-      current = id;
+    for (const id of sectionIds) {
+      const element = document.getElementById(id);
+
+      if (element) {
+        sectionCache.push({ id, element });
+      }
     }
   }
 
-  return current;
+  return sectionCache;
 }
 
 function isNavItemActive(
@@ -147,20 +147,96 @@ export function SiteNavigation() {
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("");
   const { scrollY } = useScroll();
+  const scrolledRef = useRef(false);
+  const activeSectionRef = useRef("");
+  const sectionThresholdsRef = useRef<Array<{ id: string; scrollY: number }>>(
+    [],
+  );
+
+  const updateActiveSection = useCallback((scrollPosition: number) => {
+    let nextSection = "";
+
+    for (const section of sectionThresholdsRef.current) {
+      if (scrollPosition >= section.scrollY) {
+        nextSection = section.id;
+      }
+    }
+
+    if (nextSection !== activeSectionRef.current) {
+      activeSectionRef.current = nextSection;
+      setActiveSection(nextSection);
+    }
+  }, []);
 
   useEffect(() => {
-    const frame = window.requestAnimationFrame(() => {
-      setActiveSection(pathname === "/" ? computeActiveSection() : "");
-    });
+    sectionCache = null;
+    let measureFrame = 0;
 
-    return () => window.cancelAnimationFrame(frame);
-  }, [pathname]);
+    const measureSections = () => {
+      measureFrame = 0;
+
+      if (pathname !== "/") {
+        sectionThresholdsRef.current = [];
+
+        if (activeSectionRef.current !== "") {
+          activeSectionRef.current = "";
+          setActiveSection("");
+        }
+
+        return;
+      }
+
+      const scrollPosition = window.scrollY;
+      const viewportThreshold = window.innerHeight * 0.45;
+
+      sectionThresholdsRef.current = getSections().map((section) => ({
+        id: section.id,
+        scrollY:
+          section.element.getBoundingClientRect().top +
+          scrollPosition -
+          viewportThreshold,
+      }));
+
+      updateActiveSection(scrollPosition);
+    };
+
+    const scheduleMeasurement = () => {
+      if (!measureFrame) {
+        measureFrame = window.requestAnimationFrame(measureSections);
+      }
+    };
+
+    scheduleMeasurement();
+
+    if (pathname !== "/") {
+      return () => window.cancelAnimationFrame(measureFrame);
+    }
+
+    const resizeObserver = new ResizeObserver(scheduleMeasurement);
+
+    for (const section of getSections()) {
+      resizeObserver.observe(section.element);
+    }
+
+    window.addEventListener("resize", scheduleMeasurement, { passive: true });
+
+    return () => {
+      window.cancelAnimationFrame(measureFrame);
+      resizeObserver.disconnect();
+      window.removeEventListener("resize", scheduleMeasurement);
+    };
+  }, [pathname, updateActiveSection]);
 
   useMotionValueEvent(scrollY, "change", (value) => {
-    setScrolled(value > 24);
+    const nextScrolled = value > 24;
+
+    if (nextScrolled !== scrolledRef.current) {
+      scrolledRef.current = nextScrolled;
+      setScrolled(nextScrolled);
+    }
 
     if (pathname === "/") {
-      setActiveSection(computeActiveSection());
+      updateActiveSection(value);
     }
   });
 
