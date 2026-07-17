@@ -1,16 +1,30 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
 
 export const CURSOR_TRAIL_STORAGE_KEY = "cursor-trail";
 export const CURSOR_TRAIL_EVENT = "cursor-trail-change";
 
+let cursorTrailFallback = false;
+
 export function isCursorTrailEnabled() {
   try {
-    return window.localStorage.getItem(CURSOR_TRAIL_STORAGE_KEY) === "on";
+    cursorTrailFallback =
+      window.localStorage.getItem(CURSOR_TRAIL_STORAGE_KEY) === "on";
+    return cursorTrailFallback;
   } catch {
-    return false;
+    return cursorTrailFallback;
   }
+}
+
+function subscribeToCursorTrail(callback: () => void) {
+  window.addEventListener(CURSOR_TRAIL_EVENT, callback);
+  window.addEventListener("storage", callback);
+
+  return () => {
+    window.removeEventListener(CURSOR_TRAIL_EVENT, callback);
+    window.removeEventListener("storage", callback);
+  };
 }
 
 /**
@@ -18,15 +32,15 @@ export function isCursorTrailEnabled() {
  * Persists the choice and broadcasts CURSOR_TRAIL_EVENT for SiteCursor.
  */
 export function CursorTrailToggle() {
-  const [enabled, setEnabled] = useState(false);
-
-  useEffect(() => {
-    setEnabled(isCursorTrailEnabled());
-  }, []);
+  const enabled = useSyncExternalStore(
+    subscribeToCursorTrail,
+    isCursorTrailEnabled,
+    () => false,
+  );
 
   function toggle() {
     const next = !enabled;
-    setEnabled(next);
+    cursorTrailFallback = next;
 
     try {
       window.localStorage.setItem(

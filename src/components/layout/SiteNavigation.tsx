@@ -149,7 +149,11 @@ export function SiteNavigation() {
   const { scrollY } = useScroll();
 
   useEffect(() => {
-    setActiveSection(pathname === "/" ? computeActiveSection() : "");
+    const frame = window.requestAnimationFrame(() => {
+      setActiveSection(pathname === "/" ? computeActiveSection() : "");
+    });
+
+    return () => window.cancelAnimationFrame(frame);
   }, [pathname]);
 
   useMotionValueEvent(scrollY, "change", (value) => {

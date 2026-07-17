@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "next typegen && tsc --noEmit",
     "prepare:hero": "node scripts/assets/prepare-hero-assets.mjs",
     "repair:hero-loop": "node scripts/assets/repair-hero-loop.mjs",
     "optimize:hero-video": "node scripts/assets/optimize-hero-video.mjs"
@@ -18,7 +18,7 @@
     "@vercel/analytics": "^2.0.1",
     "@vercel/speed-insights": "^2.0.0",
     "motion": "^12.40.0",
-    "next": "16.2.4",
+    "next": "16.2.10",
     "react": "19.2.4",
     "react-dom": "19.2.4"
   },
@@ -28,9 +28,12 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
-    "eslint-config-next": "16.2.4",
+    "eslint-config-next": "16.2.10",
     "sharp": "^0.34.5",
     "tailwindcss": "^4",
     "typescript": "^5"
+  },
+  "overrides": {
+    "postcss": "8.5.19"
   }
 }
