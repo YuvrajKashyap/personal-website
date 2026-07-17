@@ -293,6 +293,103 @@ export const projects = [
     ],
   },
   {
+    id: "project_dallas_3d_city_model",
+    slug: "dallas-3d-city-model",
+    title: "Dallas 3D Urban Geometry Lab",
+    shortTitle: "Dallas 3D",
+    eyebrow: "Geospatial research",
+    summary:
+      "Reproducible downtown Dallas model for height provenance, line-of-sight coverage, and A* routing.",
+    description:
+      "Dallas 3D turns 1,553 OpenStreetMap building footprints into a traceable LOD1-style city model, then uses the geometry for sampled visibility coverage and fixed-altitude path-planning experiments.",
+    category: "product_system",
+    type: "experiment",
+    status: "portfolio_ready",
+    priority: "strong",
+    visibility: "published",
+    featured: true,
+    featuredRank: 5,
+    order: 45,
+    randomizerEligible: true,
+    randomizerBucket: "systems",
+    randomizerWeight: 1,
+    tags: [
+      "Geospatial",
+      "Computational geometry",
+      "3D modeling",
+      "Path planning",
+    ],
+    stack: [
+      "Python",
+      "GeoPandas",
+      "Shapely",
+      "Trimesh",
+      "OSMnx",
+      "Blender",
+      "Pytest",
+      "GitHub Actions",
+    ],
+    highlights: [
+      "Deterministic height enrichment with source and confidence on all 1,553 buildings",
+      "Six greedy observer samples cover 93.33% of 240 sampled targets",
+      "A* produces a 4.99 km route through an altitude-dependent obstacle grid",
+    ],
+    problem:
+      "A visually varied city mesh is not enough for defensible geometry research when most building heights are missing and generated values are not traceable.",
+    solution:
+      "A reproducible pipeline that validates and projects OSM geometry, labels every height by provenance, exports an inspectable city mesh, and runs transparent 2.5D coverage and routing baselines.",
+    whatItProves:
+      "Ability to connect geospatial data engineering, computational geometry, algorithm design, 3D tooling, research boundaries, and reproducible presentation.",
+    detailSections: [
+      {
+        eyebrow: "Data Integrity",
+        title: "Uncertainty stays visible",
+        body: "Explicit OSM heights receive high confidence, levels-derived heights receive medium confidence, and the deterministic typology-and-area fallback remains labeled low confidence instead of manufacturing random high-rises.",
+      },
+      {
+        eyebrow: "Visibility",
+        title: "Coverage through real building prisms",
+        body: "A 2.5D ray test evaluates sampled aerial observer-to-ground-target lines against building footprints and heights, then a greedy set-cover baseline selects six observers with 93.33% sampled coverage.",
+      },
+      {
+        eyebrow: "Path Planning",
+        title: "Altitude changes the obstacle field",
+        body: "The fixed-altitude experiment rasterizes buildings that violate vertical clearance and applies eight-neighbor A* to produce a 4.99 km route with a 1.015× detour ratio.",
+      },
+      {
+        eyebrow: "Research Boundary",
+        title: "A geometry lab, not flight guidance",
+        body: "The project documents its flat-terrain, flat-roof, sampled-coverage, and fixed-altitude assumptions and does not claim legal, safe, continuous, or globally optimal UAV operation.",
+      },
+    ],
+    timelineLabel: "Research system / portfolio ready",
+    updatedAt: "2026-07-17",
+    notes:
+      "Experiment metrics are reproducible outputs from the checked-in configuration. They are not real-world flight-performance claims.",
+    attributionNotes:
+      "Building footprints and tags © OpenStreetMap contributors, available under the ODbL.",
+    links: [
+      {
+        label: "GitHub repo",
+        href: "https://github.com/YuvrajKashyap/dallas-3d-city-model",
+        type: "repo",
+        isPrimary: true,
+        status: "verified",
+        external: true,
+      },
+    ],
+    media: [
+      {
+        type: "cover",
+        src: "/media/projects/dallas-3d-city-model/overview.webp",
+        alt: "Oblique Blender render of the Dallas LOD1 building model with an A-star route and selected visibility observers",
+        theme: "both",
+        status: "ready",
+        note: "Building data © OpenStreetMap contributors, ODbL.",
+      },
+    ],
+  },
+  {
     id: "project_axis",
     slug: "axis",
     title: "Axis",

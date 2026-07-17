@@ -21,6 +21,7 @@ Reach him at ykyuvrajkashyap@gmail.com.
 - Atlas: distributed crawl, extract, index, and search platform for ethical public web content (Python, FastAPI, PostgreSQL, Redis).
 - [Personal Website](https://github.com/YuvrajKashyap/personal-website): the site itself — Next.js App Router, TypeScript, Tailwind v4, and Motion, with a custom cursor system, a canvas-rendered holographic contact globe, and a typed, model-backed project archive.
 - [Capital](https://github.com/YuvrajKashyap/capital-case-study): private single-owner financial command center with connected account state, transactions, a manual ledger, recurring analysis, alerts, and digest reporting. The public repository contains synthetic screenshots and documentation only.
+- [Dallas 3D Urban Geometry Lab](https://github.com/YuvrajKashyap/dallas-3d-city-model): reproducible LOD1-style model of 1,553 downtown Dallas building footprints with height provenance, sampled 2.5D visibility coverage, fixed-altitude A* routing, and a canonical Blender scene. Reported coverage and route metrics are geometry-experiment outputs, not real-world flight claims.
 - Axis: personal alignment / orbital operating system (early direction).
 - Arcade: browser arcade with multiple games and transparent attribution boundaries.
 - Beyond Chat: artifact-centric AI workspace (early direction).
