@@ -50,6 +50,7 @@ The project grid on the site and the GitHub profile are the live sources. Curren
 - **Capital:** Private single-owner financial command center for connected account state, transactions, manual planning, recurring analysis, alerts, and digest reporting. Public case study: https://github.com/YuvrajKashyap/capital-case-study
 - **Dallas 3D Urban Geometry Lab** — Reproducible LOD1-style model of 1,553 downtown Dallas building footprints with explicit height provenance, sampled 2.5D visibility coverage, fixed-altitude A* routing, and a canonical Blender scene. The current experiment selects six observer samples covering 93.33% of 240 sampled targets and produces a 4.99 km route; these are geometry-sandbox outputs, not flight-performance claims. Repo: https://github.com/YuvrajKashyap/dallas-3d-city-model
 - **Lucca's Hair** - Live client website that owns discovery, trust, and local SEO while Square remains the booking system of record. The production surface includes a responsive appointment-first UI, fail-closed private routes, regression tests, CI, and explicit data boundaries. Live: https://luccas-hair.vercel.app | Repo: https://github.com/YuvrajKashyap/luccas-hair
+- **Northstar** — Co-built memory-first financial-planning agent with deterministic synthetic portfolio stress scenarios, inspectable memory and reasoning traces, bearer-token and owner-scoped data boundaries, and explicit approval before execution. Portfolio-ready hackathon prototype; not a live financial product and no live demo is claimed. Repo: https://github.com/YuvrajKashyap/northstar
 - **Axis** — Personal alignment / orbital operating system direction for life, routines, and focus. Conservative draft entry.
 - **Arcade** — Browser arcade with multiple games and transparent attribution boundaries between original and embedded work.
 - **Beyond Chat** — Artifact-centric AI workspace direction: modern frontend, API layer, AI search integrations. Conservative draft entry.
@@ -85,6 +86,7 @@ A good first answer is concise and warm:
 ## Useful Interview Questions
 
 - Walk me through Aletheia and how you think about retrieval quality as an observable system.
+- How does Northstar separate deterministic financial calculations from agent narration, and where does human approval enter the flow?
 - How would you design a crawl, extract, index, and search pipeline responsibly?
 - What did the UAV swarm simulation teach you about multi-agent planning under real city constraints?
 - What tradeoffs did you make building the personal website as one app with two visual systems?

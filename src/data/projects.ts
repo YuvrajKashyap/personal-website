@@ -577,6 +577,94 @@ export const projects = [
     ],
   },
   {
+    id: "project_northstar",
+    slug: "northstar",
+    title: "Northstar",
+    shortTitle: "Northstar",
+    eyebrow: "Explainable AI prototype",
+    summary:
+      "Memory-first financial planning agent with inspectable, approval-gated reasoning.",
+    description:
+      "Northstar is a co-built financial-planning prototype that turns a synthetic portfolio and goals into deterministic stress scenarios, visible memory traces, and plans that require explicit approval before execution.",
+    category: "ai_systems",
+    type: "app",
+    status: "portfolio_ready",
+    priority: "strong",
+    visibility: "published",
+    featured: true,
+    featuredRank: 7,
+    order: 48,
+    randomizerEligible: true,
+    randomizerBucket: "product",
+    randomizerWeight: 1,
+    tags: ["AI agents", "Fintech", "Explainability", "Security"],
+    stack: [
+      "React",
+      "TypeScript",
+      "Express",
+      "Supabase",
+      "Python",
+      "OpenAI Agents SDK",
+    ],
+    highlights: [
+      "Deterministic portfolio stress scenarios with checked-in provenance",
+      "Bearer-token verification and owner-scoped Supabase access boundaries",
+      "Inspectable reasoning trace with explicit approval before execution",
+    ],
+    problem:
+      "Financial-planning agents are difficult to trust when their assumptions, memory, calculations, and action boundaries are hidden behind a chat response.",
+    solution:
+      "A memory-first workspace that separates deterministic scenario math from agent narration, exposes the evidence behind each plan, and keeps consequential actions behind a human approval gate.",
+    whatItProves:
+      "Ability to integrate frontend, API, data-security, agent, and reproducible-analysis concerns into one inspectable product system.",
+    detailSections: [
+      {
+        eyebrow: "Methodology",
+        title: "Deterministic before persuasive",
+        body: "The checked-in synthetic fixture uses a fixed seed and as-of date. Scenario outputs come from documented asset-class shocks and cash-flow arithmetic rather than generated numbers.",
+      },
+      {
+        eyebrow: "Trust Boundary",
+        title: "Identity and ownership stay server-enforced",
+        body: "The API verifies bearer tokens, rejects cross-user identities, forwards the user JWT to Supabase, and includes a migration from permissive prototype policies to owner-scoped row-level security.",
+      },
+      {
+        eyebrow: "Agent Design",
+        title: "Reasoning is visible; execution is gated",
+        body: "Plans carry an inspectable memory and scenario trace, while state-changing execution remains pending until the user explicitly approves it.",
+      },
+      {
+        eyebrow: "Contribution",
+        title: "A team build with commit-backed ownership",
+        body: "Northstar was co-built with Kushagra Bharti. Yuvraj's visible Git history covers much of the route and product integration, authentication presentation, onboarding gates, user-specific memory and agent surfaces, scenario behavior, goal mutations, and build recovery.",
+      },
+    ],
+    timelineLabel: "Hackathon prototype / portfolio ready",
+    updatedAt: "2026-07-17",
+    notes:
+      "No live demo is claimed. The checked-in scenario uses synthetic data and is not a forecast, tax calculation, trade recommendation, or account connection. The historical Supabase project is no longer reachable, so its owner-scoped RLS migration is documented and tested in code but not verified against that remote project.",
+    links: [
+      {
+        label: "GitHub repo",
+        href: "https://github.com/YuvrajKashyap/northstar",
+        type: "repo",
+        isPrimary: true,
+        status: "verified",
+        external: true,
+      },
+    ],
+    media: [
+      {
+        type: "cover",
+        src: "/media/projects/northstar/portfolio-hero.png",
+        alt: "Northstar landing page showing a memory profile, goal-aware planning chat, investing agents, and an approval-gated workflow",
+        theme: "both",
+        status: "ready",
+        note: "Real local capture from the running product.",
+      },
+    ],
+  },
+  {
     id: "project_axis",
     slug: "axis",
     title: "Axis",
