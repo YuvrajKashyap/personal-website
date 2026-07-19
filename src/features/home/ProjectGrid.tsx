@@ -3,6 +3,7 @@
 import {
   AnimatePresence,
   motion,
+  useInView,
   useMotionTemplate,
   useMotionValue,
   useReducedMotion,
@@ -12,8 +13,11 @@ import {
 import Link from "next/link";
 import {
   useDeferredValue,
+  useEffect,
   useMemo,
+  useRef,
   useState,
+  useSyncExternalStore,
   type PointerEvent,
   type ReactNode,
 } from "react";
@@ -27,6 +31,30 @@ type ProjectGridProps = Readonly<{
 }>;
 
 const TILT_SPRING = { stiffness: 240, damping: 20, mass: 0.55 };
+
+const FINE_POINTER_QUERY = "(hover: hover) and (pointer: fine)";
+
+function subscribeToFinePointer(callback: () => void) {
+  const mediaQuery = window.matchMedia(FINE_POINTER_QUERY);
+  mediaQuery.addEventListener("change", callback);
+  return () => mediaQuery.removeEventListener("change", callback);
+}
+
+function getFinePointerSnapshot() {
+  return window.matchMedia(FINE_POINTER_QUERY).matches;
+}
+
+function getFinePointerServerSnapshot() {
+  return true;
+}
+
+function useFinePointer() {
+  return useSyncExternalStore(
+    subscribeToFinePointer,
+    getFinePointerSnapshot,
+    getFinePointerServerSnapshot,
+  );
+}
 
 const gridVariants = {
   hidden: {},
@@ -68,6 +96,12 @@ function getRepoHref(project: Project) {
 
 function ProjectTile({ project }: Readonly<{ project: Project }>) {
   const shouldReduceMotion = useReducedMotion();
+  const finePointer = useFinePointer();
+  const tileRef = useRef<HTMLDivElement>(null);
+  // Touch devices have no hover, so the preview activates while the tile is
+  // on screen instead: fade in as it enters, fade out as it leaves.
+  const tileInView = useInView(tileRef, { amount: 0.55 });
+  const previewActive = !finePointer && tileInView;
   const pointerX = useMotionValue(0.5);
   const pointerY = useMotionValue(0.5);
   const rotateX = useSpring(
@@ -101,7 +135,17 @@ function ProjectTile({ project }: Readonly<{ project: Project }>) {
   );
   const previewScale = useTransform(hover, [0, 1], [1.18, 1.06]);
 
+  useEffect(() => {
+    if (!finePointer) {
+      hover.set(tileInView ? 1 : 0);
+    }
+  }, [finePointer, tileInView, hover]);
+
   function onPointerEnter(event: PointerEvent<HTMLElement>) {
+    if (!finePointer) {
+      return;
+    }
+
     const bounds = event.currentTarget.getBoundingClientRect();
     entryX.set(((event.clientX - bounds.left) / bounds.width) * 100);
     entryY.set(((event.clientY - bounds.top) / bounds.height) * 100);
@@ -117,7 +161,10 @@ function ProjectTile({ project }: Readonly<{ project: Project }>) {
   function onPointerLeave() {
     pointerX.set(0.5);
     pointerY.set(0.5);
-    hover.set(0);
+
+    if (finePointer) {
+      hover.set(0);
+    }
   }
 
   const repoHref = getRepoHref(project);
@@ -137,7 +184,16 @@ function ProjectTile({ project }: Readonly<{ project: Project }>) {
       <div className="project-tile-thumb" data-category={project.category}>
         <motion.span
           className="project-tile-preview"
-          style={shouldReduceMotion ? undefined : { clipPath: previewClip }}
+          style={
+            shouldReduceMotion
+              ? undefined
+              : finePointer
+                ? { clipPath: previewClip }
+                : // clipPath must be explicitly cleared: the server render
+                  // assumes a fine pointer and its stale inline circle(0%)
+                  // would otherwise keep the faded-in preview invisible
+                  { opacity: hover, clipPath: "none" }
+          }
           aria-hidden="true"
         >
           <motion.img
@@ -210,6 +266,8 @@ function ProjectTile({ project }: Readonly<{ project: Project }>) {
 
   return (
     <motion.div
+      ref={tileRef}
+      data-preview-active={previewActive || undefined}
       layout={shouldReduceMotion ? false : "position"}
       variants={shouldReduceMotion ? undefined : cardVariants}
       exit={

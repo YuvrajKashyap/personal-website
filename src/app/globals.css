@@ -1266,6 +1266,58 @@ html[data-theme="light"] .site-navigation[data-scrolled] .nav-capsule {
   }
 }
 
+/* Mobile: the nudge moves BELOW the AI buttons with the arrow rotated to
+   point up at them — inline it clips off the right edge of the scroll row */
+@media (max-width: 767px) {
+  .hero-action-row-ai {
+    flex-wrap: wrap;
+    overflow: visible;
+  }
+
+  .hero-ai-nudge {
+    flex-basis: 100%;
+    order: 10;
+    margin: 0.15rem 0 0 0.9rem;
+  }
+
+  .hero-ai-nudge-inner {
+    transform: rotate(-2deg);
+    gap: 0.55rem;
+    align-items: flex-start;
+  }
+
+  .hero-ai-nudge-arrow {
+    width: 1.9rem;
+    height: 2.4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation-name: hero-ai-nudge-bob-up;
+  }
+
+  .hero-ai-nudge-arrow svg {
+    width: 2.4rem;
+    max-width: none;
+    flex: none;
+    transform: rotate(90deg);
+  }
+
+  .hero-ai-nudge-text {
+    margin-top: 0.9rem;
+  }
+}
+
+@keyframes hero-ai-nudge-bob-up {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .hero-ai-nudge-arrow {
     animation: none;
@@ -3680,6 +3732,40 @@ html[data-theme="light"] .resume-download:focus-visible {
   }
 }
 
+/* Touch devices: tiles go cinema-mode while on screen (driven by
+   data-preview-active from in-view state) since there is no hover */
+@media (hover: none) {
+  [data-preview-active] .project-tile-thumb-copy strong {
+    color: #f8f4e9;
+    text-shadow: 0 1px 18px rgb(5 6 10 / 0.6);
+  }
+
+  [data-preview-active] .project-tile-summary {
+    color: rgb(242 238 226 / 0.97);
+    text-shadow: 0 1px 10px rgb(5 6 10 / 0.85);
+  }
+
+  [data-preview-active] .project-tile-stack li {
+    color: var(--accent-strong, var(--accent));
+    text-shadow: 0 1px 8px rgb(5 6 10 / 0.9);
+  }
+
+  html[data-theme="light"] [data-preview-active] .project-tile-stack li {
+    color: #ff7261;
+  }
+
+  [data-preview-active] .project-tile-stack li + li::before {
+    color: rgb(233 228 214 / 0.55);
+  }
+
+  [data-preview-active] .project-tile-corner {
+    width: 15px;
+    height: 15px;
+    border-color: var(--accent-strong);
+    opacity: 1;
+  }
+}
+
 .project-tile-thumb-copy {
   position: relative;
   z-index: 1;
@@ -4620,9 +4706,11 @@ html[data-theme="light"] .project-tile:hover .project-tile-stack li {
     margin-top: 0;
   }
 
+  /* Keep clearance between the glyphs and the unseal clip edge — zero
+     padding let the rounded clip corner shave the first letter of titles */
   .resume-entry-body {
-    margin: 0;
-    padding: 0;
+    margin: -0.5rem -0.6rem;
+    padding: 0.5rem 0.6rem;
   }
 
   .home-project-showcase {
