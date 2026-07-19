@@ -4750,22 +4750,24 @@ html[data-theme="light"] .project-tile:hover .project-tile-stack li {
     font-size: var(--text-4xl);
   }
 
+  /* Phone hero: the whole copy stack (name, roles, typing line) sits at the
+     bottom of the first screen, centered, directly above the action buttons —
+     leaving the black hole visual clear above it. */
+  .home-dark-hero-section,
+  .home-light-hero-section {
+    align-items: flex-end;
+  }
+
   .home-dark-copy,
   .home-light-copy {
-    /* How far the action buttons sink toward the viewport bottom. The
-       translateY below compensates by half the drop so the centered name,
-       roles, and typing line stay put while only the buttons move. The
-       100svh term backs off on short screens so the buttons never collide
-       with the scroll cue. */
-    --hero-actions-drop: max(2.5rem, min(14rem, 24svh, calc(100svh - 34rem)));
-
     display: flex;
     width: 100%;
     max-width: none;
     flex-direction: column;
-    align-items: flex-start;
-    text-align: left;
-    transform: translateY(calc(var(--hero-actions-drop) / 2 - 2.6rem));
+    align-items: center;
+    text-align: center;
+    transform: none;
+    margin-bottom: 2rem;
   }
 
   .home-hero-name-reveal {
@@ -4787,7 +4789,7 @@ html[data-theme="light"] .project-tile:hover .project-tile-stack li {
   .home-light-copy > .mt-10 {
     order: 4;
     width: 100%;
-    margin-top: var(--hero-actions-drop);
+    margin-top: 4.25rem;
   }
 
   .home-hero-name-reveal .hero-name-lockup,
@@ -4796,24 +4798,26 @@ html[data-theme="light"] .project-tile:hover .project-tile-stack li {
   }
 
   .home-hero-name-reveal .hero-name-lockup {
-    font-size: 2.85rem;
+    font-size: 3.2rem;
   }
 
   .home-hero-role-reveal .home-role-cycle {
-    font-size: 0.7rem;
+    font-size: 0.78rem;
     letter-spacing: 0.11em;
   }
 
   .home-hero-role-reveal .home-role-cycle__words {
-    justify-content: flex-start;
+    justify-content: center;
     gap: 0.3em 0.52em;
   }
 
   .home-hero-typing-reveal .hero-rotating-text {
-    max-width: 15rem;
+    max-width: 19rem;
     min-height: 3em;
-    font-size: 0.8125rem;
+    margin-inline: auto;
+    font-size: 0.92rem;
     line-height: 1.45;
+    text-align: center;
   }
 
   .home-dark-copy .hero-action-list,
@@ -4830,6 +4834,16 @@ html[data-theme="light"] .project-tile:hover .project-tile-stack li {
     width: 100%;
     gap: clamp(0.22rem, 0.95vw, 0.36rem);
     padding-bottom: 0.32rem;
+  }
+
+  .hero-action-row-ai {
+    justify-content: center;
+  }
+
+  .hero-action-row-ai .hero-ai-nudge {
+    display: flex;
+    justify-content: center;
+    margin-inline: 0;
   }
 
   .hero-action-item {
