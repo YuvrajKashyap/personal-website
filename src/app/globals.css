@@ -4832,6 +4832,7 @@ html[data-theme="light"] .project-tile:hover .project-tile-stack li {
 
   .hero-action-row {
     width: 100%;
+    justify-content: center;
     gap: clamp(0.22rem, 0.95vw, 0.36rem);
     padding-bottom: 0.32rem;
   }
