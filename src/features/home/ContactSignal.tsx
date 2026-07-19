@@ -948,6 +948,7 @@ export function ContactSignal() {
 
     function onPointerLeave() {
       pointer.active = false;
+      drag.active = false;
 
       if (!userAdjusted) {
         pitchTarget = -0.28;
@@ -970,13 +971,22 @@ export function ContactSignal() {
 
       drag.active = false;
 
-      if (drag.travel < 8) {
+      // Fingers jitter more than mice, so touch gets a looser tap threshold
+      const tapThreshold = event.pointerType === "mouse" ? 8 : 16;
+
+      if (drag.travel < tapThreshold) {
         const bounds = canvas.getBoundingClientRect();
         addPulse(
           event.clientX - bounds.left,
           event.clientY - bounds.top,
           false,
         );
+      }
+
+      // No hover on touch: drop the reticle instead of freezing it at the
+      // last touch point.
+      if (event.pointerType !== "mouse") {
+        pointer.active = false;
       }
     }
 

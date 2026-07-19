@@ -936,6 +936,8 @@ html[data-theme="light"] .site-navigation[data-scrolled] .nav-capsule {
 }
 
 .mobile-menu-panel {
+  /* Re-enable clicks: the .site-navigation wrapper is pointer-events: none */
+  pointer-events: auto;
   position: fixed;
   inset-inline: var(--page-padding-x);
   top: 5rem;
@@ -4183,6 +4185,15 @@ html[data-theme="light"] .project-tile:hover .project-tile-stack li {
   aspect-ratio: 1;
   justify-self: center;
   touch-action: pan-y;
+}
+
+/* On touch screens the hologram owns its gestures entirely — with pan-y the
+   browser cancels any drag that drifts vertically, making it nearly
+   impossible to spin the globe by finger. */
+@media (hover: none) and (pointer: coarse) {
+  .contact-signal {
+    touch-action: none;
+  }
 }
 
 .contact-signal-canvas {
