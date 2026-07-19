@@ -90,25 +90,53 @@ function HeroVideoLayer({
 
     observer.observe(video);
 
-    // iOS pauses autoplaying video aggressively (Low Power Mode, tab
-    // switches) and paints its own play glyph over the frozen frame. Retry
-    // when the page returns, and on the first touch, since a user gesture
-    // always unlocks playback.
+    // iOS blocks or pauses autoplay aggressively (Low Power Mode, tab
+    // switches) and there is no API to override it — but ANY user gesture
+    // unlocks playback. So: retry on every available signal (any touch,
+    // click, or scroll anywhere on the page, page visibility, load
+    // progress), plus a burst of retries during the first seconds. The
+    // video starts on its own or at the user's very first interaction,
+    // without them ever touching a play button.
     function retryPlayback() {
-      if (isInViewRef.current) {
+      if (isInViewRef.current && video && video.paused && !video.ended) {
         requestPlayback();
       }
     }
 
+    const gestureEvents = [
+      "touchstart",
+      "touchend",
+      "pointerdown",
+      "click",
+      "scroll",
+    ] as const;
+
+    for (const eventName of gestureEvents) {
+      window.addEventListener(eventName, retryPlayback, { passive: true });
+    }
+
     document.addEventListener("visibilitychange", retryPlayback);
     window.addEventListener("pageshow", retryPlayback);
-    window.addEventListener("touchstart", retryPlayback, { passive: true });
+    window.addEventListener("focus", retryPlayback);
+
+    const retryBurst = window.setInterval(retryPlayback, 800);
+    const stopBurst = window.setTimeout(
+      () => window.clearInterval(retryBurst),
+      8000,
+    );
 
     return () => {
       observer.disconnect();
+
+      for (const eventName of gestureEvents) {
+        window.removeEventListener(eventName, retryPlayback);
+      }
+
       document.removeEventListener("visibilitychange", retryPlayback);
       window.removeEventListener("pageshow", retryPlayback);
-      window.removeEventListener("touchstart", retryPlayback);
+      window.removeEventListener("focus", retryPlayback);
+      window.clearInterval(retryBurst);
+      window.clearTimeout(stopBurst);
       video.pause();
     };
   }, [requestPlayback]);
@@ -133,12 +161,21 @@ function HeroVideoLayer({
         setIsVideoPlaying(true);
       }}
       onPause={() => {
-        // Paused while on screen (iOS Low Power Mode etc.): fade back to the
-        // poster instead of showing a frozen frame with a play glyph.
+        // Paused while on screen (iOS Low Power Mode etc.): immediately try
+        // to resume; only if iOS refuses do we fade back to the poster so a
+        // frozen frame with a play glyph is never shown.
         const video = videoRef.current;
-        if (isInViewRef.current && video && !video.ended) {
-          setIsVideoPlaying(false);
+
+        if (!isInViewRef.current || !video || video.ended) {
+          return;
         }
+
+        requestPlayback();
+        window.setTimeout(() => {
+          if (isInViewRef.current && video.paused && !video.ended) {
+            setIsVideoPlaying(false);
+          }
+        }, 350);
       }}
       onError={() => {
         setIsVideoPlaying(false);
