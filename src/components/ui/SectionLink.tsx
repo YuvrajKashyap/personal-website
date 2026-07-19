@@ -14,6 +14,19 @@ type SectionLinkProps = Readonly<{
  * wipes up on hover while the label rolls over and the arrow slides through.
  * Magnetic, so it leans toward the cursor before it arrives.
  */
+/**
+ * The arrow used to be the &rarr; character, but Space Mono's latin subset
+ * lacks U+2192, so the browser substituted a fallback glyph that overflowed
+ * the clipped arrow box. An inline SVG keeps the geometry font-independent.
+ */
+function ArrowGlyph() {
+  return (
+    <svg viewBox="0 0 12 12" fill="none" stroke="currentColor">
+      <path d="M1 6h9.5M6.5 1.75 10.75 6 6.5 10.25" strokeWidth="1.5" />
+    </svg>
+  );
+}
+
 export function SectionLink({ href, label, external }: SectionLinkProps) {
   const content = (
     <>
@@ -29,8 +42,12 @@ export function SectionLink({ href, label, external }: SectionLinkProps) {
         </span>
       </span>
       <span className="section-link-arrow" aria-hidden="true">
-        <span>&rarr;</span>
-        <span>&rarr;</span>
+        <span>
+          <ArrowGlyph />
+        </span>
+        <span>
+          <ArrowGlyph />
+        </span>
       </span>
     </>
   );
