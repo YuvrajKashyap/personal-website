@@ -16,7 +16,8 @@ These images are the canonical hover previews for the portfolio project links. E
 | Register2Park Automation | `/media/project-previews/register2park-automation.webp` | Technical workflow cover based on the real review-first flow |
 | Personal Website | `/media/project-previews/personal-website.webp` | Live homepage |
 | Atlas | `/media/project-previews/atlas.webp` | Product landing page |
+| Sticky | `/media/project-previews/sticky.webp` | Current app UI with the built-in fictional local demo fixture |
 
 `contact-sheet.webp` is a review artifact for comparing the full set. It should not be used as an individual project preview.
 
-Sticky is the reserved thirteenth project. Its preview should be added only after the product work is finished. Why is intentionally excluded from the portfolio.
+The set now contains all 13 approved portfolio projects. Why is intentionally excluded from the portfolio.

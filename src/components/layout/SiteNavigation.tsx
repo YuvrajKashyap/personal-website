@@ -10,6 +10,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 
+import { NavCallouts } from "@/components/layout/NavCallouts";
 import { CursorTrailToggle } from "@/components/theme/CursorTrailToggle";
 import { ThemeToggle } from "@/components/theme/ThemeToggle";
 import { siteConfig } from "@/config/site";
@@ -298,9 +299,11 @@ export function SiteNavigation() {
       >
         <ThemeToggle />
         <CursorTrailToggle />
+        <NavCallouts />
       </motion.div>
 
       <div className="site-navigation-mobile-actions">
+        <NavCallouts variant="compact" />
         <ThemeToggle />
         <button
           type="button"

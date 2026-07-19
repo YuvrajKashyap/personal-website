@@ -509,12 +509,142 @@ html[data-theme="light"] .site-header {
 }
 
 .site-navigation-actions {
+  position: relative;
   display: none;
   gap: 0.75rem;
   margin-inline-end: calc(clamp(-1.6rem, -1.35vw, -0.85rem) - 0.6rem);
 }
 
+/* First-load callouts pointing up at the trail and theme toggles: drawn
+   arrows with sparks and clip-revealed labels, hanging below the nav */
+.nav-callouts {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  width: 16rem;
+  pointer-events: none;
+  color: var(--accent);
+}
+
+.nav-callout {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: block;
+}
+
+.nav-callout-inner {
+  position: relative;
+  display: block;
+  animation: nav-callout-bob 2.6s ease-in-out infinite;
+}
+
+.nav-callout-inner-trail {
+  animation-delay: 3.4s;
+}
+
+.nav-callout-inner-theme {
+  animation-delay: 4.2s;
+}
+
+.nav-callout-arrow {
+  display: block;
+  filter: drop-shadow(0 0 9px var(--glow-primary));
+}
+
+/* Trail arrow ends under the right toggle (its center ~20px from the
+   container edge); theme arrow reaches further left to the theme toggle
+   (~68px in) */
+.nav-callout-arrow-trail {
+  width: 2.5rem;
+  margin-inline-start: auto;
+  margin-inline-end: 0;
+}
+
+.nav-callout-theme {
+  top: 3.4rem;
+  right: 3rem;
+}
+
+.nav-callout-arrow-theme {
+  width: 3rem;
+  margin-inline-start: auto;
+  margin-inline-end: 0.35rem;
+}
+
+.nav-callout-text {
+  display: block;
+  margin-top: 0.3rem;
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: 0.01em;
+  text-align: right;
+  text-transform: lowercase;
+  white-space: nowrap;
+  text-shadow: 0 0 14px var(--glow-primary);
+  transform: rotate(2deg);
+  transform-origin: right top;
+}
+
+.nav-callout-theme .nav-callout-text {
+  transform: rotate(-2.5deg);
+}
+
+.nav-callout-spark {
+  fill: var(--accent);
+  filter: drop-shadow(0 0 3px var(--glow-primary));
+}
+
+.nav-callout-spark.is-white {
+  fill: #fff;
+}
+
+/* Compact nav (below 1280px): only the theme callout, anchored under the
+   theme toggle left of the menu button. Fine-pointer screens only — phones
+   don't get onboarding arrows. */
+.nav-callouts-compact {
+  display: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .nav-callouts-compact {
+    display: block;
+  }
+}
+
+@media (min-width: 1280px) {
+  .nav-callouts-compact {
+    display: none;
+  }
+}
+
+.nav-callouts-compact .nav-callout-theme {
+  top: 0;
+  right: 4rem;
+}
+
+@keyframes nav-callout-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-callout-inner {
+    animation: none;
+  }
+}
+
 .site-navigation-mobile-actions {
+  position: relative;
   display: flex;
   gap: 0.5rem;
 }
@@ -2897,28 +3027,37 @@ html[data-theme="light"] .section-link:hover .section-link-corner {
 .resume-credentials ul {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.55rem;
+  gap: 0.5rem 1.15rem;
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
+/* Credentials as glowing achievement marks — a small star leads each one
+   instead of a pill box */
 .resume-credentials li {
-  border: 1px solid var(--border-strong);
-  border-radius: 999px;
   color: var(--accent);
   font-family: var(--font-mono);
   font-size: 0.68rem;
   font-weight: 700;
   letter-spacing: var(--tracking-wide);
-  padding: 0.45rem 0.7rem;
   text-transform: uppercase;
-  transition: background-color 200ms ease, color 200ms ease;
+  text-shadow: 0 0 14px var(--glow-primary);
+  transition:
+    color 200ms ease,
+    transform 260ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.resume-credentials li::before {
+  content: "✦";
+  margin-right: 0.45rem;
+  font-size: 0.85em;
+  opacity: 0.75;
 }
 
 .resume-credentials li:hover {
-  background: var(--accent);
-  color: #0a0805;
+  color: var(--accent-strong, var(--accent));
+  transform: translateY(-2px);
 }
 
 .resume-ledger {
@@ -3020,12 +3159,75 @@ html[data-theme="light"] .section-link:hover .section-link-corner {
   z-index: 1;
 }
 
+/* Solid accent core that fills the node as the rail comet passes it.
+   inset: 0 + margin: auto centers the dot exactly regardless of border and
+   subpixel rounding. */
+.resume-node-fill {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 5px;
+  height: 5px;
+  border-radius: 999px;
+  background: var(--accent);
+  box-shadow: 0 0 9px var(--glow-primary);
+  opacity: 0;
+}
+
+/* Gate wrapper: the pulse only runs once the comet has passed this node —
+   opacity is driven from the same fill spring, so un-passed and
+   scrolled-back-up nodes sit quiet. */
+.resume-node-pulse-gate {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
 .resume-node-pulse {
   position: absolute;
   inset: -2px;
   border: 1.5px solid var(--accent);
   border-radius: 999px;
   animation: resume-node-pulse 2.2s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+
+/* Ongoing roles: a satellite dot on a faint dashed track slowly orbiting the
+   node — echoes the hologram's dashed halo, distinct from the pulse */
+.resume-node-orbit {
+  position: absolute;
+  inset: -8px;
+  border-radius: 999px;
+  border: 1px dashed color-mix(in srgb, var(--accent) 45%, transparent);
+  animation: resume-node-orbit 5.5s linear infinite;
+  pointer-events: none;
+}
+
+.resume-node-orbit-dot {
+  position: absolute;
+  top: -2.5px;
+  left: 50%;
+  width: 4.5px;
+  height: 4.5px;
+  margin-left: -2.25px;
+  border-radius: 999px;
+  background: var(--accent-strong, var(--accent));
+  box-shadow: 0 0 8px var(--glow-primary);
+}
+
+@keyframes resume-node-orbit {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .resume-node-pulse-gate {
+    display: none;
+  }
+
+  .resume-node-orbit {
+    animation: none;
+  }
 }
 
 [data-section-reveal-active="false"] .resume-node-pulse {
@@ -3150,47 +3352,125 @@ html[data-theme="light"] .section-link:hover .section-link-corner {
   content: "\2023";
 }
 
+/* Skills as a quiet glowing accent readout — no pill boxes, dot separators,
+   matching the project tiles' stack line */
 .resume-entry-skills {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.55rem;
+  align-items: baseline;
+  gap: 0.35rem 0.75rem;
   margin: 1rem 0 0;
   padding: 0;
   list-style: none;
 }
 
 .resume-entry-skills li {
-  border: 1px solid var(--home-flow-border);
-  border-radius: 999px;
-  color: var(--muted-foreground);
+  color: var(--accent);
   font-family: var(--font-mono);
   font-size: 0.66rem;
-  letter-spacing: var(--tracking-wide);
-  padding: 0.42rem 0.58rem;
+  font-weight: 700;
+  letter-spacing: var(--tracking-wider);
   text-transform: uppercase;
+  text-shadow: 0 0 12px var(--glow-primary);
   transition:
-    border-color 200ms ease,
     color 200ms ease,
-    background-color 200ms ease,
     transform 260ms cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-.resume-entry:hover .resume-entry-skills li {
-  border-color: var(--border-strong);
-  color: var(--foreground-soft);
+.resume-entry-skills li + li::before {
+  content: "·";
+  margin-right: 0.75rem;
+  color: var(--home-flow-border-strong);
+  text-shadow: none;
 }
 
 .resume-entry-skills li:hover {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: #0a0805;
+  color: var(--accent-strong, var(--accent));
   transform: translateY(-2px);
 }
 
 .home-experience-links {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   gap: 1rem;
+}
+
+/* Circular magnetic resume download button: gold fill wipes up, icon flips
+   dark, and the arrow dips into its tray with overshoot */
+.resume-download {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  overflow: hidden;
+  isolation: isolate;
+  border: 1px solid var(--border-strong);
+  border-radius: 999px;
+  color: var(--foreground);
+  transition:
+    color 240ms ease,
+    border-color 240ms ease,
+    transform 180ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.resume-download:active {
+  transform: scale(0.93);
+}
+
+.resume-download-fill {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: var(--accent);
+  transform: translateY(101%);
+  transition: transform 320ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.resume-download:hover .resume-download-fill,
+.resume-download:focus-visible .resume-download-fill {
+  transform: translateY(0);
+}
+
+.resume-download:hover,
+.resume-download:focus-visible {
+  border-color: var(--accent);
+  color: #0a0805;
+}
+
+/* Light theme's fill is red, so the icon flips to white instead of black */
+html[data-theme="light"] .resume-download:hover,
+html[data-theme="light"] .resume-download:focus-visible {
+  color: #fff;
+}
+
+.resume-download-icon {
+  width: 1.15rem;
+  height: 1.15rem;
+}
+
+.resume-download:hover .resume-download-arrow {
+  animation: resume-download-dip 0.55s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes resume-download-dip {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  45% {
+    transform: translateY(3px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .resume-download:hover .resume-download-arrow {
+    animation: none;
+  }
 }
 
 .home-project-surface ul,
@@ -3210,6 +3490,107 @@ html[data-theme="light"] .section-link:hover .section-link-corner {
   display: grid;
   justify-items: start;
   gap: clamp(2rem, 4vw, 3rem);
+}
+
+/* Project search: a capsule input in the same surface language as the
+   project tiles — bordered pill, soft gold-tinged surface, accent glow on
+   focus */
+.project-search {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  width: min(100%, 24rem);
+  padding: 0.8rem 1.2rem;
+  border: 1px solid var(--home-flow-border);
+  border-radius: 999px;
+  background:
+    linear-gradient(165deg, rgb(240 201 106 / 0.05), transparent 60%),
+    var(--surface-soft, #090b10);
+  transition:
+    border-color 240ms ease,
+    box-shadow 320ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.project-search:hover {
+  border-color: var(--home-flow-border-strong);
+}
+
+.project-search:focus-within {
+  border-color: var(--accent);
+  box-shadow: 0 0 26px var(--glow-primary);
+}
+
+.project-search-icon {
+  width: 1rem;
+  height: 1rem;
+  flex: none;
+  color: var(--muted-foreground);
+  transition: color 240ms ease;
+}
+
+.project-search:focus-within .project-search-icon {
+  color: var(--accent);
+}
+
+.project-search-input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: var(--foreground);
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  letter-spacing: 0.01em;
+  caret-color: var(--accent);
+}
+
+.project-search-input::placeholder {
+  color: var(--muted-foreground);
+  opacity: 0.7;
+  text-transform: lowercase;
+}
+
+.project-search-clear {
+  flex: none;
+  border: none;
+  background: transparent;
+  padding: 0 0.15rem;
+  color: var(--muted-foreground);
+  font-size: 1.05rem;
+  line-height: 1;
+  cursor: pointer;
+  transition:
+    color 200ms ease,
+    transform 300ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.project-search-clear:hover {
+  color: var(--accent);
+  transform: rotate(90deg);
+}
+
+.project-search-count {
+  flex: none;
+  color: var(--muted-foreground);
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: var(--tracking-wider);
+  transition: color 240ms ease;
+}
+
+.project-search:focus-within .project-search-count {
+  color: var(--accent);
+}
+
+.project-search-empty {
+  margin: 0;
+  color: var(--muted-foreground);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.02em;
 }
 
 .project-grid {

@@ -39,6 +39,19 @@ export const resumeEducation = {
 
 export const resumeRoles = [
   {
+    id: "idk-studios-medceptor-swe-intern",
+    role: "Software Engineering Intern",
+    organization: "IDK Studios · Medceptor",
+    period: "Apr 2026 — Present",
+    current: true,
+    bullets: [
+      "Shipped production features for Medceptor, an AI-driven medical education platform, across Next.js, React, TypeScript, Django, and Supabase/Postgres in a small founder-led startup team.",
+      "Built RN nursing question-bank and exam-mode workflows supporting 100+ generated questions, multiple question formats, track and level filtering, scoring and review flows, and internal QA.",
+      "Delivered PRs spanning product, backend data modeling, content-generation imports, and validation pipelines, expanding Medceptor beyond EMT/NREMT simulations into CNA/LPN/RN exam-prep infrastructure.",
+    ],
+    skills: ["Next.js", "TypeScript", "Django", "Supabase/Postgres"],
+  },
+  {
     id: "cyc-vp-finance",
     role: "VP of Finance & Project Team Lead",
     organization: "Consult Your Community · UT Dallas",
@@ -127,6 +140,19 @@ export const experienceEntries = [
     order: 1,
   },
   {
+    id: "idk-studios-medceptor-internship",
+    eyebrow: "Industry",
+    title: "Software Engineering Intern, IDK Studios / Medceptor",
+    organization: "IDK Studios / Medceptor",
+    context: "AI-driven medical education platform",
+    periodLabel: "Apr 2026 — Present",
+    body:
+      "Production full-stack work on Medceptor's exam-prep platform in a small founder-led startup team: RN question-bank and exam-mode systems, content-generation and validation pipelines, and release QA across Next.js, Django, and Supabase/Postgres.",
+    type: "project",
+    reviewStatus: "confirmed",
+    order: 2,
+  },
+  {
     id: "utd-computer-science",
     eyebrow: "Education",
     title: "Computer Science at UT Dallas",
@@ -136,7 +162,7 @@ export const experienceEntries = [
       "A technical foundation built through software, systems, algorithms, and project work, with the broader goal of turning engineering skill into leverage.",
     type: "education",
     reviewStatus: "confirmed",
-    order: 2,
+    order: 3,
   },
   {
     id: "uav-smart-city-research",
@@ -148,7 +174,7 @@ export const experienceEntries = [
       "Research-oriented work around UAV and smart-city systems: simulation, sensing constraints, and city-scale systems thinking.",
     type: "research",
     reviewStatus: "conservative",
-    order: 3,
+    order: 4,
   },
   {
     id: "nova-autonomous-driving",
@@ -160,7 +186,7 @@ export const experienceEntries = [
       "Technical team involvement around autonomous systems: hardware and software workflows, sensing, perception, and the kind of engineering context where details matter.",
     type: "research",
     reviewStatus: "conservative",
-    order: 4,
+    order: 5,
   },
   {
     id: "peer-advisor-utd-housing",
@@ -171,7 +197,7 @@ export const experienceEntries = [
       "A community-facing role centered on residents, communication, support, responsibility, and staying steady inside practical day-to-day needs.",
     type: "leadership",
     reviewStatus: "confirmed",
-    order: 5,
+    order: 6,
   },
   {
     id: "consult-your-community",
@@ -182,7 +208,7 @@ export const experienceEntries = [
       "A leadership context for project execution, stakeholder communication, operations, product thinking, and team coordination.",
     type: "leadership",
     reviewStatus: "conservative",
-    order: 6,
+    order: 7,
   },
   {
     id: "competitive-tennis",
@@ -194,7 +220,7 @@ export const experienceEntries = [
       "A high-repetition environment that trained pressure, consistency, standards, recovery, and the ability to keep executing when feedback is immediate.",
     type: "athletics",
     reviewStatus: "confirmed",
-    order: 7,
+    order: 8,
   },
 ] as const satisfies readonly ExperienceEntry[];
 

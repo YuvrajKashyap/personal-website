@@ -6,6 +6,7 @@ import { Reveal } from "@/components/motion/Reveal";
 import { SectionReveal } from "@/components/motion/SectionReveal";
 import { ScrollPath } from "@/components/motion/ScrollPath";
 import { ScrollReadText } from "@/components/motion/ScrollReadText";
+import { ResumeDownloadButton } from "@/components/ui/ResumeDownloadButton";
 import { SectionLink } from "@/components/ui/SectionLink";
 import { aboutHomePreview } from "@/features/about/about-content";
 import { ContactSection } from "@/features/home/ContactSection";
@@ -138,7 +139,14 @@ function ExperienceChapter() {
           <Reveal inView variant="cta">
             <SectionLink
               href="/media/resume/yuvraj-kashyap-resume.pdf"
-              label="Download resume"
+              label="Open resume"
+              external
+            />
+          </Reveal>
+          <Reveal inView variant="cta" delay={0.08}>
+            <ResumeDownloadButton
+              href="/media/resume/yuvraj-kashyap-resume.pdf"
+              filename="Yuvraj-Kashyap-Resume.pdf"
             />
           </Reveal>
         </div>

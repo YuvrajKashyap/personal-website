@@ -8,6 +8,7 @@ Reach him at ykyuvrajkashyap@gmail.com.
 
 ## Experience
 
+- **Software Engineering Intern** — IDK Studios / Medceptor (Apr 2026 — Present): shipped production features for Medceptor, an AI-driven medical education platform, across Next.js, React, TypeScript, Django, and Supabase/Postgres in a small founder-led startup team; built RN nursing question-bank and exam-mode workflows (100+ generated questions, multiple formats, track/level filtering, scoring and review flows, internal QA); delivered PRs across product, backend data modeling, content-generation imports, and validation pipelines, expanding Medceptor beyond EMT/NREMT simulations into CNA/LPN/RN exam-prep infrastructure.
 - **VP of Finance & Project Team Lead** — Consult Your Community, UT Dallas (Jan 2026 — Present): led consulting engagements for Glydr (foot-based computer control hardware) and Get in the Path (education nonprofit); built Glydr's web-based gaming hub prototype; owned product ops, pricing and financial strategy, go-to-market, and client deliverables.
 - **Undergraduate Researcher, UAV / Smart City Systems** — UT Dallas (Oct 2025 — Present): geometry-driven UAV swarm simulation over a 4 km × 4 km OpenStreetMap/Blender urban environment for multi-agent path planning, visibility, and coverage; occlusions, non-convex obstacles, and sensing constraints with learning-guided coordination heuristics.
 - **Peer Advisor, University Housing** — UT Dallas (May 2024 — Present): primary contact for 120+ residents.

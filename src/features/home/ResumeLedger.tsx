@@ -2,12 +2,14 @@
 
 import {
   motion,
+  useMotionValue,
   useReducedMotion,
   useScroll,
   useSpring,
   useTransform,
+  type MotionValue,
 } from "motion/react";
-import { useRef, type PointerEvent } from "react";
+import { useEffect, useRef, type PointerEvent, type RefObject } from "react";
 
 import { HoverWaveText } from "@/components/motion/HoverWaveText";
 import { useSectionReveal } from "@/components/motion/SectionRevealContext";
@@ -87,6 +89,88 @@ const nodeVariants = {
   },
 };
 
+type LedgerNodeProps = Readonly<{
+  current?: boolean;
+  progress: MotionValue<number>;
+  railRef: RefObject<HTMLSpanElement | null>;
+  reduceMotion: boolean;
+}>;
+
+/**
+ * Timeline node that fills solid accent the moment the rail's comet reaches
+ * it, popping in with a spring; scrolling back up drains it again in step
+ * with the rail. Every node carries the pulse ring; ongoing roles are marked
+ * separately by a small satellite dot orbiting the node. Each node measures
+ * its own fraction along the rail so the fill always matches the comet.
+ */
+function LedgerNode({ current, progress, railRef, reduceMotion }: LedgerNodeProps) {
+  const nodeRef = useRef<HTMLSpanElement>(null);
+  // Start beyond the rail's end so nothing fills before measurement.
+  const frac = useMotionValue(2);
+
+  useEffect(() => {
+    const node = nodeRef.current;
+    const rail = railRef.current;
+
+    if (!node || !rail) {
+      return undefined;
+    }
+
+    function measure() {
+      if (!node || !rail) {
+        return;
+      }
+
+      const railRect = rail.getBoundingClientRect();
+      const nodeRect = node.getBoundingClientRect();
+
+      if (railRect.height > 0) {
+        frac.set(
+          (nodeRect.top + nodeRect.height / 2 - railRect.top) /
+            railRect.height,
+        );
+      }
+    }
+
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(rail);
+
+    return () => observer.disconnect();
+  }, [frac, railRef]);
+
+  const reached = useTransform(() => {
+    const gap = progress.get() - frac.get();
+    return Math.min(1, Math.max(0, (gap + 0.008) / 0.016));
+  });
+  const fill = useSpring(reached, { stiffness: 420, damping: 21, mass: 0.6 });
+
+  return (
+    <motion.span
+      ref={nodeRef}
+      className="resume-node"
+      variants={nodeVariants}
+      aria-hidden="true"
+    >
+      <motion.span
+        className="resume-node-fill"
+        style={reduceMotion ? { opacity: 1, scale: 1 } : { opacity: fill, scale: fill }}
+      />
+      <motion.span
+        className="resume-node-pulse-gate"
+        style={reduceMotion ? undefined : { opacity: fill }}
+      >
+        <span className="resume-node-pulse" />
+      </motion.span>
+      {current ? (
+        <span className="resume-node-orbit">
+          <span className="resume-node-orbit-dot" />
+        </span>
+      ) : null}
+    </motion.span>
+  );
+}
+
 function trackSpotlight(event: PointerEvent<HTMLElement>) {
   const bounds = event.currentTarget.getBoundingClientRect();
   event.currentTarget.style.setProperty(
@@ -108,6 +192,7 @@ function trackSpotlight(event: PointerEvent<HTMLElement>) {
  */
 export function ResumeLedger({ roles }: ResumeLedgerProps) {
   const ref = useRef<HTMLDivElement>(null);
+  const railRef = useRef<HTMLSpanElement>(null);
   const shouldReduceMotion = useReducedMotion();
   const section = useSectionReveal();
   const sectionDriven = section !== null;
@@ -132,7 +217,7 @@ export function ResumeLedger({ roles }: ResumeLedgerProps) {
       viewport={sectionDriven ? undefined : { amount: 0.15, once: false }}
       variants={shouldReduceMotion ? undefined : ledgerVariants}
     >
-      <span className="resume-rail" aria-hidden="true">
+      <span ref={railRef} className="resume-rail" aria-hidden="true">
         <motion.span
           className="resume-rail-fill"
           style={{ scaleY: shouldReduceMotion ? 1 : railProgress }}
@@ -148,13 +233,12 @@ export function ResumeLedger({ roles }: ResumeLedgerProps) {
           className="resume-entry"
           variants={entryVariants}
         >
-          <motion.span
-            className="resume-node"
-            variants={nodeVariants}
-            aria-hidden="true"
-          >
-            {entry.current ? <span className="resume-node-pulse" /> : null}
-          </motion.span>
+          <LedgerNode
+            current={entry.current}
+            progress={railProgress}
+            railRef={railRef}
+            reduceMotion={shouldReduceMotion ?? false}
+          />
 
           <motion.div className="resume-entry-when" variants={whenVariants}>
             <p className="resume-entry-period">{entry.period}</p>

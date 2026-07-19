@@ -28,7 +28,15 @@ const charVariants: Record<"rise" | "flip", Variants> = {
       y: 0,
       opacity: 1,
       filter: "blur(0px)",
-      transition: { type: "spring", stiffness: 340, damping: 26, mass: 0.8 },
+      transition: {
+        type: "spring",
+        stiffness: 340,
+        damping: 26,
+        mass: 0.8,
+        // Springs overshoot; a negative blur is an invalid keyframe. Tween
+        // the filter while the transform keeps its spring.
+        filter: { type: "tween", duration: 0.4, ease: "easeOut" },
+      },
     },
   },
   flip: {

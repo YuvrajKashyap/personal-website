@@ -274,29 +274,33 @@ export function ContactSection() {
             or open your mail app
             <span aria-hidden="true"> &rarr;</span>
           </span>
-          <a
-            className="contact-mail-app focus-ring"
-            href={`https://mail.google.com/mail/?view=cm&fs=1&to=${siteConfig.email}`}
-            target="_blank"
-            rel="noreferrer"
-            aria-label={`Compose an email to ${siteConfig.email} in Gmail`}
-          >
-            Gmail
-            <span className="contact-mail-app-arrow" aria-hidden="true">
-              &#8599;
-            </span>
-          </a>
+          <Magnetic strength={0.22} radius={90}>
+            <a
+              className="contact-mail-app focus-ring"
+              href={`https://mail.google.com/mail/?view=cm&fs=1&to=${siteConfig.email}`}
+              target="_blank"
+              rel="noreferrer"
+              aria-label={`Compose an email to ${siteConfig.email} in Gmail`}
+            >
+              Gmail
+              <span className="contact-mail-app-arrow" aria-hidden="true">
+                &#8599;
+              </span>
+            </a>
+          </Magnetic>
           <span className="contact-mail-divider" aria-hidden="true" />
-          <a
-            className="contact-mail-app focus-ring"
-            href={`ms-outlook://compose?to=${siteConfig.email}`}
-            aria-label={`Compose an email to ${siteConfig.email} in the Outlook app`}
-          >
-            Outlook
-            <span className="contact-mail-app-arrow" aria-hidden="true">
-              &#8599;
-            </span>
-          </a>
+          <Magnetic strength={0.22} radius={90}>
+            <a
+              className="contact-mail-app focus-ring"
+              href={`ms-outlook://compose?to=${siteConfig.email}`}
+              aria-label={`Compose an email to ${siteConfig.email} in the Outlook app`}
+            >
+              Outlook
+              <span className="contact-mail-app-arrow" aria-hidden="true">
+                &#8599;
+              </span>
+            </a>
+          </Magnetic>
         </motion.div>
 
         <motion.div

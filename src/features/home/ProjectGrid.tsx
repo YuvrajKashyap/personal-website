@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  AnimatePresence,
   motion,
   useMotionTemplate,
   useMotionValue,
@@ -9,7 +10,13 @@ import {
   useTransform,
 } from "motion/react";
 import Link from "next/link";
-import type { PointerEvent, ReactNode } from "react";
+import {
+  useDeferredValue,
+  useMemo,
+  useState,
+  type PointerEvent,
+  type ReactNode,
+} from "react";
 
 import type { Project } from "@/types/project";
 import { useSectionReveal } from "@/components/motion/SectionRevealContext";
@@ -203,7 +210,18 @@ function ProjectTile({ project }: Readonly<{ project: Project }>) {
 
   return (
     <motion.div
+      layout={shouldReduceMotion ? false : "position"}
       variants={shouldReduceMotion ? undefined : cardVariants}
+      exit={
+        shouldReduceMotion
+          ? { opacity: 0, transition: { duration: 0.15 } }
+          : {
+              opacity: 0,
+              scale: 0.9,
+              y: 16,
+              transition: { duration: 0.3, ease: gravitationalEase },
+            }
+      }
       style={
         shouldReduceMotion
           ? undefined
@@ -215,31 +233,125 @@ function ProjectTile({ project }: Readonly<{ project: Project }>) {
   );
 }
 
+function buildHaystack(project: Project) {
+  return [
+    project.title,
+    project.summary,
+    project.eyebrow ?? "",
+    project.slug,
+    ...project.tags,
+    ...project.stack,
+  ]
+    .join(" ")
+    .toLowerCase();
+}
+
 /**
  * Minimal project grid: each tile is a single button — title, summary, and a
  * quiet stack line on a calm cover — that opens the project's GitHub repo
  * (falling back to the project page when no public repo exists). Hover keeps
  * the theatrics: the project's screenshot blooms open from the cursor entry
  * point with parallax depth, plus tilt, glare, scanline, corner brackets, and
- * the open arrow.
+ * the open arrow. A seamless search line above the grid live-filters tiles:
+ * survivors glide to their new spots, matches deal back in, misses fold away.
  */
 export function ProjectGrid({ projects }: ProjectGridProps) {
   const shouldReduceMotion = useReducedMotion();
   const section = useSectionReveal();
   const sectionDriven = section !== null;
+  const [query, setQuery] = useState("");
+  const deferredQuery = useDeferredValue(query);
+
+  const haystacks = useMemo(
+    () => new Map(projects.map((project) => [project.id, buildHaystack(project)])),
+    [projects],
+  );
+
+  const filtered = useMemo(() => {
+    const trimmed = deferredQuery.trim().toLowerCase();
+
+    if (!trimmed) {
+      return projects;
+    }
+
+    const terms = trimmed.split(/\s+/);
+    return projects.filter((project) => {
+      const haystack = haystacks.get(project.id) ?? "";
+      return terms.every((term) => haystack.includes(term));
+    });
+  }, [projects, deferredQuery, haystacks]);
 
   return (
-    <motion.div
-      className="project-grid"
-      initial={shouldReduceMotion ? false : "hidden"}
-      animate={sectionDriven ? (section ? "visible" : "hidden") : undefined}
-      whileInView={sectionDriven ? undefined : "visible"}
-      viewport={sectionDriven ? undefined : { amount: 0.12, once: false }}
-      variants={shouldReduceMotion ? undefined : gridVariants}
-    >
-      {projects.map((project) => (
-        <ProjectTile key={project.id} project={project} />
-      ))}
-    </motion.div>
+    <>
+      <div className="project-search" role="search">
+        <svg
+          className="project-search-icon"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+        >
+          <circle cx="10.5" cy="10.5" r="6.5" />
+          <path d="M15.5 15.5 20 20" />
+        </svg>
+        <input
+          type="text"
+          className="project-search-input"
+          value={query}
+          onChange={(event) => setQuery(event.target.value)}
+          placeholder="search projects…"
+          aria-label="Search projects"
+          spellCheck={false}
+          autoComplete="off"
+        />
+        {query ? (
+          <>
+            <span className="project-search-count" aria-live="polite">
+              {filtered.length}/{projects.length}
+            </span>
+            <button
+              type="button"
+              className="project-search-clear"
+              onClick={() => setQuery("")}
+              aria-label="Clear search"
+            >
+              ×
+            </button>
+          </>
+        ) : null}
+      </div>
+
+      <motion.div
+        className="project-grid"
+        initial={shouldReduceMotion ? false : "hidden"}
+        animate={sectionDriven ? (section ? "visible" : "hidden") : undefined}
+        whileInView={sectionDriven ? undefined : "visible"}
+        viewport={sectionDriven ? undefined : { amount: 0.12, once: false }}
+        variants={shouldReduceMotion ? undefined : gridVariants}
+      >
+        <AnimatePresence mode="popLayout" initial={false}>
+          {filtered.map((project) => (
+            <ProjectTile key={project.id} project={project} />
+          ))}
+        </AnimatePresence>
+      </motion.div>
+
+      <AnimatePresence>
+        {filtered.length === 0 ? (
+          <motion.p
+            className="project-search-empty"
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3, ease: gravitationalEase }}
+          >
+            no project matches &ldquo;{deferredQuery.trim()}&rdquo; yet. try a
+            stack, a keyword, or clear the search.
+          </motion.p>
+        ) : null}
+      </AnimatePresence>
+    </>
   );
 }
