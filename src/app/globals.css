@@ -4780,6 +4780,8 @@ html[data-theme="light"] .project-tile:hover .project-tile-stack li {
   .home-light-copy > .mt-10 {
     order: 4;
     width: 100%;
+    /* Sit the action buttons a touch lower on phones */
+    margin-top: 4rem;
   }
 
   .home-hero-name-reveal .hero-name-lockup,
