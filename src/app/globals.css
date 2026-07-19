@@ -4767,7 +4767,7 @@ html[data-theme="light"] .project-tile:hover .project-tile-stack li {
     align-items: center;
     text-align: center;
     transform: none;
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
   }
 
   .home-hero-name-reveal {
