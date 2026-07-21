@@ -5,6 +5,7 @@ export const projectRandomizerSettings = {
   curatedBucketSlugs: [
     "aletheia",
     "atlas",
+    "vision-lock",
     "personal-website",
     "chronos",
     "capital",

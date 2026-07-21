@@ -22,6 +22,7 @@ type RevealProps = Readonly<{
   delay?: number;
   inView?: boolean;
   variant?: RevealVariant;
+  viewportAmount?: number | "some" | "all";
 }>;
 
 const revealVariants = {
@@ -39,6 +40,7 @@ export function Reveal({
   delay = 0,
   inView = true,
   variant = "fade-up",
+  viewportAmount = 0.2,
 }: RevealProps) {
   const shouldReduceMotion = useReducedMotion();
   const section = useSectionReveal();
@@ -62,7 +64,9 @@ export function Reveal({
       }
       whileInView={sectionDriven || !inView ? undefined : "visible"}
       viewport={
-        sectionDriven || !inView ? undefined : { amount: 0.2, once: false }
+        sectionDriven || !inView
+          ? undefined
+          : { amount: viewportAmount, once: false }
       }
       variants={shouldReduceMotion ? reducedMotionReveal : revealVariants[variant]}
       transition={getRevealTransition(shouldReduceMotion ? 0 : delay)}

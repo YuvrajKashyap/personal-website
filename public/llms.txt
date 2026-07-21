@@ -20,6 +20,7 @@ Reach him at ykyuvrajkashyap@gmail.com.
 
 - [Aletheia](https://github.com/YuvrajKashyap/aletheia): hybrid retrieval, reranking, evaluation, and search observability platform (Python, FastAPI, PostgreSQL, Redis/RQ).
 - Atlas: distributed crawl, extract, index, and search platform for ethical public web content (Python, FastAPI, PostgreSQL, Redis).
+- [Vision Lock](https://github.com/YuvrajKashyap/vision-lock): local real-time computer vision system combining runtime-defined YOLO-World detection, BoT-SORT tracking, SigLIP 2 target ranking, MediaPipe gestures, bounded WebSocket streaming, and reproducible performance measurement. [Recorded showcase](https://visionlock.yuvrajkashyap.com).
 - [Personal Website](https://github.com/YuvrajKashyap/personal-website): the site itself — Next.js App Router, TypeScript, Tailwind v4, and Motion, with a custom cursor system, a canvas-rendered holographic contact globe, and a typed, model-backed project archive.
 - [Chronos](https://github.com/YuvrajKashyap/chronos): live single-owner time-investment ledger with a real public proof-of-work dashboard, private timer and session operations, Supabase Auth, PostgreSQL RLS and RPCs, and explicit historical-estimate boundaries. [Live product](https://chronos.yuvrajkashyap.com).
 - [Capital](https://github.com/YuvrajKashyap/capital-case-study): private single-owner financial command center with connected account state, transactions, a manual ledger, recurring analysis, alerts, and digest reporting. The public repository contains synthetic screenshots and documentation only.

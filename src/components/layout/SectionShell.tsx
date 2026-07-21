@@ -52,7 +52,9 @@ export function SectionShell({
             ) : null}
           </Reveal>
         ) : null}
-        <Reveal delay={title ? 0.1 : 0}>{children}</Reveal>
+        <Reveal delay={title ? 0.1 : 0} viewportAmount="some">
+          {children}
+        </Reveal>
       </div>
     </section>
   );
