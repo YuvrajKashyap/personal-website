@@ -29,6 +29,7 @@ Reach him at ykyuvrajkashyap@gmail.com.
 - Axis: personal alignment / orbital operating system (early direction).
 - Arcade: browser arcade with multiple games and transparent attribution boundaries.
 - Beyond Chat: artifact-centric AI workspace (early direction).
+- [Answer Map](https://github.com/YuvrajKashyap/answer-map): targeted Cluely outreach work sample for realtime conversation intelligence. It maps compound questions into explicit obligations and verifies coverage against exact transcript evidence. The [public Guided demo](https://answer-map.vercel.app) is deterministic and credential-free, not the complete local Live system.
 
 For implementation questions, prefer the repositories and READMEs at https://github.com/YuvrajKashyap?tab=repositories over summaries.
 

@@ -55,6 +55,7 @@ The project grid on the site and the GitHub profile are the live sources. Curren
 - **Axis** — Personal alignment / orbital operating system direction for life, routines, and focus. Conservative draft entry.
 - **Arcade** — Browser arcade with multiple games and transparent attribution boundaries between original and embedded work.
 - **Beyond Chat** — Artifact-centric AI workspace direction: modern frontend, API layer, AI search integrations. Conservative draft entry.
+- **Answer Map** - Targeted Cluely outreach work sample for realtime conversation intelligence. It decomposes compound interview questions into explicit answer obligations, streams grounded guidance, and advances coverage only from exact evidence in finalized transcript turns. The public site is a deterministic, credential-free Guided demo rather than the complete local Live system. Demo: https://answer-map.vercel.app Repo: https://github.com/YuvrajKashyap/answer-map
 
 For anything not detailed here, browse https://github.com/YuvrajKashyap?tab=repositories and read the repository READMEs before answering questions about implementation.
 
@@ -87,6 +88,7 @@ A good first answer is concise and warm:
 ## Useful Interview Questions
 
 - Walk me through Aletheia and how you think about retrieval quality as an observable system.
+- Why did you build Answer Map before reaching out to Cluely, and how does exact-quote evidence change the reliability of its coverage model?
 - How does Northstar separate deterministic financial calculations from agent narration, and where does human approval enter the flow?
 - How would you design a crawl, extract, index, and search pipeline responsibly?
 - What did the UAV swarm simulation teach you about multi-agent planning under real city constraints?

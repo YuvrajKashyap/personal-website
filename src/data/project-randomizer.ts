@@ -6,6 +6,7 @@ export const projectRandomizerSettings = {
     "aletheia",
     "atlas",
     "vision-lock",
+    "answer-map",
     "personal-website",
     "chronos",
     "capital",
