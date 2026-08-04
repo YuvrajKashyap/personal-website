@@ -2,6 +2,20 @@
 
 Personal website foundation for Yuvraj Kashyap. The current public domain is `https://yuvrajkashyap.com`.
 
+[Open the live site](https://yuvrajkashyap.com)
+
+## Product Preview
+
+### Singularity OS homepage
+
+![Yuvraj Kashyap's live dark-mode homepage with its cinematic black hole interface](docs/assets/readme/homepage-dark.png)
+
+### Project archive
+
+![The live Projects archive showing featured work and the current published-project count](docs/assets/readme/projects-archive.png)
+
+Both screenshots were captured from the production site on August 4, 2026.
+
 ## Mission
 
 Build a production-grade personal website and operating interface that can grow into Yuvraj's public home for work, projects, services, writing, and collaboration.
