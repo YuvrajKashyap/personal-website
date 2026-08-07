@@ -88,13 +88,14 @@ export const resumeRoles = [
   },
   {
     id: "independent-sat-tutor",
-    role: "Academic Tutor & Outreach",
+    role: "SAT Tutor & Student Outreach",
     organization: "Independent · Dallas–Fort Worth",
     period: "May 2025 — Aug 2025",
     bullets: [
-      "Provided volunteer 1-on-1 SAT tutoring as a skill-building and outreach activity, adapting instruction to individual student learning goals.",
+      "Drove direct outreach and sales conversations with prospective students, communicating the value of personalized SAT support and building interest in 1-on-1 tutoring.",
+      "Delivered volunteer 1-on-1 SAT tutoring tailored to each student's learning goals, strengthening communication and relationship-building through direct student support.",
     ],
-    skills: ["Teaching", "Communication", "Outreach"],
+    skills: ["Sales outreach", "Prospecting", "Communication", "Teaching"],
   },
   {
     id: "nova-electrical-engineer",
@@ -109,13 +110,14 @@ export const resumeRoles = [
   },
   {
     id: "aim-ai-ml-mentee",
-    role: "Mentee, AIM — AI & Machine Learning Program",
+    role: "Mentee, AIM: AI & Machine Learning Program",
     organization: "University of Texas at Dallas",
     period: "Sep 2023 — Apr 2024",
     bullets: [
-      "Selected as a mentee in a competitive AI-focused mentorship program, collaborating on a team-based technical project.",
+      "Built CircuitSeer, a machine-learning model fine-tuned to solve physics circuit problems through domain-specific electrical reasoning.",
+      "Developed the project through the AIM mentorship program, collaborating with a technical team to refine the model's problem-solving behavior and turn a machine-learning concept into a working project.",
     ],
-    skills: ["AI", "Reinforcement learning", "Collaboration"],
+    skills: ["Model fine-tuning", "Machine learning", "Physics reasoning", "Collaboration"],
   },
 ] as const satisfies readonly ResumeRole[];
 
