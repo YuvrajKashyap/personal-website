@@ -1,0 +1,244 @@
+.page {
+  position: relative;
+  overflow: hidden;
+}
+
+.hero {
+  position: relative;
+  display: grid;
+  min-height: min(780px, calc(100dvh - 5rem));
+  grid-template-columns: minmax(0, 1.08fr) minmax(320px, 0.92fr);
+  align-items: center;
+  gap: clamp(3rem, 8vw, 8rem);
+  padding-block: clamp(4rem, 10vh, 7rem);
+}
+
+.intro {
+  max-width: 760px;
+}
+
+.title {
+  max-width: 8ch;
+  margin-top: 1rem;
+}
+
+.tagline {
+  max-width: 34ch;
+  margin-top: 1.5rem;
+  color: var(--foreground);
+}
+
+.description {
+  max-width: 50ch;
+  margin-top: 0.75rem;
+  color: var(--muted-foreground);
+}
+
+.letter {
+  position: relative;
+  padding: clamp(1.5rem, 4vw, 3rem);
+  border: 1px solid var(--border-strong);
+  border-radius: 1rem;
+  background:
+    linear-gradient(145deg, color-mix(in srgb, var(--surface-strong) 92%, transparent), var(--surface-glass));
+  box-shadow: 0 30px 90px color-mix(in srgb, var(--background) 70%, transparent);
+}
+
+.letter::before {
+  position: absolute;
+  inset: 0.7rem;
+  border: 1px solid var(--border);
+  border-radius: 0.7rem;
+  content: "";
+  pointer-events: none;
+}
+
+.letterHeading {
+  position: relative;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: 1.1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.letterLabel,
+.issueMark {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.letterLabel {
+  color: var(--accent);
+}
+
+.issueMark {
+  color: var(--muted-foreground);
+}
+
+.letterTitle {
+  position: relative;
+  max-width: 13ch;
+  margin-top: 2rem;
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  font-weight: 550;
+  letter-spacing: -0.04em;
+  line-height: 1.05;
+}
+
+.signupArea {
+  position: relative;
+  margin-top: 2rem;
+}
+
+.label {
+  display: block;
+  margin-bottom: 0.55rem;
+  color: var(--foreground);
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+
+.kitMount {
+  min-height: 58px;
+}
+
+.kitMount :global(.formkit-form) {
+  max-width: none !important;
+  margin: 0 !important;
+}
+
+.kitMount :global(.formkit-form [data-style="clean"]) {
+  padding: 0 !important;
+}
+
+.kitMount :global(.formkit-fields) {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.65rem;
+}
+
+.kitMount :global(.formkit-field),
+.kitMount :global(.formkit-submit) {
+  margin: 0 !important;
+}
+
+.kitMount :global(.formkit-input) {
+  min-height: 50px;
+  border: 1px solid var(--border-strong) !important;
+  border-radius: 0.65rem !important;
+  background: var(--surface) !important;
+  color: var(--foreground) !important;
+  font: inherit !important;
+}
+
+.kitMount :global(.formkit-input:focus) {
+  border-color: var(--accent) !important;
+  outline: 2px solid color-mix(in srgb, var(--accent) 36%, transparent) !important;
+  outline-offset: 2px;
+}
+
+.kitMount :global(.formkit-submit) {
+  min-height: 50px;
+  border-radius: 0.65rem !important;
+  background: var(--accent) !important;
+  color: var(--accent-foreground) !important;
+  font: inherit !important;
+  font-weight: 700 !important;
+  transition: transform 180ms ease, filter 180ms ease;
+}
+
+.kitMount :global(.formkit-submit:hover) {
+  filter: brightness(1.04);
+  transform: translateY(-1px);
+}
+
+.kitMount :global(.formkit-submit:active) {
+  transform: translateY(1px);
+}
+
+.kitMount :global(.formkit-powered-by-convertkit-container) {
+  margin-top: 0.7rem !important;
+}
+
+.formNote,
+.error {
+  margin-top: 0.7rem;
+  color: var(--muted-foreground);
+  font-size: var(--text-xs);
+  line-height: 1.5;
+}
+
+.error {
+  color: var(--danger);
+}
+
+.error a {
+  color: inherit;
+  text-decoration: underline;
+}
+
+.confirmed {
+  position: relative;
+  display: grid;
+  min-height: 300px;
+  place-content: center;
+  gap: 0.75rem;
+  text-align: center;
+}
+
+.confirmedTitle {
+  color: var(--accent);
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  font-weight: 600;
+  letter-spacing: -0.05em;
+}
+
+.notes {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.15fr 1fr 0.85fr;
+  gap: clamp(2rem, 5vw, 5rem);
+  padding-block: clamp(4rem, 9vw, 8rem);
+  border-top: 1px solid var(--border);
+}
+
+.note h2 {
+  font-size: var(--text-xl);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+}
+
+.note p {
+  max-width: 42ch;
+  margin-top: 0.8rem;
+  color: var(--muted-foreground);
+  line-height: 1.7;
+}
+
+@media (max-width: 767px) {
+  .hero {
+    min-height: auto;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+    padding-block: 4rem;
+  }
+
+  .notes {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+    padding-block: 4rem;
+  }
+
+  .kitMount :global(.formkit-fields) {
+    grid-template-columns: 1fr;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .kitMount :global(.formkit-submit) {
+    transition: none;
+  }
+}
