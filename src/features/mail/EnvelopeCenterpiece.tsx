@@ -137,6 +137,28 @@ export function EnvelopeCenterpiece({
     }
   }, [skipTheater]);
 
+  // Phones skip the tap: breaking a wax seal is a cursor ritual. On small
+  // screens the envelope opens itself shortly after scrolling into view, so
+  // the theater still plays but signup is never gated behind it.
+  const [autoOpen, setAutoOpen] = useState(false);
+
+  useEffect(() => {
+    const query = window.matchMedia("(max-width: 767px)");
+    const update = () => setAutoOpen(query.matches);
+    update();
+    query.addEventListener("change", update);
+    return () => query.removeEventListener("change", update);
+  }, []);
+
+  useEffect(() => {
+    if (!autoOpen || skipTheater || !inView || startedRef.current) {
+      return undefined;
+    }
+
+    const timer = window.setTimeout(runSequence, 550);
+    return () => window.clearTimeout(timer);
+  }, [autoOpen, inView, runSequence, skipTheater]);
+
   useEffect(() => {
     const timeouts = timeoutsRef.current;
     return () => timeouts.forEach((id) => window.clearTimeout(id));

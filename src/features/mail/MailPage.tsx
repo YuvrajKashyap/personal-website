@@ -11,6 +11,7 @@ import { useSectionReveal } from "@/components/motion/SectionRevealContext";
 import { EnvelopeCenterpiece } from "@/features/mail/EnvelopeCenterpiece";
 import { KitSignupForm } from "@/features/mail/KitSignupForm";
 import { MailRoutesCanvas } from "@/features/mail/MailRoutesCanvas";
+import { MobileSignupDock } from "@/features/mail/MobileSignupDock";
 import { mailPageContent } from "@/features/mail/mail-content";
 import { PaperPlaneOverlay } from "@/features/mail/PaperPlaneOverlay";
 import { Postmark } from "@/features/mail/Postmark";
@@ -188,9 +189,18 @@ export function MailPage({ confirmed = false }: MailPageProps) {
                     <span className={styles.scrollHintArrow} aria-hidden="true">
                       →
                     </span>
-                    {confirmed
-                      ? "You're on the list. The first letter is en route."
-                      : "A sealed letter is waiting. Break the wax."}
+                    {confirmed ? (
+                      "You're on the list. The first letter is en route."
+                    ) : (
+                      <>
+                        <span className={styles.hintDesktop}>
+                          A sealed letter is waiting. Break the wax.
+                        </span>
+                        <span className={styles.hintMobile}>
+                          Your letter is already open below.
+                        </span>
+                      </>
+                    )}
                   </a>
                 </Magnetic>
               </Reveal>
@@ -276,6 +286,7 @@ export function MailPage({ confirmed = false }: MailPageProps) {
         </Reveal>
       </SectionReveal>
 
+      <MobileSignupDock confirmed={confirmed} />
       <PaperPlaneOverlay />
     </main>
   );
