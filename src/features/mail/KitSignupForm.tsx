@@ -2,6 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 
+import { MAIL_SENT_EVENT } from "@/features/mail/mail-events";
+
 import styles from "./MailPage.module.css";
 
 type KitSignupFormProps = Readonly<{
@@ -10,6 +12,7 @@ type KitSignupFormProps = Readonly<{
 
 export function KitSignupForm({ formUid }: KitSignupFormProps) {
   const mountRef = useRef<HTMLDivElement>(null);
+  const sentRef = useRef(false);
   const [loadFailed, setLoadFailed] = useState(false);
 
   useEffect(() => {
@@ -29,9 +32,38 @@ export function KitSignupForm({ formUid }: KitSignupFormProps) {
       input.id = "yuv-got-mail-email";
       input.setAttribute("aria-describedby", "yuv-got-mail-email-note");
       input.setAttribute("autocomplete", "email");
+      input.placeholder = "your@email.com";
     };
 
-    const observer = new MutationObserver(connectLabel);
+    const detectSuccess = () => {
+      if (sentRef.current) {
+        return;
+      }
+
+      const success = mount.querySelector(
+        ".formkit-alert-success, .formkit-alert.formkit-alert-success",
+      );
+
+      if (!success) {
+        return;
+      }
+
+      sentRef.current = true;
+      const rect = mount.getBoundingClientRect();
+      window.dispatchEvent(
+        new CustomEvent(MAIL_SENT_EVENT, {
+          detail: {
+            x: rect.left + rect.width / 2,
+            y: rect.top,
+          },
+        }),
+      );
+    };
+
+    const observer = new MutationObserver(() => {
+      connectLabel();
+      detectSuccess();
+    });
     observer.observe(mount, { childList: true, subtree: true });
 
     const script = document.createElement("script");

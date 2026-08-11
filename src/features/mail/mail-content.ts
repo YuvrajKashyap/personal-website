@@ -3,9 +3,9 @@ export const mailPageContent = {
   tagline: "A weekly letter about whatever has my attention.",
   description: "Ideas, updates, discoveries, and occasional rabbit holes.",
   scheduleNote:
-    "I aim to write weekly, with no promised day. Bonus notes only happen when something feels unusually useful or timely.",
+    "Weekly-ish. Some weeks I'm deep in a build and it lands late, some weeks something is too good to sit on and it lands early. No promised day, it shows up when it's worth sending.",
   relationshipNote:
-    "Personal, useful, and flexible. More like hearing from a friend than subscribing to a content machine.",
+    "Whatever I'm actually into that week. Something I'm building, a tool I can't stop using, an idea I can't let go of. If it made the letter, it's because I'd text a friend about it.",
   privacyNote:
     "One confirmation email, then the letters. Unsubscribe whenever you want.",
   formId: "9783767",

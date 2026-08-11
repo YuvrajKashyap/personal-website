@@ -7,6 +7,7 @@ import {
   Unbounded,
 } from "next/font/google";
 import { VercelAnalytics } from "@/components/analytics/VercelAnalytics";
+import { PostHogAnalytics } from "@/components/analytics/PostHogAnalytics";
 import { MotionSystemProvider } from "@/components/motion/MotionSystemProvider";
 import { ScrollProgressBar } from "@/components/motion/ScrollProgressBar";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
@@ -119,6 +120,7 @@ export default async function RootLayout({
           </MotionSystemProvider>
         </ThemeProvider>
         <VercelAnalytics />
+        <PostHogAnalytics />
       </body>
     </html>
   );

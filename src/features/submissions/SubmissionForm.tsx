@@ -140,6 +140,7 @@ export function SubmissionForm({
 
       setStatus("success");
       formRef.current?.reset();
+      window.dispatchEvent(new CustomEvent("portfolio-submission-succeeded"));
     } catch {
       setStatus("error");
       setErrorMessage("Submission could not be saved.");

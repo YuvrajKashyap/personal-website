@@ -18,6 +18,7 @@ import {
   getReachOutActions,
   HeroActionButton,
 } from "@/features/home/HeroActionLinks";
+import { MailingListRail } from "@/features/home/MailingListInvite";
 
 const COPY_RESET_MS = 2000;
 
@@ -325,6 +326,8 @@ export function ContactSection() {
           ))}
         </motion.div>
       </motion.div>
+
+      <MailingListRail />
     </div>
   );
 }

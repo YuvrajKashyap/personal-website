@@ -33,6 +33,8 @@ type ProjectGridProps = Readonly<{
 const TILT_SPRING = { stiffness: 240, damping: 20, mass: 0.55 };
 
 const FINE_POINTER_QUERY = "(hover: hover) and (pointer: fine)";
+const PROJECT_HOVER_QUALIFICATION_MS = 800;
+const PROJECT_HOVER_MINIMUM_MS = 1_200;
 
 function subscribeToFinePointer(callback: () => void) {
   const mediaQuery = window.matchMedia(FINE_POINTER_QUERY);
@@ -98,6 +100,10 @@ function ProjectTile({ project }: Readonly<{ project: Project }>) {
   const shouldReduceMotion = useReducedMotion();
   const finePointer = useFinePointer();
   const tileRef = useRef<HTMLDivElement>(null);
+  const hoverStartedAtRef = useRef<number | null>(null);
+  const hoverQualifiedRef = useRef(false);
+  const hoverTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const hasTrackedEngagedHoverRef = useRef(false);
   // Touch devices have no hover, so the preview activates while the tile is
   // on screen instead: fade in as it enters, fade out as it leaves.
   const tileInView = useInView(tileRef, { amount: 0.55 });
@@ -141,6 +147,14 @@ function ProjectTile({ project }: Readonly<{ project: Project }>) {
     }
   }, [finePointer, tileInView, hover]);
 
+  useEffect(() => {
+    return () => {
+      if (hoverTimerRef.current) {
+        clearTimeout(hoverTimerRef.current);
+      }
+    };
+  }, []);
+
   function onPointerEnter(event: PointerEvent<HTMLElement>) {
     if (!finePointer) {
       return;
@@ -150,6 +164,12 @@ function ProjectTile({ project }: Readonly<{ project: Project }>) {
     entryX.set(((event.clientX - bounds.left) / bounds.width) * 100);
     entryY.set(((event.clientY - bounds.top) / bounds.height) * 100);
     hover.set(1);
+
+    hoverStartedAtRef.current = performance.now();
+    hoverQualifiedRef.current = false;
+    hoverTimerRef.current = setTimeout(() => {
+      hoverQualifiedRef.current = true;
+    }, PROJECT_HOVER_QUALIFICATION_MS);
   }
 
   function onPointerMove(event: PointerEvent<HTMLElement>) {
@@ -165,6 +185,33 @@ function ProjectTile({ project }: Readonly<{ project: Project }>) {
     if (finePointer) {
       hover.set(0);
     }
+
+    if (hoverTimerRef.current) {
+      clearTimeout(hoverTimerRef.current);
+      hoverTimerRef.current = null;
+    }
+
+    const hoverStartedAt = hoverStartedAtRef.current;
+    const dwellMs = hoverStartedAt ? performance.now() - hoverStartedAt : 0;
+
+    if (
+      hoverQualifiedRef.current &&
+      dwellMs >= PROJECT_HOVER_MINIMUM_MS &&
+      !hasTrackedEngagedHoverRef.current
+    ) {
+      hasTrackedEngagedHoverRef.current = true;
+      window.dispatchEvent(
+        new CustomEvent("portfolio-project-engaged-hover", {
+          detail: {
+            dwell_ms: dwellMs,
+            project_slug: project.slug,
+          },
+        }),
+      );
+    }
+
+    hoverStartedAtRef.current = null;
+    hoverQualifiedRef.current = false;
   }
 
   const repoHref = getRepoHref(project);
