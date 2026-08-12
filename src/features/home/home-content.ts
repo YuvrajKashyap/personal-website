@@ -62,7 +62,7 @@ export const trackerPreview = {
     {
       label: "Current focus",
       value:
-        "Cinematic frontend, portfolio architecture, projects, and recruiter signal.",
+        "Cinematic frontend, portfolio architecture, projects, and engineering signal.",
     },
     {
       label: "Active surface",

@@ -29,7 +29,7 @@ type HeroAction = Readonly<{
   ariaLabel: string;
 }>;
 
-const aiContextHref = `${siteConfig.url}/ai/yuvraj-kashyap-recruiter-brief.md`;
+const aiContextHref = `${siteConfig.url}/ai/yuvraj-kashyap-project-brief.md`;
 const githubHref = "https://github.com/YuvrajKashyap";
 
 const aiBriefPrompt = [

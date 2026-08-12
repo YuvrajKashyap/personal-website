@@ -2,7 +2,7 @@
 
 ## 1. Step 35 purpose
 
-Step 35 is the final pre-launch judgment pass for the public personal website. It audits taste, recruiter usefulness, founder and builder signal, honesty, route health, accessibility, responsiveness, theme behavior, SEO, submissions, admin boundaries, security posture, and production readiness.
+Step 35 is the final pre-launch judgment pass for the public personal website. It audits taste, technical-review usefulness, founder and builder signal, content accuracy, route health, accessibility, responsiveness, theme behavior, SEO, submissions, admin boundaries, security posture, and production readiness.
 
 This pass does not add major features. It applies only safe polish fixes and records final caveats.
 
@@ -38,7 +38,7 @@ Local built-server checks covered:
 
 Expected behavior was confirmed locally before final fixes. Public pages returned 200, known project pages returned 200, unknown project slugs used a safe boundary, admin callback and logout routes redirected safely, and GET `/api/submissions` returned 405.
 
-## 3. Recruiter-readiness audit
+## 3. Technical-review audit
 
 The site quickly establishes:
 
@@ -47,9 +47,9 @@ The site quickly establishes:
 - Proof surfaces: Projects archive, project detail pages, Experience, Tracker, and Contact.
 - Next step: Contact is available in the top navigation, hero CTAs, page CTAs, and footer.
 
-The strongest recruiter path is Home to Projects to Experience to Contact. About adds human context without replacing Experience. Tracker is clearly framed as manual current-state signal, not fake live analytics.
+The strongest evaluation path is Home to Projects to Experience to Contact. About adds human context without replacing Experience. Tracker is clearly framed as manual current-state signal, not fake live analytics.
 
-No recruiter-blocking public placeholder language was found.
+No evaluation-blocking public placeholder language was found.
 
 ## 4. Founder/builder signal audit
 

@@ -1,6 +1,6 @@
 # Yuvraj Kashyap — Public AI Brief
 
-This file is a public, recruiter-safe context source for AI tools opened from yuvrajkashyap.com. It is maintained alongside the site and is the most complete single-page summary of who Yuvraj is, what he has built, and where to verify it.
+This file is a public context source for AI tools opened from yuvrajkashyap.com. It is maintained alongside the site and is the most complete single-page summary of who Yuvraj is, what he has built, and where to verify it.
 
 Canonical site: https://yuvrajkashyap.com (one-page site: About, Experience, Projects, Contact)
 

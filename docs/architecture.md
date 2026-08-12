@@ -436,7 +436,7 @@ High-level sequence guardrails:
 - Full Home gateway sections now exist.
 - Internal page template system now exists.
 - Performance, accessibility, responsive, media, SEO, submissions, admin, and security QA pass now exists.
-- Final taste, recruiter, launch, and caveat audit now exists.
+- Final taste, launch, and caveat audit now exists.
 - Cinematic assets later.
 - Feature pages later.
 - Supabase content editing and admin CRUD later.
@@ -738,7 +738,7 @@ Step 34 documents a performance, accessibility, responsive, media, SEO, submissi
 
 ## Step 35 final launch audit implementation note
 
-Step 35 documents the final taste, recruiter, founder/builder, content honesty, route, responsive, keyboard, theme/media, SEO, submissions, admin, performance, security, and npm audit pass.
+Step 35 documents the final taste, founder/builder, content, route, responsive, keyboard, theme/media, SEO, submissions, admin, performance, security, and npm audit pass.
 
 - Final launch evidence lives in `docs/final-launch-audit.md`.
 - Safe fixes were limited to a public navigation breakpoint correction, route status config cleanup, and documentation updates.

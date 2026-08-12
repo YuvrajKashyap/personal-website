@@ -281,7 +281,7 @@ The current implementation preserves:
 
 ## Step 35 Follow-up
 
-Step 35 extends this QA with the final taste, recruiter, founder/builder, content honesty, route, responsive, keyboard, theme/media, SEO, submissions, admin, performance, security, and npm audit pass.
+Step 35 extends this QA with the final taste, founder/builder, content, route, responsive, keyboard, theme/media, SEO, submissions, admin, performance, security, and npm audit pass.
 
 Follow-up evidence lives in `docs/final-launch-audit.md`.
 

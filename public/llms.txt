@@ -44,7 +44,7 @@ For implementation questions, prefer the repositories and READMEs at https://git
 
 ## Optional
 
-- [Extended brief](https://yuvrajkashyap.com/ai/yuvraj-kashyap-recruiter-brief.md): longer-form background, trajectory, and suggested interview questions.
+- [Extended brief](https://yuvrajkashyap.com/ai/yuvraj-kashyap-project-brief.md): longer-form background, trajectory, and suggested interview questions.
 
 ## Accuracy
 

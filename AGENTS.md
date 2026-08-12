@@ -206,7 +206,7 @@ Alternate light mode is Ivory Observatory: ivory and beige editorial premium int
 - Preserve `docs/final-launch-audit.md` as the final Step 35 launch-readiness record.
 - Do not remove launch caveats unless the underlying live system has been verified and documented.
 - Do not regress the public navigation breakpoint fix that keeps 1024px layouts overflow-free.
-- Keep future edits recruiter-readable, honest, keyboard accessible, responsive, and production-safe.
+- Keep future edits reviewer-readable, honest, keyboard accessible, responsive, and production-safe.
 - Do not force-fix npm audit advisories without explicit dependency/security review.
 - Stay within the assigned step. Do not move ahead without explicit instruction.
 - Do not create generic template pages or leave obvious framework starter copy.

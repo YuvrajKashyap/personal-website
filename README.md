@@ -37,7 +37,7 @@ The future site should feel cinematic, orbital, and astrophysics-inspired while 
 
 ## Current Step Status
 
-Step 35 documents the final taste, recruiter, launch, responsive, accessibility, SEO, submissions, admin, security, and caveat audit. Home, About, Experience, Tracker, Services, Collaborate, Contact, Projects archive, and project details exist. Projects and project detail routes read through a local-first data-source abstraction. Contact, Services, and Collaborate include backend-aware forms that post to `/api/submissions`, stay disabled when server-side Supabase values are missing, and avoid fake success states. Admin login, callback, logout, server guard, setup-required state, and a read-only dashboard shell exist. Content CRUD, admin submissions review, connected tracker sources, and media-rich project case studies are not implemented yet.
+Step 35 documents the final taste, launch, responsive, accessibility, SEO, submissions, admin, security, and caveat audit. Home, About, Experience, Tracker, Services, Collaborate, Contact, Projects archive, and project details exist. Projects and project detail routes read through a local-first data-source abstraction. Contact, Services, and Collaborate include backend-aware forms that post to `/api/submissions`, stay disabled when server-side Supabase values are missing, and avoid fake success states. Admin login, callback, logout, server guard, setup-required state, and a read-only dashboard shell exist. Content CRUD, admin submissions review, connected tracker sources, and media-rich project case studies are not implemented yet.
 
 ## Documentation
 
