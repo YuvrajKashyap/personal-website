@@ -14,15 +14,15 @@ export type ProjectLinkOptions = Readonly<{
 }>;
 
 function byProjectOrder(projectA: Project, projectB: Project) {
+  if (projectA.order !== projectB.order) {
+    return projectA.order - projectB.order;
+  }
+
   const featuredRankA = projectA.featuredRank ?? Number.POSITIVE_INFINITY;
   const featuredRankB = projectB.featuredRank ?? Number.POSITIVE_INFINITY;
 
   if (featuredRankA !== featuredRankB) {
     return featuredRankA - featuredRankB;
-  }
-
-  if (projectA.order !== projectB.order) {
-    return projectA.order - projectB.order;
   }
 
   return projectA.title.localeCompare(projectB.title);
