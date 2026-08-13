@@ -335,7 +335,16 @@ export const projects = [
         external: true,
       },
     ],
-    media: [],
+    media: [
+      {
+        type: "cover",
+        src: "/media/projects/jarvis/portfolio-hero.webp",
+        alt: "JARVIS desktop assistant explaining a local-model memory safeguard and offering measured next actions",
+        theme: "both",
+        status: "ready",
+        note: "Real product interface using the repository's documented example state.",
+      },
+    ],
   },
   {
     id: "project_worldstate",
@@ -409,7 +418,16 @@ export const projects = [
         external: true,
       },
     ],
-    media: [],
+    media: [
+      {
+        type: "cover",
+        src: "/media/projects/worldstate/portfolio-hero.webp",
+        alt: "WorldState simulation showing a live spatial-memory volume, event feed, telemetry, and perception preview",
+        theme: "both",
+        status: "ready",
+        note: "Real interface capture from the clearly labeled deterministic browser simulation.",
+      },
+    ],
   },
   {
     id: "project_answer_map",
@@ -1355,7 +1373,16 @@ export const projects = [
         external: true,
       },
     ],
-    media: [],
+    media: [
+      {
+        type: "cover",
+        src: "/media/projects/frontend-lab/portfolio-hero.webp",
+        alt: "Frontend Lab live gallery with bold editorial typography and an interactive kinetic type experiment",
+        theme: "both",
+        status: "ready",
+        note: "Captured from the live Frontend Lab gallery.",
+      },
+    ],
   },
   {
     id: "project_register2park_automation",
