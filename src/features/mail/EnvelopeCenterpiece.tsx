@@ -81,7 +81,7 @@ export function EnvelopeCenterpiece({
 
   const [phase, setPhase] = useState<Phase>(skipTheater ? "presented" : "sealed");
   const [flapBehind, setFlapBehind] = useState(skipTheater);
-  const [sealedPose, setSealedPose] = useState({ y: 170, scale: 0.5 });
+  const [sealedPose, setSealedPose] = useState<{ y: number; scale: number } | null>(null);
   const [upLift, setUpLift] = useState(-120);
 
   const inView = useInView(rootRef, { amount: 0.4 });
@@ -125,9 +125,16 @@ export function EnvelopeCenterpiece({
     const measure = () => {
       const letterHeight = letter.offsetHeight || 1;
       const envelopeHeight = envelope.offsetHeight || 1;
+      const scale = Math.min(0.52, (envelopeHeight * 0.84) / letterHeight);
+      const letterLayoutBottom = letter.offsetTop + letterHeight;
+      const envelopeBottom = envelope.offsetTop + envelopeHeight;
+
       setSealedPose({
-        y: envelopeHeight * 0.56,
-        scale: Math.min(0.52, (envelopeHeight * 0.84) / letterHeight),
+        // Motion scales from the letter's bottom edge, so scaling alone does
+        // not lift that edge. Place it from the two actual layout bottoms and
+        // keep an 8% inset on every side of the closed envelope.
+        y: envelopeBottom - envelopeHeight * 0.08 - letterLayoutBottom,
+        scale,
       });
       setUpLift(-letterHeight * 0.24);
     };
@@ -311,7 +318,7 @@ export function EnvelopeCenterpiece({
     ? { y: 0, scale: 1 }
     : phase === "up"
       ? { y: upLift, scale: 0.9 }
-      : { y: sealedPose.y, scale: sealedPose.scale };
+      : (sealedPose ?? { y: -120, scale: 0.5 });
 
   const letterTransition = presented
     ? { type: "spring" as const, stiffness: 230, damping: 23, mass: 0.85 }
@@ -351,7 +358,11 @@ export function EnvelopeCenterpiece({
           <motion.div
             ref={letterRef}
             className={styles.letter}
-            style={{ zIndex: presented ? 6 : 2, transformOrigin: "50% 100%" }}
+            style={{
+              zIndex: presented ? 6 : 2,
+              transformOrigin: "50% 100%",
+              visibility: !sealedPose && !presented && phase !== "up" ? "hidden" : undefined,
+            }}
             initial={false}
             animate={letterTarget}
             transition={letterTransition}

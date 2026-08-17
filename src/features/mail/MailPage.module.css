@@ -178,6 +178,9 @@
   pointer-events: none;
 }
 
+/* One-screen composition. Row 1 is the stage: intro left, envelope right,
+   both vertically centered in the space above the manifest strip. Row 2 is
+   the manifest, pinned to the bottom edge. Row 3 the sign-off. */
 .hero {
   position: relative;
   z-index: 1;
@@ -185,15 +188,28 @@
   height: 100%;
   min-height: 0;
   box-sizing: border-box;
-  grid-template-columns: minmax(0, 1fr) minmax(340px, 620px);
+  grid-template-columns: minmax(0, 1fr) minmax(540px, 680px);
+  grid-template-rows: minmax(0, 1fr) auto auto;
   align-items: center;
-  gap: clamp(3rem, 7vw, 7rem);
-  padding-block: clamp(5rem, 10dvh, 6.5rem) clamp(1rem, 3dvh, 2.5rem);
+  column-gap: clamp(2.5rem, 5vw, 5.5rem);
+  row-gap: 0;
+  padding-block: clamp(4.5rem, 7dvh, 5.25rem) clamp(0.9rem, 1.8dvh, 1.3rem);
 }
 
 /* ---------- Intro column ---------- */
 
+.viewToggle {
+  display: none;
+}
+
+.storyColumn {
+  display: contents;
+}
+
 .intro {
+  grid-row: 1;
+  grid-column: 1;
+  align-self: center;
   max-width: 640px;
 }
 
@@ -216,15 +232,16 @@
 .title {
   margin-top: 1.2rem;
   font-family: var(--font-unbounded), var(--font-sans);
-  font-size: clamp(2.5rem, 5.4vw, 4.2rem);
+  font-size: clamp(2.5rem, 4.4vw, 3.9rem);
   font-weight: 800;
   letter-spacing: -0.015em;
   line-height: 1.06;
+  white-space: nowrap;
 }
 
 .stampTitle {
   display: inline-flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   column-gap: 0.26em;
 }
 
@@ -335,6 +352,199 @@
   text-shadow: none;
 }
 
+.scrollHintMagnet {
+  display: inline-block;
+  margin-top: clamp(1.4rem, 3dvh, 2.2rem);
+}
+
+.scrollHint {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  color: var(--muted-foreground);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.09em;
+  text-decoration: none;
+  transition: color 220ms ease;
+}
+
+.scrollHint:hover {
+  color: var(--accent);
+}
+
+.scrollHintArrow {
+  display: inline-block;
+  transition: transform 300ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.scrollHint:hover .scrollHintArrow {
+  transform: translateX(5px);
+}
+
+/* ---------- Manifest ---------- */
+
+/* Manifest strip: full-width, sits on a hairline that separates the stage
+   above from the notes below, so the two zones read as deliberate layers
+   rather than a collision. */
+.notes {
+  position: relative;
+  display: grid;
+  grid-row: 2;
+  grid-column: 1 / -1;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  width: 100%;
+  gap: clamp(2rem, 4vw, 4rem);
+  align-self: end;
+  margin-top: clamp(1.4rem, 3dvh, 2.4rem);
+  padding-top: clamp(1.2rem, 2.4dvh, 1.8rem);
+}
+
+/* The divider draws itself from the center outward once the section is in
+   view, then a gold glint runs its length once. Transform/opacity only. */
+.notes::before {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--border-strong) 18%,
+    var(--border-strong) 82%,
+    transparent
+  );
+  content: "";
+  transform: scaleX(0);
+  transform-origin: 50% 50%;
+  transition: transform 1.1s cubic-bezier(0.16, 1, 0.3, 1) 0.55s;
+}
+
+.notes::after {
+  position: absolute;
+  top: -1px;
+  left: 0;
+  width: 18%;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  content: "";
+  filter: blur(0.5px);
+  opacity: 0;
+  transform: translateX(-100%);
+}
+
+:global([data-section-reveal-active="true"]) .notes::before {
+  transform: scaleX(1);
+}
+
+:global([data-section-reveal-active="true"]) .notes::after {
+  animation: rule-glint 1.4s cubic-bezier(0.22, 0.8, 0.28, 1) 1.35s 1 both;
+}
+
+@keyframes rule-glint {
+  0% {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+
+  12% {
+    opacity: 0.9;
+  }
+
+  88% {
+    opacity: 0.9;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateX(560%);
+  }
+}
+
+.signoff {
+  display: flex;
+  grid-row: 3;
+  grid-column: 1 / -1;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7rem;
+  margin-top: clamp(1rem, 2.2dvh, 1.6rem);
+  color: var(--muted-foreground);
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.signoff svg {
+  flex: 0 0 auto;
+  color: var(--accent);
+  filter: drop-shadow(0 0 8px var(--glow-primary));
+}
+
+.note {
+  position: relative;
+  min-width: 0;
+  transition: transform 340ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.note:hover {
+  transform: translateY(-5px) rotate(-0.35deg);
+}
+
+.noteBar {
+  height: 4px;
+  margin-bottom: 0.7rem;
+  background-image: repeating-linear-gradient(
+    135deg,
+    var(--accent) 0 10px,
+    transparent 10px 19px,
+    var(--airmail-blue) 19px 29px,
+    transparent 29px 38px
+  );
+  background-size: 54px 4px;
+}
+
+.note:hover .noteBar {
+  animation: airmail-march 1.1s linear infinite;
+}
+
+@keyframes airmail-march {
+  to {
+    background-position: 54px 0;
+  }
+}
+
+.noteCode {
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  text-shadow: 0 0 12px var(--glow-primary);
+  text-transform: uppercase;
+}
+
+.noteTitle {
+  margin-top: 0.45rem;
+  font-size: clamp(1.05rem, 1.35vw, 1.25rem);
+  font-weight: 630;
+  letter-spacing: -0.022em;
+  line-height: 1.15;
+}
+
+.noteBody {
+  max-width: 42ch;
+  margin-top: 0.5rem;
+  color: var(--muted-foreground);
+  font-size: clamp(0.82rem, 1vw, 0.92rem);
+  line-height: 1.48;
+  text-wrap: pretty;
+}
+
 /* ---------- Floating postal decor ---------- */
 
 .floaters {
@@ -346,14 +556,16 @@
 
 .floaterOne {
   position: absolute;
-  top: 7%;
-  left: 47%;
+  top: 6%;
+  left: 44%;
 }
 
+/* Sits in the quiet zone under the intro copy, above the manifest strip,
+   left of the envelope: never over text. */
 .floaterTwo {
   position: absolute;
-  bottom: 14%;
-  left: 6%;
+  top: 58%;
+  left: 5%;
 }
 
 .stampDecal {
@@ -389,13 +601,20 @@
 .letterColumn {
   position: relative;
   z-index: 1;
+  grid-row: 1;
+  grid-column: 2;
+  align-self: center;
+  /* Nudge the whole scene up and out toward the right edge so the envelope
+     reads as the hero object, not a card tucked into a column. */
+  justify-self: end;
+  width: 100%;
 }
 
 .centerpiece {
-  --env-h: clamp(150px, 24dvh, 250px);
+  --env-h: clamp(220px, 24vw, 340px);
 
   width: 100%;
-  max-width: 620px;
+  max-width: 720px;
   margin-inline: auto;
 }
 
@@ -405,7 +624,7 @@
 
 .stage {
   position: relative;
-  padding-bottom: calc(var(--env-h) * 0.58);
+  padding-bottom: calc(var(--env-h) * 0.36);
 }
 
 /* Sealed = an invitation. Cursor flips, and the envelope shakes almost
@@ -453,7 +672,7 @@
   position: relative;
   overflow: hidden;
   contain: layout style;
-  padding: clamp(1.4rem, 2.8vw, 2.4rem);
+  padding: clamp(1.9rem, 3.8vw, 3rem);
   border: 1px solid var(--paper-edge);
   border-radius: 0.6rem;
   background:
@@ -520,7 +739,7 @@
   align-items: baseline;
   justify-content: space-between;
   gap: 1rem;
-  margin-top: 1rem;
+  margin-top: 1.3rem;
 }
 
 .letterLabel,
@@ -541,7 +760,7 @@
 }
 
 .letterTitle {
-  margin-top: 1rem;
+  margin-top: 1.3rem;
   color: var(--ink);
   font-family: var(--font-letter);
   font-size: clamp(2rem, 3.1vw, 2.7rem);
@@ -555,20 +774,20 @@
 /* The serif lede: the taste of the letters themselves. */
 .letterLede {
   max-width: 44ch;
-  margin-top: 0.75rem;
+  margin-top: 0.95rem;
   color: color-mix(in srgb, var(--ink) 78%, var(--ink-soft));
   font-family: var(--font-letter);
   font-size: clamp(1rem, 1.35vw, 1.12rem);
   font-weight: 420;
   letter-spacing: 0.002em;
-  line-height: 1.5;
+  line-height: 1.62;
 }
 
 .letterRule {
   display: flex;
   align-items: center;
   gap: 0.9rem;
-  margin-top: 1rem;
+  margin-top: 1.5rem;
   color: color-mix(in srgb, var(--postal) 60%, transparent);
   font-size: 0.6rem;
 }
@@ -582,7 +801,7 @@
 }
 
 .signature {
-  margin-top: 0.6rem;
+  margin-top: 0.9rem;
   color: var(--ink);
   font-family: var(--font-letter);
   font-size: clamp(1.15rem, 1.6vw, 1.35rem);
@@ -596,7 +815,7 @@
 
 .signupArea {
   position: relative;
-  margin-top: 1.1rem;
+  margin-top: 1.6rem;
 }
 
 .label {
@@ -1136,60 +1355,348 @@
 
 /* ---------- Responsive ---------- */
 
-@media (min-width: 768px) and (max-width: 1023px) {
-  .hero {
-    grid-template-columns: minmax(0, 0.85fr) minmax(320px, 1.15fr);
-    gap: clamp(1.5rem, 4vw, 3rem);
-    padding-block: 4.75rem 1rem;
-  }
-
-  .floaterOne {
-    display: none;
-  }
-
-  .floaterTwo {
-    display: none;
-  }
-
-  .title {
-    font-size: clamp(2.1rem, 4.8vw, 3.1rem);
-  }
-
-  .tagline {
-    margin-top: 1.1rem;
-    font-size: clamp(0.95rem, 1.8vw, 1.15rem);
-  }
-
-  .readout {
-    margin-top: 1.2rem;
-    font-size: 0.6rem;
-  }
-
+@media (min-width: 1181px) {
+  /* Desktop one-screen: the stage box is the letter's footprint plus the
+     envelope pocket peeking below it. The letter is compacted enough that
+     letter + pocket fits inside the row, so the presented letter sits fully
+     between the top bar and the manifest strip — never behind either. */
   .centerpiece {
-    --env-h: clamp(125px, 20dvh, 180px);
+    --env-h: clamp(220px, 21vw, 300px);
+  }
+
+  .stage {
+    padding-bottom: calc(var(--env-h) * 0.42);
+  }
+
+  .envelope {
+    bottom: 0;
   }
 
   .letterInner {
-    padding: 1.25rem;
+    padding: clamp(1.3rem, 2.1vw, 1.9rem) clamp(1.5rem, 2.4vw, 2.2rem);
+  }
+
+  .letterhead {
+    padding-bottom: 0.55rem;
+  }
+
+  .letterHeading {
+    margin-top: 0.75rem;
+  }
+
+  /* Postmark stays a corner cancellation, not a stamp over the heading row. */
+  .letterPostmark {
+    top: -44px;
+    right: -60px;
+    transform-origin: top right;
+  }
+
+  .letterPostmark svg {
+    width: 196px;
+    height: auto;
   }
 
   .letterTitle {
-    font-size: clamp(1.7rem, 3.6vw, 2.1rem);
+    margin-top: 0.75rem;
+    font-size: clamp(1.8rem, 2.5vw, 2.3rem);
   }
 
   .letterLede {
-    font-size: 0.88rem;
+    margin-top: 0.55rem;
+    font-size: clamp(0.94rem, 1.15vw, 1.02rem);
+    line-height: 1.5;
+  }
+
+  .signupArea {
+    margin-top: 0.95rem;
   }
 
   .formNote,
   .error {
-    font-size: 0.78rem;
+    margin-top: 0.55rem;
+    font-size: 0.8rem;
+  }
+
+  .letterRule {
+    margin-top: 0.9rem;
+  }
+
+  .signature {
+    margin-top: 0.5rem;
+    font-size: 1.15rem;
+  }
+}
+
+@media (min-width: 1181px) and (max-height: 820px) {
+  .hero {
+    row-gap: 0.4rem;
+    padding-block: 4.5rem 0.4rem;
+  }
+
+  .title {
+    margin-top: 0.8rem;
+    font-size: clamp(2.4rem, 4.6vw, 3.7rem);
+  }
+
+  .tagline {
+    margin-top: 1rem;
+    font-size: clamp(1rem, 1.4vw, 1.2rem);
+  }
+
+  .readout {
+    margin-top: 1rem;
+    font-size: 0.62rem;
+  }
+
+  .stage {
+    padding-bottom: calc(var(--env-h) * 0.36);
+  }
+
+  .letterInner {
+    padding: 1.15rem 1.5rem 1.25rem;
+  }
+
+  .letterhead {
+    padding-bottom: 0.5rem;
+  }
+
+  .letterHeading,
+  .letterTitle {
+    margin-top: 0.6rem;
+  }
+
+  .letterTitle {
+    font-size: clamp(1.85rem, 3vw, 2.35rem);
+  }
+
+  .letterLede {
+    margin-top: 0.45rem;
+    font-size: clamp(0.92rem, 1.2vw, 1.02rem);
+    line-height: 1.38;
+  }
+
+  .signupArea {
+    margin-top: 0.65rem;
+  }
+
+  .label {
+    margin-bottom: 0.25rem;
+  }
+
+  .kitMount,
+  .kitMount :global(.formkit-input),
+  .kitMount :global(.formkit-submit) {
+    min-height: 44px;
+  }
+
+  .formNote,
+  .error {
+    margin-top: 0.35rem;
+    font-size: 0.76rem;
+    line-height: 1.3;
+  }
+
+  .letterRule {
+    margin-top: 0.5rem;
+  }
+
+  .signature {
+    margin-top: 0.35rem;
+    font-size: 1.1rem;
+  }
+
+  .notes {
+    gap: clamp(1.5rem, 4vw, 3.5rem);
+  }
+
+  .noteBar {
+    margin-bottom: 0.45rem;
+  }
+
+  .noteCode {
+    font-size: 0.54rem;
+  }
+
+  .noteTitle {
+    margin-top: 0.3rem;
+    font-size: 1rem;
+  }
+
+  .noteBody {
+    margin-top: 0.35rem;
+    font-size: 0.79rem;
+    line-height: 1.38;
+  }
+
+  .signoff {
+    font-size: 0.52rem;
+    letter-spacing: 0.2em;
+  }
+}
+
+@media (min-width: 1181px) and (max-height: 680px) {
+  .hero {
+    padding-top: 3.85rem;
+  }
+
+  .kicker {
+    font-size: 0.58rem;
+  }
+
+  .title {
+    margin-top: 0.45rem;
+    font-size: clamp(2.2rem, 4vw, 3.1rem);
+  }
+
+  .tagline,
+  .readout {
+    margin-top: 0.65rem;
+  }
+
+  .stage {
+    padding-bottom: calc(var(--env-h) * 0.36);
+  }
+
+  .letterInner {
+    padding-block: 0.85rem 0.9rem;
+  }
+
+  .noteBody {
+    font-size: 0.72rem;
+    line-height: 1.3;
+  }
+}
+
+@media (max-width: 1180px) {
+  .topBar {
+    padding-block: max(0.65rem, env(safe-area-inset-top)) 0;
+  }
+
+  .hero {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: 50px minmax(0, 1fr);
+    align-items: stretch;
+    gap: clamp(0.55rem, 1.5dvh, 0.85rem);
+    padding-block: max(4.8rem, calc(env(safe-area-inset-top) + 4.35rem))
+      max(0.55rem, env(safe-area-inset-bottom));
+  }
+
+  .viewToggle {
+    position: relative;
+    z-index: 12;
+    display: grid;
+    width: min(100%, 18rem);
+    min-height: 50px;
+    justify-self: center;
+    grid-template-columns: repeat(2, 1fr);
+    padding: 3px;
+    border: 1px solid var(--border-strong);
+    border-radius: 0.65rem;
+    background: color-mix(in srgb, var(--background) 92%, transparent);
+  }
+
+  .viewToggle button {
+    min-width: 0;
+    min-height: 44px;
+    border: 0;
+    border-radius: 0.45rem;
+    background: transparent;
+    color: var(--muted-foreground);
+    cursor: pointer;
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    transition: background-color 180ms ease, color 180ms ease;
+  }
+
+  .viewToggle button[aria-selected="true"] {
+    background: var(--accent);
+    color: var(--accent-foreground);
+  }
+
+  .viewToggle button:focus-visible {
+    outline: 2px solid var(--accent-strong);
+    outline-offset: 2px;
+  }
+
+  .storyColumn,
+  .letterColumn {
+    min-height: 0;
+    grid-row: 2;
+    grid-column: 1;
+    transition: opacity 220ms ease, transform 300ms cubic-bezier(0.16, 1, 0.3, 1),
+      visibility 0s linear 0s;
+  }
+
+  .storyColumn {
+    display: grid;
+    width: min(100%, 62rem);
+    align-content: center;
+    justify-self: center;
+  }
+
+  .letterColumn {
+    width: min(100%, 680px);
+    align-self: center;
+    justify-self: center;
+  }
+
+  .hero[data-active-view="letter"] .storyColumn,
+  .hero[data-active-view="manifest"] .letterColumn {
+    pointer-events: none;
+    visibility: hidden;
+    opacity: 0;
+  }
+
+  .hero[data-active-view="letter"] .storyColumn {
+    transform: translateX(-18px);
+  }
+
+  .hero[data-active-view="manifest"] .letterColumn {
+    transform: translateX(18px);
+  }
+
+  .floaterOne,
+  .floaterTwo {
+    display: none;
+  }
+
+  .stage {
+    padding-bottom: calc(var(--env-h) * 0.36);
+  }
+
+  .letterInner {
+    padding: clamp(1.3rem, 3.2vw, 2rem);
+  }
+
+  .letterHeading,
+  .letterTitle {
+    margin-top: 0.85rem;
+  }
+
+  .letterLede {
+    margin-top: 0.65rem;
+    line-height: 1.48;
+  }
+
+  .signupArea {
+    margin-top: 1rem;
+  }
+
+  .letterRule {
+    margin-top: 0.85rem;
+  }
+
+  .signature {
+    margin-top: 0.55rem;
   }
 }
 
 @media (max-width: 767px) {
   .topBar {
-    padding: max(0.65rem, env(safe-area-inset-top)) 1rem 0;
+    padding-inline: 1rem;
   }
 
   .topBar :global(.brand-mark) {
@@ -1197,22 +1704,15 @@
   }
 
   .hero {
-    grid-template-columns: 1fr;
-    grid-template-rows: auto auto;
-    align-content: center;
-    align-items: start;
-    gap: clamp(0.55rem, 1.5dvh, 0.9rem);
-    padding: max(5.1rem, calc(env(safe-area-inset-top) + 4.5rem))
-      clamp(0.85rem, 4vw, 1.25rem)
-      max(0.35rem, env(safe-area-inset-bottom));
-  }
-
-  .floaterOne {
-    display: none;
+    padding-inline: clamp(0.85rem, 4vw, 1.25rem);
   }
 
   .skyOrb {
     display: none;
+  }
+
+  .storyColumn {
+    gap: clamp(0.7rem, 1.5dvh, 1rem);
   }
 
   .intro {
@@ -1230,90 +1730,117 @@
   }
 
   .title {
-    margin-top: 0.45rem;
-    font-size: clamp(1.85rem, 8vw, 2.35rem);
+    margin-top: 0.4rem;
+    font-size: clamp(1.8rem, 8vw, 2.35rem);
     line-height: 1;
   }
 
   .tagline {
-    margin-top: 0.65rem;
+    margin-top: 0.55rem;
     font-size: clamp(0.83rem, 3.7vw, 0.98rem);
     line-height: 1.35;
   }
 
   .readout {
-    margin-top: 0.7rem;
+    margin-top: 0.6rem;
     font-size: 0.53rem;
-    letter-spacing: 0.19em;
+    letter-spacing: 0.17em;
   }
 
   .readout li + li::before {
-    padding-inline: 0.45rem;
+    padding-inline: 0.4rem;
   }
 
-  .letterColumn {
-    width: min(100%, 31rem);
-    justify-self: center;
+  .notes {
+    grid-template-columns: 1fr;
+    gap: clamp(0.65rem, 1.5dvh, 0.9rem);
+  }
+
+  .noteBar {
+    margin-bottom: 0.4rem;
+  }
+
+  .noteCode {
+    font-size: 0.52rem;
+    letter-spacing: 0.18em;
+  }
+
+  .noteTitle {
+    margin-top: 0.25rem;
+    font-size: 0.98rem;
+  }
+
+  .noteBody {
+    margin-top: 0.3rem;
+    font-size: clamp(0.78rem, 3.25vw, 0.84rem);
+    line-height: 1.36;
+  }
+
+  .signoff {
+    gap: 0.5rem;
+    font-size: 0.5rem;
+    letter-spacing: 0.14em;
+  }
+
+  .signoff svg {
+    width: 15px;
+    height: 15px;
   }
 
   .centerpiece {
-    --env-h: clamp(78px, 13dvh, 108px);
-  }
-
-  .stage {
-    padding-bottom: calc(var(--env-h) * 0.48);
+    --env-h: clamp(200px, 46vw, 340px);
   }
 
   .letterInner {
-    padding: 0.8rem 1rem 0.85rem;
+    padding: 1.15rem 1.2rem 1.2rem;
   }
 
   .letterhead {
-    padding-bottom: 0.4rem;
-    font-size: 0.48rem;
-    letter-spacing: 0.2em;
+    padding-bottom: 0.55rem;
+    font-size: 0.52rem;
+    letter-spacing: 0.22em;
   }
 
   .letterHeading {
     gap: 0.6rem;
-    margin-top: 0.55rem;
+    margin-top: 0.7rem;
   }
 
   .letterLabel,
   .issueMark {
-    font-size: 0.5rem;
+    font-size: 0.52rem;
     letter-spacing: 0.19em;
   }
 
   .letterTitle {
-    margin-top: 0.5rem;
-    font-size: clamp(1.4rem, 6vw, 1.7rem);
+    margin-top: 0.7rem;
+    font-size: clamp(1.55rem, 7vw, 2rem);
   }
 
   .letterLede {
-    margin-top: 0.4rem;
-    font-size: clamp(0.75rem, 3.2vw, 0.86rem);
-    line-height: 1.35;
+    margin-top: 0.5rem;
+    font-size: clamp(0.86rem, 3.6vw, 0.98rem);
+    line-height: 1.4;
   }
 
   .letterPostmark {
-    top: -22px;
-    right: -40px;
+    top: -30px;
+    right: -66px;
     transform-origin: top right;
   }
 
   .letterPostmark svg {
-    width: 120px;
+    width: 170px;
     height: auto;
   }
 
   .signupArea {
-    margin-top: 0.6rem;
+    margin-top: 0.85rem;
   }
 
   .label {
-    margin-bottom: 0.2rem;
-    font-size: 0.5rem;
+    margin-bottom: 0.3rem;
+    font-size: 0.54rem;
     letter-spacing: 0.22em;
   }
 
@@ -1322,13 +1849,14 @@
     gap: 0.55rem;
   }
 
+  .kitMount,
   .kitMount :global(.formkit-input),
   .kitMount :global(.formkit-submit) {
     min-height: 44px;
   }
 
   .kitMount :global(.formkit-input) {
-    font-size: 0.88rem !important;
+    font-size: 0.9rem !important;
   }
 
   .kitMount :global(.formkit-submit) {
@@ -1336,40 +1864,36 @@
     font-size: 0.82rem !important;
   }
 
-  .kitMount {
-    min-height: 44px;
-  }
-
   .formNote,
   .error {
-    margin-top: 0.35rem;
-    font-size: 0.68rem;
-    line-height: 1.3;
+    margin-top: 0.4rem;
+    font-size: 0.72rem;
+    line-height: 1.35;
   }
 
   .letterRule {
     gap: 0.55rem;
-    margin-top: 0.55rem;
+    margin-top: 0.7rem;
   }
 
   .signature {
-    margin-top: 0.25rem;
-    font-size: 0.95rem;
+    margin-top: 0.4rem;
+    font-size: 1rem;
   }
 
   .confirmed {
-    min-height: 150px;
-    gap: 0.45rem;
-    padding-block: 0.75rem 2rem;
+    min-height: 190px;
+    gap: 0.55rem;
+    padding-block: 1rem 3rem;
   }
 
   .confirmedTitle {
-    font-size: clamp(2rem, 10vw, 2.8rem);
+    font-size: clamp(2.2rem, 10vw, 3rem);
   }
 
   .confirmedBody {
-    font-size: 0.82rem;
-    line-height: 1.4;
+    font-size: 0.9rem;
+    line-height: 1.45;
   }
 
   .envAddress {
@@ -1388,22 +1912,26 @@
 
 @media (max-width: 767px) and (max-height: 700px) {
   .hero {
-    gap: 0.35rem;
-    padding-top: max(4.35rem, calc(env(safe-area-inset-top) + 4rem));
+    grid-template-rows: 50px minmax(0, 1fr);
+    gap: 0.4rem;
+    padding-top: max(4.25rem, calc(env(safe-area-inset-top) + 3.95rem));
   }
 
-  .kicker,
-  .readout,
-  .letterhead,
-  .letterHeading,
-  .letterRule,
-  .letterPostmark {
-    display: none;
+  .viewToggle {
+    min-height: 50px;
+  }
+
+  .storyColumn {
+    gap: 0.52rem;
+  }
+
+  .kicker {
+    font-size: 0.5rem;
   }
 
   .title {
-    margin-top: 0;
-    font-size: clamp(1.65rem, 7.5vw, 2rem);
+    margin-top: 0.25rem;
+    font-size: clamp(1.55rem, 7vw, 1.9rem);
   }
 
   .tagline {
@@ -1412,133 +1940,77 @@
     line-height: 1.25;
   }
 
-  .centerpiece {
-    --env-h: clamp(64px, 11dvh, 78px);
-  }
-
-  .stage {
-    padding-bottom: calc(var(--env-h) * 0.42);
-  }
-
-  .letterInner {
-    padding: 0.55rem 0.85rem 0.6rem;
-  }
-
-  .letterTitle {
-    margin-top: 0;
-    font-size: 1.25rem;
-  }
-
-  .letterLede {
-    margin-top: 0.25rem;
-    font-size: 0.7rem;
-    line-height: 1.25;
-  }
-
-  .signupArea {
-    margin-top: 0.4rem;
-  }
-
-  .signature {
-    margin-top: 0.15rem;
-    font-size: 0.85rem;
-  }
-}
-
-@media (min-width: 768px) and (max-height: 540px) {
-  .topBar {
-    padding-block: 0.35rem 0;
-  }
-
-  .topBar :global(.brand-mark) {
-    --brand-emblem-size: 3.45rem;
-  }
-
-  .hero {
-    grid-template-columns: minmax(0, 0.8fr) minmax(320px, 1.2fr);
-    gap: clamp(1rem, 3vw, 2rem);
-    padding-block: 3.4rem 0.25rem;
-  }
-
-  .kicker,
-  .letterhead,
-  .letterRule,
-  .letterPostmark {
-    display: none;
-  }
-
-  .title {
-    margin-top: 0;
-    font-size: clamp(1.8rem, 4vw, 2.5rem);
-  }
-
-  .tagline {
-    margin-top: 0.55rem;
-    font-size: 0.82rem;
-    line-height: 1.3;
-    white-space: normal;
-  }
-
   .readout {
-    margin-top: 0.7rem;
-    font-size: 0.5rem;
-  }
-
-  .centerpiece {
-    --env-h: clamp(60px, 18dvh, 82px);
-  }
-
-  .stage {
-    padding-bottom: calc(var(--env-h) * 0.42);
-  }
-
-  .letterInner {
-    padding: 0.6rem 0.85rem;
-  }
-
-  .letterHeading {
-    margin-top: 0.2rem;
-  }
-
-  .letterTitle {
-    margin-top: 0.25rem;
-    font-size: 1.35rem;
-  }
-
-  .letterLede {
-    margin-top: 0.25rem;
-    font-size: 0.7rem;
-    line-height: 1.25;
-  }
-
-  .signupArea {
-    margin-top: 0.35rem;
-  }
-
-  .label {
-    margin-bottom: 0.15rem;
+    margin-top: 0.4rem;
     font-size: 0.48rem;
   }
 
-  .kitMount {
-    min-height: 40px;
+  .notes {
+    gap: 0.5rem;
   }
 
-  .kitMount :global(.formkit-input),
-  .kitMount :global(.formkit-submit) {
-    min-height: 40px;
+  .noteBar {
+    height: 3px;
+    margin-bottom: 0.28rem;
+    background-size: 54px 3px;
+  }
+
+  .noteCode {
+    font-size: 0.47rem;
+  }
+
+  .noteTitle {
+    margin-top: 0.18rem;
+    font-size: 0.9rem;
+  }
+
+  .noteBody {
+    margin-top: 0.22rem;
+    font-size: 0.74rem;
+    line-height: 1.28;
+  }
+
+  .signoff {
+    font-size: 0.46rem;
+  }
+
+  .letterInner {
+    padding: 0.85rem 1rem 0.9rem;
+  }
+
+  .letterhead {
+    padding-bottom: 0.35rem;
+  }
+
+  .letterHeading,
+  .letterTitle {
+    margin-top: 0.45rem;
+  }
+
+  .letterLede {
+    margin-top: 0.3rem;
+    font-size: 0.82rem;
+    line-height: 1.3;
+  }
+
+  .signupArea {
+    margin-top: 0.55rem;
   }
 
   .formNote,
   .error {
-    margin-top: 0.2rem;
-    font-size: 0.62rem;
-    line-height: 1.2;
+    margin-top: 0.25rem;
+    font-size: 0.66rem;
+    line-height: 1.25;
+  }
+
+  .letterRule {
+    margin-top: 0.45rem;
   }
 
   .signature {
-    margin-top: 0.15rem;
-    font-size: 0.85rem;
+    margin-top: 0.25rem;
+    font-size: 0.95rem;
   }
 }
 
@@ -1546,7 +2018,11 @@
   .stampChar,
   .taglineWord,
   .readout li,
+  .note,
   .seal,
+  .storyColumn,
+  .letterColumn,
+  .viewToggle button,
   .kitMount :global(.formkit-input),
   .kitMount :global(.formkit-submit),
   .kitMount :global(.formkit-submit)::before {
@@ -1566,7 +2042,12 @@
   }
 
   .stampChar:hover,
+  .note:hover,
   .tagline:hover .taglineWord {
     transform: none;
+  }
+
+  .note:hover .noteBar {
+    animation: none;
   }
 }
