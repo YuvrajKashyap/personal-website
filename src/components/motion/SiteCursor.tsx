@@ -4,6 +4,11 @@ import { motion, useMotionValue, useReducedMotion } from "motion/react";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 
 import { useCursorTrailEnabled } from "@/components/theme/CursorTrailToggle";
+import { createCursorTrailScene } from "@/components/motion/cursor-trail-scene";
+import type {
+  CursorTrailWorkerMessage,
+  CursorTrailWorkerResponse,
+} from "@/components/motion/cursor-trail-worker-protocol";
 
 const FINE_POINTER_QUERY = "(hover: hover) and (pointer: fine)";
 
@@ -36,10 +41,11 @@ const INTERACTIVE_SELECTOR = [
 
 const TEXT_FIELD_SELECTOR =
   'input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]), textarea';
-
 const TRAIL_LIFE_MS = 380;
-const TRAIL_MAX_POINTS = 70;
-const TRAIL_COLOR = "232, 38, 45";
+
+type TrailController = {
+  pushPoint: (x: number, y: number, time: number) => void;
+};
 
 export function SiteCursor() {
   const shouldReduceMotion = useReducedMotion();
@@ -54,138 +60,73 @@ export function SiteCursor() {
   const [isPointer, setIsPointer] = useState(false);
   const [isHiddenZone, setIsHiddenZone] = useState(false);
   const [isDown, setIsDown] = useState(false);
+  const [trailWorkerFailed, setTrailWorkerFailed] = useState(false);
 
   const x = useMotionValue(-100);
   const y = useMotionValue(-100);
   const trailRef = useRef<HTMLCanvasElement>(null);
+  const trailControllerRef = useRef<TrailController | null>(null);
+  const visibleRef = useRef(false);
+  const pointerRef = useRef(false);
+  const hiddenZoneRef = useRef(false);
+  const downRef = useRef(false);
 
   useEffect(() => {
-    if (!isActive) {
-      return undefined;
-    }
+    if (!isActive) return undefined;
 
     document.documentElement.dataset.customCursor = "true";
 
-    // Fading red ribbon that chases the dot, drawn on its own canvas so the
-    // cursor itself stays untouched. The rAF loop only runs while points are
-    // alive and stops on its own once the trail has fully faded.
-    const trailCanvas = trailRef.current;
-    const trailCtx = trailCanvas?.getContext("2d");
-    const trailPoints: Array<{ x: number; y: number; t: number }> = [];
-    let trailFrame = 0;
-    let trailDpr = 1;
-
-    function sizeTrailCanvas() {
-      if (!trailCanvas) {
-        return;
-      }
-
-      trailDpr = Math.min(window.devicePixelRatio || 1, 2);
-      trailCanvas.width = Math.round(window.innerWidth * trailDpr);
-      trailCanvas.height = Math.round(window.innerHeight * trailDpr);
-    }
-
-    function drawTrail() {
-      trailFrame = 0;
-
-      if (!trailCtx || !trailCanvas) {
-        return;
-      }
-
-      const now = performance.now();
-
-      while (trailPoints.length && now - trailPoints[0].t > TRAIL_LIFE_MS) {
-        trailPoints.shift();
-      }
-
-      trailCtx.setTransform(trailDpr, 0, 0, trailDpr, 0, 0);
-      trailCtx.clearRect(0, 0, window.innerWidth, window.innerHeight);
-
-      if (trailPoints.length > 1) {
-        trailCtx.globalCompositeOperation = "lighter";
-        trailCtx.lineCap = "round";
-        trailCtx.lineJoin = "round";
-
-        for (let i = 1; i < trailPoints.length; i += 1) {
-          const from = trailPoints[i - 1];
-          const to = trailPoints[i];
-          const strength = Math.max(0, 1 - (now - to.t) / TRAIL_LIFE_MS);
-
-          // soft glow pass under a crisp core pass
-          trailCtx.strokeStyle = `rgba(${TRAIL_COLOR}, ${strength * 0.12})`;
-          trailCtx.lineWidth = 2 + strength * 9;
-          trailCtx.beginPath();
-          trailCtx.moveTo(from.x, from.y);
-          trailCtx.lineTo(to.x, to.y);
-          trailCtx.stroke();
-
-          trailCtx.strokeStyle = `rgba(${TRAIL_COLOR}, ${strength * 0.55})`;
-          trailCtx.lineWidth = 0.6 + strength * 2.6;
-          trailCtx.beginPath();
-          trailCtx.moveTo(from.x, from.y);
-          trailCtx.lineTo(to.x, to.y);
-          trailCtx.stroke();
-        }
-
-        trailCtx.globalCompositeOperation = "source-over";
-      }
-
-      if (trailPoints.length) {
-        trailFrame = window.requestAnimationFrame(drawTrail);
-      }
-    }
-
-    sizeTrailCanvas();
-
     function onPointerMove(event: PointerEvent) {
-      if (event.pointerType !== "mouse") {
-        return;
-      }
+      if (event.pointerType !== "mouse") return;
 
       x.set(event.clientX);
       y.set(event.clientY);
-      setIsVisible(true);
-
-      if (!trailEnabled) {
-        return;
+      if (!visibleRef.current) {
+        visibleRef.current = true;
+        setIsVisible(true);
       }
-
-      trailPoints.push({
-        x: event.clientX,
-        y: event.clientY,
-        t: performance.now(),
-      });
-
-      if (trailPoints.length > TRAIL_MAX_POINTS) {
-        trailPoints.shift();
-      }
-
-      if (!trailFrame) {
-        trailFrame = window.requestAnimationFrame(drawTrail);
-      }
+      trailControllerRef.current?.pushPoint(
+        event.clientX,
+        event.clientY,
+        performance.now(),
+      );
     }
 
     function onPointerOver(event: PointerEvent) {
       const target = event.target;
+      if (!(target instanceof Element)) return;
 
-      if (!(target instanceof Element)) {
-        return;
+      const nextHiddenZone = Boolean(target.closest(TEXT_FIELD_SELECTOR));
+      const nextPointer = Boolean(target.closest(INTERACTIVE_SELECTOR));
+      if (nextHiddenZone !== hiddenZoneRef.current) {
+        hiddenZoneRef.current = nextHiddenZone;
+        setIsHiddenZone(nextHiddenZone);
       }
-
-      setIsHiddenZone(Boolean(target.closest(TEXT_FIELD_SELECTOR)));
-      setIsPointer(Boolean(target.closest(INTERACTIVE_SELECTOR)));
+      if (nextPointer !== pointerRef.current) {
+        pointerRef.current = nextPointer;
+        setIsPointer(nextPointer);
+      }
     }
 
     function onPointerDown() {
-      setIsDown(true);
+      if (!downRef.current) {
+        downRef.current = true;
+        setIsDown(true);
+      }
     }
 
     function onPointerUp() {
-      setIsDown(false);
+      if (downRef.current) {
+        downRef.current = false;
+        setIsDown(false);
+      }
     }
 
     function onLeaveWindow() {
-      setIsVisible(false);
+      if (visibleRef.current) {
+        visibleRef.current = false;
+        setIsVisible(false);
+      }
     }
 
     window.addEventListener("pointermove", onPointerMove, { passive: true });
@@ -194,7 +135,6 @@ export function SiteCursor() {
     window.addEventListener("pointerup", onPointerUp, { passive: true });
     document.documentElement.addEventListener("pointerleave", onLeaveWindow);
     window.addEventListener("blur", onLeaveWindow);
-    window.addEventListener("resize", sizeTrailCanvas, { passive: true });
 
     return () => {
       delete document.documentElement.dataset.customCursor;
@@ -202,22 +142,156 @@ export function SiteCursor() {
       document.removeEventListener("pointerover", onPointerOver);
       window.removeEventListener("pointerdown", onPointerDown);
       window.removeEventListener("pointerup", onPointerUp);
-      document.documentElement.removeEventListener(
-        "pointerleave",
-        onLeaveWindow,
-      );
+      document.documentElement.removeEventListener("pointerleave", onLeaveWindow);
       window.removeEventListener("blur", onLeaveWindow);
-      window.removeEventListener("resize", sizeTrailCanvas);
-
-      if (trailFrame) {
-        window.cancelAnimationFrame(trailFrame);
-      }
     };
-  }, [isActive, trailEnabled, x, y]);
+  }, [isActive, x, y]);
 
-  if (!isActive) {
-    return null;
-  }
+  useEffect(() => {
+    if (!isActive || !trailEnabled) {
+      trailControllerRef.current = null;
+      return undefined;
+    }
+
+    let disposed = false;
+    let teardownRuntime: (() => void) | undefined;
+    const setupFrame = window.requestAnimationFrame(() => {
+      if (disposed) return;
+      const canvas = trailRef.current;
+      if (!canvas) return;
+
+      let frame = 0;
+      let lastPointAt = Number.NEGATIVE_INFINITY;
+      let trailWasActive = false;
+      let worker: Worker | null = null;
+      let workerReady = false;
+      let workerAutonomous = false;
+
+      type Driver = {
+        pushPoint: (x: number, y: number, time: number) => void;
+        renderFrame: (time: number) => boolean | undefined;
+        resize: () => void;
+      };
+      let driver: Driver;
+
+      const canvasSize = () => ({
+        width: window.innerWidth,
+        height: window.innerHeight,
+        dpr: Math.min(window.devicePixelRatio || 1, 2),
+      });
+      const canTransfer =
+        !trailWorkerFailed &&
+        typeof Worker !== "undefined" &&
+        typeof canvas.transferControlToOffscreen === "function";
+
+      if (canTransfer) {
+        worker = new Worker(new URL("./cursor-trail.worker.ts", import.meta.url), {
+          type: "module",
+          name: "cursor-trail",
+        });
+        const offscreen = canvas.transferControlToOffscreen();
+        worker.onerror = () => {
+          if (!disposed) setTrailWorkerFailed(true);
+        };
+        worker.onmessage = (event: MessageEvent<CursorTrailWorkerResponse>) => {
+          workerReady = true;
+          if (event.data.type === "ready") {
+            workerAutonomous = event.data.autonomous;
+            if (workerAutonomous && frame) {
+              window.cancelAnimationFrame(frame);
+              frame = 0;
+            }
+          } else {
+            trailWasActive = event.data.active;
+          }
+        };
+        worker.postMessage(
+          {
+            type: "init",
+            canvas: offscreen,
+            ...canvasSize(),
+            timeOrigin: performance.timeOrigin,
+          } satisfies CursorTrailWorkerMessage,
+          [offscreen],
+        );
+        const post = (message: CursorTrailWorkerMessage) => worker?.postMessage(message);
+        driver = {
+          pushPoint: (pointX, pointY, time) =>
+            post({ type: "point", x: pointX, y: pointY, time }),
+          renderFrame: (time) => {
+            if (!workerReady) return undefined;
+            workerReady = false;
+            post({ type: "frame", time });
+            return undefined;
+          },
+          resize: () => post({ type: "resize", ...canvasSize() }),
+        };
+      } else {
+        const context = canvas.getContext("2d");
+        if (!context) return;
+        const scene = createCursorTrailScene(context);
+        const resize = () => {
+          const size = canvasSize();
+          scene.resize(size.width, size.height, size.dpr);
+        };
+        resize();
+        workerReady = true;
+        driver = {
+          pushPoint: scene.pushPoint,
+          renderFrame: scene.renderFrame,
+          resize,
+        };
+      }
+
+      const schedule = () => {
+        if (!frame) frame = window.requestAnimationFrame(drawTrail);
+      };
+      const drawTrail = () => {
+        frame = 0;
+        const now = performance.now();
+        const withinLifetime = now - lastPointAt <= TRAIL_LIFE_MS;
+        if (worker) {
+          if (workerAutonomous) return;
+          if (workerReady && (withinLifetime || trailWasActive)) {
+            driver.renderFrame(now);
+          }
+          if (withinLifetime || trailWasActive || !workerReady) schedule();
+          return;
+        }
+
+        trailWasActive = driver.renderFrame(now) ?? false;
+        if (trailWasActive) schedule();
+      };
+
+      const controller: TrailController = {
+        pushPoint(pointX, pointY, time) {
+          lastPointAt = time;
+          trailWasActive = true;
+          driver.pushPoint(pointX, pointY, time);
+          if (!workerAutonomous) schedule();
+        },
+      };
+      trailControllerRef.current = controller;
+      window.addEventListener("resize", driver.resize, { passive: true });
+
+      teardownRuntime = () => {
+        if (trailControllerRef.current === controller) {
+          trailControllerRef.current = null;
+        }
+        window.removeEventListener("resize", driver.resize);
+        if (frame) window.cancelAnimationFrame(frame);
+        worker?.terminate();
+      };
+    });
+
+    return () => {
+      disposed = true;
+      window.cancelAnimationFrame(setupFrame);
+      teardownRuntime?.();
+    };
+  }, [isActive, trailEnabled, trailWorkerFailed]);
+
+  if (!isActive) return null;
 
   const stateClass = [
     isVisible && !isHiddenZone ? "is-visible" : "",
@@ -230,7 +304,11 @@ export function SiteCursor() {
   return (
     <div className={`site-cursor ${stateClass}`} aria-hidden="true">
       {trailEnabled ? (
-        <canvas ref={trailRef} className="site-cursor-trail" />
+        <canvas
+          key={trailWorkerFailed ? "main" : "worker"}
+          ref={trailRef}
+          className="site-cursor-trail"
+        />
       ) : null}
       <motion.span className="site-cursor-anchor" style={{ x, y }}>
         <span className="site-cursor-halo" />

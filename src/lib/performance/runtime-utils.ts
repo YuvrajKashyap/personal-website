@@ -9,6 +9,39 @@ type PathWriter = {
   lineTo: (x: number, y: number) => void;
 };
 
+export type ElementRectSnapshot = {
+  left: number;
+  top: number;
+  width: number;
+  height: number;
+};
+
+export function createElementRectCache(
+  readRect: () => ElementRectSnapshot,
+) {
+  let cached: ElementRectSnapshot | null = null;
+  let invalid = true;
+
+  return {
+    read() {
+      if (invalid || cached === null) {
+        const next = readRect();
+        cached = {
+          left: next.left,
+          top: next.top,
+          width: next.width,
+          height: next.height,
+        };
+        invalid = false;
+      }
+      return cached;
+    },
+    invalidate() {
+      invalid = true;
+    },
+  };
+}
+
 export function createPointTrail(capacity: number): PointTrail {
   return {
     points: new Float32Array(capacity * 2),

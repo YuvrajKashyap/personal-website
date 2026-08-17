@@ -4,6 +4,7 @@ import test from "node:test";
 const runtimeUtilsUrl = new URL("./runtime-utils.ts", import.meta.url).href;
 const runtimeUtils = (await import(runtimeUtilsUrl)) as typeof import("./runtime-utils");
 const {
+  createElementRectCache,
   createLatestFrameScheduler,
   createLazyEventSink,
   createPointTrail,
@@ -11,6 +12,22 @@ const {
   pushTrailPoint,
   tracePolyline,
 } = runtimeUtils;
+
+test("element geometry is read once until layout invalidates it", () => {
+  let reads = 0;
+  const cache = createElementRectCache(() => {
+    reads += 1;
+    return { left: 10, top: 20, width: 300, height: 180 };
+  });
+
+  assert.deepEqual(cache.read(), { left: 10, top: 20, width: 300, height: 180 });
+  assert.deepEqual(cache.read(), { left: 10, top: 20, width: 300, height: 180 });
+  assert.equal(reads, 1);
+
+  cache.invalidate();
+  cache.read();
+  assert.equal(reads, 2);
+});
 
 test("point trails keep newest-first draw order after wrapping", () => {
   const trail = createPointTrail(3);

@@ -19,7 +19,11 @@ import {
 import { MAIL_OPENED_EVENT, MAIL_SENT_EVENT } from "@/features/mail/mail-events";
 import { Postmark } from "@/features/mail/Postmark";
 import { gravitationalEase } from "@/lib/motion/presets";
-import { createLatestFrameScheduler } from "@/lib/performance/runtime-utils";
+import { createPhasePreservingAnimationController } from "@/lib/performance/animation-runtime";
+import {
+  createElementRectCache,
+  createLatestFrameScheduler,
+} from "@/lib/performance/runtime-utils";
 
 import styles from "./MailPage.module.css";
 
@@ -31,7 +35,6 @@ type EnvelopeCenterpieceProps = Readonly<{
 }>;
 
 type PointerSample = {
-  target: HTMLDivElement;
   clientX: number;
   clientY: number;
 };
@@ -66,11 +69,15 @@ export function EnvelopeCenterpiece({
   const skipTheater = shouldReduceMotion || confirmed;
 
   const rootRef = useRef<HTMLDivElement>(null);
+  const tiltFrameRef = useRef<HTMLDivElement>(null);
   const letterRef = useRef<HTMLDivElement>(null);
   const envelopeRef = useRef<HTMLDivElement>(null);
   const timeoutsRef = useRef<number[]>([]);
   const startedRef = useRef(skipTheater);
   const pointerSchedulerRef = useRef<PointerScheduler | null>(null);
+  const pointerRectCacheRef = useRef<
+    ReturnType<typeof createElementRectCache> | null
+  >(null);
 
   const [phase, setPhase] = useState<Phase>(skipTheater ? "presented" : "sealed");
   const [flapBehind, setFlapBehind] = useState(skipTheater);
@@ -78,6 +85,32 @@ export function EnvelopeCenterpiece({
   const [upLift, setUpLift] = useState(-120);
 
   const inView = useInView(rootRef, { amount: 0.4 });
+
+  useEffect(() => {
+    const root = rootRef.current;
+    if (!root || typeof CSSAnimation === "undefined") return undefined;
+
+    const controller = createPhasePreservingAnimationController(
+      () =>
+        root
+          .getAnimations({ subtree: true })
+          .filter((animation) => animation instanceof CSSAnimation),
+      () => performance.now(),
+    );
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry?.isIntersecting ?? true) controller.resume();
+        else controller.pause();
+      },
+      { rootMargin: "96px 0px" },
+    );
+    observer.observe(root);
+
+    return () => {
+      observer.disconnect();
+      controller.resume();
+    };
+  }, []);
 
   // Measure the letter against the envelope so the sealed letter always fits
   // fully inside it (behind the flap and pocket) at any viewport size.
@@ -196,9 +229,32 @@ export function EnvelopeCenterpiece({
 
   const presented = phase === "presented";
 
+  useEffect(() => {
+    const target = tiltFrameRef.current;
+    if (!target) return undefined;
+
+    const cache = createElementRectCache(() => target.getBoundingClientRect());
+    pointerRectCacheRef.current = cache;
+    const invalidate = () => cache.invalidate();
+    const resizeObserver = new ResizeObserver(invalidate);
+    resizeObserver.observe(target);
+    window.addEventListener("resize", invalidate, { passive: true });
+    window.addEventListener("scroll", invalidate, { passive: true, capture: true });
+
+    return () => {
+      resizeObserver.disconnect();
+      window.removeEventListener("resize", invalidate);
+      window.removeEventListener("scroll", invalidate, true);
+      if (pointerRectCacheRef.current === cache) {
+        pointerRectCacheRef.current = null;
+      }
+    };
+  }, []);
+
   const applyPointerSample = useCallback(
-    ({ target, clientX, clientY }: PointerSample) => {
-      const rect = target.getBoundingClientRect();
+    ({ clientX, clientY }: PointerSample) => {
+      const rect = pointerRectCacheRef.current?.read();
+      if (!rect || !rect.width || !rect.height) return;
       const px = (clientX - rect.left) / rect.width;
       const py = (clientY - rect.top) / rect.height;
       rotateX.set((0.5 - py) * 7);
@@ -232,7 +288,6 @@ export function EnvelopeCenterpiece({
     }
 
     const sample = {
-      target: event.currentTarget,
       clientX: event.clientX,
       clientY: event.clientY,
     };
@@ -249,6 +304,7 @@ export function EnvelopeCenterpiece({
     rotateX.set(0);
     rotateY.set(0);
     glareStrength.set(0);
+    pointerRectCacheRef.current?.invalidate();
   };
 
   const letterTarget = presented
@@ -280,8 +336,10 @@ export function EnvelopeCenterpiece({
       transition={{ type: "spring", stiffness: 190, damping: 19, mass: 0.9 }}
     >
       <motion.div
+        ref={tiltFrameRef}
         className={styles.tiltFrame}
         style={{ rotateX, rotateY, transformPerspective: 1200 }}
+        onPointerEnter={() => pointerRectCacheRef.current?.invalidate()}
         onPointerMove={handlePointerMove}
         onPointerLeave={handlePointerLeave}
       >

@@ -1,23 +1,20 @@
 "use client";
 
-import { motion, useReducedMotion, type Variants } from "motion/react";
+import { useEffect, useRef } from "react";
 
 import { SiteEmblemLink } from "@/components/layout/SiteEmblemLink";
-import { Magnetic } from "@/components/motion/Magnetic";
 import { ParallaxDrift } from "@/components/motion/ParallaxDrift";
 import { Reveal } from "@/components/motion/Reveal";
 import { SectionReveal } from "@/components/motion/SectionReveal";
-import { useSectionReveal } from "@/components/motion/SectionRevealContext";
 import { EnvelopeCenterpiece } from "@/features/mail/EnvelopeCenterpiece";
 import { KitSignupForm } from "@/features/mail/KitSignupForm";
 import { MailRoutesCanvas } from "@/features/mail/MailRoutesCanvas";
-import { MobileSignupDock } from "@/features/mail/MobileSignupDock";
 import { mailPageContent } from "@/features/mail/mail-content";
 import { PaperPlaneOverlay } from "@/features/mail/PaperPlaneOverlay";
 import { Postmark } from "@/features/mail/Postmark";
 import { StampTitle } from "@/features/mail/StampTitle";
 import { ThemeToggle } from "@/components/theme/ThemeToggle";
-import { gravitationalEase } from "@/lib/motion/presets";
+import { createPhasePreservingAnimationController } from "@/lib/performance/animation-runtime";
 
 import styles from "./MailPage.module.css";
 
@@ -32,90 +29,54 @@ const TAGLINE_WORDS = [
   ...["whatever", "has", "my", "attention."].map((text) => ({ text, emph: true })),
 ];
 
-const noteVariants: Variants = {
-  hidden: {
-    clipPath: "inset(0 100% 0 0)",
-    x: -16,
-  },
-  visible: (index: number = 0) => ({
-    clipPath: "inset(0 0% 0 0)",
-    x: 0,
-    transition: {
-      duration: 0.95,
-      ease: gravitationalEase,
-      delay: index * 0.16,
-    },
-  }),
-};
-
-const noteBarVariants: Variants = {
-  hidden: { scaleX: 0 },
-  visible: (index: number = 0) => ({
-    scaleX: 1,
-    transition: {
-      duration: 0.75,
-      ease: gravitationalEase,
-      delay: 0.2 + index * 0.16,
-    },
-  }),
-};
-
-type ManifestNoteProps = Readonly<{
-  index: number;
-  code: string;
-  title: string;
-  body: string;
-}>;
-
-/**
- * "Airmail unseal" entrance: the striped airmail edge draws itself across,
- * then the note content wipes open left to right — distinct from both the
- * stamp cascade and the envelope drop above it.
- */
-function ManifestNote({ index, code, title, body }: ManifestNoteProps) {
-  const shouldReduceMotion = useReducedMotion();
-  const section = useSectionReveal();
-  const state = section ? "visible" : "hidden";
-
-  if (shouldReduceMotion) {
-    return (
-      <article className={styles.note}>
-        <div className={styles.noteBar} aria-hidden="true" />
-        <p className={styles.noteCode}>{code}</p>
-        <h2 className={styles.noteTitle}>{title}</h2>
-        <p className={styles.noteBody}>{body}</p>
-      </article>
-    );
-  }
-
-  return (
-    <article className={styles.note}>
-      <motion.div
-        className={styles.noteBar}
-        custom={index}
-        initial="hidden"
-        animate={state}
-        variants={noteBarVariants}
-        style={{ transformOrigin: "0% 50%" }}
-        aria-hidden="true"
-      />
-      <motion.div custom={index} initial="hidden" animate={state} variants={noteVariants}>
-        <p className={styles.noteCode}>{code}</p>
-        <h2 className={styles.noteTitle}>{title}</h2>
-        <p className={styles.noteBody}>{body}</p>
-      </motion.div>
-    </article>
-  );
-}
-
 export function MailPage({ confirmed = false }: MailPageProps) {
+  const auroraOneRef = useRef<HTMLDivElement>(null);
+  const auroraTwoRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (typeof CSSAnimation === "undefined") return undefined;
+
+    const elements = [auroraOneRef.current, auroraTwoRef.current].filter(
+      (element): element is HTMLDivElement => element !== null,
+    );
+    const controllers = new Map(
+      elements.map((element) => [
+        element,
+        createPhasePreservingAnimationController(
+          () =>
+            element
+              .getAnimations()
+              .filter((animation) => animation instanceof CSSAnimation),
+          () => performance.now(),
+        ),
+      ]),
+    );
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          const controller = controllers.get(entry.target as HTMLDivElement);
+          if (!controller) continue;
+          if (entry.isIntersecting) controller.resume();
+          else controller.pause();
+        }
+      },
+      { rootMargin: "96px 0px" },
+    );
+    for (const element of elements) observer.observe(element);
+
+    return () => {
+      observer.disconnect();
+      for (const controller of controllers.values()) controller.resume();
+    };
+  }, []);
+
   return (
     <main className={`internal-page ${styles.page}`}>
       <div className={styles.sky} aria-hidden="true">
         <div className={styles.skyGlowTop} />
         <div className={styles.skyOrb} />
-        <div className={styles.skyAuroraOne} />
-        <div className={styles.skyAuroraTwo} />
+        <div ref={auroraOneRef} className={styles.skyAuroraOne} />
+        <div ref={auroraTwoRef} className={styles.skyAuroraTwo} />
         <div className={styles.skyHorizon} />
       </div>
 
@@ -183,27 +144,6 @@ export function MailPage({ confirmed = false }: MailPageProps) {
                   ))}
                 </ul>
               </Reveal>
-              <Reveal delay={0.82}>
-                <Magnetic className={styles.scrollHintMagnet} strength={0.28} radius={110}>
-                  <a className={styles.scrollHint} href="#the-letter">
-                    <span className={styles.scrollHintArrow} aria-hidden="true">
-                      →
-                    </span>
-                    {confirmed ? (
-                      "You're on the list. The first letter is en route."
-                    ) : (
-                      <>
-                        <span className={styles.hintDesktop}>
-                          A sealed letter is waiting. Break the wax.
-                        </span>
-                        <span className={styles.hintMobile}>
-                          Your letter is already open below.
-                        </span>
-                      </>
-                    )}
-                  </a>
-                </Magnetic>
-              </Reveal>
             </div>
 
             <div className={styles.letterColumn} id="the-letter">
@@ -243,50 +183,6 @@ export function MailPage({ confirmed = false }: MailPageProps) {
           </div>
         </section>
       </SectionReveal>
-
-      <SectionReveal>
-        <section
-          className={`site-container-wide ${styles.notes}`}
-          aria-label="What to expect"
-        >
-          <ManifestNote
-            index={0}
-            code="Manifest / 01"
-            title="What shows up"
-            body={mailPageContent.relationshipNote}
-          />
-          <ManifestNote
-            index={1}
-            code="Manifest / 02"
-            title="When it shows up"
-            body={mailPageContent.scheduleNote}
-          />
-          <ManifestNote
-            index={2}
-            code="Manifest / 03"
-            title="The fine print"
-            body={mailPageContent.privacyNote}
-          />
-        </section>
-      </SectionReveal>
-
-      <SectionReveal>
-        <Reveal>
-          <p className={styles.signoff}>
-            <svg width="18" height="18" viewBox="0 0 46 46" fill="none" aria-hidden="true">
-              <path
-                d="M4 26 L42 8 L30 40 L22 28 Z"
-                stroke="currentColor"
-                strokeWidth="3"
-                strokeLinejoin="round"
-              />
-            </svg>
-            Posted from the desk of Yuvraj Kashyap
-          </p>
-        </Reveal>
-      </SectionReveal>
-
-      <MobileSignupDock confirmed={confirmed} />
       <PaperPlaneOverlay />
     </main>
   );
