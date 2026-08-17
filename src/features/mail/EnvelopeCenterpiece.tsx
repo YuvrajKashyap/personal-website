@@ -83,6 +83,10 @@ export function EnvelopeCenterpiece({
   const [flapBehind, setFlapBehind] = useState(skipTheater);
   const [sealedPose, setSealedPose] = useState<{ y: number; scale: number } | null>(null);
   const [upLift, setUpLift] = useState(-120);
+  // Presented pose: the letter rests half-drawn from the pocket (its bottom
+  // edge sits inside the envelope) rather than perched fully above it, so
+  // the opened letter never climbs off the top of a one-screen layout.
+  const [presentedY, setPresentedY] = useState(0);
 
   const inView = useInView(rootRef, { amount: 0.4 });
 
@@ -137,6 +141,12 @@ export function EnvelopeCenterpiece({
         scale,
       });
       setUpLift(-letterHeight * 0.24);
+      // Bottom of the presented letter lands 62% down the envelope face, so
+      // the letter reads as drawn out of the pocket rather than floated
+      // clear above it. Never above its natural flow position.
+      setPresentedY(
+        Math.max(0, envelope.offsetTop + envelopeHeight * 0.62 - letterLayoutBottom),
+      );
     };
 
     measure();
@@ -315,7 +325,7 @@ export function EnvelopeCenterpiece({
   };
 
   const letterTarget = presented
-    ? { y: 0, scale: 1 }
+    ? { y: presentedY, scale: 1 }
     : phase === "up"
       ? { y: upLift, scale: 0.9 }
       : (sealedPose ?? { y: -120, scale: 0.5 });
@@ -431,7 +441,7 @@ export function EnvelopeCenterpiece({
               <motion.div
                 className={styles.flap}
                 initial={false}
-                animate={{ rotateX: phase === "sealed" || phase === "cracked" ? 0 : -178 }}
+                animate={{ rotateX: phase === "sealed" || phase === "cracked" ? 0 : -150 }}
                 transition={{ duration: 0.85, ease: gravitationalEase }}
               >
                 <div className={styles.flapFace} />
