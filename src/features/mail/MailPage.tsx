@@ -221,7 +221,7 @@ export function MailPage({ confirmed = false }: MailPageProps) {
                 onClick={() => setActiveView("manifest")}
                 onKeyDown={handleViewKeyDown}
               >
-                Manifest
+                P.S.
               </button>
             </div>
 
@@ -281,20 +281,20 @@ export function MailPage({ confirmed = false }: MailPageProps) {
               <section className={styles.notes} aria-label="What to expect">
                 <ManifestNote
                   index={0}
-                  code="Manifest / 01"
+                  code="P.S. / 01"
                   title="What shows up"
                   body={mailPageContent.relationshipNote}
                 />
                 <ManifestNote
                   index={1}
-                  code="Manifest / 02"
+                  code="P.S. / 02"
                   title="When it shows up"
                   body={mailPageContent.scheduleNote}
                 />
                 <ManifestNote
                   index={2}
-                  code="Manifest / 03"
-                  title="The fine print"
+                  code="P.S. / 03"
+                  title="How do I get in?"
                   body={mailPageContent.privacyNote}
                 />
               </section>

@@ -17,7 +17,8 @@ test("mail page presents the agreed newsletter promise", () => {
 });
 
 test("mail page keeps the schedule flexible and the signup honest", () => {
-  assert.match(mailPageContent.scheduleNote, /no promised day/i);
+  assert.match(mailPageContent.scheduleNote, /weekly ish/i);
+  assert.match(mailPageContent.scheduleNote, /worth sending/i);
   assert.match(mailPageContent.privacyNote, /unsubscribe/i);
   assert.equal(mailPageContent.formId, "9783767");
   assert.equal(mailPageContent.formUid, "984ceb5f60");

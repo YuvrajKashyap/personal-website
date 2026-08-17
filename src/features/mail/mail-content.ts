@@ -3,11 +3,11 @@ export const mailPageContent = {
   tagline: "A weekly letter about whatever has my attention.",
   description: "Ideas, updates, discoveries, and occasional rabbit holes.",
   scheduleNote:
-    "Weekly-ish. Some weeks I'm deep in a build and it lands late, some weeks something is too good to sit on and it lands early. No promised day, it shows up when it's worth sending.",
+    "weekly ish. sometimes i'll be working or prioritizing urgent tasks and it'll arrive late while some weeks something could be too good to sit on and it'll land early. it'll only show up when i truly think it's worth sending.",
   relationshipNote:
-    "Whatever I'm actually into that week. Something I'm building, a tool I can't stop using, an idea I can't let go of. If it made the letter, it's because I'd text a friend about it.",
+    "whatever i'm thinking about that week. things i'm building, tools i can't stop using, or ideas and insight i found so valuable i thought i had to share it. if its showing up on my letter, it's because i'd text a friend about it. i wanna make it as valuable for you as possible",
   privacyNote:
-    "One confirmation email, then the letters. Unsubscribe whenever you want.",
+    "sign up, get a confirmation email, and then get the letters. unsubscribe anytime you want",
   formId: "9783767",
   formUid: "984ceb5f60",
 } as const;
