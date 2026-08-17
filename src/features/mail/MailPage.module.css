@@ -384,9 +384,9 @@
 
 /* ---------- Manifest ---------- */
 
-/* Manifest strip: full-width, sits on a hairline that separates the stage
-   above from the notes below, so the two zones read as deliberate layers
-   rather than a collision. */
+/* P.S. strip: full-width, floats on the canvas. The three airmail stripes
+   already do the job of separating this zone from the stage above, so no
+   extra rule between them: separation by light, not lines. */
 .notes {
   position: relative;
   display: grid;
@@ -396,70 +396,7 @@
   width: 100%;
   gap: clamp(2rem, 4vw, 4rem);
   align-self: end;
-  margin-top: clamp(1.4rem, 3dvh, 2.4rem);
-  padding-top: clamp(1.2rem, 2.4dvh, 1.8rem);
-}
-
-/* The divider draws itself from the center outward once the section is in
-   view, then a gold glint runs its length once. Transform/opacity only. */
-.notes::before {
-  position: absolute;
-  top: 0;
-  right: 0;
-  left: 0;
-  height: 1px;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    var(--border-strong) 18%,
-    var(--border-strong) 82%,
-    transparent
-  );
-  content: "";
-  transform: scaleX(0);
-  transform-origin: 50% 50%;
-  transition: transform 1.1s cubic-bezier(0.16, 1, 0.3, 1) 0.55s;
-}
-
-.notes::after {
-  position: absolute;
-  top: -1px;
-  left: 0;
-  width: 18%;
-  height: 3px;
-  background: linear-gradient(90deg, transparent, var(--accent), transparent);
-  content: "";
-  filter: blur(0.5px);
-  opacity: 0;
-  transform: translateX(-100%);
-}
-
-:global([data-section-reveal-active="true"]) .notes::before {
-  transform: scaleX(1);
-}
-
-:global([data-section-reveal-active="true"]) .notes::after {
-  animation: rule-glint 1.4s cubic-bezier(0.22, 0.8, 0.28, 1) 1.35s 1 both;
-}
-
-@keyframes rule-glint {
-  0% {
-    opacity: 0;
-    transform: translateX(-100%);
-  }
-
-  12% {
-    opacity: 0.9;
-  }
-
-  88% {
-    opacity: 0.9;
-  }
-
-  100% {
-    opacity: 0;
-    transform: translateX(560%);
-  }
+  margin-top: clamp(2rem, 4.5dvh, 3.4rem);
 }
 
 .signoff {
