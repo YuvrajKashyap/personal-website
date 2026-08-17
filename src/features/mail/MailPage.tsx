@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useReducedMotion, type Variants } from "motion/react";
-import { useEffect, useRef, useState, type KeyboardEvent } from "react";
+import { useEffect, useRef, useState, type KeyboardEvent, type ReactNode } from "react";
 
 import { SiteEmblemLink } from "@/components/layout/SiteEmblemLink";
 import { Magnetic } from "@/components/motion/Magnetic";
@@ -65,7 +65,7 @@ type ManifestNoteProps = Readonly<{
   index: number;
   code: string;
   title: string;
-  body: string;
+  body: ReactNode;
 }>;
 
 function ManifestNote({ index, code, title, body }: ManifestNoteProps) {
@@ -79,7 +79,7 @@ function ManifestNote({ index, code, title, body }: ManifestNoteProps) {
         <div className={styles.noteBar} aria-hidden="true" />
         <p className={styles.noteCode}>{code}</p>
         <h2 className={styles.noteTitle}>{title}</h2>
-        <p className={styles.noteBody}>{body}</p>
+        <div className={styles.noteBody}>{body}</div>
       </article>
     );
   }
@@ -98,7 +98,7 @@ function ManifestNote({ index, code, title, body }: ManifestNoteProps) {
       <motion.div custom={index} initial="hidden" animate={state} variants={noteVariants}>
         <p className={styles.noteCode}>{code}</p>
         <h2 className={styles.noteTitle}>{title}</h2>
-        <p className={styles.noteBody}>{body}</p>
+        <div className={styles.noteBody}>{body}</div>
       </motion.div>
     </article>
   );
@@ -282,20 +282,26 @@ export function MailPage({ confirmed = false }: MailPageProps) {
                 <ManifestNote
                   index={0}
                   code="P.S. / 01"
-                  title="What shows up"
+                  title="what shows up"
                   body={mailPageContent.relationshipNote}
                 />
                 <ManifestNote
                   index={1}
                   code="P.S. / 02"
-                  title="When it shows up"
+                  title="when it shows up"
                   body={mailPageContent.scheduleNote}
                 />
                 <ManifestNote
                   index={2}
                   code="P.S. / 03"
-                  title="How do I get in?"
-                  body={mailPageContent.privacyNote}
+                  title="how do I get it?"
+                  body={
+                    <ol>
+                      {mailPageContent.enrollmentSteps.map((step) => (
+                        <li key={step}>{step}</li>
+                      ))}
+                    </ol>
+                  }
                 />
               </section>
 

@@ -1,6 +1,5 @@
 import OpenGraphImage from "./opengraph-image";
 
-export const runtime = "edge";
 export const alt = "Yuvraj Kashyap personal operating interface";
 export const size = {
   width: 1200,

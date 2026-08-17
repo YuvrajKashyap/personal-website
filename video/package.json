@@ -1,0 +1,12 @@
+{
+  "name": "yuvraj-portfolio-videos",
+  "private": true,
+  "scripts": {
+    "studio": "remotion studio src/index.ts",
+    "render:showreel": "remotion render src/index.ts PortfolioShowreel out/portfolio-showreel.mp4"
+  },
+  "dependencies": {
+    "@remotion/cli": "^4.0.506",
+    "remotion": "^4.0.506"
+  }
+}
