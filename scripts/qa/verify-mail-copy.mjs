@@ -3,6 +3,7 @@ import { readFile } from "node:fs/promises";
 
 const mailContent = await readFile("src/features/mail/mail-content.ts", "utf8");
 const mailPage = await readFile("src/features/mail/MailPage.tsx", "utf8");
+const mailStyles = await readFile("src/features/mail/MailPage.module.css", "utf8");
 
 assert.match(
   mailContent,
@@ -10,6 +11,11 @@ assert.match(
   "relationship note uses the approved wording",
 );
 assert.match(mailPage, /title="how do I get it\?"/, "manifest uses the updated question");
+assert.match(
+  mailStyles,
+  /\.noteBody ol \{[\s\S]*list-style-type: decimal;/,
+  "enrollment steps render visible numeric markers",
+);
 for (const step of [
   "sign up",
   "get a confirmation email",

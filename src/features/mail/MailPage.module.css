@@ -539,6 +539,7 @@
   gap: 0.2rem;
   margin: 0;
   padding-left: 1.35rem;
+  list-style-type: decimal;
 }
 
 /* ---------- Floating postal decor ---------- */
