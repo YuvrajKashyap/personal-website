@@ -1173,9 +1173,19 @@
   height: 74px;
   padding: 0;
   border: none;
+  border-radius: 50%;
   background: none;
+  /* The drop shadow is cast ONCE here (a full circle), not per half: two
+     half-shadows overlapping at the split leave a visible seam below. */
+  box-shadow: 0 8px 20px rgb(0 0 0 / 0.35);
   cursor: pointer;
-  transition: transform 280ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition:
+    transform 280ms cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 320ms ease;
+}
+
+.seal:disabled {
+  box-shadow: none;
 }
 
 .seal:not(:disabled):hover {
@@ -1199,12 +1209,15 @@
   display: block;
 }
 
+/* Each half is clipped only along the center split (with a half-pixel
+   overlap so no seam shows while sealed). Halves carry no outer shadow, so
+   there is nothing at the clip edge to cut. */
 .sealHalfLeft {
-  clip-path: inset(-14px 50% -14px -14px);
+  clip-path: inset(-4px calc(50% - 0.5px) -4px -4px);
 }
 
 .sealHalfRight {
-  clip-path: inset(-14px -14px -14px 50%);
+  clip-path: inset(-4px -4px -4px calc(50% - 0.5px));
 }
 
 .sealFace {
@@ -1221,8 +1234,7 @@
   );
   box-shadow:
     inset 0 3px 6px rgb(255 255 255 / 0.28),
-    inset 0 -4px 8px rgb(0 0 0 / 0.36),
-    0 8px 20px rgb(0 0 0 / 0.35);
+    inset 0 -4px 8px rgb(0 0 0 / 0.36);
   color: #f6dfc8;
   font-family: var(--font-mono);
   font-size: 1.1rem;
