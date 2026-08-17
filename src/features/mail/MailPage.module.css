@@ -465,20 +465,65 @@
   text-transform: uppercase;
 }
 
+/* P.S. headings: the letter's own italic serif, so the notes read as
+   Yuvraj's postscript scrawl. An ink underline draws itself in beneath each
+   one on reveal, and the title lifts to the accent on hover. */
 .noteTitle {
-  margin-top: 0.45rem;
-  font-size: clamp(1.05rem, 1.35vw, 1.25rem);
-  font-weight: 630;
-  letter-spacing: -0.022em;
-  line-height: 1.15;
+  position: relative;
+  display: inline-block;
+  margin-top: 0.55rem;
+  padding-bottom: 0.3rem;
+  color: var(--foreground);
+  font-family: var(--font-letter);
+  font-size: clamp(1.45rem, 1.9vw, 1.8rem);
+  font-style: italic;
+  font-weight: 460;
+  letter-spacing: -0.012em;
+  line-height: 1.1;
+  transition: color 300ms ease;
+}
+
+.noteTitle::after {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  border-radius: 1px;
+  background: linear-gradient(90deg, var(--accent), var(--accent) 60%, transparent);
+  content: "";
+  opacity: 0.85;
+  transform: scaleX(0);
+  transform-origin: 0% 50%;
+  transition: transform 900ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+:global([data-section-reveal-active="true"]) .noteTitle::after {
+  transform: scaleX(1);
+}
+
+.note:nth-child(1) .noteTitle::after {
+  transition-delay: 0.7s;
+}
+
+.note:nth-child(2) .noteTitle::after {
+  transition-delay: 0.86s;
+}
+
+.note:nth-child(3) .noteTitle::after {
+  transition-delay: 1.02s;
+}
+
+.note:hover .noteTitle {
+  color: var(--accent);
 }
 
 .noteBody {
   max-width: 42ch;
-  margin-top: 0.5rem;
+  margin-top: 0.55rem;
   color: var(--muted-foreground);
   font-size: clamp(0.82rem, 1vw, 0.92rem);
-  line-height: 1.48;
+  line-height: 1.5;
   text-wrap: pretty;
 }
 
@@ -1472,8 +1517,8 @@
   }
 
   .noteTitle {
-    margin-top: 0.3rem;
-    font-size: 1rem;
+    margin-top: 0.35rem;
+    font-size: 1.35rem;
   }
 
   .noteBody {
@@ -1720,8 +1765,8 @@
   }
 
   .noteTitle {
-    margin-top: 0.25rem;
-    font-size: 0.98rem;
+    margin-top: 0.3rem;
+    font-size: 1.3rem;
   }
 
   .noteBody {
@@ -1914,8 +1959,8 @@
   }
 
   .noteTitle {
-    margin-top: 0.18rem;
-    font-size: 0.9rem;
+    margin-top: 0.22rem;
+    font-size: 1.2rem;
   }
 
   .noteBody {
@@ -1969,6 +2014,11 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .noteTitle::after {
+    transform: scaleX(1);
+    transition: none;
+  }
+
   .stampChar,
   .taglineWord,
   .readout li,
