@@ -42,8 +42,8 @@ export const resumeRoles = [
     id: "idk-studios-medceptor-swe-intern",
     role: "Software Engineering Intern",
     organization: "IDK Studios · Medceptor",
-    period: "Apr 2026 — Present",
-    current: true,
+    period: "Apr 2026 — Aug 2026",
+    current: false,
     bullets: [
       "Shipped production features for Medceptor, an AI-driven medical education platform, across Next.js, React, TypeScript, Django, and Supabase/Postgres in a small founder-led startup team.",
       "Built RN nursing question-bank and exam-mode workflows supporting 100+ generated questions, multiple question formats, track and level filtering, scoring and review flows, and internal QA.",
@@ -147,7 +147,7 @@ export const experienceEntries = [
     title: "Software Engineering Intern, IDK Studios / Medceptor",
     organization: "IDK Studios / Medceptor",
     context: "AI-driven medical education platform",
-    periodLabel: "Apr 2026 — Present",
+    periodLabel: "Apr 2026 — Aug 2026",
     body:
       "Production full-stack work on Medceptor's exam-prep platform in a small founder-led startup team: RN question-bank and exam-mode systems, content-generation and validation pipelines, and release QA across Next.js, Django, and Supabase/Postgres.",
     type: "project",
