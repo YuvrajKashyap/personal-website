@@ -53,7 +53,7 @@ export const resumeRoles = [
   },
   {
     id: "cyc-vp-finance",
-    role: "Vice President of Finance & Senior Consultant",
+    role: "Engineering Lead & Senior Consultant",
     organization: "Consult Your Community · UT Dallas",
     period: "Jan 2026 — Present",
     current: true,
