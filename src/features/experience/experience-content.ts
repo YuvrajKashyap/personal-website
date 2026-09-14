@@ -39,9 +39,9 @@ export const resumeEducation = {
 
 export const resumeRoles = [
   {
-    id: "idk-studios-medceptor-swe-intern",
+    id: "medceptor-swe-intern",
     role: "Software Engineering Intern",
-    organization: "IDK Studios · Medceptor",
+    organization: "Medceptor",
     period: "Apr 2026 — Aug 2026",
     current: false,
     bullets: [
@@ -141,10 +141,10 @@ export const experienceEntries = [
     order: 1,
   },
   {
-    id: "idk-studios-medceptor-internship",
+    id: "medceptor-internship",
     eyebrow: "Industry",
-    title: "Software Engineering Intern, IDK Studios / Medceptor",
-    organization: "IDK Studios / Medceptor",
+    title: "Software Engineering Intern, Medceptor",
+    organization: "Medceptor",
     context: "AI-driven medical education platform",
     periodLabel: "Apr 2026 — Aug 2026",
     body:
