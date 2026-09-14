@@ -1184,6 +1184,14 @@ export const projects = [
     timelineLabel: "Draft",
     links: [
       {
+        label: "Live prototype (limited early access)",
+        href: "https://beyond-chat-production.vercel.app/",
+        type: "live",
+        isPrimary: false,
+        status: "verified",
+        external: true,
+      },
+      {
         label: "GitHub repository",
         href: "https://github.com/YuvrajKashyap/Beyond-Chat",
         type: "repo",

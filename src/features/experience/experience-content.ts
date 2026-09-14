@@ -45,9 +45,9 @@ export const resumeRoles = [
     period: "Apr 2026 — Aug 2026",
     current: false,
     bullets: [
-      "Shipped production features for Medceptor, an AI-driven medical education platform, across Next.js, React, TypeScript, Django, and Supabase/Postgres in a small founder-led startup team.",
+      "Enabled CNA/LPN market expansion by shipping 14+ PRs for core question-bank and exam workflows used by paying, recurring users of Medceptor's medical education platform.",
       "Built RN nursing question-bank and exam-mode workflows supporting 100+ generated questions, multiple question formats, track and level filtering, scoring and review flows, and internal QA.",
-      "Delivered PRs spanning product, backend data modeling, content-generation imports, and validation pipelines, expanding Medceptor beyond EMT/NREMT simulations into CNA/LPN/RN exam-prep infrastructure.",
+      "Carried features through implementation, automated testing, and release QA across Next.js, React, TypeScript, Django, and Supabase/Postgres.",
     ],
     skills: ["Next.js", "TypeScript", "Django", "Supabase/Postgres"],
   },
@@ -58,10 +58,9 @@ export const resumeRoles = [
     period: "Jan 2026 — Present",
     current: true,
     bullets: [
-      "Led cross-functional consulting engagements for Glydr, a hardware company building foot-based computer control interfaces, and Get in the Path, an education nonprofit.",
-      "Built Glydr's web-based gaming hub prototype and drove execution across product operations, pricing and financial strategy, go-to-market planning, and final client deliverables.",
+      "Built Glydr's web-based gaming hub prototype, translating client requirements into a working product and owning technical deliverables from scoping through final handoff.",
     ],
-    skills: ["Product ops", "Financial strategy", "Go-to-market", "Prototyping"],
+    skills: ["Web prototyping", "Requirements scoping", "Technical delivery"],
   },
   {
     id: "uav-smart-city-researcher",
@@ -99,7 +98,7 @@ export const resumeRoles = [
   },
   {
     id: "nova-electrical-engineer",
-    role: "Systems & Electrical Engineer, NOVA Autonomous Driving",
+    role: "Software Research Assistant, NOVA Autonomous Driving",
     organization: "University of Texas at Dallas",
     period: "Sep 2023 — Jun 2025",
     bullets: [
@@ -149,7 +148,7 @@ export const experienceEntries = [
     context: "AI-driven medical education platform",
     periodLabel: "Apr 2026 — Aug 2026",
     body:
-      "Production full-stack work on Medceptor's exam-prep platform in a small founder-led startup team: RN question-bank and exam-mode systems, content-generation and validation pipelines, and release QA across Next.js, Django, and Supabase/Postgres.",
+      "Enabled CNA/LPN market expansion by shipping 14+ PRs for core question-bank and exam workflows used by paying, recurring users. Built question filtering, import validation, scoring, and review flows across Next.js, Django, and Supabase/Postgres.",
     type: "project",
     reviewStatus: "confirmed",
     order: 2,
@@ -181,7 +180,7 @@ export const experienceEntries = [
   {
     id: "nova-autonomous-driving",
     eyebrow: "Autonomous Systems",
-    title: "NOVA Autonomous Driving",
+    title: "Software Research Assistant, NOVA Autonomous Driving",
     context: "Technical team experience",
     periodLabel: "Technical team",
     body:
@@ -207,7 +206,7 @@ export const experienceEntries = [
     title: "Consult Your Community project leadership",
     context: "Execution and coordination",
     body:
-      "A leadership context for project execution, stakeholder communication, operations, product thinking, and team coordination.",
+      "Built Glydr's web-based gaming hub prototype, translating client requirements into a working product and owning technical deliverables from scoping through final handoff.",
     type: "leadership",
     reviewStatus: "conservative",
     order: 7,
