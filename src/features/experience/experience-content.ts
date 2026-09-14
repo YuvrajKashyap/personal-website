@@ -203,7 +203,7 @@ export const experienceEntries = [
   {
     id: "consult-your-community",
     eyebrow: "Project Leadership",
-    title: "Consult Your Community project leadership",
+    title: "Engineering Lead & Senior Consultant",
     context: "Execution and coordination",
     body:
       "Built Glydr's web-based gaming hub prototype, translating client requirements into a working product and owning technical deliverables from scoping through final handoff.",
