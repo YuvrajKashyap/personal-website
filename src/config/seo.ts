@@ -27,7 +27,7 @@ export const seoConfig = {
     path: "/opengraph-image",
     width: 1200,
     height: 630,
-    alt: "Yuvraj Kashyap personal operating interface",
+    alt: "Yuvraj Kashyap landing page in Singularity OS dark mode",
   },
   sameAs: siteConfig.socialLinks
     .filter((link) => link.external)

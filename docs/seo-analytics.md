@@ -61,7 +61,13 @@ The root Open Graph image is generated in:
 src/app/opengraph-image.tsx
 ```
 
-The image is coded with `next/og` and does not depend on external assets, external font files, or dark hero video media.
+The route uses `next/og` to serve a static 1200 by 630 capture of the real dark-mode landing hero from:
+
+```text
+public/media/og/home-preview.png
+```
+
+The preview is intentionally a faithful view of the website rather than a separate promotional graphic. It does not depend on external assets, external font files, or dark hero video media at request time.
 
 Project detail routes can use:
 

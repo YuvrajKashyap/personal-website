@@ -1,6 +1,6 @@
 import OpenGraphImage from "./opengraph-image";
 
-export const alt = "Yuvraj Kashyap personal operating interface";
+export const alt = "Yuvraj Kashyap landing page in Singularity OS dark mode";
 export const size = {
   width: 1200,
   height: 630,
