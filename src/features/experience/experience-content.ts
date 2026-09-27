@@ -39,15 +39,6 @@ export const resumeEducation = {
 
 export const resumeRoles = [
   {
-    id: "base-power-incoming",
-    role: "Incoming Software Engineering Intern",
-    organization: "Base Power · Austin, TX",
-    period: "Incoming",
-    current: false,
-    bullets: [],
-    skills: [],
-  },
-  {
     id: "medceptor-swe-intern",
     role: "Software Engineering Intern",
     organization: "Medceptor",
@@ -109,7 +100,7 @@ export const resumeRoles = [
     id: "nova-electrical-engineer",
     role: "Software Research Assistant, NOVA Autonomous Driving",
     organization: "University of Texas at Dallas",
-    period: "Sep 2023 — Aug 2025",
+    period: "Sep 2023 — Jun 2025",
     bullets: [
       "Built Python preprocessing pipelines for 3D sensor data, including voxel-grid point cloud downsampling that reduced scan size from 370,277 to 20,528 points while preserving geometric structure.",
       "Designed, maintained, and debugged primary and secondary power systems for an autonomous vehicle, including dual battery banks, high-voltage lines, and multiple I/O buses, translating hardware constraints into systems-level fixes.",
@@ -137,18 +128,6 @@ export const experienceHero = {
 } as const;
 
 export const experienceEntries = [
-  {
-    id: "base-power-incoming",
-    eyebrow: "Incoming",
-    title: "Software Engineering Intern, Base Power",
-    organization: "Base Power",
-    context: "Austin, TX",
-    periodLabel: "Incoming",
-    body: "Joining Base Power as a Software Engineering Intern in Austin, Texas.",
-    type: "project",
-    reviewStatus: "confirmed",
-    order: 0,
-  },
   {
     id: "current-build-phase",
     eyebrow: "Now",
