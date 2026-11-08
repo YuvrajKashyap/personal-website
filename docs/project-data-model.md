@@ -163,6 +163,8 @@ Public pages should default to published records. Draft records can exist in loc
 
 ## 10. Featured project logic
 
+The default archive order is an editorial strongest-first portfolio ranking, not recency or alphabetical order. Evaluate additions using implementation depth, completeness, verifiable evidence, distinctiveness, and attribution. Keep demo and production limitations visible. `order` is the primary sort key in `sortProjects()`; featured rank is a tie-breaker. See [the November 2026 archive refresh](project-archive-refresh-2026-11.md) for the latest additions and placement rationale.
+
 Featured projects are published projects where `featured` is `true`.
 
 `featuredRank` controls featured ordering. `order` is the secondary sort field. Title is the final stable tie-breaker.

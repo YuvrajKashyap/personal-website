@@ -2,6 +2,158 @@ import type { Project } from "@/types/project";
 
 export const projects = [
   {
+    id: "project_legacydiff",
+    slug: "legacydiff",
+    title: "LegacyDiff",
+    shortTitle: "LegacyDiff",
+    eyebrow: "Software modernization",
+    summary:
+      "Compare old and rewritten software, investigate differences with AI, and turn reviewed behavior decisions into runnable acceptance tests.",
+    description:
+      "LegacyDiff runs reviewed Python implementations on identical inputs and separates output differences from execution errors and unmet requirements. A React workspace brings the evidence, NVIDIA Nemotron investigations, collaborative review, and version-bound approvals together over SpacetimeDB.",
+    category: "developer_tooling",
+    type: "platform",
+    status: "active_build",
+    priority: "strong",
+    visibility: "published",
+    featured: true,
+    featuredRank: 2.5,
+    order: 25,
+    randomizerEligible: true,
+    randomizerBucket: "systems",
+    randomizerWeight: 1,
+    tags: ["Differential testing", "AI agents", "Software modernization", "Collaborative review", "Developer tooling"],
+    stack: ["React", "TypeScript", "Vite", "Python", "SpacetimeDB", "NVIDIA Nemotron"],
+    highlights: [
+      "Actual execution across four reviewed synthetic scenarios",
+      "Server-enforced membership and approvals tied to exact versions",
+      "Exportable acceptance tests with source and decision integrity checks",
+    ],
+    problem:
+      "A rewrite can introduce a defect or faithfully copy an old one. Matching outputs alone cannot establish which behavior is correct.",
+    solution:
+      "Compare measured outputs with independent requirements and pinned evidence, investigate differences with bounded AI tools, then let a reviewer approve the intended behavior and export its checks.",
+    whatItProves:
+      "Connecting execution, evidence, AI tooling, collaborative state, and human decisions into one inspectable developer workflow.",
+    detailSections: [
+      {
+        eyebrow: "Execution",
+        title: "Measure before explaining",
+        body: "A Python runner executes hash-verified fixtures for returns, pricing, accounts payable, and permissions. Output differences, execution failures, and independent requirement failures remain separate results.",
+      },
+      {
+        eyebrow: "Review",
+        title: "Approve an exact version",
+        body: "SpacetimeDB enforces membership and reviewer permissions. Decisions preserve the reviewed proposal and candidate; stale approvals and stale worker results are rejected. Downloadable bundles carry the selected sources, decision, and runnable checks.",
+      },
+      {
+        eyebrow: "AI",
+        title: "Investigations remain advisory",
+        body: "Nemotron specialists inspect behavior, policy, and regression evidence through bounded tools. Recorded calls, citations, partial results, and failures remain visible. Models cannot approve decisions or automatically repair the implementation.",
+      },
+    ],
+    timelineLabel: "Local working demo",
+    notes:
+      "Local application using reviewed synthetic fixtures. The runner has reduced isolation and is not an arbitrary-code sandbox. Public hosting, arbitrary repository ingestion, and production readiness are outside the current build.",
+    links: [
+      {
+        label: "GitHub repository",
+        href: "https://github.com/YuvrajKashyap/legacydiff",
+        type: "repo",
+        isPrimary: true,
+        status: "verified",
+        external: true,
+      },
+    ],
+    media: [
+      {
+        type: "cover",
+        src: "/media/projects/legacydiff/orchestration.webp",
+        alt: "LegacyDiff Lab showing the orchestrator connected to Behavior, Policy, and Regression specialists and human review",
+        theme: "both",
+        status: "ready",
+        note: "Cropped from the repository's recorded Lab screenshot; synthetic local comparison, not a live status display.",
+      },
+    ],
+  },
+  {
+    id: "project_aws_hack26",
+    slug: "aws-hack26",
+    title: "AWS Hack26",
+    shortTitle: "AWS Hack26",
+    eyebrow: "Manufacturing decision support",
+    summary:
+      "Manufacturing maintenance demo connecting model comparisons, a 3D technician console, and persistent simulated review workflows.",
+    description:
+      "AWS Hack26 is a team-built maintenance decision-support demo. A Streamlit technician console connects synthetic AI4I observations to selectable scikit-learn operating policies, an original 3D machining-cell view, and local review records. An optional Amazon Bedrock integration selects supporting evidence for explanations.",
+    category: "ai_systems",
+    type: "system",
+    status: "active_build",
+    priority: "strong",
+    visibility: "published",
+    featured: true,
+    featuredRank: 9.5,
+    order: 95,
+    randomizerEligible: true,
+    randomizerBucket: "systems",
+    randomizerWeight: 0.85,
+    tags: ["Machine learning", "Decision support", "Model evaluation", "Human review", "Hackathon"],
+    stack: ["Python", "Streamlit", "scikit-learn", "SQLite", "Amazon Bedrock", "Blender"],
+    highlights: [
+      "Five model families compared with explicit validation and test boundaries",
+      "Selectable random forest, gradient boosting, and hybrid policies",
+      "Persistent simulated reviews with concurrent-update protection",
+    ],
+    problem:
+      "A failure score alone does not tell a technician what evidence to inspect or how to record a review. Model tradeoffs and the limits of the data need to remain visible.",
+    solution:
+      "Connect reproducible model evaluation to a technician-facing console, retain the evidence behind each assessment, and save simulated review decisions without triggering real maintenance actions.",
+    whatItProves:
+      "Applied ML evaluation, operator-focused interface design, persistent workflow engineering, and selective integration of a team-built demo.",
+    detailSections: [
+      {
+        eyebrow: "Evaluation",
+        title: "Choose policies on validation data",
+        body: "The benchmark compares five scikit-learn families on a fixed AI4I split. Operating policies fit on training data and choose thresholds and hybrid weights on validation data. Model identities distinguish cached explanations and simulated orders across policies.",
+      },
+      {
+        eyebrow: "Workflow",
+        title: "From assessment to recorded review",
+        body: "The console combines a 3D machining cell with evidence inspection and proposed follow-ups. SQLite stores simulated review dispositions and notes, rejects stale updates, and preserves review events.",
+      },
+      {
+        eyebrow: "Boundaries",
+        title: "A decision-support simulation",
+        body: "The active application uses classifier inference and deterministic workflow rules, with optional Bedrock evidence selection. It does not deploy an autonomous agent crew or dispatch machinery, technicians, or real work orders.",
+      },
+    ],
+    timelineLabel: "Hackathon demo",
+    attributionNotes:
+      "Team-built project. The public repository records selected teammate contributions and deferred prototypes. Model evaluation uses the synthetic UCI AI4I dataset.",
+    notes:
+      "Synthetic data and exploratory test comparisons do not establish industrial accuracy, calibrated failure probabilities, remaining useful life, or production deployment. Maintenance actions and review records are simulated.",
+    links: [
+      {
+        label: "GitHub repository",
+        href: "https://github.com/YuvrajKashyap/aws-hack26",
+        type: "repo",
+        isPrimary: true,
+        status: "verified",
+        external: true,
+      },
+    ],
+    media: [
+      {
+        type: "cover",
+        src: "/media/projects/aws-hack26/technician-console.webp",
+        alt: "AWS Hack26 illustrative 3D machining cell with assembly selection and recorded tool-head evidence",
+        theme: "both",
+        status: "ready",
+        note: "Repository presentation capture of the simulated technician console, not real machine telemetry.",
+      },
+    ],
+  },
+  {
     id: "project_aletheia",
     slug: "aletheia",
     title: "Aletheia",
@@ -1315,13 +1467,13 @@ export const projects = [
   {
     id: "project_frontend_lab",
     slug: "frontend-lab",
-    title: "Frontend Lab",
-    shortTitle: "Frontend Lab",
-    eyebrow: "Open-source interface collection",
+    title: "Studio",
+    shortTitle: "Studio",
+    eyebrow: "Frontend design library",
     summary:
-      "A growing collection of reusable interfaces, interactions, and focused frontend experiments, presented through a live gallery.",
+      "A frontend design library with responsive previews, editable source downloads, and ready-to-host websites.",
     description:
-      "Frontend Lab is an open-source workspace for small, self-contained interface builds. Each experiment owns its component, metadata, package boundary, and documentation while a shared Turborepo gallery makes the collection easy to browse, run, reuse, and extend.",
+      "Studio is a library of independent frontend designs presented through a Next.js gallery. Each design is a standalone Vite project that can be previewed at different screen sizes, opened on its own, or downloaded as editable source and a built static site.",
     category: "frontend_experience",
     type: "platform",
     status: "live",
@@ -1339,35 +1491,35 @@ export const projects = [
       "Component architecture",
       "Creative coding",
     ],
-    stack: ["React", "TypeScript", "Next.js", "Turborepo", "pnpm"],
+    stack: ["React", "TypeScript", "Next.js", "Vite", "pnpm"],
     highlights: [
-      "Independent project packages behind one browsable gallery",
-      "Small metadata contract for adding and documenting new builds",
-      "MIT-licensed source designed to be understood and reused",
+      "Independent designs with responsive previews and standalone views",
+      "Editable source and built static-site downloads",
+      "Metadata-driven discovery with draft and published states",
     ],
     problem:
       "Small interface experiments often disappear into disconnected sandboxes, making them difficult to browse, compare, reuse, or maintain as a coherent body of work.",
     solution:
-      "A shared gallery and workspace contract that keeps every build independent while giving the collection consistent discovery, verification, and contribution paths.",
+      "A shared gallery discovers independent design folders, provides responsive previews, and packages each design for reuse without requiring the gallery repository.",
     whatItProves:
       "Frontend range, interaction craft, reusable component boundaries, monorepo organization, and an open-source mindset.",
     detailSections: [
       {
         eyebrow: "Collection",
         title: "Independent builds, one clear system",
-        body: "Each experiment stays understandable on its own while shared tooling provides a consistent way to browse, run, validate, and extend the full collection.",
+        body: "The gallery uses Next.js while each design owns its Vite project, assets, dependencies, and visual identity. Draft designs stay out of the public gallery until marked published.",
       },
       {
         eyebrow: "Reuse",
         title: "Built to be opened and changed",
-        body: "The repository documents a small project contract and publishes the authored work under the MIT License so individual builds can be studied, adapted, and reused.",
+        body: "Source downloads include the design's dependencies, lockfile, license, and instructions. Built-site downloads can be served by a static web server. Repository-authored code is MIT licensed; third-party assets retain their own terms.",
       },
     ],
     timelineLabel: "Live and growing",
     links: [
       {
         label: "Browse the live gallery",
-        href: "https://gallery-yuvraj-kashyaps-projects.vercel.app",
+        href: "https://studio.yuvrajkashyap.com",
         type: "live",
         isPrimary: true,
         status: "verified",
@@ -1375,7 +1527,7 @@ export const projects = [
       },
       {
         label: "GitHub repository",
-        href: "https://github.com/YuvrajKashyap/frontend",
+        href: "https://github.com/YuvrajKashyap/studio",
         type: "repo",
         status: "verified",
         external: true,
@@ -1384,11 +1536,11 @@ export const projects = [
     media: [
       {
         type: "cover",
-        src: "/media/projects/frontend-lab/portfolio-hero.webp",
-        alt: "Frontend Lab live gallery with bold editorial typography and an interactive kinetic type experiment",
+        src: "/media/projects/studio/gallery.webp",
+        alt: "Studio's live gallery with large editorial typography and orange accents over a dark interface",
         theme: "both",
         status: "ready",
-        note: "Captured from the live Frontend Lab gallery.",
+        note: "Captured from the public Studio gallery on November 8, 2026.",
       },
     ],
   },
