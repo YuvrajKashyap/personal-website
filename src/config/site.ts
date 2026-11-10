@@ -12,7 +12,7 @@ export const siteConfig = {
   url: "https://yuvrajkashyap.com",
   description: "Personal website and operating interface for Yuvraj Kashyap.",
   navItems: [
-    { label: "Home", href: "/" },
+    { label: "Home", href: "/#top" },
     { label: "About", href: "/#home-about-preview" },
     { label: "Experience", href: "/#home-experience-preview" },
     { label: "Projects", href: "/#home-projects-preview" },

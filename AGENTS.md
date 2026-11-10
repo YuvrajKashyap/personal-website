@@ -1,5 +1,7 @@
 # AGENTS
 
+- Write commit messages in Yuvraj's voice: lowercase, natural, concise, and specific about the change. Avoid formal boilerplate or generic corporate wording.
+
 ## Project North Star
 
 Build a visually unforgettable, cinematic, orbital and astrophysics-themed personal website that feels like entering Yuvraj's universe and instantly signals elite builder, future founder, and systems-thinker energy while staying smooth, minimal, premium, responsive, accessible, and production-grade.

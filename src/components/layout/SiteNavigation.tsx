@@ -102,7 +102,7 @@ const panelItemVariants = {
 
 const sectionIds = siteConfig.navItems
   .map((item) => item.href.split("#")[1])
-  .filter((id): id is string => Boolean(id));
+  .filter((id): id is string => Boolean(id) && id !== "top");
 
 let sectionCache: Array<{ id: string; element: HTMLElement }> | null = null;
 
@@ -127,14 +127,15 @@ function isNavItemActive(
   pathname: string,
   activeSection: string,
 ) {
+  // Home has an explicit scroll target, but is active above all sections.
+  if (item.href === "/" || item.href === "/#top") {
+    return pathname === "/" && activeSection === "";
+  }
+
   const hashIndex = item.href.indexOf("#");
 
   if (hashIndex !== -1) {
     return pathname === "/" && activeSection === item.href.slice(hashIndex + 1);
-  }
-
-  if (item.href === "/") {
-    return pathname === "/" && activeSection === "";
   }
 
   return pathname === item.href;
