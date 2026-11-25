@@ -1,5 +1,6 @@
 import { MotionScrollCue } from "@/components/motion/MotionScrollCue";
 import { Reveal } from "@/components/motion/Reveal";
+import { HeroDive } from "@/features/home/HeroDive";
 import { HeroActionLinks } from "@/features/home/HeroActionLinks";
 import { HeroVideoBackground } from "@/features/home/HeroVideoBackground";
 import { HeroNameHeadline } from "@/features/home/HeroNameHeadline";
@@ -13,6 +14,7 @@ import { HeroRotatingText } from "@/features/home/HeroRotatingText";
 export function HomeDark() {
   return (
     <section className="home-hero home-hero-dark" aria-label="Home hero">
+      <HeroDive />
       <HeroVideoBackground />
 
       <div aria-hidden="true" className="home-hero-shade" />

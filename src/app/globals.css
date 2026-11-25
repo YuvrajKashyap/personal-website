@@ -7548,6 +7548,28 @@ html[data-theme="light"] .page-backdrop-gradient {
   mask-composite: intersect;
 }
 
+/* Hero dive: scrolling away pushes the camera toward the singularity while
+   the copy lifts off. `--dive` is published by HeroDive (0 at rest). */
+@media (prefers-reduced-motion: no-preference) {
+  .home-hero .home-hero-media,
+  .home-light-hero .home-hero-media {
+    scale: calc(1 + var(--dive, 0) * 0.18);
+    transform-origin: 70% 46%;
+    will-change: scale;
+  }
+
+  .home-hero .home-hero-orbit {
+    rotate: calc(var(--dive, 0) * 28deg);
+    scale: calc(1 + var(--dive, 0) * 0.22);
+  }
+
+  .home-dark-hero-section,
+  .home-light-hero-section {
+    translate: 0 calc(var(--dive, 0) * -7rem);
+    opacity: calc(1 - var(--dive, 0) * 1.7);
+  }
+}
+
 /* Words stay whole wherever letters are split for animation. */
 .hover-wave-word,
 .split-text-word {
