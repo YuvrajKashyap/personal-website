@@ -8174,3 +8174,92 @@ html[data-theme="light"] .celestial-comet {
   white-space: nowrap;
 }
 
+/* Phone and tablet header: page text used to slide straight under the
+   floating controls and tangle with them. Once the page has scrolled, a soft
+   veil rises behind the header so the controls always sit on calm ground. */
+@media (max-width: 1279px) {
+  /* On the navigation, not the header: the header scrolls away with the
+     page while the navigation is the part that stays pinned. */
+  .site-navigation::before {
+    content: "";
+    pointer-events: none;
+    position: fixed;
+    z-index: -1;
+    inset: 0 0 auto;
+    height: 6.75rem;
+    background: linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--background) 94%, transparent) 0%,
+      color-mix(in srgb, var(--background) 78%, transparent) 46%,
+      transparent 100%
+    );
+    opacity: 0;
+    transition: opacity 320ms ease;
+  }
+
+  .site-navigation[data-scrolled]::before {
+    opacity: 1;
+  }
+}
+
+@media (max-width: 899px) {
+  /* Worlds sit back a little further behind text, and skip the soft glow
+     filter, which is costly to composite while a phone scrolls. */
+  .celestial-planet,
+  .celestial-moon,
+  .celestial-ice,
+  .celestial-ember,
+  .celestial-jade {
+    filter: none;
+  }
+
+  .celestial-planet {
+    top: 0.5rem;
+    right: -12.5rem;
+    opacity: 0.42;
+  }
+
+  html[data-theme="light"] .celestial-planet {
+    opacity: 0.5;
+  }
+
+  html[data-theme="light"] .celestial-ember,
+  html[data-theme="light"] .celestial-jade,
+  html[data-theme="light"] .celestial-ice {
+    opacity: 0.6;
+  }
+}
+
+@media (max-width: 520px) {
+  /* Six icons used to wrap five and one. Two even rows of three instead. */
+  .contact-socials {
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    justify-content: center;
+    gap: 1rem 1.6rem;
+  }
+}
+
+/* Touch: a tile's screenshot is always showing, and some screenshots carry
+   large type of their own. A deeper scrim keeps the tile's title on top. */
+@media (hover: none) {
+  [data-preview-active] .project-tile-preview-scrim {
+    background: linear-gradient(
+      180deg,
+      rgb(5 6 10 / 0.3) 0%,
+      rgb(5 6 10 / 0.62) 34%,
+      rgb(5 6 10 / 0.9) 58%,
+      rgb(5 6 10 / 0.98) 100%
+    );
+  }
+}
+
+/* Ivory hero before the video has started: only the poster is on screen, so
+   only one layer of the lens copy may show. */
+.home-hero-media-light .home-hero-lens[data-active="true"][data-source="image"] {
+  opacity: 0.66;
+}
+
+.home-hero-media-light:has(.home-hero-lens[data-active="true"][data-source="image"]) .home-hero-lens-under {
+  opacity: 0;
+}
