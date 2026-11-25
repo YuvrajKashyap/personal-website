@@ -7378,3 +7378,47 @@ html[data-theme="light"] .page-backdrop-gradient {
   }
 }
 
+/* Footer: every page ends at the lip of a gravity well. */
+.site-footer {
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+  display: grid;
+  align-items: end;
+  min-height: clamp(20rem, 44vw, 36rem);
+}
+
+.site-footer-horizon {
+  pointer-events: none;
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+}
+
+.spacetime-field-well {
+  mask-image:
+    linear-gradient(180deg, transparent 0%, black 34%, black 78%, transparent 100%),
+    linear-gradient(90deg, transparent 0%, black 22%, black 78%, transparent 100%);
+  mask-composite: intersect;
+}
+
+.site-footer-line {
+  position: relative;
+  padding-block: 2rem 1.6rem;
+}
+
+/* Interior pages dissolve into the void so the footer well has no seam. */
+.internal-page {
+  isolation: isolate;
+}
+
+.internal-page::after {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  z-index: -1;
+  inset: auto 0 0 0;
+  height: clamp(10rem, 22vw, 18rem);
+  background: linear-gradient(180deg, transparent, var(--background));
+}
+
