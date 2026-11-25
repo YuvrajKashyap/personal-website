@@ -1,5 +1,6 @@
 import { Reveal } from "@/components/motion/Reveal";
 import { HeroDive } from "@/features/home/HeroDive";
+import { HeroLens } from "@/features/home/HeroLens";
 import { HeroActionLinks } from "@/features/home/HeroActionLinks";
 import { HeroNameHeadline } from "@/features/home/HeroNameHeadline";
 import { HeroRoleCycle } from "@/features/home/HeroRoleCycle";
@@ -15,6 +16,7 @@ export function HomeLight() {
     <section className="home-light-hero" aria-label="Home hero">
       <HeroDive />
       <HeroVideoBackground variant="light" />
+      <HeroLens />
 
       <div aria-hidden="true" className="observatory-field" />
       <div

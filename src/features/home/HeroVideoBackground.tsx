@@ -249,6 +249,14 @@ export function HeroVideoBackground({
         media={media}
         viewport={videoViewport}
       />
+      {/* Drawn by HeroLens: the footage redrawn through the cursor's lens. It
+          sits here, above the video and under this layer's own washes, so it
+          inherits exactly the treatment the footage gets in each theme. */}
+      {/* The ivory hero stacks the poster and the video, both multiplied.
+          This second canvas mirrors the lens copy so it can stand in for the
+          poster the same way the first stands in for the video. */}
+      <canvas className="home-hero-lens-under" />
+      <canvas className="home-hero-lens" data-active="false" />
     </div>
   );
 }
