@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 
+import { CelestialBody } from "@/components/effects/CelestialBody";
 import { CosmosBackdrop } from "@/components/effects/CosmosBackdrop";
 import { ParallaxDrift } from "@/components/motion/ParallaxDrift";
 import { AboutPortrait } from "@/features/home/AboutPortrait";
@@ -27,6 +28,7 @@ type ChapterShellProps = Readonly<{
   id: string;
   label: string;
   number: string;
+  landmark?: ReactNode;
 }>;
 
 function ChapterShell({
@@ -35,12 +37,14 @@ function ChapterShell({
   id,
   label,
   number,
+  landmark,
 }: ChapterShellProps) {
   return (
     <section id={id} className={`home-section home-chapter ${className}`}>
       <span className="home-chapter-ghost" aria-hidden="true">
         {label}
       </span>
+      {landmark}
       <SectionReveal className="site-container-wide home-chapter-grid">
         <Reveal className="home-chapter-marker" inView variant="fade-in">
           <span>{number}</span>
@@ -84,6 +88,7 @@ function AboutChapter() {
       id="home-about-preview"
       label="About"
       number="01"
+      landmark={<CelestialBody kind="moon" />}
     >
       <div className="home-about-story">
         <div className="home-about-intro">
@@ -110,6 +115,12 @@ function ExperienceChapter() {
       id="home-experience-preview"
       label="Experience"
       number="02"
+      landmark={
+        <>
+          <CelestialBody kind="planet" />
+          <CelestialBody kind="ember" />
+        </>
+      }
     >
       <h2 className="text-section-title text-balance home-experience-title">
         <SplitTextReveal text="Experience" variant="flip" hoverWave />
@@ -164,6 +175,12 @@ function ProjectsChapter() {
       id="home-projects-preview"
       label="Projects"
       number="03"
+      landmark={
+        <>
+          <CelestialBody kind="jade" />
+          <CelestialBody kind="comet" />
+        </>
+      }
     >
       <div className="home-projects-layout">
         <ChapterHeader
@@ -191,6 +208,7 @@ function ContactChapter() {
       id="home-contact"
       label="Contact"
       number="04"
+      landmark={<CelestialBody kind="galaxy" />}
     >
       <ContactSection />
     </ChapterShell>
@@ -212,6 +230,7 @@ export function HomeSections() {
       <ProjectsChapter />
       <ContactChapter />
       <div className="home-contact-hologram">
+        <CelestialBody kind="ice" />
         <ContactSignalLazy />
       </div>
     </>

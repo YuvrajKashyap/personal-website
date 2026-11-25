@@ -7711,6 +7711,288 @@ html[data-theme="light"] .page-backdrop-gradient {
     rgb(8 9 16 / 0.7);
 }
 
+/* ------------------------------------------------------------------
+   Celestial landmarks: a ringed planet beside Experience and a spiral
+   galaxy behind Contact. Painted once; everything below is transforms.
+------------------------------------------------------------------- */
+.celestial {
+  pointer-events: none;
+  position: absolute;
+  /* Behind the chapter's content, above the sky. */
+  z-index: -1;
+}
+
+.celestial-drift {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.celestial[data-ready="true"] .celestial-drift {
+  opacity: 1;
+}
+
+.celestial-canvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* The ringed giant stacks three canvases: far rings, the turning world,
+   near rings. The world canvas only covers the middle of the square. */
+.celestial-planet .celestial-world {
+  inset: 23.61%;
+  width: 52.78%;
+  height: 52.78%;
+}
+
+.celestial-planet {
+  top: clamp(8rem, 16vw, 15rem);
+  right: clamp(-24rem, -17vw, -9rem);
+  width: clamp(24rem, 50vw, 54rem);
+  aspect-ratio: 1;
+  filter: drop-shadow(0 0 60px rgb(124 108 255 / 0.18));
+}
+
+.celestial-galaxy {
+  top: 50%;
+  left: 50%;
+  width: min(128vw, 76rem);
+  aspect-ratio: 1;
+  translate: -50% -54%;
+}
+
+.celestial-moon {
+  bottom: clamp(1rem, 6vw, 5rem);
+  left: clamp(-3rem, 4vw, 7rem);
+  width: clamp(7rem, 13vw, 12.5rem);
+  aspect-ratio: 1;
+  filter: drop-shadow(0 0 34px rgb(150 150 255 / 0.2));
+}
+
+html[data-theme="light"] .celestial-moon {
+  opacity: 0.55;
+  filter: none;
+}
+
+/* Seen at an angle: the tilt lives on the drift wrapper, the spin on the
+   canvas inside it, so the disc turns in its own plane. */
+.celestial-galaxy .celestial-drift {
+  transform: rotate(-16deg) scaleY(0.44);
+}
+
+html[data-theme="light"] .celestial-planet {
+  opacity: 0.5;
+  filter: none;
+}
+
+html[data-theme="light"] .celestial-galaxy {
+  opacity: 0.6;
+}
+
+@media (max-width: 899px) {
+  .celestial-planet {
+    top: 1.5rem;
+    right: -11rem;
+    width: 24rem;
+    opacity: 0.55;
+  }
+
+  html[data-theme="light"] .celestial-planet {
+    opacity: 0.32;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .celestial-galaxy .celestial-canvas {
+    animation: celestial-spin 260s linear infinite;
+  }
+
+  @supports (animation-timeline: view()) {
+    .celestial-planet .celestial-drift {
+      animation: celestial-planet-drift linear both;
+      animation-timeline: view();
+    }
+
+    .celestial-moon .celestial-drift {
+      animation: celestial-moon-drift linear both;
+      animation-timeline: view();
+    }
+  }
+}
+
+@keyframes celestial-spin {
+  to {
+    rotate: 360deg;
+  }
+}
+
+/* The planet falls behind the content: it travels down the chapter at a
+   fraction of scroll speed and turns a few degrees on the way. */
+@keyframes celestial-planet-drift {
+  from {
+    transform: translate3d(4%, -8%, 0) rotate(-5deg) scale(0.94);
+  }
+
+  to {
+    transform: translate3d(-6%, 150%, 0) rotate(7deg) scale(1.06);
+  }
+}
+
+@keyframes celestial-moon-drift {
+  from {
+    transform: translate3d(-18%, 70%, 0) rotate(-10deg);
+  }
+
+  to {
+    transform: translate3d(22%, -90%, 0) rotate(12deg);
+  }
+}
+
+/* Chapter ghosts and landmarks share the layer behind the content. */
+.home-chapter-ghost {
+  z-index: -1;
+}
+
+/* Ice world: a cold companion hanging beside the signal globe. */
+.celestial-ice {
+  top: clamp(-4rem, -3vw, -1rem);
+  left: clamp(-4rem, 6vw, 10rem);
+  width: clamp(9rem, 17vw, 16rem);
+  aspect-ratio: 1;
+  filter: drop-shadow(0 0 44px rgb(110 200 255 / 0.22));
+}
+
+html[data-theme="light"] .celestial-ice {
+  opacity: 0.5;
+  filter: none;
+}
+
+@media (max-width: 899px) {
+  .celestial-ice {
+    top: -5rem;
+    left: -4.5rem;
+    width: 11rem;
+    opacity: 0.7;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .celestial-ice .celestial-drift {
+      animation: celestial-ice-drift linear both;
+      animation-timeline: view();
+    }
+  }
+}
+
+@keyframes celestial-ice-drift {
+  from {
+    transform: translate3d(-14%, 60%, 0) scale(0.92);
+  }
+
+  to {
+    transform: translate3d(16%, -70%, 0) scale(1.06);
+  }
+}
+
+/* More worlds along the scroll. */
+.celestial-ember {
+  bottom: clamp(3rem, 7vw, 7rem);
+  right: clamp(1rem, 9vw, 11rem);
+  width: clamp(7rem, 12vw, 11.5rem);
+  aspect-ratio: 1;
+  filter: drop-shadow(0 0 40px rgb(255 120 60 / 0.26));
+}
+
+.celestial-jade {
+  top: 44%;
+  left: clamp(-13rem, -9vw, -5rem);
+  width: clamp(15rem, 24vw, 24rem);
+  aspect-ratio: 1;
+  filter: drop-shadow(0 0 54px rgb(90 220 210 / 0.2));
+}
+
+.celestial-comet {
+  bottom: clamp(-3rem, 1vw, 2rem);
+  right: clamp(-2rem, 3vw, 5rem);
+  width: clamp(18rem, 36vw, 36rem);
+  aspect-ratio: 2;
+}
+
+html[data-theme="light"] .celestial-ember,
+html[data-theme="light"] .celestial-jade {
+  opacity: 0.5;
+  filter: none;
+}
+
+html[data-theme="light"] .celestial-comet {
+  opacity: 0.7;
+}
+
+@media (max-width: 899px) {
+  .celestial-ember {
+    right: -2.5rem;
+    width: 8rem;
+    opacity: 0.7;
+  }
+
+  .celestial-jade {
+    left: -9rem;
+    width: 15rem;
+    opacity: 0.5;
+  }
+
+  .celestial-comet {
+    right: -3rem;
+    width: 19rem;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .celestial-ember .celestial-drift {
+      animation: celestial-ice-drift linear both;
+      animation-timeline: view();
+    }
+
+    .celestial-jade .celestial-drift {
+      animation: celestial-jade-drift linear both;
+      animation-timeline: view();
+    }
+
+    .celestial-comet .celestial-drift {
+      animation: celestial-comet-pass linear both;
+      animation-timeline: view();
+    }
+  }
+}
+
+@keyframes celestial-jade-drift {
+  from {
+    transform: translate3d(-10%, -30%, 0) rotate(-6deg);
+  }
+
+  to {
+    transform: translate3d(8%, 90%, 0) rotate(8deg);
+  }
+}
+
+/* The comet crosses the sky head first as its chapter scrolls by. */
+@keyframes celestial-comet-pass {
+  from {
+    transform: translate3d(-46%, 60%, 0);
+  }
+
+  to {
+    transform: translate3d(34%, -70%, 0);
+  }
+}
+
 /* In lens mode the chapter names are drawn into the sky by the shader, so
    the text copies step aside. They keep their layout: the shader reads their
    boxes every frame to know where to draw. */
