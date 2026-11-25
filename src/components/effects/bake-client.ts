@@ -46,8 +46,16 @@ function getWorker(): Worker | null {
 }
 
 function runOnMainThread<J extends BakeJob>(job: J): Promise<BakeResult<J>> {
-  return new Promise((resolve) => {
-    window.setTimeout(() => resolve(runBake(job)), 0);
+  return new Promise((resolve, reject) => {
+    window.setTimeout(() => {
+      // A job can fail here too (a sprite with no OffscreenCanvas); reject so
+      // the caller can fall back instead of waiting forever.
+      try {
+        resolve(runBake(job));
+      } catch (error) {
+        reject(error);
+      }
+    }, 0);
   });
 }
 
@@ -84,12 +92,18 @@ export function requestBake<J extends BakeJob>(job: J): Promise<BakeResult<J>> {
           target.postMessage({ id, job });
         }).catch(() => runOnMainThread(job))
       : runOnMainThread(job)
-  ).then((result) => {
-    // A synchronous take may have landed first; keep that one.
-    if (!results.has(key)) results.set(key, result);
-    inflight.delete(key);
-    return results.get(key) as BakeResult<J>;
-  });
+  ).then(
+    (result) => {
+      // A synchronous take may have landed first; keep that one.
+      if (!results.has(key)) results.set(key, result);
+      inflight.delete(key);
+      return results.get(key) as BakeResult<J>;
+    },
+    (error: unknown) => {
+      inflight.delete(key);
+      throw error;
+    },
+  );
 
   inflight.set(key, promise);
   return promise;

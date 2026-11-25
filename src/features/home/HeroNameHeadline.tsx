@@ -15,6 +15,17 @@ export function HeroNameHeadline({ className }: HeroNameHeadlineProps) {
   const shouldReduceMotion = useReducedMotion();
   const isHeroActive = useHeroActivity(lockupRef);
 
+  // The glow eases its registered inputs (see `@property --hero-name-*` in
+  // globals.css). Browsers without registered properties cannot ease those,
+  // so they get the older transitions on the computed properties instead.
+  // `CSS.registerProperty` ships alongside `@property` in every engine.
+  useEffect(() => {
+    const lockup = lockupRef.current;
+    if (lockup && typeof CSS.registerProperty !== "function") {
+      lockup.dataset.legacyTransitions = "";
+    }
+  }, []);
+
   useEffect(() => {
     let animationFrame = 0;
 
