@@ -7498,6 +7498,56 @@ html[data-theme="light"] .page-backdrop-gradient {
   }
 }
 
+/* 404: the whole viewport is one gravity well. */
+.lost-page {
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+  display: grid;
+  min-height: 100svh;
+  align-items: start;
+  background: var(--gradient-page);
+}
+
+.lost-page .spacetime-field {
+  z-index: -1;
+  mask-image: linear-gradient(180deg, transparent 0%, black 30%, black 88%, transparent 100%);
+}
+
+.lost-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--stack-md);
+  padding-top: clamp(8rem, 18vh, 12rem);
+  text-align: center;
+}
+
+.lost-copy .text-page-title {
+  max-width: 14ch;
+}
+
+.lost-copy .text-body-large {
+  max-width: 34rem;
+}
+
+.magnetic-inline {
+  display: inline-flex;
+}
+
+/* The hero wash fades out instead of ending on a hard edge. */
+.page-backdrop-gradient {
+  mask-image: linear-gradient(180deg, black 50%, transparent 100%);
+}
+
+/* Keep the 404 copy clear of the brightest geodesics. */
+.lost-page .spacetime-field {
+  mask-image:
+    linear-gradient(180deg, transparent 0%, black 30%, black 88%, transparent 100%),
+    radial-gradient(ellipse 46% 30% at 50% 38%, rgb(0 0 0 / 0.28) 0%, rgb(0 0 0 / 0.5) 60%, black 100%);
+  mask-composite: intersect;
+}
+
 /* Words stay whole wherever letters are split for animation. */
 .hover-wave-word,
 .split-text-word {
