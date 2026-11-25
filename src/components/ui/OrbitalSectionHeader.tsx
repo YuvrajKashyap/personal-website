@@ -1,3 +1,5 @@
+import { WordReveal } from "@/components/motion/WordReveal";
+
 type HeadingLevel = 1 | 2 | 3 | 4;
 
 export type OrbitalSectionHeaderProps = Readonly<{
@@ -34,7 +36,7 @@ export function OrbitalSectionHeader({
         {eyebrow ? <span>{eyebrow}</span> : null}
       </div>
       <Heading id={id} className="text-section-title text-balance">
-        {title}
+        <WordReveal text={title} inView />
       </Heading>
       {description ? (
         <p className="text-body-large text-pretty">{description}</p>

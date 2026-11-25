@@ -1,4 +1,5 @@
 import { Reveal } from "@/components/motion/Reveal";
+import { WordReveal } from "@/components/motion/WordReveal";
 import { PageBackdrop } from "@/components/layout/PageBackdrop";
 import { LinkButton } from "@/components/ui/LinkButton";
 import { StatusBadge } from "@/components/ui/StatusBadge";
@@ -42,9 +43,9 @@ export function PageHero({
           <Reveal>
             <p className="text-kicker">{eyebrow}</p>
           </Reveal>
-          <Reveal delay={0.06} variant="blur-in">
-            <h1 className="text-page-title text-balance">{title}</h1>
-          </Reveal>
+          <h1 className="text-page-title text-balance">
+            <WordReveal text={title} delay={0.08} />
+          </h1>
           <Reveal delay={0.12}>
             <p className="text-body-large text-pretty">{description}</p>
           </Reveal>
@@ -61,7 +62,11 @@ export function PageHero({
           {primaryAction || secondaryAction ? (
             <Reveal className="cluster" delay={0.24} variant="cta">
               {primaryAction ? (
-                <LinkButton href={primaryAction.href} external={primaryAction.external}>
+                <LinkButton
+                  href={primaryAction.href}
+                  external={primaryAction.external}
+                  magnetic
+                >
                   {primaryAction.label}
                 </LinkButton>
               ) : null}
@@ -70,6 +75,7 @@ export function PageHero({
                   href={secondaryAction.href}
                   external={secondaryAction.external}
                   variant="secondary"
+                  magnetic
                 >
                   {secondaryAction.label}
                 </LinkButton>

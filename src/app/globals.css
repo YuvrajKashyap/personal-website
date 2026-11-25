@@ -7437,3 +7437,19 @@ html[data-theme="light"] .page-backdrop-gradient {
   visibility: visible;
 }
 
+/* Word reveal: each word lifts out from behind its own baseline. */
+.word-reveal-mask {
+  display: inline-block;
+  overflow: hidden;
+  /* Room for descenders and the lift rotation, cancelled by the margin. */
+  padding: 0.08em 0.04em 0.16em;
+  margin: -0.08em -0.04em -0.16em;
+  vertical-align: bottom;
+}
+
+.word-reveal-word {
+  display: inline-block;
+  transform-origin: 0% 100%;
+  will-change: transform;
+}
+
