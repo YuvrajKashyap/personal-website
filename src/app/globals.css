@@ -7639,11 +7639,81 @@ html[data-theme="light"] .page-backdrop-gradient {
   opacity: 1;
 }
 
+/* Chapter ghost: the chapter name set huge and hollow behind its content,
+   drifting sideways as the chapter passes. Pure depth, never read. */
+.home-sections {
+  --ghost-ink: 168 160 255;
+}
+
+.home-sections[data-home-variant="light"] {
+  --ghost-ink: 127 29 29;
+}
+
+.home-chapter-ghost {
+  pointer-events: none;
+  position: absolute;
+  z-index: 0;
+  /* Sits in the gap above the chapter, clear of the real heading. */
+  top: clamp(-2.75rem, -2vw, -0.75rem);
+  /* Centred and sized so the longest name always fits inside the viewport. */
+  left: 50%;
+  translate: -50% 0;
+  color: transparent;
+  font-family: var(--font-sans);
+  font-size: clamp(2.6rem, 11.2vw, 12.5rem);
+  font-weight: 600;
+  letter-spacing: 0.035em;
+  line-height: 0.86;
+  text-transform: uppercase;
+  white-space: nowrap;
+  user-select: none;
+  -webkit-text-stroke: 1px rgb(var(--ghost-ink) / 0.15);
+  background: linear-gradient(180deg, rgb(var(--ghost-ink) / 0.075), transparent 78%);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .home-chapter-ghost {
+      animation: chapter-ghost-drift linear both;
+      animation-timeline: view();
+    }
+  }
+}
+
+/* A slow slide of a couple of percent: enough to feel deep, never enough
+   to push a letter off the edge. */
+@keyframes chapter-ghost-drift {
+  from {
+    transform: translate3d(2.2%, 0, 0);
+  }
+
+  to {
+    transform: translate3d(-2.2%, 0, 0);
+  }
+}
+
 /* Tiles turn to smoked glass so the sky reads through them. */
 .home-sections[data-home-variant="dark"] .project-tile-thumb {
   background:
     linear-gradient(165deg, rgb(150 140 255 / 0.07), transparent 55%),
     rgb(8 9 16 / 0.7);
+}
+
+/* In lens mode the chapter names are drawn into the sky by the shader, so
+   the text copies step aside. They keep their layout: the shader reads their
+   boxes every frame to know where to draw. */
+html[data-sky-titles="on"] .home-chapter-ghost {
+  opacity: 0;
+}
+
+/* The first chapter's name would sit inside the fade that hands the hero
+   over and all but vanish, so on wide screens it drops below that fade. */
+@media (min-width: 900px) {
+  .home-about-chapter .home-chapter-ghost {
+    top: clamp(5.5rem, 11vw, 10.5rem);
+  }
 }
 
 /* Words stay whole wherever letters are split for animation. */

@@ -38,6 +38,9 @@ function ChapterShell({
 }: ChapterShellProps) {
   return (
     <section id={id} className={`home-section home-chapter ${className}`}>
+      <span className="home-chapter-ghost" aria-hidden="true">
+        {label}
+      </span>
       <SectionReveal className="site-container-wide home-chapter-grid">
         <Reveal className="home-chapter-marker" inView variant="fade-in">
           <span>{number}</span>
