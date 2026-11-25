@@ -50,6 +50,17 @@ const charVariants: Record<"rise" | "flip", Variants> = {
   },
 };
 
+/** Words with the index of their first letter, so the stagger keeps its order. */
+function splitWords(text: string) {
+  const words: { part: string; start: number }[] = [];
+  let start = 0;
+  for (const part of text.split(" ")) {
+    words.push({ part, start });
+    start += Array.from(part).length + 1;
+  }
+  return words;
+}
+
 /**
  * Per-letter scroll-triggered reveal: "rise" floats letters up out of a blur,
  * "flip" swings them up from flat like tiles, both staggered left-to-right.
@@ -80,29 +91,43 @@ export function SplitTextReveal({
       variants={containerVariants}
       aria-label={text}
     >
-      {Array.from(text).map((char, index) => {
-        const glyph = (
-          <motion.span
-            key={hoverWave ? undefined : `${char}-${index}`}
-            aria-hidden={hoverWave ? undefined : "true"}
-            className="split-text-char"
-            variants={charVariants[variant]}
-          >
-            {char === " " ? " " : char}
-          </motion.span>
-        );
-
-        return hoverWave ? (
+      {/* Letters are inline-blocks; grouping them by word keeps a narrow
+          screen from breaking a line in the middle of one. */}
+      {splitWords(text).map(({ part, start }, partIndex, parts) => {
+        return (
           <span
-            key={`${char}-${index}`}
-            aria-hidden="true"
-            className="hover-wave-char"
-            style={{ "--wave-i": index } as CSSProperties}
+            key={`${part}-${start}`}
+            aria-hidden={hoverWave ? "true" : undefined}
           >
-            {glyph}
+            <span className="split-text-word">
+              {Array.from(part).map((char, offset) => {
+                const index = start + offset;
+                const glyph = (
+                  <motion.span
+                    key={hoverWave ? undefined : `${char}-${index}`}
+                    aria-hidden={hoverWave ? undefined : "true"}
+                    className="split-text-char"
+                    variants={charVariants[variant]}
+                  >
+                    {char}
+                  </motion.span>
+                );
+
+                return hoverWave ? (
+                  <span
+                    key={`${char}-${index}`}
+                    className="hover-wave-char"
+                    style={{ "--wave-i": index } as CSSProperties}
+                  >
+                    {glyph}
+                  </span>
+                ) : (
+                  glyph
+                );
+              })}
+            </span>
+            {partIndex < parts.length - 1 ? " " : null}
           </span>
-        ) : (
-          glyph
         );
       })}
     </motion.span>

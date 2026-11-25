@@ -7498,3 +7498,10 @@ html[data-theme="light"] .page-backdrop-gradient {
   }
 }
 
+/* Words stay whole wherever letters are split for animation. */
+.hover-wave-word,
+.split-text-word {
+  display: inline-block;
+  white-space: nowrap;
+}
+
