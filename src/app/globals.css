@@ -7453,3 +7453,48 @@ html[data-theme="light"] .page-backdrop-gradient {
   will-change: transform;
 }
 
+/* Card physics: surfaces lean toward the cursor and catch its light. */
+.cosmic-card,
+.telemetry-card {
+  --tilt-x: 0deg;
+  --tilt-y: 0deg;
+}
+
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .cosmic-card,
+  .telemetry-card {
+    transform: perspective(900px) rotateX(var(--tilt-x)) rotateY(var(--tilt-y));
+    transition:
+      transform 420ms var(--motion-ease-standard, cubic-bezier(0.16, 1, 0.3, 1)),
+      border-color var(--motion-duration-base) var(--motion-ease-standard),
+      box-shadow var(--motion-duration-base) var(--motion-ease-standard);
+  }
+
+  .cosmic-card:hover,
+  .telemetry-card:hover,
+  a.cosmic-card:hover {
+    transform: perspective(900px) rotateX(var(--tilt-x)) rotateY(var(--tilt-y))
+      translateY(-3px);
+    transition-duration: 140ms, 240ms, 240ms;
+  }
+
+  .lane-row {
+    transition:
+      transform 420ms cubic-bezier(0.16, 1, 0.3, 1),
+      border-color 240ms ease;
+  }
+
+  .lane-row:hover {
+    transform: translateX(0.6rem);
+    border-top-color: var(--border-strong);
+  }
+
+  .lane-row .lane-index {
+    transition: text-shadow 240ms ease;
+  }
+
+  .lane-row:hover .lane-index {
+    text-shadow: 0 0 18px var(--glow-strong);
+  }
+}
+
