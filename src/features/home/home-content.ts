@@ -1,5 +1,5 @@
 export const homeContent = {
-  roles: ["BUILDER", "OPERATOR", "ENGINEER"],
+  roles: ["ENGINEER", "PHYSICIST", "BUILDER"],
   name: "Yuvraj Kashyap",
   headline: {
     label: "Yuvraj Kashyap",
