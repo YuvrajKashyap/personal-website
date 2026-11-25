@@ -111,11 +111,15 @@ export function createLatestFrameScheduler<T>(
 export function createLazyEventSink<TClient, TEvent>(
   loadClient: () => Promise<TClient>,
   dispatch: (client: TClient, event: TEvent) => void,
+  /** Optional gate the client load waits for; events queue until then. */
+  whenReady?: () => Promise<void>,
 ) {
   let clientPromise: Promise<TClient | null> | null = null;
 
   const load = () => {
-    clientPromise ??= loadClient().catch(() => null);
+    clientPromise ??= (whenReady ? whenReady().then(loadClient) : loadClient()).catch(
+      () => null,
+    );
     return clientPromise;
   };
 

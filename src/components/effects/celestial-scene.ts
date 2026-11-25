@@ -287,25 +287,31 @@ function buildSurface(style: WorldStyle) {
 }
 
 /**
- * A lit sphere that can be redrawn at any rotation. Everything geometric is
- * worked out once per pixel; a frame is one pass of table lookups.
+ * Everything a world needs before its first frame: the surface map, the
+ * per-pixel sphere tables, and the canvas pixels with the disc's alpha laid
+ * down. Pure math, no DOM, so it can run in a worker.
  */
-export function createWorld(
-  canvas: HTMLCanvasElement,
+export type WorldBake = Readonly<{
+  map: Uint8ClampedArray;
+  data: Uint8ClampedArray;
+  pixel: Uint32Array;
+  row: Uint32Array;
+  longitude: Float32Array;
+  light: Float32Array;
+  rim: Float32Array;
+}>;
+
+export function bakeWorld(
   kind: WorldKind,
   theme: CosmosTheme,
+  size: number,
   radiusFraction: number,
-) {
-  const context = canvas.getContext("2d");
-  if (!context) return null;
-
+): WorldBake {
   const style = WORLD_STYLES[kind][theme];
   const map = buildSurface(style);
-  const size = canvas.width;
   const center = size / 2;
   const radius = size * radiusFraction;
-  const image = context.createImageData(size, size);
-  const data = image.data;
+  const data = new Uint8ClampedArray(size * size * 4);
   const tilt = kind === "giant" ? RING_TILT : kind === "jade" ? 0.3 : -0.28;
   const cosT = Math.cos(tilt);
   const sinT = Math.sin(tilt);
@@ -353,12 +359,39 @@ export function createWorld(
     }
   }
 
-  const count = pixels.length;
-  const pixel = Uint32Array.from(pixels);
-  const row = Uint32Array.from(rows);
-  const longitude = Float32Array.from(longitudes);
-  const light = Float32Array.from(lights);
-  const rim = Float32Array.from(rims);
+  return {
+    map,
+    data,
+    pixel: Uint32Array.from(pixels),
+    row: Uint32Array.from(rows),
+    longitude: Float32Array.from(longitudes),
+    light: Float32Array.from(lights),
+    rim: Float32Array.from(rims),
+  };
+}
+
+/**
+ * A lit sphere that can be redrawn at any rotation. Everything geometric is
+ * worked out once per pixel (see `bakeWorld`); a frame is one pass of table
+ * lookups.
+ */
+export function createWorld(
+  canvas: HTMLCanvasElement,
+  kind: WorldKind,
+  theme: CosmosTheme,
+  bake: WorldBake,
+) {
+  const context = canvas.getContext("2d");
+  if (!context) return null;
+
+  const style = WORLD_STYLES[kind][theme];
+  const size = canvas.width;
+  const image = context.createImageData(size, size);
+  // A private copy: the bake is cached and may be reused by a later mount.
+  image.data.set(bake.data);
+  const data = image.data;
+  const { map, pixel, row, longitude, light, rim } = bake;
+  const count = pixel.length;
 
   return {
     /** `turn` is rotations: 0.25 is a quarter of the way round. */
@@ -389,18 +422,13 @@ const RING_COLOR: Record<CosmosTheme, Rgb> = {
  * world and the near half in front of it. `radius` is the world's radius in
  * this canvas's pixels.
  */
-export function paintRings(
-  canvas: HTMLCanvasElement,
+export function bakeRings(
+  size: number,
   theme: CosmosTheme,
   half: "back" | "front",
   radius: number,
-) {
-  const context = canvas.getContext("2d");
-  if (!context) return;
-
-  const size = canvas.width;
-  const image = context.createImageData(size, size);
-  const data = image.data;
+): Uint8ClampedArray {
+  const data = new Uint8ClampedArray(size * size * 4);
   const center = size / 2;
   const cosT = Math.cos(RING_TILT);
   const sinT = Math.sin(RING_TILT);
@@ -436,7 +464,7 @@ export function paintRings(
     }
   }
 
-  context.putImageData(image, 0, 0);
+  return data;
 }
 
 /**

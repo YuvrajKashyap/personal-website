@@ -1,6 +1,6 @@
 "use client";
 
-import { usePathname } from "next/navigation";
+import { useSitePathname } from "@/lib/navigation/site-pathname";
 import { useEffect, useRef } from "react";
 
 import { createFrameLoop } from "@/lib/performance/animation-runtime";
@@ -49,7 +49,7 @@ function isWarpLink(event: MouseEvent) {
  * decorative, skipped entirely for reduced-motion users.
  */
 export function WarpTransit() {
-  const pathname = usePathname();
+  const pathname = useSitePathname();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const controllerRef = useRef<Controller | null>(null);
   const lastPathRef = useRef(pathname);

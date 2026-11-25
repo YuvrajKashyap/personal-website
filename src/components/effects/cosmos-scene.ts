@@ -101,18 +101,18 @@ export function createNoise(seed: number) {
   };
 }
 
-/** Bakes one nebula cloud into the given canvas (kept tiny on purpose). */
-export function paintNebula(
-  canvas: HTMLCanvasElement,
-  palette: NebulaPalette,
+/**
+ * Bakes one nebula cloud as RGBA pixels, once per palette. The noise field
+ * does not depend on the palette, so it is sampled once and coloured for
+ * every palette given (both themes at the same cost as one). Pure math, no
+ * DOM, so it can run in a worker; the pixels are identical either way.
+ */
+export function bakeNebula(
   seed: number,
-) {
-  const context = canvas.getContext("2d");
-  if (!context) return;
-
-  const size = canvas.width;
-  const image = context.createImageData(size, size);
-  const data = image.data;
+  size: number,
+  palettes: readonly NebulaPalette[],
+): Uint8ClampedArray[] {
+  const outputs = palettes.map(() => new Uint8ClampedArray(size * size * 4));
   const fbm = createNoise(seed);
   const scale = 2.2;
 
@@ -134,15 +134,28 @@ export function paintNebula(
       const blend = smoothstep(0.3, 0.72, warpX);
 
       const offset = (y * size + x) * 4;
-      for (let channel = 0; channel < 3; channel += 1) {
-        const base =
-          palette.low[channel] + (palette.high[channel] - palette.low[channel]) * blend;
-        data[offset + channel] = base + (palette.core[channel] - base) * hot * 0.7;
+      for (let index = 0; index < palettes.length; index += 1) {
+        const palette = palettes[index];
+        const data = outputs[index];
+        for (let channel = 0; channel < 3; channel += 1) {
+          const base =
+            palette.low[channel] + (palette.high[channel] - palette.low[channel]) * blend;
+          data[offset + channel] = base + (palette.core[channel] - base) * hot * 0.7;
+        }
+        data[offset + 3] = Math.round(255 * density * palette.strength);
       }
-      data[offset + 3] = Math.round(255 * density * palette.strength);
     }
   }
 
+  return outputs;
+}
+
+/** Writes baked RGBA pixels into a canvas of matching size. */
+export function putPixels(canvas: HTMLCanvasElement, pixels: Uint8ClampedArray) {
+  const context = canvas.getContext("2d");
+  if (!context) return;
+  const image = context.createImageData(canvas.width, canvas.height);
+  image.data.set(pixels);
   context.putImageData(image, 0, 0);
 }
 

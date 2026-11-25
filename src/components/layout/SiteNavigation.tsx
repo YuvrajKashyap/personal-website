@@ -7,7 +7,7 @@ import {
   useScroll,
 } from "motion/react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { useSitePathname } from "@/lib/navigation/site-pathname";
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 
 import { NavCallouts } from "@/components/layout/NavCallouts";
@@ -142,7 +142,7 @@ function isNavItemActive(
 }
 
 export function SiteNavigation() {
-  const pathname = usePathname();
+  const pathname = useSitePathname();
   const menuId = useId();
   const [isOpen, setIsOpen] = useState(false);
   const [hovered, setHovered] = useState<string | null>(null);

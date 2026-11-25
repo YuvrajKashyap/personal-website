@@ -1,7 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { usePathname } from "next/navigation";
+import { useSitePathname } from "@/lib/navigation/site-pathname";
 import { useEffect, useState } from "react";
 
 import { useCursorTrailEnabled } from "@/components/theme/CursorTrailToggle";
@@ -111,7 +111,7 @@ function CalloutArrow({
 export function NavCallouts({
   variant = "desktop",
 }: Readonly<{ variant?: "desktop" | "compact" }>) {
-  const pathname = usePathname();
+  const pathname = useSitePathname();
   const shouldReduceMotion = useReducedMotion();
   const trailEnabled = useCursorTrailEnabled();
   const [mounted, setMounted] = useState(false);

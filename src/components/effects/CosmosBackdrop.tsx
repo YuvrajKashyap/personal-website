@@ -2,10 +2,11 @@
 
 import { useEffect, useRef } from "react";
 
+import { peekBake, requestBake } from "@/components/effects/bake-client";
+import type { NebulaJob } from "@/components/effects/bake-jobs";
 import {
   createStarfield,
-  NEBULA_PALETTES,
-  paintNebula,
+  putPixels,
   type CosmosTheme,
 } from "@/components/effects/cosmos-scene";
 import { createLensSky, type LensTitleRect } from "@/components/effects/lens-sky";
@@ -152,13 +153,33 @@ export function CosmosBackdrop() {
       });
     };
 
+    let disposed = false;
+    const nebulaJob = (index: number): NebulaJob => ({
+      type: "nebula",
+      seed: NEBULA_LAYERS[index].seed,
+      index,
+      size: NEBULA_SIZE,
+    });
+    const drawNebula = (index: number) => {
+      const target = nebulaRefs.current[index];
+      const baked = peekBake(nebulaJob(index));
+      if (target && baked) putPixels(target, baked[readTheme()]);
+    };
+
     const paint = () => {
       const theme = readTheme();
       starfield.setTheme(theme);
       sky?.setTheme(theme === "light", SKY_INK[theme].star, SKY_INK[theme].title);
-      NEBULA_LAYERS.forEach((layer, index) => {
-        const target = nebulaRefs.current[index];
-        if (target) paintNebula(target, NEBULA_PALETTES[theme][index], layer.seed);
+      // The clouds are baked off the main thread (both themes at once), so a
+      // theme switch after the first bake is just a pixel copy.
+      NEBULA_LAYERS.forEach((_, index) => {
+        if (peekBake(nebulaJob(index))) {
+          drawNebula(index);
+          return;
+        }
+        void requestBake(nebulaJob(index)).then(() => {
+          if (!disposed) drawNebula(index);
+        });
       });
     };
 
@@ -336,6 +357,7 @@ export function CosmosBackdrop() {
     reducedMotion.addEventListener("change", wake);
 
     return () => {
+      disposed = true;
       loop.stop();
       setSkyLive(false);
       sky?.dispose();

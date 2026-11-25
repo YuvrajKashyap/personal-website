@@ -1,6 +1,6 @@
 "use client";
 
-import { usePathname } from "next/navigation";
+import { useSitePathname } from "@/lib/navigation/site-pathname";
 import { useEffect } from "react";
 
 import { createLazyEventSink } from "@/lib/performance/runtime-utils";
@@ -13,6 +13,27 @@ type AnalyticsEvent = {
   name: string;
   properties: Record<string, unknown>;
 };
+
+/**
+ * Resolves once the page has finished loading and the main thread has a
+ * free moment (or 2.5s after load at the latest). PostHog and the scripts it
+ * pulls in are ~100KB, so they wait until the page itself is done; events
+ * captured before then are queued and sent in order.
+ */
+function afterPageSettles() {
+  return new Promise<void>((resolve) => {
+    const idle = () => {
+      // Safari has no requestIdleCallback.
+      if (typeof window.requestIdleCallback === "function") {
+        window.requestIdleCallback(() => resolve(), { timeout: 2500 });
+      } else {
+        setTimeout(resolve, 1200);
+      }
+    };
+    if (document.readyState === "complete") idle();
+    else window.addEventListener("load", idle, { once: true });
+  });
+}
 
 const postHogSink = POSTHOG_KEY
   ? createLazyEventSink<PostHogClient, AnalyticsEvent>(
@@ -29,6 +50,7 @@ const postHogSink = POSTHOG_KEY
         return posthog;
       },
       (posthog, event) => posthog.capture(event.name, event.properties),
+      afterPageSettles,
     )
   : null;
 
@@ -74,7 +96,7 @@ function getLinkEvent(anchor: HTMLAnchorElement) {
  * session replay, or activity on private/admin routes.
  */
 export function PostHogAnalytics() {
-  const pathname = usePathname();
+  const pathname = useSitePathname();
 
   useEffect(() => {
     void postHogSink?.load();

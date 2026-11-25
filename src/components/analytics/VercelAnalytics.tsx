@@ -2,7 +2,7 @@
 
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-import { usePathname } from "next/navigation";
+import { useSitePathname } from "@/lib/navigation/site-pathname";
 
 function isPrivatePath(pathname: string) {
   return pathname === "/admin" || pathname.startsWith("/admin/");
@@ -18,7 +18,7 @@ function shouldDropTelemetry(url: string) {
 }
 
 export function VercelAnalytics() {
-  const pathname = usePathname();
+  const pathname = useSitePathname();
 
   if (isPrivatePath(pathname)) {
     return null;

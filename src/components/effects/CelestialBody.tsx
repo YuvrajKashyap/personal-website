@@ -2,14 +2,15 @@
 
 import { useEffect, useRef } from "react";
 
+import { peekBake, requestBake, takeBake } from "@/components/effects/bake-client";
+import type { RingsJob, WorldJob } from "@/components/effects/bake-jobs";
 import {
   createWorld,
   paintComet,
   paintGalaxy,
-  paintRings,
   type WorldKind,
 } from "@/components/effects/celestial-scene";
-import type { CosmosTheme } from "@/components/effects/cosmos-scene";
+import { putPixels, type CosmosTheme } from "@/components/effects/cosmos-scene";
 
 type CelestialKind =
   | "planet"
@@ -76,6 +77,35 @@ export function CelestialBody({ kind }: CelestialBodyProps) {
       ? FRAME_MS_TOUCH
       : FRAME_MS;
 
+    // The world's surface, sphere tables and rings are baked off the main
+    // thread (see bake-client); drawing them is cheap once they exist.
+    const jobsFor = (theme: CosmosTheme) => {
+      if (kind === "galaxy" || kind === "comet") return [];
+      const spec = WORLD_SPEC[kind];
+      const world: WorldJob = {
+        type: "world",
+        kind: spec.world,
+        theme,
+        size: spec.size,
+        radius: spec.radius,
+      };
+      if (kind !== "planet") return [world];
+      const ringRadius = spec.size * spec.radius;
+      const ring = (half: "back" | "front"): RingsJob => ({
+        type: "rings",
+        theme,
+        half,
+        size: RING_SIZE,
+        radius: ringRadius,
+      });
+      return [world, ring("back"), ring("front")];
+    };
+
+    let disposed = false;
+    let timerDone = false;
+    const prefetch = (theme: CosmosTheme) =>
+      Promise.all(jobsFor(theme).map((job) => requestBake(job)));
+
     const build = () => {
       const theme = readTheme();
       if (kind === "galaxy") {
@@ -84,15 +114,34 @@ export function CelestialBody({ kind }: CelestialBodyProps) {
         paintComet(body, theme);
       } else {
         const spec = WORLD_SPEC[kind];
-        world = createWorld(body, spec.world, theme, spec.radius);
+        const [worldJob, backJob, frontJob] = jobsFor(theme) as [
+          WorldJob,
+          RingsJob?,
+          RingsJob?,
+        ];
+        world = createWorld(body, spec.world, theme, takeBake(worldJob));
         world?.draw(turn);
-        if (kind === "planet") {
-          const ringRadius = spec.size * spec.radius;
-          if (backRef.current) paintRings(backRef.current, theme, "back", ringRadius);
-          if (frontRef.current) paintRings(frontRef.current, theme, "front", ringRadius);
+        if (backJob && frontJob) {
+          if (backRef.current) putPixels(backRef.current, takeBake(backJob));
+          if (frontRef.current) putPixels(frontRef.current, takeBake(frontJob));
         }
       }
       host.dataset.ready = "true";
+    };
+
+    /** Builds once the first-paint delay has passed and the bakes are in. */
+    const buildWhenReady = () => {
+      if (disposed || !timerDone) return;
+      const theme = readTheme();
+      const jobs = jobsFor(theme);
+      if (jobs.every((job) => peekBake(job))) {
+        build();
+        wake();
+        // Bake the other theme in the background so a switch is instant.
+        void prefetch(theme === "dark" ? "light" : "dark");
+        return;
+      }
+      void prefetch(theme).then(buildWhenReady);
     };
 
     const tick = (time: number) => {
@@ -115,11 +164,12 @@ export function CelestialBody({ kind }: CelestialBodyProps) {
       }
     };
 
-    // Building a surface map takes a few tens of milliseconds; keep it off
-    // the first paint.
+    // Start the bakes now, in the worker, but keep the first draw off the
+    // first paint as before.
+    void prefetch(readTheme());
     const timer = window.setTimeout(() => {
-      build();
-      wake();
+      timerDone = true;
+      buildWhenReady();
     }, 350);
 
     const intersectionObserver = new IntersectionObserver(
@@ -130,6 +180,9 @@ export function CelestialBody({ kind }: CelestialBodyProps) {
       { rootMargin: "120px" },
     );
     const themeObserver = new MutationObserver(() => {
+      // Before the first build, the pending one picks up the new theme.
+      if (!timerDone || host.dataset.ready !== "true") return;
+      // Usually prefetched already; if not, bake right here as before.
       build();
       wake();
     });
@@ -142,6 +195,7 @@ export function CelestialBody({ kind }: CelestialBodyProps) {
     document.addEventListener("visibilitychange", wake);
 
     return () => {
+      disposed = true;
       window.clearTimeout(timer);
       if (frame !== 0) window.cancelAnimationFrame(frame);
       intersectionObserver.disconnect();

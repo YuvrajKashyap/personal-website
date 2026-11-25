@@ -124,3 +124,32 @@ test("analytics events wait for one shared client load and retain order", async 
 
   assert.deepEqual(delivered, ["pageview", "click"]);
 });
+
+test("a gated sink holds the client load until the gate opens, keeping order", async () => {
+  type Event = { name: string };
+  let openGate: (() => void) | undefined;
+  let loadCount = 0;
+  const delivered: string[] = [];
+  const sink = createLazyEventSink<object, Event>(
+    async () => {
+      loadCount += 1;
+      return {};
+    },
+    (_client, event) => delivered.push(event.name),
+    () =>
+      new Promise<void>((resolve) => {
+        openGate = resolve;
+      }),
+  );
+
+  const first = sink.push({ name: "pageview" });
+  const second = sink.push({ name: "click" });
+  await Promise.resolve();
+  assert.equal(loadCount, 0);
+
+  openGate?.();
+  await Promise.all([first, second]);
+
+  assert.equal(loadCount, 1);
+  assert.deepEqual(delivered, ["pageview", "click"]);
+});
