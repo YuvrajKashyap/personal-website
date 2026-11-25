@@ -7694,6 +7694,16 @@ html[data-theme="light"] .page-backdrop-gradient {
   }
 }
 
+/* Experience reading focus (set by ResumeLedger once it is observing). */
+.resume-ledger[data-focus-ready="true"] .resume-entry {
+  opacity: 0.4;
+  transition: opacity 520ms cubic-bezier(0.22, 0.8, 0.28, 1);
+}
+
+.resume-ledger[data-focus-ready="true"] .resume-entry[data-focus="true"] {
+  opacity: 1;
+}
+
 /* Tiles turn to smoked glass so the sky reads through them. */
 .home-sections[data-home-variant="dark"] .project-tile-thumb {
   background:

@@ -207,6 +207,32 @@ export function ResumeLedger({ roles }: ResumeLedgerProps) {
   });
   const cometTop = useTransform(railProgress, (value) => `${value * 100}%`);
 
+  // Reading focus: roles inside the middle band of the viewport stay at full
+  // strength while the ones above and below fall back, like depth of field.
+  useEffect(() => {
+    const ledger = ref.current;
+    if (!ledger || shouldReduceMotion) return undefined;
+
+    const entries = ledger.querySelectorAll<HTMLElement>(".resume-entry");
+    const observer = new IntersectionObserver(
+      (records) => {
+        for (const record of records) {
+          (record.target as HTMLElement).dataset.focus = record.isIntersecting
+            ? "true"
+            : "false";
+        }
+      },
+      { rootMargin: "-24% 0px -24% 0px" },
+    );
+    entries.forEach((entry) => observer.observe(entry));
+    ledger.dataset.focusReady = "true";
+
+    return () => {
+      observer.disconnect();
+      delete ledger.dataset.focusReady;
+    };
+  }, [shouldReduceMotion, roles]);
+
   return (
     <motion.div
       ref={ref}
