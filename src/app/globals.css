@@ -7570,6 +7570,82 @@ html[data-theme="light"] .page-backdrop-gradient {
   }
 }
 
+/* ------------------------------------------------------------------
+   Cosmos: deep space behind the Home chapters.
+   The stage is fixed to the viewport and clipped to `.home-sections`,
+   so chapters scroll across a universe moving at its own pace.
+------------------------------------------------------------------- */
+.cosmos {
+  pointer-events: none;
+  position: absolute;
+  z-index: -1;
+  /* Starts a little below where the fade over it begins. Starting on the
+     same line left a one pixel sliver of sky showing wherever the two edges
+     rounded differently. */
+  inset: calc(var(--home-transition-depth) + 1.25rem) 0 0;
+  clip-path: inset(0);
+}
+
+.cosmos-stage {
+  position: fixed;
+  inset: 0;
+  height: 100lvh;
+  overflow: hidden;
+}
+
+.cosmos-nebula {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 130vmax;
+  height: 130vmax;
+  margin: -65vmax 0 0 -65vmax;
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+
+.cosmos-stars {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* The old flat wash and dot grid step aside for the real sky. The ::before
+   keeps only the fade that hands the hero over; ::after closes the page. */
+.home-sections::before,
+.home-sections[data-home-variant="light"]::before {
+  /* Eased, long handoff from the hero: no edge anywhere along it. */
+  background: linear-gradient(
+    180deg,
+    var(--background) 0%,
+    var(--background) 2.5rem,
+    color-mix(in srgb, var(--background) 92%, transparent) 5.5rem,
+    color-mix(in srgb, var(--background) 72%, transparent) 10rem,
+    color-mix(in srgb, var(--background) 42%, transparent) 17rem,
+    color-mix(in srgb, var(--background) 16%, transparent) 24rem,
+    transparent 32rem
+  );
+  opacity: 1;
+}
+
+.home-sections::after,
+.home-sections[data-home-variant="light"]::after {
+  inset: auto 0 0;
+  height: clamp(12rem, 26vw, 20rem);
+  background: linear-gradient(180deg, transparent, var(--background));
+  mask-image: none;
+  opacity: 1;
+}
+
+/* Tiles turn to smoked glass so the sky reads through them. */
+.home-sections[data-home-variant="dark"] .project-tile-thumb {
+  background:
+    linear-gradient(165deg, rgb(150 140 255 / 0.07), transparent 55%),
+    rgb(8 9 16 / 0.7);
+}
+
 /* Words stay whole wherever letters are split for animation. */
 .hover-wave-word,
 .split-text-word {

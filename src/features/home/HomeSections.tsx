@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 
+import { CosmosBackdrop } from "@/components/effects/CosmosBackdrop";
 import { ParallaxDrift } from "@/components/motion/ParallaxDrift";
 import { AboutPortrait } from "@/features/home/AboutPortrait";
 import { Reveal } from "@/components/motion/Reveal";
@@ -201,6 +202,7 @@ function ContactChapter() {
 export function HomeSections() {
   return (
     <>
+      <CosmosBackdrop />
       <ScrollPath />
       <AboutChapter />
       <ExperienceChapter />
