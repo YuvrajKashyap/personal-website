@@ -18,6 +18,7 @@ Alternate light mode is Ivory Observatory: ivory and beige editorial premium int
 
 ## Rules For Future Agents
 
+- Nov 2026: the standalone About, Experience, Projects index, Tracker, Services, Collaborate, and Contact pages were removed. Home is the single public page, plus project detail pages (`/projects/[slug]`) and `/mail`. Rules below that mention those removed pages are historical.
 - Follow `docs/architecture.md` before making structural decisions.
 - Preserve the one-app, two-visual-experience architecture.
 - Do not create separate dark and light apps, URLs, routes, backends, or data layers.

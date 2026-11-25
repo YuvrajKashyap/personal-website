@@ -28,38 +28,35 @@ export const futureAdminAreas: readonly FutureAdminArea[] = [
   {
     title: "Projects",
     description: "Future management surface for approved project records.",
-    previewHref: "/projects",
+    previewHref: "/#home-projects-preview",
   },
   {
     title: "About",
     description: "Future management surface for structured About content.",
-    previewHref: "/about",
+    previewHref: "/#home-about-preview",
   },
   {
     title: "Experience",
     description: "Future management surface for trajectory and proof content.",
-    previewHref: "/experience",
+    previewHref: "/#home-experience-preview",
   },
   {
     title: "Tracker",
     description: "Future management surface for manual current-state signal.",
-    previewHref: "/tracker",
   },
   {
     title: "Services",
     description: "Future management surface for scoped build request content.",
-    previewHref: "/services",
   },
   {
     title: "Collaborate",
     description:
       "Future management surface for broader aligned opportunity content.",
-    previewHref: "/collaborate",
   },
   {
     title: "Contact",
     description: "Future management surface for verified channel guidance.",
-    previewHref: "/contact",
+    previewHref: "/#home-contact",
   },
   {
     title: "Submissions",

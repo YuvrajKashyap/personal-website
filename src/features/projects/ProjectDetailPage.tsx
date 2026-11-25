@@ -155,7 +155,7 @@ export function ProjectDetailPage({
               }
             : undefined
         }
-        secondaryAction={{ label: "Back to Projects", href: "/projects" }}
+        secondaryAction={{ label: "Back to Projects", href: "/#home-projects-preview" }}
         variant="detail"
       >
         <ProjectHeroPanel project={project} />

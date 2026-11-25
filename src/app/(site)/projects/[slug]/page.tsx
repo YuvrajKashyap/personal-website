@@ -26,7 +26,7 @@ function ProjectDetailBoundary({ slug }: Readonly<{ slug: string }>) {
         description={`No public project detail is available for ${slug}.`}
         status="Content boundary"
         meta={["Project data checked", "No public case study"]}
-        secondaryAction={{ label: "Back to Projects", href: "/projects" }}
+        secondaryAction={{ label: "Back to Projects", href: "/#home-projects-preview" }}
         variant="detail"
       />
       <SectionShell id="project-detail-boundary" variant="wide">
@@ -34,7 +34,7 @@ function ProjectDetailBoundary({ slug }: Readonly<{ slug: string }>) {
           eyebrow="Project Boundary"
           title="No approved project record was found."
           description="Unknown and hidden project slugs stay behind a clear boundary instead of showing invented content."
-          action={{ label: "Back to Projects", href: "/projects" }}
+          action={{ label: "Back to Projects", href: "/#home-projects-preview" }}
         />
       </SectionShell>
     </main>

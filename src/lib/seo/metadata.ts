@@ -108,7 +108,7 @@ export function createProjectMetadata(project?: Project): Metadata {
     return createMetadata({
       title: "Project not available",
       description: "No public project detail is available for this slug.",
-      path: "/projects",
+      path: "/",
       noindex: true,
     });
   }

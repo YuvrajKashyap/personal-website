@@ -32,7 +32,7 @@ export function ProjectLinksPanel({ project }: ProjectLinksPanelProps) {
             {link.label}
           </LinkButton>
         ))}
-        <LinkButton href="/projects" variant="secondary">
+        <LinkButton href="/#home-projects-preview" variant="secondary">
           Back to Projects
         </LinkButton>
       </div>
