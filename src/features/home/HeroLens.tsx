@@ -43,13 +43,18 @@ export function HeroLens() {
     let theta = 0;
     const fit = { left: 0, top: 0, width: 1, height: 1 };
 
+    // The mirror layer only exists in the ivory hero (CSS hides it in the
+    // dark one). When hidden, skip both its backing store and the copy.
+    let mirror = false;
+
     const measure = () => {
       rect = section.getBoundingClientRect();
       width = Math.max(1, Math.round(rect.width));
       height = Math.max(1, Math.round(rect.height));
       dpr = Math.min(window.devicePixelRatio || 1, 1.5);
       lens?.resize(width, height, dpr);
-      if (underCanvas) {
+      mirror = !!underCanvas && getComputedStyle(underCanvas).display !== "none";
+      if (underCanvas && mirror) {
         underCanvas.width = Math.round(width * dpr);
         underCanvas.height = Math.round(height * dpr);
       }
@@ -104,7 +109,7 @@ export function HeroLens() {
         if (!drawn) lensUsable = false;
       }
       // Mirror the frame for the layer that replaces the poster (ivory hero).
-      if (drawn && under && underCanvas) {
+      if (drawn && mirror && under && underCanvas) {
         under.drawImage(lensCanvas, 0, 0, underCanvas.width, underCanvas.height);
       }
       // The ivory hero shows the video over the poster only once the video is

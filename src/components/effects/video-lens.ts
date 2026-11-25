@@ -106,6 +106,43 @@ export function createVideoLens(canvas: HTMLCanvasElement) {
 
   let height = 1;
   let lost = false;
+  let uploadedSource: VideoLensSource | null = null;
+  let uploadedStamp: number | string = "";
+  let lastRender = 0;
+
+  // Counts the frames the video actually presents. `currentTime` moves on
+  // every animation frame during playback, so it cannot tell a new frame
+  // from a repeat; it is only the fallback where the callback is missing.
+  let watched: HTMLVideoElement | null = null;
+  let watchHandle = 0;
+  let presented = 0;
+
+  const unwatch = () => {
+    if (watched) watched.cancelVideoFrameCallback(watchHandle);
+    watched = null;
+  };
+
+  const videoStamp = (video: HTMLVideoElement): number => {
+    if (typeof video.requestVideoFrameCallback !== "function") return video.currentTime;
+    if (watched !== video) {
+      unwatch();
+      watched = video;
+      // Nothing is known about frames presented while unwatched.
+      uploadedSource = null;
+      const onFrame: VideoFrameRequestCallback = (_now, metadata) => {
+        presented = metadata.presentedFrames;
+        // Stop counting once the lens has gone to sleep; the next render
+        // starts again with a fresh upload.
+        if (performance.now() - lastRender > 500) {
+          watched = null;
+          return;
+        }
+        watchHandle = video.requestVideoFrameCallback(onFrame);
+      };
+      watchHandle = video.requestVideoFrameCallback(onFrame);
+    }
+    return presented;
+  };
   const onLost = (event: Event) => {
     event.preventDefault();
     lost = true;
@@ -136,10 +173,19 @@ export function createVideoLens(canvas: HTMLCanvasElement) {
       ring: number,
     ) {
       if (lost) return false;
-      try {
-        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, source);
-      } catch {
-        return false;
+      // Uploading a frame is the expensive part, so only upload when the
+      // picture changed: another source, a new video frame or a new image.
+      lastRender = performance.now();
+      const stamp = "currentTime" in source ? videoStamp(source) : source.currentSrc;
+      if (source !== uploadedSource || stamp !== uploadedStamp) {
+        try {
+          gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, source);
+        } catch {
+          uploadedSource = null;
+          return false;
+        }
+        uploadedSource = source;
+        uploadedStamp = stamp;
       }
       gl.uniform4f(uFit, fit.left, fit.top, fit.width, fit.height);
       gl.uniform2f(uLens, lensX, height - lensY);
@@ -150,6 +196,7 @@ export function createVideoLens(canvas: HTMLCanvasElement) {
     },
 
     dispose() {
+      unwatch();
       canvas.removeEventListener("webglcontextlost", onLost);
       gl.deleteTexture(texture);
       gl.deleteBuffer(buffer);

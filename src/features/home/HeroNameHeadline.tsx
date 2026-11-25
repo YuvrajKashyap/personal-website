@@ -86,8 +86,13 @@ export function HeroNameHeadline({ className }: HeroNameHeadlineProps) {
         const shiftX = (localX - 0.5) * proximity * 8;
         const shiftY = (localY - 0.5) * proximity * 6;
 
-        lockup.querySelectorAll<HTMLElement>(".hero-name-line").forEach((line) => {
-          const lineRect = line.getBoundingClientRect();
+        // Read every line's box before writing any style, so the frame
+        // costs one style recalc instead of one per line.
+        const lines = Array.from(
+          lockup.querySelectorAll<HTMLElement>(".hero-name-line"),
+          (line) => [line, line.getBoundingClientRect()] as const,
+        );
+        lines.forEach(([line, lineRect]) => {
           const lightX = (event.clientX - lineRect.left) / lineRect.width;
           const lightY = (event.clientY - lineRect.top) / lineRect.height;
 
