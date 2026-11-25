@@ -340,9 +340,9 @@ The standalone interior pages were removed. Home is the public site, so the imme
 - Fallback: touch devices, reduced motion, missing WebGL or a lost context keep the 2D starfield and the names as plain text. In lens mode the 2D canvas still draws constellations and meteors, bending constellation points with the lens's outer-image formula.
 - The ring is deliberately faint (`ring` eases to 0.3). Yuvraj has rejected visible rings around the cursor before.
 
-### Hero lens, dust, and two seam fixes
+### Hero lens and two seam fixes
 
-- `src/features/home/HeroLens.tsx` with `src/components/effects/video-lens.ts`: over the dark hero, a WebGL canvas copies the black-hole footage (the live video, or the poster before it has data) through the same point-mass lens as the sky, so the cursor bends the singularity itself. Away from the cursor the copy is identical to the footage, which is why it can fade in and out over the real video. A second canvas draws dust shed by the moving cursor that spirals into the black hole (`HOLE` holds its position in the desktop footage). Both sleep until the pointer moves over the hero; dark theme, fine pointers and full motion only.
+- `src/features/home/HeroLens.tsx` with `src/components/effects/video-lens.ts`: over the dark hero, a WebGL canvas copies the black-hole footage (the live video, or the poster before it has data) through the same point-mass lens as the sky, so the cursor bends the singularity itself. Away from the cursor the copy is identical to the footage, which is why it can fade in and out over the real video. It sleeps until the pointer moves over the hero; fine pointers and full motion only. (A cursor-dust layer that spiralled into the black hole was removed in Nov 2026 as clutter.)
 - Star cells in `lens-sky.ts` fade to nothing before their edge and keep their halo round. Stretching the halo on fast scrolls drew tall glowing boxes clipped at cell edges.
 - `.cosmos` starts 1.25rem below the top of the fade that covers it, and the fade is fully opaque for its first 2.5rem. With both starting on the same line a one pixel sliver of sky showed under the hero. `.home-hero::after` also melts the footage's bottom edge into the page colour.
 

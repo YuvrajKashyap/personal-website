@@ -8037,12 +8037,11 @@ html[data-sky-titles="on"] .home-chapter-ghost {
   }
 }
 
-/* Hero lens and dust: the cursor as a mass over the black-hole footage. The
-   lens canvas is an exact copy of the footage with the bend applied, so it
-   can fade in over the real video without any visible change away from the
-   cursor. Both follow the media's scroll dive. */
-.home-hero-lens,
-.home-hero-dust {
+/* Hero lens: the cursor as a mass over the black-hole footage. The lens
+   canvas is an exact copy of the footage with the bend applied, so it can
+   fade in over the real video without any visible change away from the
+   cursor. */
+.home-hero-lens {
   pointer-events: none;
   position: absolute;
   inset: 0;
@@ -8058,17 +8057,6 @@ html[data-sky-titles="on"] .home-chapter-ghost {
 
 .home-hero-lens[data-active="true"] {
   opacity: 1;
-}
-
-.home-hero-dust {
-  z-index: 2;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .home-hero .home-hero-dust {
-    scale: calc(1 + var(--dive, 0) * 0.18);
-    transform-origin: 70% 46%;
-  }
 }
 
 /* The hero's own bottom edge melts into the page colour before the chapters
@@ -8087,16 +8075,11 @@ html[data-sky-titles="on"] .home-chapter-ghost {
    Light-mode parity for the hero lens, and the phone pass.
 ------------------------------------------------------------------- */
 
-/* The lens canvas now lives inside the hero media stack, so it follows the
-   media's scroll dive on its own and only the dust needs the dive rule. */
+/* The lens canvas lives inside the hero media stack, so it follows the
+   media's scroll dive on its own. */
 .home-hero-media .home-hero-lens {
   z-index: 1;
   scale: none;
-}
-
-.home-light-hero .home-hero-dust {
-  scale: calc(1 + var(--dive, 0) * 0.18);
-  transform-origin: 70% 46%;
 }
 
 /* Ivory hero: the footage is filtered, multiplied and partly transparent.
