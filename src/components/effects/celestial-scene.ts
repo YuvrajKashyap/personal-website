@@ -467,13 +467,22 @@ export function bakeRings(
   return data;
 }
 
+/** The painted-once sprites draw the same way on a page canvas or, in the bake
+ * worker, on an OffscreenCanvas. */
+export type SpriteCanvas = HTMLCanvasElement | OffscreenCanvas;
+
+function context2d(canvas: SpriteCanvas) {
+  // Both contexts share every call the painters make.
+  return (canvas as HTMLCanvasElement).getContext("2d");
+}
+
 /**
  * Face-on spiral galaxy: a warm core, two main arms and two faint ones laid
  * down as thousands of additive points along logarithmic spirals. CSS tilts
  * and slowly rotates it.
  */
-export function paintGalaxy(canvas: HTMLCanvasElement, theme: CosmosTheme) {
-  const context = canvas.getContext("2d");
+export function paintGalaxy(canvas: SpriteCanvas, theme: CosmosTheme) {
+  const context = context2d(canvas);
   if (!context) return;
 
   const size = canvas.width;
@@ -552,8 +561,8 @@ export function paintGalaxy(canvas: HTMLCanvasElement, theme: CosmosTheme) {
  * Comet: a bright coma, a straight blue ion tail and a broad, curved dust
  * tail fanning away from it. Painted once; CSS carries it across the sky.
  */
-export function paintComet(canvas: HTMLCanvasElement, theme: CosmosTheme) {
-  const context = canvas.getContext("2d");
+export function paintComet(canvas: SpriteCanvas, theme: CosmosTheme) {
+  const context = context2d(canvas);
   if (!context) return;
 
   const width = canvas.width;

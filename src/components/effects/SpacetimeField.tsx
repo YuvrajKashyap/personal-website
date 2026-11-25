@@ -128,7 +128,13 @@ export function SpacetimeField({ variant = "hero", className }: SpacetimeFieldPr
       scene.render(context, 0, true);
     };
 
+    // The first palette read and sizing wait for the ResizeObserver's initial
+    // callback. It runs before the first paint, once style and layout are
+    // already done, so mounting forces no style recalc or layout of its own.
+    let ready = false;
+
     const wake = () => {
+      if (!ready) return;
       if (reducedMotion.matches) {
         loop.stop();
         drawStill();
@@ -161,6 +167,10 @@ export function SpacetimeField({ variant = "hero", className }: SpacetimeFieldPr
     };
 
     const resizeObserver = new ResizeObserver(() => {
+      if (!ready) {
+        ready = true;
+        applyPalette();
+      }
       resize();
       wake();
     });
@@ -174,12 +184,11 @@ export function SpacetimeField({ variant = "hero", className }: SpacetimeFieldPr
     );
     // The palette lives in CSS tokens, so a theme switch just re-reads them.
     const themeObserver = new MutationObserver(() => {
+      if (!ready) return;
       applyPalette();
       wake();
     });
 
-    applyPalette();
-    resize();
     resizeObserver.observe(host);
     intersectionObserver.observe(host);
     themeObserver.observe(document.documentElement, {

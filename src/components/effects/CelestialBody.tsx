@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react";
 
 import { peekBake, requestBake, takeBake } from "@/components/effects/bake-client";
-import type { RingsJob, WorldJob } from "@/components/effects/bake-jobs";
+import type { BakeJob, RingsJob, SpriteJob, WorldJob } from "@/components/effects/bake-jobs";
 import {
   createWorld,
   paintComet,
@@ -77,9 +77,23 @@ export function CelestialBody({ kind }: CelestialBodyProps) {
       ? FRAME_MS_TOUCH
       : FRAME_MS;
 
-    // The world's surface, sphere tables and rings are baked off the main
-    // thread (see bake-client); drawing them is cheap once they exist.
-    const jobsFor = (theme: CosmosTheme) => {
+    // The world's surface, sphere tables and rings, and the painted-once
+    // galaxy and comet, are baked off the main thread (see bake-client);
+    // drawing them is cheap once they exist.
+    const spriteJob = (theme: CosmosTheme): SpriteJob | null =>
+      kind === "galaxy" || kind === "comet"
+        ? {
+            type: "sprite",
+            kind,
+            theme,
+            width: body.width,
+            height: body.height,
+          }
+        : null;
+
+    const jobsFor = (theme: CosmosTheme): BakeJob[] => {
+      const sprite = spriteJob(theme);
+      if (sprite) return [sprite];
       if (kind === "galaxy" || kind === "comet") return [];
       const spec = WORLD_SPEC[kind];
       const world: WorldJob = {
@@ -103,15 +117,31 @@ export function CelestialBody({ kind }: CelestialBodyProps) {
 
     let disposed = false;
     let timerDone = false;
+    // Set when a sprite cannot be baked off-thread (no OffscreenCanvas); the
+    // body is then painted here, exactly as before the worker existed.
+    let paintHere = false;
     const prefetch = (theme: CosmosTheme) =>
-      Promise.all(jobsFor(theme).map((job) => requestBake(job)));
+      Promise.all(jobsFor(theme).map((job) => requestBake(job))).catch(() => {
+        paintHere = true;
+      });
+
+    const drawSprite = (theme: CosmosTheme, job: SpriteJob) => {
+      const bitmap = paintHere ? undefined : peekBake(job);
+      const context = bitmap ? body.getContext("2d") : null;
+      if (bitmap && context) {
+        context.clearRect(0, 0, body.width, body.height);
+        context.drawImage(bitmap, 0, 0);
+      } else if (kind === "galaxy") {
+        paintGalaxy(body, theme);
+      } else {
+        paintComet(body, theme);
+      }
+    };
 
     const build = () => {
       const theme = readTheme();
-      if (kind === "galaxy") {
-        paintGalaxy(body, theme);
-      } else if (kind === "comet") {
-        paintComet(body, theme);
+      if (kind === "galaxy" || kind === "comet") {
+        drawSprite(theme, spriteJob(theme) as SpriteJob);
       } else {
         const spec = WORLD_SPEC[kind];
         const [worldJob, backJob, frontJob] = jobsFor(theme) as [
@@ -134,7 +164,7 @@ export function CelestialBody({ kind }: CelestialBodyProps) {
       if (disposed || !timerDone) return;
       const theme = readTheme();
       const jobs = jobsFor(theme);
-      if (jobs.every((job) => peekBake(job))) {
+      if (paintHere || jobs.every((job) => peekBake(job))) {
         build();
         wake();
         // Bake the other theme in the background so a switch is instant.

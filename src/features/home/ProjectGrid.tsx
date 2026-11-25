@@ -19,7 +19,7 @@ import {
   useState,
   useSyncExternalStore,
   type PointerEvent,
-  type ReactNode,
+  type RefObject,
 } from "react";
 
 import type { Project } from "@/types/project";
@@ -96,10 +96,18 @@ function getRepoHref(project: Project) {
   )?.href;
 }
 
-function ProjectTile({ project }: Readonly<{ project: Project }>) {
+/**
+ * The tile's interactive body. It owns every piece of state that changes after
+ * mount (pointer kind, in-view, hover springs) so that re-renders stay here and
+ * never reach the `layout` wrapper in `ProjectTile`. Each wrapper re-render
+ * makes motion snapshot layout, which forces a full page layout.
+ */
+function ProjectTileBody({
+  project,
+  tileRef,
+}: Readonly<{ project: Project; tileRef: RefObject<HTMLDivElement | null> }>) {
   const shouldReduceMotion = useReducedMotion();
   const finePointer = useFinePointer();
-  const tileRef = useRef<HTMLDivElement>(null);
   const hoverStartedAtRef = useRef<number | null>(null);
   const hoverQualifiedRef = useRef(false);
   const hoverTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -290,31 +298,40 @@ function ProjectTile({ project }: Readonly<{ project: Project }>) {
     </motion.div>
   );
 
-  const wrap = (children: ReactNode) =>
-    repoHref ? (
-      <a
-        href={repoHref}
-        className="project-tile focus-ring"
-        target="_blank"
-        rel="noreferrer"
-        aria-label={`Open ${project.title} on GitHub`}
-      >
-        {children}
-      </a>
-    ) : (
-      <Link
-        href={`/projects/${project.slug}`}
-        className="project-tile focus-ring"
-        aria-label={`View ${project.title} project`}
-      >
-        {children}
-      </Link>
-    );
+  // The in-view styles only target elements inside the link, so the flag
+  // lives here rather than on the layout wrapper.
+  const previewFlag = previewActive || undefined;
+
+  return repoHref ? (
+    <a
+      href={repoHref}
+      className="project-tile focus-ring"
+      target="_blank"
+      rel="noreferrer"
+      aria-label={`Open ${project.title} on GitHub`}
+      data-preview-active={previewFlag}
+    >
+      {tileContent}
+    </a>
+  ) : (
+    <Link
+      href={`/projects/${project.slug}`}
+      className="project-tile focus-ring"
+      aria-label={`View ${project.title} project`}
+      data-preview-active={previewFlag}
+    >
+      {tileContent}
+    </Link>
+  );
+}
+
+function ProjectTile({ project }: Readonly<{ project: Project }>) {
+  const shouldReduceMotion = useReducedMotion();
+  const tileRef = useRef<HTMLDivElement>(null);
 
   return (
     <motion.div
       ref={tileRef}
-      data-preview-active={previewActive || undefined}
       layout={shouldReduceMotion ? false : "position"}
       variants={shouldReduceMotion ? undefined : cardVariants}
       exit={
@@ -333,7 +350,7 @@ function ProjectTile({ project }: Readonly<{ project: Project }>) {
           : { transformOrigin: "50% 100%", transformPerspective: 1100 }
       }
     >
-      {wrap(tileContent)}
+      <ProjectTileBody project={project} tileRef={tileRef} />
     </motion.div>
   );
 }
@@ -368,7 +385,8 @@ export function ProjectGrid({ projects }: ProjectGridProps) {
   const deferredQuery = useDeferredValue(query);
 
   const haystacks = useMemo(
-    () => new Map(projects.map((project) => [project.id, buildHaystack(project)])),
+    () =>
+      new Map(projects.map((project) => [project.id, buildHaystack(project)])),
     [projects],
   );
 
