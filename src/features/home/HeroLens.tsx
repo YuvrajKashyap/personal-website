@@ -221,11 +221,15 @@ export function HeroLens() {
       if (frame === 0) frame = window.requestAnimationFrame(tick);
     };
 
-    const onPointerMove = (event: PointerEvent) => {
-      if (event.pointerType === "touch") return;
+    let clientX = 0;
+    let clientY = 0;
+    let pointerKnown = false;
+
+    /** Places the pointer against the hero as it sits right now. */
+    const trackPointer = () => {
       rect = section.getBoundingClientRect();
-      const x = event.clientX - rect.left;
-      const y = event.clientY - rect.top;
+      const x = clientX - rect.left;
+      const y = clientY - rect.top;
       const nowInside = x >= 0 && y >= 0 && x <= rect.width && y <= rect.height;
       if (nowInside && !inside) {
         // Arrive at the cursor instead of sweeping in from the last position.
@@ -244,6 +248,21 @@ export function HeroLens() {
       }
     };
 
+    const onPointerMove = (event: PointerEvent) => {
+      if (event.pointerType === "touch") return;
+      clientX = event.clientX;
+      clientY = event.clientY;
+      pointerKnown = true;
+      trackPointer();
+    };
+
+    // Scrolling moves the hero under a still cursor. Without this, a wheel
+    // scroll away from the hero leaves `inside` stuck on and the lens
+    // rendering offscreen until the mouse moves again.
+    const onScroll = () => {
+      if (pointerKnown) trackPointer();
+    };
+
     const onLeave = () => {
       inside = false;
     };
@@ -252,12 +271,14 @@ export function HeroLens() {
     measure();
     resizeObserver.observe(section);
     window.addEventListener("pointermove", onPointerMove, { passive: true });
+    window.addEventListener("scroll", onScroll, { passive: true });
     document.documentElement.addEventListener("pointerleave", onLeave);
 
     return () => {
       if (frame !== 0) window.cancelAnimationFrame(frame);
       resizeObserver.disconnect();
       window.removeEventListener("pointermove", onPointerMove);
+      window.removeEventListener("scroll", onScroll);
       document.documentElement.removeEventListener("pointerleave", onLeave);
       lens?.dispose();
     };

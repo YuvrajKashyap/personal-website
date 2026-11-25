@@ -50,7 +50,6 @@ export function WordReveal({
   return (
     <motion.span
       className={`word-reveal${className ? ` ${className}` : ""}`}
-      aria-label={text}
       custom={delay}
       initial="hidden"
       animate={inView ? undefined : "visible"}
@@ -58,6 +57,8 @@ export function WordReveal({
       viewport={inView ? { once: false, amount: 0.6 } : undefined}
       variants={containerVariants}
     >
+      {/* Real text for screen readers; aria-label on a plain span is ignored. */}
+      <span className="visually-hidden">{text}</span>
       {words.map((word, index) => (
         <span key={`${word}-${index}`} aria-hidden="true">
           <span className="word-reveal-mask">
