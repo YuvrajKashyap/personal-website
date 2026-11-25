@@ -7305,3 +7305,76 @@ html[data-theme="light"] .orbital-frame {
 }
 
 /* watcher nudge */
+
+/* ------------------------------------------------------------------
+   Spacetime fabric
+   A live canvas of geodesics behind interior heroes and the footer.
+   Colors are rgb triples so the canvas can apply its own alpha.
+------------------------------------------------------------------- */
+html[data-theme="dark"] {
+  --spacetime-line: 112 132 255;
+  /* Lines deep in the well are lit by the star, so they warm toward it. */
+  --spacetime-line-deep: 255 208 150;
+  --spacetime-body: 224 232 255;
+  --spacetime-star-core: 255 244 214;
+  --spacetime-star-mid: 255 184 92;
+  --spacetime-star-edge: 214 84 30;
+  --spacetime-void: 3 4 6;
+  --spacetime-alpha: 0.78;
+}
+
+html[data-theme="light"] {
+  --spacetime-line: 127 29 29;
+  --spacetime-line-deep: 185 28 28;
+  --spacetime-body: 150 60 50;
+  --spacetime-star-core: 255 226 190;
+  --spacetime-star-mid: 226 104 60;
+  --spacetime-star-edge: 150 30 30;
+  --spacetime-void: 247 239 227;
+  --spacetime-alpha: 0.4;
+}
+
+.spacetime-field {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+}
+
+.spacetime-field canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.page-backdrop {
+  inset: 0 0 clamp(-9rem, -10vw, -4rem) 0;
+  opacity: 1;
+}
+
+html[data-theme="light"] .page-backdrop {
+  opacity: 1;
+}
+
+.page-backdrop-gradient {
+  opacity: 0.82;
+}
+
+html[data-theme="light"] .page-backdrop-gradient {
+  opacity: 0.68;
+}
+
+.spacetime-field-hero {
+  mask-image:
+    linear-gradient(180deg, transparent 0%, black 20%, black 62%, transparent 100%),
+    linear-gradient(90deg, rgb(0 0 0 / 0.3) 0%, rgb(0 0 0 / 0.4) 34%, black 64%);
+  mask-composite: intersect;
+}
+
+@media (max-width: 760px) {
+  .spacetime-field-hero {
+    mask-image:
+      linear-gradient(180deg, transparent 0%, black 16%, black 58%, transparent 100%),
+      linear-gradient(90deg, rgb(0 0 0 / 0.5) 0%, black 70%);
+  }
+}
+
