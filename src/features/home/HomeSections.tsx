@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 
 import { CelestialBody } from "@/components/effects/CelestialBody";
 import { CosmosBackdrop } from "@/components/effects/CosmosBackdrop";
+import { Orrery } from "@/components/effects/Orrery";
 import { ParallaxDrift } from "@/components/motion/ParallaxDrift";
 import { AboutPortrait } from "@/features/home/AboutPortrait";
 import { Reveal } from "@/components/motion/Reveal";
@@ -177,6 +178,7 @@ function ProjectsChapter() {
       number="03"
       landmark={
         <>
+          <Orrery />
           <CelestialBody kind="jade" />
           <CelestialBody kind="comet" />
         </>
