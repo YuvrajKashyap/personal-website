@@ -1,3 +1,4 @@
+import { WarpTransit } from "@/components/effects/WarpTransit";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { SiteCursor } from "@/components/motion/SiteCursor";
@@ -16,6 +17,7 @@ export default function SiteLayout({
       </div>
       <SiteFooter />
       <SiteStructuredData />
+      <WarpTransit />
       <SiteCursor />
     </div>
   );

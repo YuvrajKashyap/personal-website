@@ -7422,3 +7422,18 @@ html[data-theme="light"] .page-backdrop-gradient {
   background: linear-gradient(180deg, transparent, var(--background));
 }
 
+/* Warp transit: the route-change veil and star streaks. */
+.warp-transit {
+  pointer-events: none;
+  position: fixed;
+  z-index: 9000;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  visibility: hidden;
+}
+
+.warp-transit[data-active="true"] {
+  visibility: visible;
+}
+
