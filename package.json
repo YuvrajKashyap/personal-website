@@ -3,14 +3,17 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "predev": "node scripts/fonts/build-fonts.mjs",
     "dev": "next dev",
+    "prebuild": "node scripts/fonts/build-fonts.mjs",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
     "typecheck": "next typegen && tsc --noEmit",
     "prepare:hero": "node scripts/assets/prepare-hero-assets.mjs",
     "repair:hero-loop": "node scripts/assets/repair-hero-loop.mjs",
-    "optimize:hero-video": "node scripts/assets/optimize-hero-video.mjs"
+    "optimize:hero-video": "node scripts/assets/optimize-hero-video.mjs",
+    "fonts": "node scripts/fonts/build-fonts.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.0",
@@ -31,6 +34,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.2.10",
     "sharp": "^0.34.5",
+    "subset-font": "^2.9.0",
     "tailwindcss": "^4",
     "typescript": "^5"
   },
