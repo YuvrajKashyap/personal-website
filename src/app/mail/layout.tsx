@@ -1,14 +1,11 @@
-import { Fraunces } from "next/font/google";
+import { preload } from "react-dom";
 
 import { SiteCursor } from "@/components/motion/SiteCursor";
 
-/* The letter's own typeface, loaded only on this route. */
-const fraunces = Fraunces({
-  variable: "--font-fraunces",
-  subsets: ["latin"],
-  style: ["normal", "italic"],
-  display: "swap",
-});
+import { FONT_PRELOADS } from "./font-preloads.generated";
+/* The letter's own typeface, Fraunces, loaded only on this route; trimmed
+   at build time like the site's fonts (scripts/fonts/build-fonts.mjs). */
+import "./fonts.generated.css";
 
 /**
  * Standalone chrome for the mail page: no site navigation, no footer — the
@@ -20,8 +17,11 @@ export default function MailLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  for (const href of FONT_PRELOADS) {
+    preload(href, { as: "font", type: "font/woff2", crossOrigin: "" });
+  }
   return (
-    <div className={`${fraunces.variable} min-h-screen bg-background text-foreground`}>
+    <div className="mail-fonts min-h-screen bg-background text-foreground">
       <div id="main-content" tabIndex={-1}>
         {children}
       </div>
