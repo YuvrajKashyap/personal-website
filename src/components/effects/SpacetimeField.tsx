@@ -2,12 +2,21 @@
 
 import { useEffect, useRef } from "react";
 
+import { pixelWorker } from "@/components/effects/pixel-worker-client";
 import {
   createSpacetimeScene,
   type SpacetimePalette,
   type SpacetimeVariant,
+  type StarSurfaceRemote,
 } from "@/components/effects/spacetime-scene";
 import { createFrameLoop } from "@/lib/performance/animation-runtime";
+
+// The star's surface is the heaviest part of the scene. The worker paints it
+// a frame ahead; the scene paints it itself whenever that copy is not on time.
+const starRemote: StarSurfaceRemote = {
+  paint: (t, core, mid, edge, done) => pixelWorker.paintStar(t, core, mid, edge, done),
+  recycle: (pixels) => pixelWorker.recycleStar(pixels),
+};
 
 type SpacetimeFieldProps = Readonly<{
   variant?: SpacetimeVariant;
@@ -46,7 +55,7 @@ export function SpacetimeField({ variant = "hero", className }: SpacetimeFieldPr
     const context = canvas?.getContext("2d");
     if (!host || !canvas || !context) return;
 
-    const scene = createSpacetimeScene(variant);
+    const scene = createSpacetimeScene(variant, starRemote);
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
     const coarsePointer = window.matchMedia("(pointer: coarse)").matches;
 

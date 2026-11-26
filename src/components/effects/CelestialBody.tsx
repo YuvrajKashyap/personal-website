@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 
 import { peekBake, requestBake, takeBake } from "@/components/effects/bake-client";
 import type { BakeJob, RingsJob, SpriteJob, WorldJob } from "@/components/effects/bake-jobs";
+import { pixelWorker } from "@/components/effects/pixel-worker-client";
 import {
   createWorld,
   paintComet,
@@ -117,6 +118,11 @@ export function CelestialBody({ kind }: CelestialBodyProps) {
 
     let disposed = false;
     let timerDone = false;
+    // This world's handle in the pixel worker (0: none), whether a turn is
+    // being painted there, and the turn waiting behind it (-1: none).
+    let remoteWorld = 0;
+    let worldInFlight = false;
+    let queuedTurn = -1;
     // Set when a sprite cannot be baked off-thread (no OffscreenCanvas); the
     // body is then painted here, exactly as before the worker existed.
     let paintHere = false;
@@ -149,8 +155,14 @@ export function CelestialBody({ kind }: CelestialBodyProps) {
           RingsJob?,
           RingsJob?,
         ];
-        world = createWorld(body, spec.world, theme, takeBake(worldJob));
+        const bake = takeBake(worldJob);
+        world = createWorld(body, spec.world, theme, bake);
         world?.draw(turn);
+        // Later turns are worked out in the pixel worker (see drawWorld).
+        pixelWorker.removeWorld(remoteWorld);
+        remoteWorld = world ? pixelWorker.addWorld(spec.world, theme, bake) : 0;
+        worldInFlight = false;
+        queuedTurn = -1;
         if (backJob && frontJob) {
           if (backRef.current) putPixels(backRef.current, takeBake(backJob));
           if (frontRef.current) putPixels(frontRef.current, takeBake(frontJob));
@@ -174,6 +186,42 @@ export function CelestialBody({ kind }: CelestialBodyProps) {
       void prefetch(theme).then(buildWhenReady);
     };
 
+    /**
+     * Turns the world to `turn`. The pixel loop runs in the worker, which
+     * hands back the finished pixels to copy onto the canvas, the same bytes
+     * `world.draw` would have written. Without a worker it runs here.
+     */
+    const drawWorld = (next: number) => {
+      if (!remoteWorld || !pixelWorker.alive()) {
+        world?.draw(next);
+        return;
+      }
+      // One turn in flight at a time; the newest waiting turn goes next.
+      if (worldInFlight) {
+        queuedTurn = next;
+        return;
+      }
+      const handle = remoteWorld;
+      worldInFlight = true;
+      const sent = pixelWorker.paintWorld(handle, next, (pixels) => {
+        worldInFlight = false;
+        if (disposed || handle !== remoteWorld) return;
+        body
+          .getContext("2d")
+          ?.putImageData(new ImageData(pixels, body.width, body.height), 0, 0);
+        pixelWorker.recycleWorld(handle, pixels);
+        if (queuedTurn >= 0) {
+          const waiting = queuedTurn;
+          queuedTurn = -1;
+          drawWorld(waiting);
+        }
+      });
+      if (!sent) {
+        worldInFlight = false;
+        world?.draw(next);
+      }
+    };
+
     const tick = (time: number) => {
       frame = 0;
       if (!visible || document.hidden || reducedMotion.matches || !world) return;
@@ -182,7 +230,7 @@ export function CelestialBody({ kind }: CelestialBodyProps) {
         lastTime = time;
         lastDraw = time;
         if (kind !== "galaxy" && kind !== "comet") turn += dt / WORLD_SPEC[kind].period;
-        world.draw(turn);
+        drawWorld(turn);
       }
       frame = window.requestAnimationFrame(tick);
     };
@@ -226,6 +274,7 @@ export function CelestialBody({ kind }: CelestialBodyProps) {
 
     return () => {
       disposed = true;
+      pixelWorker.removeWorld(remoteWorld);
       window.clearTimeout(timer);
       if (frame !== 0) window.cancelAnimationFrame(frame);
       intersectionObserver.disconnect();

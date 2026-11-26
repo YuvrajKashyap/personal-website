@@ -384,31 +384,44 @@ export function createWorld(
   const context = canvas.getContext("2d");
   if (!context) return null;
 
-  const style = WORLD_STYLES[kind][theme];
   const size = canvas.width;
   const image = context.createImageData(size, size);
   // A private copy: the bake is cached and may be reused by a later mount.
   image.data.set(bake.data);
-  const data = image.data;
-  const { map, pixel, row, longitude, light, rim } = bake;
-  const count = pixel.length;
+  const paint = createWorldPainter(kind, theme, bake);
 
   return {
     /** `turn` is rotations: 0.25 is a quarter of the way round. */
     draw(turn: number) {
-      const shift = turn - Math.floor(turn) + 1;
-      for (let index = 0; index < count; index += 1) {
-        const u = longitude[index] + shift;
-        const source = (row[index] + (Math.floor((u - Math.floor(u)) * MAP_WIDTH))) * 3;
-        const target = pixel[index];
-        const lit = light[index];
-        const glow = rim[index];
-        data[target] = map[source] * lit + style.rim[0] * glow;
-        data[target + 1] = map[source + 1] * lit + style.rim[1] * glow;
-        data[target + 2] = map[source + 2] * lit + style.rim[2] * glow;
-      }
+      paint(image.data, turn);
       context.putImageData(image, 0, 0);
     },
+  };
+}
+
+/**
+ * The per-frame half of a world: turns the sphere to `turn` (rotations) by
+ * rewriting the colour of every pixel on its face in `data`, a buffer that
+ * started as a copy of `bake.data`. Pure math, so a worker can run it and
+ * hand back the same bytes the page would have written.
+ */
+export function createWorldPainter(kind: WorldKind, theme: CosmosTheme, bake: WorldBake) {
+  const style = WORLD_STYLES[kind][theme];
+  const { map, pixel, row, longitude, light, rim } = bake;
+  const count = pixel.length;
+
+  return (data: Uint8ClampedArray, turn: number) => {
+    const shift = turn - Math.floor(turn) + 1;
+    for (let index = 0; index < count; index += 1) {
+      const u = longitude[index] + shift;
+      const source = (row[index] + (Math.floor((u - Math.floor(u)) * MAP_WIDTH))) * 3;
+      const target = pixel[index];
+      const lit = light[index];
+      const glow = rim[index];
+      data[target] = map[source] * lit + style.rim[0] * glow;
+      data[target + 1] = map[source + 1] * lit + style.rim[1] * glow;
+      data[target + 2] = map[source + 2] * lit + style.rim[2] * glow;
+    }
   };
 }
 
