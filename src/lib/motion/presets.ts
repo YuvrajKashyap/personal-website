@@ -135,10 +135,7 @@ export const scrollCueMotion = {
     opacity: 1,
     y: 0,
   },
-  pulse: {
-    opacity: [0.45, 1, 0.45],
-    y: [0, 7, 0],
-  },
+  // The line's pulse is a CSS animation; see home-scroll-cue-pulse.
 };
 
 export const reducedMotionReveal: Variants = {

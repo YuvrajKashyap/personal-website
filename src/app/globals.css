@@ -1814,6 +1814,46 @@ html[data-theme="light"] .hero-name-line {
   text-transform: uppercase;
 }
 
+/* The scroll cue line's pulse, added by MotionScrollCue once the page has
+   hydrated, run by the compositor instead of a script. It reproduces the
+   motion animation it replaced: a 2.8s loop eased with motion's easeInOut,
+   cubic-bezier(0.42, 0, 0.58, 1). Motion eased the drift within each half
+   of the loop, but eased the glow across the whole loop (its native-
+   animation path puts a single easing on the timing). Splitting that curve
+   at its midpoint gives exactly the two halves used below. */
+@keyframes home-scroll-cue-drift {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(7px);
+  }
+}
+
+@keyframes home-scroll-cue-glow {
+  0% {
+    opacity: 0.45;
+    animation-timing-function: cubic-bezier(0.42, 0, 0.71, 0.5);
+  }
+
+  50% {
+    opacity: 1;
+    animation-timing-function: cubic-bezier(0.29, 0.5, 0.58, 1);
+  }
+
+  100% {
+    opacity: 0.45;
+  }
+}
+
+.home-scroll-cue-pulse {
+  animation:
+    home-scroll-cue-drift 2.8s cubic-bezier(0.42, 0, 0.58, 1) infinite,
+    home-scroll-cue-glow 2.8s linear infinite;
+}
+
 .orbital-navigation {
   --orbital-map-size: clamp(19rem, 34vw, 29rem);
 
@@ -7596,7 +7636,16 @@ html[data-theme="light"] .page-backdrop-gradient {
 }
 
 /* Hero dive: scrolling away pushes the camera toward the singularity while
-   the copy lifts off. `--dive` is published by HeroDive (0 at rest). */
+   the copy lifts off. `--dive` is published by HeroDive (0 at rest),
+   directly on each element below, so it needs no inheritance; registering
+   it as non-inherited keeps a scroll frame from restyling the hero's whole
+   subtree. */
+@property --dive {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 0;
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .home-hero .home-hero-media,
   .home-light-hero .home-hero-media {
