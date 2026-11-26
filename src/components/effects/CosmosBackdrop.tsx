@@ -122,6 +122,20 @@ export function CosmosBackdrop() {
     let visible = false;
     let lastTime = 0;
     let elapsed = 0;
+    // The page's scroll offset, kept from scroll events. Reading
+    // window.scrollY inside the frame would make the browser finish any
+    // pending style and layout first, and other animations have usually
+    // written styles earlier in the same frame, so every frame would pay for
+    // a forced layout. Scroll events fire before animation frames, so this
+    // always holds the value a read in the frame would return.
+    let scrollY = window.scrollY;
+    // The chapter titles' boxes only change when the page scrolls (their
+    // drift is scroll-driven), resizes, or reflows; any of those sets this,
+    // and the next frame reads the boxes again. Until then the last reading,
+    // and the two titles it found on screen, are still exact.
+    let ghostsMoved = true;
+    let slotA = -1;
+    let slotB = -1;
     let hostTop = 0;
     let hostHeight = 1;
     let viewport = 1;
@@ -146,6 +160,8 @@ export function CosmosBackdrop() {
 
     const buildTitles = () => {
       if (!sky || !skyLive) return;
+      // Titles in hand and their padding decide what the frame reads.
+      ghostsMoved = true;
       ghosts.forEach((ghost, index) => {
         const made = drawTitle(ghost);
         titlePad[index] = made?.pad ?? 0;
@@ -185,7 +201,9 @@ export function CosmosBackdrop() {
 
     const measure = () => {
       const rect = host.getBoundingClientRect();
-      hostTop = rect.top + window.scrollY;
+      scrollY = window.scrollY;
+      ghostsMoved = true;
+      hostTop = rect.top + scrollY;
       hostHeight = Math.max(1, rect.height);
       viewport = window.innerHeight || 1;
       width = window.innerWidth;
@@ -197,28 +215,34 @@ export function CosmosBackdrop() {
     };
 
     const frame = (dt: number, frozen: boolean) => {
-      const scroll = Math.max(0, window.scrollY - hostTop + viewport);
+      const scroll = Math.max(0, scrollY - hostTop + viewport);
       const progress = Math.min(1, scroll / Math.max(1, hostHeight));
       elapsed += dt;
 
       if (sky && skyLive && sky.isLost()) setSkyLive(false);
 
       if (sky && skyLive) {
-        // Read the titles' places before anything is written this frame.
-        let slotA = -1;
-        let slotB = -1;
-        for (let index = 0; index < ghosts.length; index += 1) {
-          if (!sky.hasTitle(index)) continue;
-          const box = ghosts[index].getBoundingClientRect();
-          const pad = titlePad[index];
-          if (box.bottom + pad < 0 || box.top - pad > viewport) continue;
-          const rect = rects[index];
-          rect.x = box.left - pad;
-          rect.y = box.top - pad;
-          rect.w = box.width + pad * 2;
-          rect.h = box.height + pad * 2;
-          if (slotA < 0) slotA = index;
-          else if (slotB < 0) slotB = index;
+        // Read the titles' places before anything is written this frame, but
+        // only when they can have moved: reading a box makes the browser
+        // finish pending style and layout first, which on an idle frame is
+        // pure waste (see ghostsMoved).
+        if (ghostsMoved) {
+          ghostsMoved = false;
+          slotA = -1;
+          slotB = -1;
+          for (let index = 0; index < ghosts.length; index += 1) {
+            if (!sky.hasTitle(index)) continue;
+            const box = ghosts[index].getBoundingClientRect();
+            const pad = titlePad[index];
+            if (box.bottom + pad < 0 || box.top - pad > viewport) continue;
+            const rect = rects[index];
+            rect.x = box.left - pad;
+            rect.y = box.top - pad;
+            rect.w = box.width + pad * 2;
+            rect.h = box.height + pad * 2;
+            if (slotA < 0) slotA = index;
+            else if (slotB < 0) slotB = index;
+          }
         }
 
         if (dt > 0) {
@@ -321,10 +345,18 @@ export function CosmosBackdrop() {
 
     // Reduced motion still follows the scroll, just without any animation.
     const onScroll = () => {
+      scrollY = window.scrollY;
+      ghostsMoved = true;
       if (reducedMotion.matches && visible) frame(0, true);
     };
 
     const resizeObserver = new ResizeObserver(onResize);
+    // A title changing size (fonts landing), or anything reflowing the page
+    // (which changes the document's height), can move the titles without a
+    // scroll.
+    const layoutObserver = new ResizeObserver(() => {
+      ghostsMoved = true;
+    });
     const intersectionObserver = new IntersectionObserver((entries) => {
       visible = entries.some((entry) => entry.isIntersecting);
       wake();
@@ -345,6 +377,8 @@ export function CosmosBackdrop() {
     // Web fonts may land after the first draw; redraw the titles once they do.
     void document.fonts?.ready.then(buildTitles);
     resizeObserver.observe(host);
+    layoutObserver.observe(document.body);
+    ghosts.forEach((ghost) => layoutObserver.observe(ghost));
     intersectionObserver.observe(host);
     themeObserver.observe(document.documentElement, {
       attributes: true,
@@ -362,6 +396,7 @@ export function CosmosBackdrop() {
       setSkyLive(false);
       sky?.dispose();
       resizeObserver.disconnect();
+      layoutObserver.disconnect();
       intersectionObserver.disconnect();
       themeObserver.disconnect();
       window.removeEventListener("resize", onResize);
