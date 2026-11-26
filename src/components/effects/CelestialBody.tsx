@@ -5,12 +5,7 @@ import { useEffect, useRef } from "react";
 import { peekBake, requestBake, takeBake } from "@/components/effects/bake-client";
 import type { BakeJob, RingsJob, SpriteJob, WorldJob } from "@/components/effects/bake-jobs";
 import { pixelWorker } from "@/components/effects/pixel-worker-client";
-import {
-  createWorld,
-  paintComet,
-  paintGalaxy,
-  type WorldKind,
-} from "@/components/effects/celestial-scene";
+import type { WorldKind } from "@/components/effects/celestial-scene";
 import { putPixels, type CosmosTheme } from "@/components/effects/cosmos-scene";
 
 type CelestialKind =
@@ -46,6 +41,23 @@ const FRAME_MS = 1000 / 30;
 /** Phones redraw the worlds a little less often to keep scrolling light. */
 const FRAME_MS_TOUCH = 1000 / 20;
 
+type CelestialScene = typeof import("@/components/effects/celestial-scene");
+
+/**
+ * Every landmark sits below the hero, and none draws before its bakes come
+ * back from the worker, so the drawing code is fetched then instead of with
+ * the first page load. Shared by all bodies; loaded once.
+ */
+let scene: CelestialScene | null = null;
+let scenePromise: Promise<CelestialScene> | null = null;
+function loadScene(): Promise<CelestialScene> {
+  scenePromise ??= import("@/components/effects/celestial-scene").then((module) => {
+    scene = module;
+    return module;
+  });
+  return scenePromise;
+}
+
 function readTheme(): CosmosTheme {
   return document.documentElement.dataset.theme === "light" ? "light" : "dark";
 }
@@ -68,7 +80,7 @@ export function CelestialBody({ kind }: CelestialBodyProps) {
     if (!host || !body) return;
 
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-    let world: ReturnType<typeof createWorld> = null;
+    let world: ReturnType<CelestialScene["createWorld"]> = null;
     let visible = false;
     let frame = 0;
     let lastDraw = 0;
@@ -138,9 +150,9 @@ export function CelestialBody({ kind }: CelestialBodyProps) {
         context.clearRect(0, 0, body.width, body.height);
         context.drawImage(bitmap, 0, 0);
       } else if (kind === "galaxy") {
-        paintGalaxy(body, theme);
+        scene?.paintGalaxy(body, theme);
       } else {
-        paintComet(body, theme);
+        scene?.paintComet(body, theme);
       }
     };
 
@@ -156,7 +168,7 @@ export function CelestialBody({ kind }: CelestialBodyProps) {
           RingsJob?,
         ];
         const bake = takeBake(worldJob);
-        world = createWorld(body, spec.world, theme, bake);
+        world = scene ? scene.createWorld(body, spec.world, theme, bake) : null;
         world?.draw(turn);
         // Later turns are worked out in the pixel worker (see drawWorld).
         pixelWorker.removeWorld(remoteWorld);
@@ -174,6 +186,10 @@ export function CelestialBody({ kind }: CelestialBodyProps) {
     /** Builds once the first-paint delay has passed and the bakes are in. */
     const buildWhenReady = () => {
       if (disposed || !timerDone) return;
+      if (!scene) {
+        void loadScene().then(buildWhenReady);
+        return;
+      }
       const theme = readTheme();
       const jobs = jobsFor(theme);
       if (paintHere || jobs.every((job) => peekBake(job))) {
@@ -245,6 +261,7 @@ export function CelestialBody({ kind }: CelestialBodyProps) {
     // Start the bakes now, in the worker, but keep the first draw off the
     // first paint as before.
     void prefetch(readTheme());
+    void loadScene();
     const timer = window.setTimeout(() => {
       timerDone = true;
       buildWhenReady();
