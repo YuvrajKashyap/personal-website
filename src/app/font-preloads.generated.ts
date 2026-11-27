@@ -2,7 +2,7 @@
 export const FONT_PRELOADS = [
   "/fonts/geist-100-900-caa3a2e1-core.b821e787a8.woff2",
   "/fonts/geist-mono-100-900-797e433a-core.5db26c9f6a.woff2",
-  "/fonts/space-grotesk-300-700-0c89a48f-core.bf58d145d8.woff2",
+  "/fonts/space-grotesk-300-700-0c89a48f-core.1dfb2b1f31.woff2",
   "/fonts/space-mono-400-dc0d9adb-core.3e05f21d7a.woff2",
   "/fonts/space-mono-700-8d05cfa5-core.a7e54db498.woff2",
   "/fonts/unbounded-800-0c30a228-core.252e976783.woff2"

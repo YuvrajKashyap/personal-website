@@ -95,6 +95,10 @@ function emit(buffer, baseName) {
 }
 
 const wanted = scanSourceCharacters(path.join(root, "src"), new Set(ALWAYS));
+// Control characters are never drawn. Dropping them also keeps line endings
+// (CR on a Windows checkout, none on Vercel's Linux build) from changing the
+// cut, so every machine produces the same files.
+for (const code of [...wanted]) if (code < 0x20 || (code >= 0x7f && code <= 0x9f)) wanted.delete(code);
 
 fs.rmSync(outDir, { recursive: true, force: true });
 fs.mkdirSync(outDir, { recursive: true });
