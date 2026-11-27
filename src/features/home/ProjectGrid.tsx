@@ -90,10 +90,10 @@ const cardVariants = {
   },
 };
 
-function getRepoHref(project: Project) {
+function getArchiveLink(project: Project) {
   return project.links.find(
     (link) => link.type === "repo" && link.status === "verified",
-  )?.href;
+  ) ?? project.links.find((link) => link.type === "live" && link.isPrimary && link.status === "verified");
 }
 
 /**
@@ -222,7 +222,7 @@ function ProjectTileBody({
     hoverQualifiedRef.current = false;
   }
 
-  const repoHref = getRepoHref(project);
+  const archiveLink = getArchiveLink(project);
 
   const tileContent = (
     <motion.div
@@ -292,7 +292,7 @@ function ProjectTileBody({
           />
         )}
         <span className="project-tile-open" aria-hidden="true">
-          <span>{repoHref ? "↗" : "→"}</span>
+          <span>{archiveLink ? "↗" : "→"}</span>
         </span>
       </div>
     </motion.div>
@@ -302,13 +302,13 @@ function ProjectTileBody({
   // lives here rather than on the layout wrapper.
   const previewFlag = previewActive || undefined;
 
-  return repoHref ? (
+  return archiveLink ? (
     <a
-      href={repoHref}
+      href={archiveLink.href}
       className="project-tile focus-ring"
       target="_blank"
       rel="noreferrer"
-      aria-label={`Open ${project.title} on GitHub`}
+      aria-label={`Open ${project.title} on ${archiveLink.type === "repo" ? "GitHub" : "the live site"}`}
       data-preview-active={previewFlag}
     >
       {tileContent}
