@@ -22,12 +22,12 @@ import {
   type RefObject,
 } from "react";
 
-import type { Project } from "@/types/project";
+import type { ProjectTileData } from "@/features/home/project-tile-data";
 import { useSectionReveal } from "@/components/motion/SectionRevealContext";
 import { gravitationalEase } from "@/lib/motion/presets";
 
 type ProjectGridProps = Readonly<{
-  projects: readonly Project[];
+  projects: readonly ProjectTileData[];
 }>;
 
 const TILT_SPRING = { stiffness: 240, damping: 20, mass: 0.55 };
@@ -90,12 +90,6 @@ const cardVariants = {
   },
 };
 
-function getArchiveLink(project: Project) {
-  return project.links.find(
-    (link) => link.type === "repo" && link.status === "verified",
-  ) ?? project.links.find((link) => link.type === "live" && link.isPrimary && link.status === "verified");
-}
-
 /**
  * The tile's interactive body. It owns every piece of state that changes after
  * mount (pointer kind, in-view, hover springs) so that re-renders stay here and
@@ -105,7 +99,7 @@ function getArchiveLink(project: Project) {
 function ProjectTileBody({
   project,
   tileRef,
-}: Readonly<{ project: Project; tileRef: RefObject<HTMLDivElement | null> }>) {
+}: Readonly<{ project: ProjectTileData; tileRef: RefObject<HTMLDivElement | null> }>) {
   const shouldReduceMotion = useReducedMotion();
   const finePointer = useFinePointer();
   const hoverStartedAtRef = useRef<number | null>(null);
@@ -222,8 +216,7 @@ function ProjectTileBody({
     hoverQualifiedRef.current = false;
   }
 
-  const archiveLink = getArchiveLink(project);
-  const archiveCover = project.media.find((item) => item.showOnArchiveCard && item.status === "ready")?.src;
+  const { archiveLink, archiveCover } = project;
 
   const tileContent = (
     <motion.div
@@ -326,7 +319,7 @@ function ProjectTileBody({
   );
 }
 
-function ProjectTile({ project }: Readonly<{ project: Project }>) {
+function ProjectTile({ project }: Readonly<{ project: ProjectTileData }>) {
   const shouldReduceMotion = useReducedMotion();
   const tileRef = useRef<HTMLDivElement>(null);
 
@@ -356,7 +349,7 @@ function ProjectTile({ project }: Readonly<{ project: Project }>) {
   );
 }
 
-function buildHaystack(project: Project) {
+function buildHaystack(project: ProjectTileData) {
   return [
     project.title,
     project.summary,

@@ -21,6 +21,7 @@ import {
 } from "@/features/experience/experience-content";
 import { ResumeLedger } from "@/features/home/ResumeLedger";
 import { ProjectGrid } from "@/features/home/ProjectGrid";
+import { toProjectTileData } from "@/features/home/project-tile-data";
 import { getPublishedProjects } from "@/lib/projects/projects";
 
 type ChapterShellProps = Readonly<{
@@ -168,7 +169,8 @@ function ExperienceChapter() {
 }
 
 function ProjectsChapter() {
-  const projects = getPublishedProjects();
+  // Only what the tiles show and search; see project-tile-data.
+  const projects = getPublishedProjects().map(toProjectTileData);
 
   return (
     <ChapterShell
