@@ -40,6 +40,30 @@ const STAR_COLORS: Record<CosmosTheme, readonly string[]> = {
   light: ["64 38 30", "96 44 36", "127 29 29", "84 60 50", "64 38 30"],
 };
 
+/**
+ * `rgb(${color} / ${alpha.toFixed(3)})`, the colour every star is drawn
+ * with, built once per colour and alpha step instead of for every star in
+ * every frame. It returns the same string, so the canvas paints the same
+ * pixels; only the string building is saved.
+ */
+const inkRows = new Map<string, string[]>();
+function ink(color: string, alpha: number): string {
+  const scaled = alpha * 1000;
+  // Math.round matches toFixed(3) everywhere except within a rounding error
+  // of a half step, where the multiply above can tip it the other way. Those
+  // rare values, and anything outside 0..1, take the original path.
+  if (!(scaled >= 0 && scaled <= 1000) || Math.abs(scaled - Math.floor(scaled) - 0.5) < 1e-6) {
+    return `rgb(${color} / ${alpha.toFixed(3)})`;
+  }
+  const step = Math.round(scaled);
+  let row = inkRows.get(color);
+  if (!row) {
+    row = new Array<string>(1001);
+    inkRows.set(color, row);
+  }
+  return (row[step] ??= `rgb(${color} / ${(step / 1000).toFixed(3)})`);
+}
+
 function smoothstep(edge0: number, edge1: number, value: number) {
   const t = Math.min(1, Math.max(0, (value - edge0) / (edge1 - edge0)));
   return t * t * (3 - 2 * t);
@@ -345,7 +369,7 @@ export function createStarfield(count: number) {
           const by = y - height * 0.42;
           const reach = Math.sqrt(bx * bx + by * by) + 0.001;
           const length = burst * burst * (5 + reach * 0.085) * d * d;
-          context.strokeStyle = `rgb(${color} / ${(alpha * 0.85).toFixed(3)})`;
+          context.strokeStyle = ink(color, alpha * 0.85);
           context.lineWidth = Math.max(0.7, radius);
           context.beginPath();
           context.moveTo(x, y);
@@ -357,7 +381,7 @@ export function createStarfield(count: number) {
         const stretch = Math.max(-62, Math.min(62, velocity * 0.0138 * d));
 
         if (Math.abs(stretch) > 1.4) {
-          context.strokeStyle = `rgb(${color} / ${(alpha * 0.9).toFixed(3)})`;
+          context.strokeStyle = ink(color, alpha * 0.9);
           context.lineWidth = Math.max(0.7, radius);
           context.beginPath();
           context.moveTo(x, y);
@@ -366,7 +390,7 @@ export function createStarfield(count: number) {
           continue;
         }
 
-        context.fillStyle = `rgb(${color} / ${alpha.toFixed(3)})`;
+        context.fillStyle = ink(color, alpha);
         if (radius < 1) {
           context.fillRect(x, y, radius * 1.4, radius * 1.4);
         } else {
@@ -377,7 +401,7 @@ export function createStarfield(count: number) {
 
         if (flare[index] === 1) {
           const reach = radius * (4.5 + 2.4 * twinkle);
-          context.strokeStyle = `rgb(${color} / ${(alpha * 0.4).toFixed(3)})`;
+          context.strokeStyle = ink(color, alpha * 0.4);
           context.lineWidth = 0.7;
           context.beginPath();
           context.moveTo(x - reach, y);
@@ -414,7 +438,7 @@ export function createStarfield(count: number) {
         const fx = figure.x * width - leanX * 15;
         const points = figure.points;
 
-        context.strokeStyle = `rgb(${figureInk} / ${(0.17 * figureGain).toFixed(3)})`;
+        context.strokeStyle = ink(figureInk, 0.17 * figureGain);
         context.lineWidth = 0.8;
         context.beginPath();
         for (let offset = 0; offset < points.length; offset += 2) {
@@ -426,7 +450,7 @@ export function createStarfield(count: number) {
 
         for (let offset = 0; offset < points.length; offset += 2) {
           const pulse = frozen ? 0.8 : 0.72 + 0.28 * Math.sin(time * 1.3 + offset);
-          context.fillStyle = `rgb(${figureInk} / ${(0.82 * pulse * figureGain).toFixed(3)})`;
+          context.fillStyle = ink(figureInk, 0.82 * pulse * figureGain);
           context.beginPath();
           const at = bend(fx + points[offset], fy + points[offset + 1]);
           context.arc(at.x, at.y, 1.5, 0, Math.PI * 2);

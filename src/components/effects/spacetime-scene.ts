@@ -266,7 +266,7 @@ export function createSpacetimeScene(
   // copy is not back in time; otherwise the worker paints it a frame ahead.
   const starPainter = createStarSurfacePainter();
   let starSurface: {
-    canvas: HTMLCanvasElement;
+    canvas: HTMLCanvasElement | OffscreenCanvas;
     context: CanvasRenderingContext2D;
     image: ImageData;
   } | null = null;
@@ -787,11 +787,15 @@ export function createSpacetimeScene(
 
   function ensureStarSurface() {
     if (starSurface) return starSurface;
-    if (typeof document === "undefined") return null;
-    const canvas = document.createElement("canvas");
+    // On the page a canvas element; in the scene's worker, where there is no
+    // document, an OffscreenCanvas, which draws the same pixels.
+    let canvas: HTMLCanvasElement | OffscreenCanvas;
+    if (typeof document !== "undefined") canvas = document.createElement("canvas");
+    else if (typeof OffscreenCanvas !== "undefined") canvas = new OffscreenCanvas(STAR_SIZE, STAR_SIZE);
+    else return null;
     canvas.width = STAR_SIZE;
     canvas.height = STAR_SIZE;
-    const surfaceContext = canvas.getContext("2d");
+    const surfaceContext = canvas.getContext("2d") as CanvasRenderingContext2D | null;
     if (!surfaceContext) return null;
     const image = surfaceContext.createImageData(STAR_SIZE, STAR_SIZE);
     starSurface = { canvas, context: surfaceContext, image };
