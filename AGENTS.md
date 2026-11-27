@@ -1,5 +1,6 @@
 # AGENTS
 
+- Push only when Yuvraj explicitly asks for a push of the current changes. Each push requires its own instruction.
 - Write commit messages in Yuvraj's voice: lowercase, natural, concise, and specific about the change. Avoid formal boilerplate or generic corporate wording.
 
 ## Project North Star

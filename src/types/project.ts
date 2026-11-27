@@ -72,6 +72,7 @@ export type ProjectLink = {
 };
 
 export type ProjectMedia = {
+  showOnArchiveCard?: boolean;
   type: ProjectMediaType;
   src?: string;
   alt: string;

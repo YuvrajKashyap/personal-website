@@ -216,7 +216,7 @@ function ProjectTileBody({
     hoverQualifiedRef.current = false;
   }
 
-  const repoHref = project.repoHref;
+  const { archiveLink, archiveCover } = project;
 
   const tileContent = (
     <motion.div
@@ -233,9 +233,10 @@ function ProjectTileBody({
       <div className="project-tile-thumb" data-category={project.category}>
         <motion.span
           className="project-tile-preview"
+          data-cover={archiveCover ? true : undefined}
           style={
             shouldReduceMotion
-              ? undefined
+              || archiveCover ? undefined
               : finePointer
                 ? { clipPath: previewClip }
                 : // clipPath must be explicitly cleared: the server render
@@ -246,7 +247,7 @@ function ProjectTileBody({
           aria-hidden="true"
         >
           <motion.img
-            src={`/media/project-previews/${project.slug}.webp`}
+            src={archiveCover ?? `/media/project-previews/${project.slug}.webp`}
             alt=""
             loading="lazy"
             decoding="async"
@@ -286,7 +287,7 @@ function ProjectTileBody({
           />
         )}
         <span className="project-tile-open" aria-hidden="true">
-          <span>{repoHref ? "↗" : "→"}</span>
+          <span>{archiveLink ? "↗" : "→"}</span>
         </span>
       </div>
     </motion.div>
@@ -294,15 +295,15 @@ function ProjectTileBody({
 
   // The in-view styles only target elements inside the link, so the flag
   // lives here rather than on the layout wrapper.
-  const previewFlag = previewActive || undefined;
+  const previewFlag = Boolean(archiveCover) || previewActive || undefined;
 
-  return repoHref ? (
+  return archiveLink ? (
     <a
-      href={repoHref}
+      href={archiveLink.href}
       className="project-tile focus-ring"
       target="_blank"
       rel="noreferrer"
-      aria-label={`Open ${project.title} on GitHub`}
+      aria-label={`Open ${project.title} on ${archiveLink.type === "repo" ? "GitHub" : "the live site"}`}
       data-preview-active={previewFlag}
     >
       {tileContent}
