@@ -56,10 +56,20 @@ scope.onmessage = (event: MessageEvent<SpacetimeWorkerRequest>) => {
       scene.setScroll(message.scroll);
       scene.setPointer(message.pointerX, message.pointerY, message.pointerActive);
       scene.render(context, message.dt, message.frozen);
-      // The scene clears the canvas at the start of every frame, so the
-      // blank canvas this leaves behind is never seen.
-      const frame = canvas.width > 0 && canvas.height > 0 ? canvas.transferToImageBitmap() : null;
-      reply({ type: "drawn", frame }, frame ? [frame] : []);
+      // A copy, not a transfer: transferring would blank this canvas, but the
+      // page's canvas keeps its pixels between frames. That matters at
+      // fractional sizes, where the scene's per-frame clear only half-covers
+      // the last column and row, which keep a trace of earlier frames.
+      // createImageBitmap copies the canvas as it is right now, before any
+      // later message can touch it.
+      if (canvas.width > 0 && canvas.height > 0) {
+        void createImageBitmap(canvas).then(
+          (frame) => reply({ type: "drawn", frame }, [frame]),
+          () => reply({ type: "drawn", frame: null }),
+        );
+      } else {
+        reply({ type: "drawn", frame: null });
+      }
       break;
     }
   }

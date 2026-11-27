@@ -31,7 +31,7 @@ function startSceneWorker(): Worker | null {
   if (
     typeof Worker === "undefined" ||
     typeof OffscreenCanvas === "undefined" ||
-    typeof OffscreenCanvas.prototype.transferToImageBitmap !== "function"
+    typeof createImageBitmap !== "function"
   ) {
     return null;
   }
