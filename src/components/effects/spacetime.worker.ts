@@ -56,20 +56,26 @@ scope.onmessage = (event: MessageEvent<SpacetimeWorkerRequest>) => {
       scene.setScroll(message.scroll);
       scene.setPointer(message.pointerX, message.pointerY, message.pointerActive);
       scene.render(context, message.dt, message.frozen);
-      // A copy, not a transfer: transferring would blank this canvas, but the
-      // page's canvas keeps its pixels between frames. That matters at
-      // fractional sizes, where the scene's per-frame clear only half-covers
-      // the last column and row, which keep a trace of earlier frames.
-      // createImageBitmap copies the canvas as it is right now, before any
-      // later message can touch it.
-      if (canvas.width > 0 && canvas.height > 0) {
-        void createImageBitmap(canvas).then(
-          (frame) => reply({ type: "drawn", frame }, [frame]),
-          () => reply({ type: "drawn", frame: null }),
-        );
-      } else {
+      if (canvas.width === 0 || canvas.height === 0) {
         reply({ type: "drawn", frame: null });
+        break;
       }
+      // Handing the frame over blanks this canvas, but the page's canvas keeps
+      // its pixels between frames. That matters at fractional sizes, where the
+      // scene's per-frame clear only half-covers the last column and row,
+      // which keep a trace of earlier frames. So the frame is put straight
+      // back, pixel for pixel, before it is sent: a draw on the GPU, where
+      // copying it out with createImageBitmap would stall on a read-back.
+      const frame = canvas.transferToImageBitmap();
+      context.save();
+      context.setTransform(1, 0, 0, 1, 0, 0);
+      context.globalAlpha = 1;
+      context.globalCompositeOperation = "copy";
+      context.filter = "none";
+      context.shadowColor = "transparent";
+      context.drawImage(frame, 0, 0);
+      context.restore();
+      reply({ type: "drawn", frame }, [frame]);
       break;
     }
   }
