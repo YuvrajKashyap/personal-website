@@ -2,6 +2,26 @@ import type { Project } from "@/types/project";
 
 export const projects = [
   {
+    id: "project_yuvraj_skills",
+    slug: "yuvraj-skills",
+    title: "Yuvraj Skills",
+    summary: "The engineering playbooks I use with coding agents, from turning a product idea into a build plan to tracking down failures and checking the fix in a running app.",
+    description: "I published my original workflows and public adaptations as individually installable agent skills. A product brief can become a frontend interaction plan or a backend contract. For a failing feature, a separate set of guides follows the bug from its first observable symptom through repair and verification.",
+    category: "developer_tooling",
+    type: "system",
+    status: "portfolio_ready",
+    priority: "strong",
+    visibility: "published",
+    featured: false,
+    order: 142,
+    randomizerEligible: true,
+    tags: ["Coding agents", "Developer workflows"],
+    stack: ["Markdown"],
+    highlights: ["Frontend and backend handoffs from a shared product brief", "Root-cause investigation and verification in a running application"],
+    links: [{ label: "Explore the skills", href: "https://github.com/YuvrajKashyap/yuvraj-skills", type: "repo", isPrimary: true, status: "verified", external: true }],
+    media: [{ type: "cover", src: "/media/project-previews/yuvraj-skills.webp", alt: "GitHub repository preview for Yuvraj Skills.", status: "ready" }],
+  },
+  {
     id: "project_cyc_website",
     slug: "cyc-website",
     title: "Consult Your Community at UT Dallas",
