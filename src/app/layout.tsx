@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { preload } from "react-dom";
 import { VercelAnalytics } from "@/components/analytics/VercelAnalytics";
 import { PostHogAnalytics } from "@/components/analytics/PostHogAnalytics";
+import { WarmLazyImages } from "@/components/performance/WarmLazyImages";
 import { MotionSystemProvider } from "@/components/motion/MotionSystemProvider";
 import { ScrollProgressBar } from "@/components/motion/ScrollProgressBar";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
@@ -90,6 +91,7 @@ export default function RootLayout({
         </ThemeProvider>
         <VercelAnalytics />
         <PostHogAnalytics />
+        <WarmLazyImages />
       </body>
     </html>
   );
