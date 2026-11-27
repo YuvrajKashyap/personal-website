@@ -25,7 +25,7 @@ export const projects = [
     media: [{
       type: "cover",
       src: "/media/project-previews/eon.webp",
-      alt: "Eon's six-rotor drone on a turntable, with a blue body and orange propellers.",
+      alt: "Two FaceTime participants beside Eon's shared six-rotor drone in the launch demo.",
       status: "ready",
     }],
   },
