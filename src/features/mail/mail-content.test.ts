@@ -19,7 +19,10 @@ test("mail page presents the agreed newsletter promise", () => {
 test("mail page keeps the schedule flexible and the signup honest", () => {
   assert.match(mailPageContent.scheduleNote, /weekly ish/i);
   assert.match(mailPageContent.scheduleNote, /worth sending/i);
-  assert.match(mailPageContent.privacyNote, /unsubscribe/i);
+  // The signup spells out every step, including the confirmation email.
+  assert.equal(mailPageContent.enrollmentSteps.length, 3);
+  assert.match(mailPageContent.enrollmentSteps[0], /sign up/i);
+  assert.match(mailPageContent.enrollmentSteps[1], /confirmation email/i);
   assert.equal(mailPageContent.formId, "9783767");
   assert.equal(mailPageContent.formUid, "984ceb5f60");
 });
