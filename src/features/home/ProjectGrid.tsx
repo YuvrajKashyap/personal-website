@@ -240,10 +240,9 @@ function ProjectTileBody({
       <div className="project-tile-thumb" data-category={project.category}>
         <motion.span
           className="project-tile-preview"
-          data-cover={archiveCover ? true : undefined}
           style={
             shouldReduceMotion
-              || archiveCover ? undefined
+              ? undefined
               : finePointer
                 ? { clipPath: previewClip }
                 : // clipPath must be explicitly cleared: the server render
@@ -302,7 +301,7 @@ function ProjectTileBody({
 
   // The in-view styles only target elements inside the link, so the flag
   // lives here rather than on the layout wrapper.
-  const previewFlag = Boolean(archiveCover) || previewActive || undefined;
+  const previewFlag = previewActive || undefined;
 
   return archiveLink ? (
     <a
