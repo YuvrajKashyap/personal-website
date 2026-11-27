@@ -25,7 +25,7 @@ export const projects = [
     media: [{
       type: "cover",
       src: "/media/project-previews/eon.webp",
-      alt: "Eon's rendered piston cutaway labels the piston crown and connecting rod.",
+      alt: "Eon's six-rotor drone on a turntable, with a blue body and orange propellers.",
       status: "ready",
     }],
   },
