@@ -223,6 +223,7 @@ function ProjectTileBody({
   }
 
   const archiveLink = getArchiveLink(project);
+  const archiveCover = project.media.find((item) => item.showOnArchiveCard && item.status === "ready")?.src;
 
   const tileContent = (
     <motion.div
@@ -239,9 +240,10 @@ function ProjectTileBody({
       <div className="project-tile-thumb" data-category={project.category}>
         <motion.span
           className="project-tile-preview"
+          data-cover={archiveCover ? true : undefined}
           style={
             shouldReduceMotion
-              ? undefined
+              || archiveCover ? undefined
               : finePointer
                 ? { clipPath: previewClip }
                 : // clipPath must be explicitly cleared: the server render
@@ -252,7 +254,7 @@ function ProjectTileBody({
           aria-hidden="true"
         >
           <motion.img
-            src={`/media/project-previews/${project.slug}.webp`}
+            src={archiveCover ?? `/media/project-previews/${project.slug}.webp`}
             alt=""
             loading="lazy"
             decoding="async"
@@ -300,7 +302,7 @@ function ProjectTileBody({
 
   // The in-view styles only target elements inside the link, so the flag
   // lives here rather than on the layout wrapper.
-  const previewFlag = previewActive || undefined;
+  const previewFlag = Boolean(archiveCover) || previewActive || undefined;
 
   return archiveLink ? (
     <a

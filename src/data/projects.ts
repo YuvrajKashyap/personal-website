@@ -5,8 +5,8 @@ export const projects = [
     id: "project_yuvraj_skills",
     slug: "yuvraj-skills",
     title: "Yuvraj Skills",
-    summary: "The engineering playbooks I use with coding agents, from turning a product idea into a build plan to tracking down failures and checking the fix in a running app.",
-    description: "I published my original workflows and public adaptations as individually installable agent skills. A product brief can become a frontend interaction plan or a backend contract. For a failing feature, a separate set of guides follows the bug from its first observable symptom through repair and verification.",
+    summary: "Some of the engineering playbooks I use with coding agents, from turning a product idea into a build plan to tracking down failures and checking the fix in a running app.",
+    description: "I published a selection of my original workflows and public adaptations as individually installable agent skills. A product brief can become a frontend interaction plan or a backend contract. For a failing feature, a separate set of guides follows the bug from its first observable symptom through repair and verification.",
     category: "developer_tooling",
     type: "system",
     status: "portfolio_ready",
@@ -164,6 +164,7 @@ export const projects = [
       {
         type: "cover",
         src: "/media/projects/legacydiff/orchestration.webp",
+        showOnArchiveCard: true,
         alt: "LegacyDiff Lab showing the orchestrator connected to Behavior, Policy, and Regression specialists and human review",
         theme: "both",
         status: "ready",
@@ -241,6 +242,7 @@ export const projects = [
       {
         type: "cover",
         src: "/media/projects/aws-hack26/technician-console.webp",
+        showOnArchiveCard: true,
         alt: "AWS Hack26 illustrative 3D machining cell with assembly selection and recorded tool-head evidence",
         theme: "both",
         status: "ready",
