@@ -25,7 +25,7 @@ export const projects = [
     media: [{
       type: "cover",
       src: "/media/project-previews/eon.webp",
-      alt: "Two FaceTime participants beside Eon's shared six-rotor drone in the launch demo.",
+      alt: "Two FaceTime callers and Eon's four-rotor drone beneath the words 'say what you want to see'.",
       status: "ready",
     }],
   },
