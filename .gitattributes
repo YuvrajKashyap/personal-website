@@ -1,0 +1,4 @@
+# Written by scripts/fonts/build-fonts.mjs with LF endings on every build;
+# pinning them keeps Windows checkouts from showing phantom changes.
+*.generated.css text eol=lf
+*.generated.ts text eol=lf
