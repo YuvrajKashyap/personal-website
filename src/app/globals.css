@@ -2946,7 +2946,6 @@ html[data-theme="light"] .resume-download:focus-visible {
     transition: opacity 260ms ease;
   }
 
-  .project-tile-preview[data-cover],
   .project-tile:hover .project-tile-preview,
   .project-tile:focus-visible .project-tile-preview {
     opacity: 1;
@@ -2955,34 +2954,36 @@ html[data-theme="light"] .resume-download:focus-visible {
 
 /* Touch devices: tiles go cinema-mode while on screen (driven by
    data-preview-active from in-view state) since there is no hover */
-[data-preview-active] .project-tile-thumb-copy strong {
-  color: #f8f4e9;
-  text-shadow: 0 1px 18px rgb(5 6 10 / 0.6);
-}
+@media (hover: none) {
+  [data-preview-active] .project-tile-thumb-copy strong {
+    color: #f8f4e9;
+    text-shadow: 0 1px 18px rgb(5 6 10 / 0.6);
+  }
 
-[data-preview-active] .project-tile-summary {
-  color: rgb(242 238 226 / 0.97);
-  text-shadow: 0 1px 10px rgb(5 6 10 / 0.85);
-}
+  [data-preview-active] .project-tile-summary {
+    color: rgb(242 238 226 / 0.97);
+    text-shadow: 0 1px 10px rgb(5 6 10 / 0.85);
+  }
 
-[data-preview-active] .project-tile-stack li {
-  color: var(--accent-strong, var(--accent));
-  text-shadow: 0 1px 8px rgb(5 6 10 / 0.9);
-}
+  [data-preview-active] .project-tile-stack li {
+    color: var(--accent-strong, var(--accent));
+    text-shadow: 0 1px 8px rgb(5 6 10 / 0.9);
+  }
 
-html[data-theme="light"] [data-preview-active] .project-tile-stack li {
-  color: #ff7261;
-}
+  html[data-theme="light"] [data-preview-active] .project-tile-stack li {
+    color: #ff7261;
+  }
 
-[data-preview-active] .project-tile-stack li + li::before {
-  color: rgb(233 228 214 / 0.55);
-}
+  [data-preview-active] .project-tile-stack li + li::before {
+    color: rgb(233 228 214 / 0.55);
+  }
 
-[data-preview-active] .project-tile-corner {
-  width: 15px;
-  height: 15px;
-  border-color: var(--accent-strong);
-  opacity: 1;
+  [data-preview-active] .project-tile-corner {
+    width: 15px;
+    height: 15px;
+    border-color: var(--accent-strong);
+    opacity: 1;
+  }
 }
 
 .project-tile-thumb-copy {
