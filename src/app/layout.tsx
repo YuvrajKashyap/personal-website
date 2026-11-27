@@ -1,11 +1,5 @@
 import type { Metadata } from "next";
-import {
-  Geist,
-  Geist_Mono,
-  Space_Grotesk,
-  Space_Mono,
-  Unbounded,
-} from "next/font/google";
+import { preload } from "react-dom";
 import { VercelAnalytics } from "@/components/analytics/VercelAnalytics";
 import { PostHogAnalytics } from "@/components/analytics/PostHogAnalytics";
 import { MotionSystemProvider } from "@/components/motion/MotionSystemProvider";
@@ -14,39 +8,9 @@ import { ThemeProvider } from "@/components/theme/ThemeProvider";
 import { ThemeScript } from "@/components/theme/ThemeScript";
 import { seoConfig } from "@/config/seo";
 import { DEFAULT_THEME } from "@/lib/theme/theme";
+import { FONT_PRELOADS } from "./font-preloads.generated";
+import "./fonts.generated.css";
 import "./globals.css";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const spaceGrotesk = Space_Grotesk({
-  variable: "--font-space-grotesk",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const spaceMono = Space_Mono({
-  variable: "--font-space-mono",
-  subsets: ["latin"],
-  weight: ["400", "700"],
-  display: "swap",
-});
-
-const unbounded = Unbounded({
-  variable: "--font-unbounded",
-  subsets: ["latin"],
-  weight: ["800"],
-  display: "swap",
-});
 
 export const metadata: Metadata = {
   metadataBase: new URL(seoConfig.siteUrl),
@@ -104,12 +68,17 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // Self-hosted fonts, trimmed at build time (scripts/fonts/build-fonts.mjs).
+  // Only the trimmed Latin files are preloaded, exactly as next/font did.
+  for (const href of FONT_PRELOADS) {
+    preload(href, { as: "font", type: "font/woff2", crossOrigin: "" });
+  }
   return (
     <html
       lang="en"
       data-theme={DEFAULT_THEME}
       suppressHydrationWarning
-      className={`${geistSans.variable} ${geistMono.variable} ${spaceGrotesk.variable} ${spaceMono.variable} ${unbounded.variable} h-full`}
+      className="h-full"
     >
       <body className="flex min-h-full flex-col antialiased">
         <ThemeScript />

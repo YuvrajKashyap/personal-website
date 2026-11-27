@@ -29,10 +29,18 @@ const nextConfig: NextConfig = {
   // trips. The resume is left alone so a new upload shows up immediately.
   async headers() {
     const media = "public, max-age=86400, stale-while-revalidate=604800";
-    return ["hero", "project-previews", "portrait", "og"].map((folder) => ({
-      source: `/media/${folder}/:path*`,
-      headers: [{ key: "Cache-Control", value: media }],
-    }));
+    return [
+      ...["hero", "project-previews", "portrait", "og"].map((folder) => ({
+        source: `/media/${folder}/:path*`,
+        headers: [{ key: "Cache-Control", value: media }],
+      })),
+      // Font files carry a content hash in their name (scripts/fonts), so a
+      // given URL never changes and can be cached for good, like next/font's.
+      {
+        source: "/fonts/:path*",
+        headers: [{ key: "Cache-Control", value: "public, max-age=31536000, immutable" }],
+      },
+    ];
   },
   // Home is prerendered twice, once per theme, so it can be served from the
   // CDN instead of rendered per request. The theme cookie picks the copy at

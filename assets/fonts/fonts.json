@@ -1,0 +1,273 @@
+[
+  {
+    "family": "Geist",
+    "cssVar": "--font-geist-sans",
+    "value": "\"Geist\", \"Geist Fallback\"",
+    "faces": [
+      {
+        "style": "normal",
+        "weight": "100 900",
+        "file": "geist-100-900-fef07dbb.woff2",
+        "unicodeRange": "U+460-52F,U+1C80-1C8A,U+20B4,U+2DE0-2DFF,U+A640-A69F,U+FE2E-FE2F",
+        "preloaded": false
+      },
+      {
+        "style": "normal",
+        "weight": "100 900",
+        "file": "geist-100-900-8a480f0b.woff2",
+        "unicodeRange": "U+301,U+400-45F,U+490-491,U+4B0-4B1,U+2116",
+        "preloaded": false
+      },
+      {
+        "style": "normal",
+        "weight": "100 900",
+        "file": "geist-100-900-53b9e256.woff2",
+        "unicodeRange": "U+102-103,U+110-111,U+128-129,U+168-169,U+1A0-1A1,U+1AF-1B0,U+300-301,U+303-304,U+308-309,U+323,U+329,U+1EA0-1EF9,U+20AB",
+        "preloaded": false
+      },
+      {
+        "style": "normal",
+        "weight": "100 900",
+        "file": "geist-100-900-7178b3e5.woff2",
+        "unicodeRange": "U+100-2BA,U+2BD-2C5,U+2C7-2CC,U+2CE-2D7,U+2DD-2FF,U+304,U+308,U+329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C4,U+2113,U+2C60-2C7F,U+A720-A7FF",
+        "preloaded": false
+      },
+      {
+        "style": "normal",
+        "weight": "100 900",
+        "file": "geist-100-900-caa3a2e1.woff2",
+        "unicodeRange": "U+??,U+131,U+152-153,U+2BB-2BC,U+2C6,U+2DA,U+2DC,U+304,U+308,U+329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD",
+        "preloaded": true
+      }
+    ],
+    "fallback": "src:local(Arial);ascent-override:95.94%;descent-override:28.16%;line-gap-override:0.0%;size-adjust:104.76%",
+    "group": "site"
+  },
+  {
+    "family": "Geist Mono",
+    "cssVar": "--font-geist-mono",
+    "value": "\"Geist Mono\", \"Geist Mono Fallback\"",
+    "faces": [
+      {
+        "style": "normal",
+        "weight": "100 900",
+        "file": "geist-mono-100-900-5ce348bf.woff2",
+        "unicodeRange": "U+460-52F,U+1C80-1C8A,U+20B4,U+2DE0-2DFF,U+A640-A69F,U+FE2E-FE2F",
+        "preloaded": false
+      },
+      {
+        "style": "normal",
+        "weight": "100 900",
+        "file": "geist-mono-100-900-4fa387ec.woff2",
+        "unicodeRange": "U+301,U+400-45F,U+490-491,U+4B0-4B1,U+2116",
+        "preloaded": false
+      },
+      {
+        "style": "normal",
+        "weight": "100 900",
+        "file": "geist-mono-100-900-6306c77e.woff2",
+        "unicodeRange": "U+2000-2001,U+2004-2008,U+200A,U+23B8-23BD,U+2500-259F",
+        "preloaded": false
+      },
+      {
+        "style": "normal",
+        "weight": "100 900",
+        "file": "geist-mono-100-900-7d817b4c.woff2",
+        "unicodeRange": "U+102-103,U+110-111,U+128-129,U+168-169,U+1A0-1A1,U+1AF-1B0,U+300-301,U+303-304,U+308-309,U+323,U+329,U+1EA0-1EF9,U+20AB",
+        "preloaded": false
+      },
+      {
+        "style": "normal",
+        "weight": "100 900",
+        "file": "geist-mono-100-900-bbc41e54.woff2",
+        "unicodeRange": "U+100-2BA,U+2BD-2C5,U+2C7-2CC,U+2CE-2D7,U+2DD-2FF,U+304,U+308,U+329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C4,U+2113,U+2C60-2C7F,U+A720-A7FF",
+        "preloaded": false
+      },
+      {
+        "style": "normal",
+        "weight": "100 900",
+        "file": "geist-mono-100-900-797e433a.woff2",
+        "unicodeRange": "U+??,U+131,U+152-153,U+2BB-2BC,U+2C6,U+2DA,U+2DC,U+304,U+308,U+329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD",
+        "preloaded": true
+      }
+    ],
+    "fallback": "src:local(Arial);ascent-override:74.67%;descent-override:21.92%;line-gap-override:0.0%;size-adjust:134.59%",
+    "group": "site"
+  },
+  {
+    "family": "Space Grotesk",
+    "cssVar": "--font-space-grotesk",
+    "value": "\"Space Grotesk\", \"Space Grotesk Fallback\"",
+    "faces": [
+      {
+        "style": "normal",
+        "weight": "300 700",
+        "file": "space-grotesk-300-700-32687112.woff2",
+        "unicodeRange": "U+102-103,U+110-111,U+128-129,U+168-169,U+1A0-1A1,U+1AF-1B0,U+300-301,U+303-304,U+308-309,U+323,U+329,U+1EA0-1EF9,U+20AB",
+        "preloaded": false
+      },
+      {
+        "style": "normal",
+        "weight": "300 700",
+        "file": "space-grotesk-300-700-28868e71.woff2",
+        "unicodeRange": "U+100-2BA,U+2BD-2C5,U+2C7-2CC,U+2CE-2D7,U+2DD-2FF,U+304,U+308,U+329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C4,U+2113,U+2C60-2C7F,U+A720-A7FF",
+        "preloaded": false
+      },
+      {
+        "style": "normal",
+        "weight": "300 700",
+        "file": "space-grotesk-300-700-0c89a48f.woff2",
+        "unicodeRange": "U+??,U+131,U+152-153,U+2BB-2BC,U+2C6,U+2DA,U+2DC,U+304,U+308,U+329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD",
+        "preloaded": true
+      }
+    ],
+    "fallback": "src:local(Arial);ascent-override:89.71%;descent-override:26.62%;line-gap-override:0.0%;size-adjust:109.69%",
+    "group": "site"
+  },
+  {
+    "family": "Space Mono",
+    "cssVar": "--font-space-mono",
+    "value": "\"Space Mono\", \"Space Mono Fallback\"",
+    "faces": [
+      {
+        "style": "normal",
+        "weight": "400",
+        "file": "space-mono-400-4ba802ed.woff2",
+        "unicodeRange": "U+102-103,U+110-111,U+128-129,U+168-169,U+1A0-1A1,U+1AF-1B0,U+300-301,U+303-304,U+308-309,U+323,U+329,U+1EA0-1EF9,U+20AB",
+        "preloaded": false
+      },
+      {
+        "style": "normal",
+        "weight": "400",
+        "file": "space-mono-400-d7a0600e.woff2",
+        "unicodeRange": "U+100-2BA,U+2BD-2C5,U+2C7-2CC,U+2CE-2D7,U+2DD-2FF,U+304,U+308,U+329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C4,U+2113,U+2C60-2C7F,U+A720-A7FF",
+        "preloaded": false
+      },
+      {
+        "style": "normal",
+        "weight": "400",
+        "file": "space-mono-400-dc0d9adb.woff2",
+        "unicodeRange": "U+??,U+131,U+152-153,U+2BB-2BC,U+2C6,U+2DA,U+2DC,U+304,U+308,U+329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD",
+        "preloaded": true
+      },
+      {
+        "style": "normal",
+        "weight": "700",
+        "file": "space-mono-700-b8f2b92a.woff2",
+        "unicodeRange": "U+102-103,U+110-111,U+128-129,U+168-169,U+1A0-1A1,U+1AF-1B0,U+300-301,U+303-304,U+308-309,U+323,U+329,U+1EA0-1EF9,U+20AB",
+        "preloaded": false
+      },
+      {
+        "style": "normal",
+        "weight": "700",
+        "file": "space-mono-700-28e60ca3.woff2",
+        "unicodeRange": "U+100-2BA,U+2BD-2C5,U+2C7-2CC,U+2CE-2D7,U+2DD-2FF,U+304,U+308,U+329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C4,U+2113,U+2C60-2C7F,U+A720-A7FF",
+        "preloaded": false
+      },
+      {
+        "style": "normal",
+        "weight": "700",
+        "file": "space-mono-700-8d05cfa5.woff2",
+        "unicodeRange": "U+??,U+131,U+152-153,U+2BB-2BC,U+2C6,U+2DA,U+2DC,U+304,U+308,U+329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD",
+        "preloaded": true
+      }
+    ],
+    "fallback": "src:local(Arial);ascent-override:81.58%;descent-override:26.3%;line-gap-override:0.0%;size-adjust:137.28%",
+    "group": "site"
+  },
+  {
+    "family": "Unbounded",
+    "cssVar": "--font-unbounded",
+    "value": "\"Unbounded\", \"Unbounded Fallback\"",
+    "faces": [
+      {
+        "style": "normal",
+        "weight": "800",
+        "file": "unbounded-800-36ab414b.woff2",
+        "unicodeRange": "U+460-52F,U+1C80-1C8A,U+20B4,U+2DE0-2DFF,U+A640-A69F,U+FE2E-FE2F",
+        "preloaded": false
+      },
+      {
+        "style": "normal",
+        "weight": "800",
+        "file": "unbounded-800-e27dd4ed.woff2",
+        "unicodeRange": "U+301,U+400-45F,U+490-491,U+4B0-4B1,U+2116",
+        "preloaded": false
+      },
+      {
+        "style": "normal",
+        "weight": "800",
+        "file": "unbounded-800-5669f2d6.woff2",
+        "unicodeRange": "U+102-103,U+110-111,U+128-129,U+168-169,U+1A0-1A1,U+1AF-1B0,U+300-301,U+303-304,U+308-309,U+323,U+329,U+1EA0-1EF9,U+20AB",
+        "preloaded": false
+      },
+      {
+        "style": "normal",
+        "weight": "800",
+        "file": "unbounded-800-0ba3c9da.woff2",
+        "unicodeRange": "U+100-2BA,U+2BD-2C5,U+2C7-2CC,U+2CE-2D7,U+2DD-2FF,U+304,U+308,U+329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C4,U+2113,U+2C60-2C7F,U+A720-A7FF",
+        "preloaded": false
+      },
+      {
+        "style": "normal",
+        "weight": "800",
+        "file": "unbounded-800-0c30a228.woff2",
+        "unicodeRange": "U+??,U+131,U+152-153,U+2BB-2BC,U+2C6,U+2DA,U+2DC,U+304,U+308,U+329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD",
+        "preloaded": true
+      }
+    ],
+    "fallback": "src:local(Arial);ascent-override:73.93%;descent-override:18.2%;line-gap-override:0.0%;size-adjust:134.59%",
+    "group": "site"
+  },
+  {
+    "family": "Fraunces",
+    "cssVar": "--font-fraunces",
+    "value": "\"Fraunces\", \"Fraunces Fallback\"",
+    "group": "mail",
+    "faces": [
+      {
+        "style": "italic",
+        "weight": "100 900",
+        "file": "fraunces-italic-100-900-50a3f107.woff2",
+        "unicodeRange": "U+102-103,U+110-111,U+128-129,U+168-169,U+1A0-1A1,U+1AF-1B0,U+300-301,U+303-304,U+308-309,U+323,U+329,U+1EA0-1EF9,U+20AB",
+        "preloaded": false
+      },
+      {
+        "style": "italic",
+        "weight": "100 900",
+        "file": "fraunces-italic-100-900-b887d916.woff2",
+        "unicodeRange": "U+100-2BA,U+2BD-2C5,U+2C7-2CC,U+2CE-2D7,U+2DD-2FF,U+304,U+308,U+329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C4,U+2113,U+2C60-2C7F,U+A720-A7FF",
+        "preloaded": false
+      },
+      {
+        "style": "italic",
+        "weight": "100 900",
+        "file": "fraunces-italic-100-900-3c7c6164.woff2",
+        "unicodeRange": "U+??,U+131,U+152-153,U+2BB-2BC,U+2C6,U+2DA,U+2DC,U+304,U+308,U+329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD",
+        "preloaded": true
+      },
+      {
+        "style": "normal",
+        "weight": "100 900",
+        "file": "fraunces-normal-100-900-1e219c03.woff2",
+        "unicodeRange": "U+102-103,U+110-111,U+128-129,U+168-169,U+1A0-1A1,U+1AF-1B0,U+300-301,U+303-304,U+308-309,U+323,U+329,U+1EA0-1EF9,U+20AB",
+        "preloaded": false
+      },
+      {
+        "style": "normal",
+        "weight": "100 900",
+        "file": "fraunces-normal-100-900-b35b0dbf.woff2",
+        "unicodeRange": "U+100-2BA,U+2BD-2C5,U+2C7-2CC,U+2CE-2D7,U+2DD-2FF,U+304,U+308,U+329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C4,U+2113,U+2C60-2C7F,U+A720-A7FF",
+        "preloaded": false
+      },
+      {
+        "style": "normal",
+        "weight": "100 900",
+        "file": "fraunces-normal-100-900-03bda585.woff2",
+        "unicodeRange": "U+??,U+131,U+152-153,U+2BB-2BC,U+2C6,U+2DA,U+2DC,U+304,U+308,U+329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD",
+        "preloaded": true
+      }
+    ],
+    "fallback": "src:local(Times New Roman);ascent-override:84.71%;descent-override:22.09%;line-gap-override:0.0%;size-adjust:115.45%"
+  }
+]
