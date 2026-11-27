@@ -14,20 +14,43 @@ type AnalyticsEvent = {
   properties: Record<string, unknown>;
 };
 
+/** Resolves once the page has not scrolled for a moment, or after `limit` ms at most. */
+function whenNotScrolling(quietMs: number, limit: number) {
+  return new Promise<void>((resolve) => {
+    let quiet = 0;
+    const done = () => {
+      window.clearTimeout(quiet);
+      window.clearTimeout(cap);
+      window.removeEventListener("scroll", restart);
+      resolve();
+    };
+    const restart = () => {
+      window.clearTimeout(quiet);
+      quiet = window.setTimeout(done, quietMs);
+    };
+    const cap = window.setTimeout(done, limit);
+    window.addEventListener("scroll", restart, { passive: true });
+    restart();
+  });
+}
+
 /**
- * Resolves once the page has finished loading and the main thread has a
- * free moment (or 2.5s after load at the latest). PostHog and the scripts it
- * pulls in are ~100KB, so they wait until the page itself is done; events
- * captured before then are queued and sent in order.
+ * Resolves once the page has finished loading, the main thread has a free
+ * moment (or 2.5s after load at the latest) and the reader is not in the
+ * middle of a scroll (for up to 6s more). PostHog and the scripts it pulls in
+ * are ~100KB; on a first visit compiling them takes a long task, which would
+ * cost frames mid-scroll. Events captured before then are queued and sent in
+ * order.
  */
 function afterPageSettles() {
   return new Promise<void>((resolve) => {
     const idle = () => {
+      const ready = () => void whenNotScrolling(800, 6000).then(resolve);
       // Safari has no requestIdleCallback.
       if (typeof window.requestIdleCallback === "function") {
-        window.requestIdleCallback(() => resolve(), { timeout: 2500 });
+        window.requestIdleCallback(ready, { timeout: 2500 });
       } else {
-        setTimeout(resolve, 1200);
+        setTimeout(ready, 1200);
       }
     };
     if (document.readyState === "complete") idle();
